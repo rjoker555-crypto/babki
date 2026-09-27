@@ -1,0 +1,9 @@
+{
+  "name": "Финансы компании",
+  "short_name": "Финансы",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#17365D",
+  "lang": "ru"
+}
