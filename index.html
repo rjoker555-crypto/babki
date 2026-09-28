@@ -199,6 +199,9 @@ details summary{list-style:revert;padding:4px 0}
 .sub-add-row{flex-direction:column}
 .userbar{padding:10px 12px}
 }
+
+/* PDF statement */
+.statement-pre{max-height:65vh;overflow:auto}.pdf-report{font-family:Arial,sans-serif;background:#fff;color:#172033;padding:4px;max-width:900px;margin:0 auto}.pdf-cover{padding:18px 20px 20px;border-bottom:3px solid #e8a324;margin-bottom:14px}.pdf-brand{font-size:11px;font-weight:800;letter-spacing:1.4px;color:#738096}.pdf-cover h1{font-size:26px;color:#0e2a44;margin:8px 0 4px}.pdf-cover h2{font-size:21px;margin:0 0 8px;color:#172033}.pdf-meta{font-size:11px;color:#738096}.pdf-section{border:1px solid #dfe5ec;border-radius:12px;padding:14px;margin:0 0 12px;break-inside:avoid}.pdf-section h3{font-size:15px;color:#0e2a44;margin:0 0 11px;padding-bottom:7px;border-bottom:2px solid #e8a324}.pdf-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pdf-info-grid>div{background:#f7f9fb;border-radius:8px;padding:9px}.pdf-info-grid span,.pdf-kpis span{display:block;font-size:9px;color:#738096;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}.pdf-info-grid b{font-size:11px}.pdf-status{display:inline-block}.pdf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}.pdf-kpis>div{border:1px solid #e3e8ef;border-radius:9px;padding:10px;background:#fff}.pdf-kpis strong{font-size:15px}.pdf-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pdf-chart{border:1px solid #e3e8ef;border-radius:9px;padding:10px}.pdf-chart h4{font-size:11px;margin:0 0 8px;color:#0e2a44}.pdf-bar-row{margin:7px 0 10px}.pdf-bar-head,.pdf-bar-foot{display:flex;justify-content:space-between;gap:8px;font-size:9px}.pdf-bar-head b{font-size:10px}.pdf-bar-foot{color:#738096;margin-top:3px}.pdf-bar{height:7px;background:#edf1f5;border-radius:8px;overflow:hidden;margin-top:4px}.pdf-bar span{display:block;height:100%;border-radius:8px;background:#1e65b7}.pdf-bar span.green{background:#1a8a4a}.pdf-bar span.orange{background:#d47b00}.pdf-bar span.blue{background:#1e65b7}.pdf-finance-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pdf-finance-strip span{background:#f7f9fb;border-radius:8px;padding:8px;font-size:10px}.pdf-item{border:1px solid #e5e9ef;border-radius:9px;padding:9px;margin:7px 0;background:#fff;break-inside:avoid}.pdf-item-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;font-size:10px}.pdf-item-head span{color:#738096;text-align:right}.pdf-small{font-size:9px;color:#68778a;margin-top:5px;line-height:1.4}.pdf-total{background:#f5f7fa;border-radius:8px;padding:9px;margin-top:8px;font-size:10px}.pdf-empty{font-size:10px;color:#738096;padding:8px}.pdf-score{display:grid;grid-template-columns:75px 1fr;gap:12px;align-items:center;background:#f7f9fb;border-radius:10px;padding:10px;margin-bottom:9px}.pdf-score-value{font-size:24px;font-weight:800;color:#0e2a44}.pdf-score-value small{font-size:10px;color:#738096}.pdf-scale{height:8px;background:#e9edf2;border-radius:8px;overflow:hidden;margin-top:7px}.pdf-scale i{display:block;height:100%;background:#1a8a4a;border-radius:8px}.pdf-contact{font-size:9px;padding:6px 8px;border-bottom:1px solid #edf0f4}.pdf-footer{font-size:8px;color:#8a95a5;text-align:center;padding:8px 0}.pdf-report *{box-sizing:border-box}@media(max-width:650px){.pdf-info-grid,.pdf-chart-grid{grid-template-columns:1fr}.pdf-kpis{grid-template-columns:1fr 1fr}.pdf-cover h1{font-size:22px}}
 </style>
 </head>
 
@@ -779,8 +782,9 @@ onclick="openAr()">
 <div class="sheet">
 <h2>Выписка по объекту</h2>
 <div class="statement-pre" id="statementContent"></div>
-<button class="btn primary" onclick="downloadStatement()">⬇ Скачать .txt</button>
+<button class="btn primary" onclick="downloadStatementPdf()">⬇ Скачать PDF</button>
 <button class="btn secondary" onclick="printStatement()">🖨 Печать</button>
+<button class="btn secondary" onclick="downloadStatementTxt()">⬇ Скачать TXT</button>
 <button class="btn secondary" onclick="closeStatementModal()">Закрыть</button>
 </div>
 </div>
@@ -1349,6 +1353,7 @@ onclick="if(event.target===this)closeModal()">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 
 const SUPABASE_URL='https://tkoxgvftneoereukiomr.supabase.co';
@@ -6329,44 +6334,113 @@ return t;
 
 }
 
+function statementEsc(v){
+return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function statementNum(v){return Number(v||0);}
+function statementPct(v){return Math.max(0,Math.min(100,Number(v||0)));}
+function statementBar(label,pct,left,right,cls=''){
+const pc=statementPct(pct);
+return `<div class="pdf-bar-row"><div class="pdf-bar-head"><span>${statementEsc(label)}</span><b>${statementEsc(left)}</b></div><div class="pdf-bar"><span class="${cls}" style="width:${pc}%"></span></div><div class="pdf-bar-foot"><span>${statementEsc(right||'')}</span><span>${Math.round(pc)}%</span></div></div>`;
+}
+function statementMoney(v){return money(statementNum(v));}
+
+function buildStatementReportHtml(projectId){
+const p=projects.find(x=>x.id===projectId); if(!p)return '<div>Объект не найден.</div>';
+const s=projectStats(projectId);
+const subRows=subcontractors.filter(x=>x.project_id===projectId);
+const matRows=projectMaterials.filter(x=>x.project_id===projectId);
+const othRows=projectOtherExpenses.filter(x=>x.project_id===projectId);
+const ptoRows=ptoDocuments.filter(x=>x.project_id===projectId).sort((a,b)=>String(a.final_date||'').localeCompare(String(b.final_date||'')));
+const ptoContactsRows=ptoContacts.filter(x=>x.project_id===projectId);
+const ptoState=ptoOverallState(projectId);
+const workRows=projectWorkItems.filter(x=>x.project_id===projectId).sort((a,b)=>String(a.start_date||'').localeCompare(String(b.start_date||'')));
+const nowStr=new Date().toLocaleString('ru-RU');
+const revenuePlan=statementNum(p.planned_revenue), revenueFact=statementNum(s.income);
+const costPlan=statementNum(s.plannedCostTotal), costFact=statementNum(s.expense);
+const revenuePct=revenuePlan>0?revenueFact/revenuePlan*100:0;
+const costPct=costPlan>0?costFact/costPlan*100:0;
+const margin=revenueFact>0?s.profit/revenueFact*100:0;
+const workPlan=workRows.reduce((a,x)=>a+statementNum(x.planned_volume),0);
+const workFact=workRows.reduce((a,x)=>a+workCompletedTotal(x.id),0);
+const workPct=workPlan>0?workFact/workPlan*100:0;
+
+let html=`<div id="pdfStatement" class="pdf-report">
+<header class="pdf-cover">
+<div class="pdf-brand">ФИНАНСЫ КОМПАНИИ</div>
+<h1>Выписка по объекту</h1>
+<h2>${statementEsc(p.name)}</h2>
+<div class="pdf-meta">Сформирована: ${statementEsc(nowStr)}</div>
+</header>
+<section class="pdf-section"><h3>1. Основная информация</h3><div class="pdf-info-grid">
+<div><span>Компания-подрядчик</span><b>${statementEsc(p.contractor_company||'—')}</b></div>
+<div><span>Заказчик</span><b>${statementEsc(p.customer||'—')}</b></div>
+<div><span>Договор</span><b>№ ${statementEsc(p.contract_number||'—')} от ${statementEsc(fmtDate(p.contract_date))}</b></div>
+<div><span>Срок</span><b>${statementEsc(fmtDate(p.start_date))} — ${statementEsc(fmtDate(p.end_date))}</b></div>
+<div><span>Статус</span><b class="pdf-status">${statementEsc(p.status||'—')}</b></div>
+<div><span>Комментарий</span><b>${statementEsc(p.comment||'—')}</b></div>
+</div></section>
+<section class="pdf-section"><h3>2. Финансовая картина</h3><div class="pdf-kpis">
+<div><span>Выручка факт</span><strong>${statementMoney(s.income)}</strong></div><div><span>Себестоимость факт</span><strong>${statementMoney(s.expense)}</strong></div><div><span>Прибыль</span><strong>${statementMoney(s.profit)}</strong></div><div><span>Маржинальность</span><strong>${margin.toFixed(1)}%</strong></div>
+<div><span>Дебиторка</span><strong>${statementMoney(s.receivable)}</strong></div><div><span>Кредиторка</span><strong>${statementMoney(s.payable)}</strong></div>
+</div>
+<div class="pdf-chart-grid">
+<div class="pdf-chart"><h4>Выручка: план → факт</h4>${statementBar('Освоение выручки',revenuePct,statementMoney(revenueFact),'из '+statementMoney(revenuePlan),'blue')}</div>
+<div class="pdf-chart"><h4>Себестоимость: план → факт</h4>${statementBar('Использование бюджета',costPct,statementMoney(costFact),'из '+statementMoney(costPlan),'orange')}</div>
+</div>
+<div class="pdf-finance-strip"><span>Остаток выручки до плана <b>${statementMoney(Math.max(0,revenuePlan-revenueFact))}</b></span><span>Остаток себестоимости <b>${statementMoney(Math.max(0,costPlan-costFact))}</b></span></div>
+</section>
+<section class="pdf-section"><h3>3. Структура себестоимости</h3><div class="pdf-chart-grid">
+<div class="pdf-chart"><h4>Плановая себестоимость</h4>${statementBar('Субподрядчики',costPlan>0?s.subPlanned/costPlan*100:0,statementMoney(s.subPlanned),'план','blue')}${statementBar('ТМЦ',costPlan>0?s.materialsPlanned/costPlan*100:0,statementMoney(s.materialsPlanned),'план','green')}${statementBar('Прочие расходы',costPlan>0?s.otherPlanned/costPlan*100:0,statementMoney(s.otherPlanned),'план','orange')}</div>
+<div class="pdf-chart"><h4>Фактическая себестоимость</h4>${statementBar('Субподрядчики',costFact>0?s.subActual/costFact*100:0,statementMoney(s.subActual),'факт','blue')}${statementBar('ТМЦ',costFact>0?s.materialsActual/costFact*100:0,statementMoney(s.materialsActual),'факт','green')}${statementBar('Прочие расходы',costFact>0?s.otherActual/costFact*100:0,statementMoney(s.otherActual),'факт','orange')}</div>
+</div></section>
+<section class="pdf-section"><h3>4. Субподрядчики (${subRows.length})</h3>`;
+if(!subRows.length) html+=`<div class="pdf-empty">Нет данных.</div>`;
+else for(const sub of subRows){const plan=statementNum(sub.planned_amount),paid=subcontractorPaid(sub.id),pct=plan>0?paid/plan*100:0;html+=`<div class="pdf-item"><div class="pdf-item-head"><b>${statementEsc(sub.name)}</b><span>${sub.has_vat?'С НДС':'Без НДС'}</span></div>${statementBar('Оплата',pct,statementMoney(paid),'из '+statementMoney(plan),'blue')}<div class="pdf-small">Остаток: ${statementMoney(Math.max(0,plan-paid))}${sub.comment?' · '+statementEsc(sub.comment):''}</div></div>`;}
+html+=`</section><section class="pdf-section"><h3>5. ТМЦ (${matRows.length})</h3>`;
+if(!matRows.length) html+=`<div class="pdf-empty">Нет данных.</div>`;
+else {for(const m of matRows){const pl=statementNum(m.planned_amount),fa=statementNum(m.actual_amount);html+=`<div class="pdf-item"><div class="pdf-item-head"><b>${statementEsc(m.name)}</b><span>${m.expense_date?statementEsc(fmtDate(m.expense_date)):''}</span></div>${statementBar('Факт',pl>0?fa/pl*100:0,statementMoney(fa),'из '+statementMoney(pl),'green')}${m.comment?`<div class="pdf-small">${statementEsc(m.comment)}</div>`:''}</div>`;}}
+html+=`<div class="pdf-total">Итого ТМЦ: <b>${statementMoney(s.materialsActual)}</b> факт / ${statementMoney(s.materialsPlanned)} план</div></section>
+<section class="pdf-section"><h3>6. Прочие расходы (${othRows.length})</h3>`;
+if(!othRows.length) html+=`<div class="pdf-empty">Нет данных.</div>`;
+else for(const o of othRows){const pl=statementNum(o.planned_amount),fa=statementNum(o.actual_amount);html+=`<div class="pdf-item"><div class="pdf-item-head"><b>${statementEsc(o.name)}</b><span>${o.expense_date?statementEsc(fmtDate(o.expense_date)):''}</span></div>${statementBar('Факт',pl>0?fa/pl*100:0,statementMoney(fa),'из '+statementMoney(pl),'orange')}${o.comment?`<div class="pdf-small">${statementEsc(o.comment)}</div>`:''}</div>`;}
+html+=`<div class="pdf-total">Итого прочие расходы: <b>${statementMoney(s.otherActual)}</b> факт / ${statementMoney(s.otherPlanned)} план</div></section>
+<section class="pdf-section"><h3>7. ПТО</h3>`;
+if(ptoState.score===null) html+=`<div class="pdf-empty">Документы ПТО не добавлены.</div>`;
+else {html+=`<div class="pdf-score"><div class="pdf-score-value">${ptoState.score.toFixed(1)}<small>/ 5</small></div><div><b>${statementEsc(ptoState.label)}</b><div class="pdf-scale"><i style="width:${statementPct(ptoState.score/5*100)}%"></i></div></div></div>`;for(const doc of ptoRows){const prog=ptoProgressInfo(doc);const score=ptoDocScore(doc);html+=`<div class="pdf-item"><div class="pdf-item-head"><b>${statementEsc(ptoTypeName(doc.document_type))}</b><span>${score.toFixed(1)} / 5</span></div>${statementBar('Срок',prog.pct,prog.label,'','blue')}${doc.comment?`<div class="pdf-small">${statementEsc(doc.comment)}</div>`:''}</div>`;}}
+html+=`<div class="pdf-small"><b>Контакты заказчика ПТО:</b> ${ptoContactsRows.length}</div>`;for(const c of ptoContactsRows)html+=`<div class="pdf-contact">${statementEsc(c.full_name)}${c.position?' · '+statementEsc(c.position):''}${c.phone?' · '+statementEsc(c.phone):''}</div>`;
+html+=`</section><section class="pdf-section"><h3>8. Ход работ</h3><div class="pdf-score"><div class="pdf-score-value">${Math.round(workPct)}%<small> факт</small></div><div><b>${workFact} из ${workPlan} ${workRows[0]?.unit||''}</b><div class="pdf-scale"><i style="width:${statementPct(workPct)}%"></i></div></div></div>`;
+if(!workRows.length) html+=`<div class="pdf-empty">Работы по объекту не добавлены.</div>`;
+else for(const w of workRows){const fact=workCompletedTotal(w.id),pct=statementNum(w.planned_volume)>0?fact/statementNum(w.planned_volume)*100:0;html+=`<div class="pdf-item"><div class="pdf-item-head"><b>${statementEsc(w.work_name)}</b><span>${Math.round(statementPct(pct))}%</span></div>${statementBar('Выполнение',pct,String(fact)+' '+statementEsc(w.unit),'из '+String(w.planned_volume)+' '+statementEsc(w.unit),'blue')}<div class="pdf-small">Срок: ${statementEsc(fmtDate(w.start_date))} — ${statementEsc(fmtDate(w.end_date))}${w.comment?' · '+statementEsc(w.comment):''}</div></div>`;}
+html+=`</section><section class="pdf-section"><h3>9. Налоговые показатели</h3><div class="pdf-info-grid">`;
+if(s.isIp)html+=`<div><span>Налог ИП</span><b>Начислено ${statementMoney(s.taxPlanned)}</b></div><div><span>Оплачено</span><b>${statementMoney(s.taxActual)}</b></div><div><span>Остаток</span><b>${statementMoney(s.taxRemaining)}</b></div>`;
+if(s.isOoo)html+=`<div><span>НДС план</span><b>${statementMoney(s.vatPlanned)}</b></div><div><span>НДС начислено</span><b>${statementMoney(s.vatAccrued)}</b></div><div><span>Входной вычет</span><b>${statementMoney(s.vatInputCredit)}</b></div><div><span>К уплате</span><b>${statementMoney(s.vatDue)}</b></div><div><span>Оплачено</span><b>${statementMoney(s.vatActual)}</b></div><div><span>Остаток</span><b>${statementMoney(s.vatRemaining)}</b></div>`;
+if(!s.isIp&&!s.isOoo)html+=`<div class="pdf-empty">Налоговые показатели для этого объекта не определены.</div>`;
+html+=`</div></section><footer class="pdf-footer">Выписка сформирована автоматически в системе «Финансы компании» · ${statementEsc(nowStr)}</footer></div>`;
+return html;
+}
+
+function buildStatementText(projectId){
+const p=projects.find(x=>x.id===projectId); if(!p)return 'Объект не найден.';
+const s=projectStats(projectId); const subRows=subcontractors.filter(x=>x.project_id===projectId); const matRows=projectMaterials.filter(x=>x.project_id===projectId); const othRows=projectOtherExpenses.filter(x=>x.project_id===projectId); const nowStr=new Date().toLocaleString('ru-RU');
+let t='ВЫПИСКА ПО ОБЪЕКТУ\nСформирована: '+nowStr+'\n\nОбъект: '+p.name+'\nКомпания-подрядчик: '+(p.contractor_company||'—')+'\nЗаказчик: '+(p.customer||'—')+'\nДоговор: № '+(p.contract_number||'—')+' от '+fmtDate(p.contract_date)+'\nСрок: '+fmtDate(p.start_date)+' — '+fmtDate(p.end_date)+'\nСтатус: '+(p.status||'—')+'\n\nФИНАНСЫ\nПлановая выручка: '+money(Number(p.planned_revenue||0))+'\nФактическая выручка: '+money(s.income)+'\nПлановая себестоимость: '+money(s.plannedCostTotal)+'\nФактическая себестоимость: '+money(s.expense)+'\nПрибыль: '+money(s.profit)+'\nМаржинальность: '+(s.income>0?((s.profit/s.income)*100).toFixed(1)+'%':'—')+'\nДебиторка: '+money(s.receivable)+'\nКредиторка: '+money(s.payable)+'\n';
+t+='\nСУБПОДРЯДЧИКИ ('+subRows.length+')\n';for(const sub of subRows){const plan=Number(sub.planned_amount||0),paid=subcontractorPaid(sub.id);t+='- '+sub.name+': план '+money(plan)+', оплачено '+money(paid)+', остаток '+money(Math.max(0,plan-paid))+'\n';}
+t+='\nТМЦ ('+matRows.length+')\n';for(const m of matRows)t+='- '+m.name+': план '+money(Number(m.planned_amount||0))+', факт '+money(Number(m.actual_amount||0))+'\n';t+='\nПРОЧИЕ РАСХОДЫ ('+othRows.length+')\n';for(const o of othRows)t+='- '+o.name+': план '+money(Number(o.planned_amount||0))+', факт '+money(Number(o.actual_amount||0))+'\n';return t;
+}
+
 function openProjectStatement(projectId){
-
-const p=projects.find(x=>x.id===projectId);
-currentStatementProjectName=p?p.name:'Объект';
-currentStatementText=buildStatementText(projectId);
-$('statementContent').textContent=currentStatementText;
-$('statementModal').classList.add('open');
-
+const p=projects.find(x=>x.id===projectId); currentStatementProjectName=p?p.name:'Объект'; currentStatementText=buildStatementText(projectId); $('statementContent').innerHTML=buildStatementReportHtml(projectId); $('statementModal').classList.add('open');
 }
-
-function closeStatementModal(){
-$('statementModal').classList.remove('open');
+function closeStatementModal(){$('statementModal').classList.remove('open');}
+function downloadStatementTxt(){const blob=new Blob([currentStatementText],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Выписка - '+currentStatementProjectName.replace(/[\\/:*?"<>|]/g,'_')+' - '+new Date().toISOString().slice(0,10)+'.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+async function downloadStatementPdf(){
+if(typeof html2pdf==='undefined') return alert('Модуль PDF ещё загружается. Повторите через несколько секунд.');
+const el=document.getElementById('pdfStatement'); if(!el)return;
+const filename='Выписка - '+currentStatementProjectName.replace(/[\\/:*?"<>|]/g,'_')+' - '+new Date().toISOString().slice(0,10)+'.pdf';
+const opt={margin:[8,8,10,8],filename,image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}};
+await html2pdf().set(opt).from(el).save();
 }
-
-function downloadStatement(){
-
-const blob=new Blob([currentStatementText],{type:'text/plain;charset=utf-8'});
-const url=URL.createObjectURL(blob);
-const a=document.createElement('a');
-a.href=url;
-a.download='Выписка - '+currentStatementProjectName.replace(/[\\/:*?"<>|]/g,'_')+' - '+new Date().toISOString().slice(0,10)+'.txt';
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
-
-}
-
-function printStatement(){
-
-const w=window.open('','_blank');
-if(!w) return alert('Не удалось открыть окно печати. Разрешите всплывающие окна для этого сайта.');
-w.document.write('<pre style="font-family:ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;font-size:13px;padding:20px">'+esc(currentStatementText)+'</pre>');
-w.document.close();
-w.focus();
-w.print();
-
-}
+function printStatement(){const el=document.getElementById('pdfStatement');if(!el)return;const w=window.open('','_blank');if(!w)return alert('Не удалось открыть окно печати. Разрешите всплывающие окна для этого сайта.');w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Выписка - '+statementEsc(currentStatementProjectName)+'</title><style>'+document.querySelector('style').innerHTML+'@page{size:A4;margin:10mm}.pdf-report{max-width:none!important;box-shadow:none!important}.pdf-section{break-inside:avoid}</style></head><body>'+el.outerHTML+'</body></html>');w.document.close();setTimeout(()=>{w.focus();w.print();},300);}
 
 (async()=>{
 
