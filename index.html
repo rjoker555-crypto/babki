@@ -716,7 +716,7 @@ onclick="openAr()">
 <div id="workItemModal" class="modal" onclick="if(event.target===this)closeWorkItemForm()">
 <div class="sheet">
   <h2 id="workItemFormTitle">Новая работа</h2>
-  <div class="field"><label>Раздел работ</label><select id="workSectionSelect"><option value="">Без раздела — отдельная работа</option></select></div>
+  <div class="field"><label>Раздел работ</label><select id="workSectionSelect" onchange="onWorkSectionSelectChange()"><option value="">Без раздела — отдельная работа</option></select></div>
   <div class="field"><label>Раздел / категория работ</label><select id="workCatalogCategorySelect" onchange="onWorkCatalogCategoryChange()"></select></div>
   <div class="field"><label>Вид работы</label><select id="workCatalogSelect" onchange="onWorkCatalogChange()"></select></div>
   <div class="field"><label>Объём по плану</label><input id="workPlannedVolume" type="number" step="0.001" min="0" placeholder="Например: 250"></div>
@@ -725,6 +725,7 @@ onclick="openAr()">
     <div class="field" style="flex:1"><label>Дата начала</label><input id="workStartDate" type="date"></div>
     <div class="field" style="flex:1"><label>Дата завершения</label><input id="workEndDate" type="date"></div>
   </div>
+  <div id="workSectionDatesHint" class="muted" style="margin-top:-4px;margin-bottom:9px"></div>
   <div class="field"><label>Статус</label><select id="workStatus"><option value="planned">Запланировано</option><option value="in_progress">В производстве</option><option value="completed">Завершено</option></select></div>
   <div class="field"><label>Комментарий</label><textarea id="workComment" rows="2" placeholder="Комментарий прораба"></textarea></div>
   <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
@@ -739,10 +740,15 @@ onclick="openAr()">
 <div id="workSectionModal" class="modal" onclick="if(event.target===this)closeWorkSectionForm()">
 <div class="sheet">
   <h2 id="workSectionFormTitle">Новый раздел работ</h2>
-  <div class="field"><label>Название раздела</label><input id="workSectionName" placeholder="Например: Этаж 3"></div>
-  <div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Дата начала</label><input id="workSectionStart" type="date"></div><div class="field" style="flex:1"><label>Дата завершения</label><input id="workSectionEnd" type="date"></div></div>
-  <div class="field"><label>Комментарий</label><textarea id="workSectionComment" rows="2"></textarea></div>
-  <button class="btn primary" id="workSectionSaveBtn" onclick="saveWorkSection()">Сохранить раздел</button>
+  <div class="muted" style="margin-bottom:10px">Сначала задайте общий срок раздела, затем одним заполнением добавьте любое количество разных работ. Все работы внутри раздела автоматически получают этот срок.</div>
+  <div class="field"><label>Название раздела</label><input id="workSectionName" placeholder="Например: Электромонтаж 1 этажа"></div>
+  <div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Общая дата начала</label><input id="workSectionStart" type="date"></div><div class="field" style="flex:1"><label>Общая дата завершения</label><input id="workSectionEnd" type="date"></div></div>
+  <div class="field"><label>Комментарий раздела</label><textarea id="workSectionComment" rows="2" placeholder="Общий комментарий по разделу"></textarea></div>
+  <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin-top:8px">
+    <div class="row"><div><b>Работы в разделе</b><div class="muted" style="margin-top:3px">Добавьте несколько разных работ. Сроки здесь не указываются — они общие для всего раздела.</div></div><button class="smallbtn" type="button" onclick="addWorkSectionItemRow()">＋ Работа</button></div>
+    <div id="workSectionItemsEditor" style="margin-top:10px"></div>
+  </div>
+  <button class="btn primary" id="workSectionSaveBtn" onclick="saveWorkSection()">Сохранить раздел и работы</button>
   <button class="btn secondary" onclick="closeWorkSectionForm()">Отмена</button>
 </div></div>
 
@@ -1415,6 +1421,7 @@ let currentWorkProjectId=null;
 let currentWorkCalendarDate=null;
 let currentWorkCalendarMonth=null;
 let editingWorkSectionId=null;
+let workingWorkSectionItems=[];
 let editingWorkTaskId=null;
 let editingWorkItemId=null;
 let workingWorkMaterials=[];
@@ -5340,7 +5347,7 @@ function renderWorkGantt(){
 }
 function renderWorkSections(){
  const secs=projectWorkSections.filter(x=>x.project_id===currentWorkProjectId); const standalone=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId&&!x.section_id);
- let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}%</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkItemForm(null,'${s.id}')">＋ Работа</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
+ let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}%</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',true)">＋ Добавить работы</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',false)">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
  html+=standalone.length?`<div class="work-section-card"><div class="work-section-title">Отдельные работы</div><div class="muted" style="margin-top:3px">Работы без раздела — они продолжают работать как раньше.</div>${standalone.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join('')}</div>`:'';
  $('workSectionsList').innerHTML=html||'<div class="empty" style="padding:12px">Разделов пока нет. Можно продолжать создавать отдельные работы без раздела.</div>';
 }
@@ -5361,9 +5368,107 @@ function renderWorkCalendarDetail(){const key=currentWorkCalendarDate||isoToday(
 function renderWorkPanel(){renderWorkSummary();renderWorkGantt();renderWorkSections();renderWorkCalendar();renderWorkTasks();renderWorkItems();}
 function openWorkPanel(projectId){if(!workRoleAllowed())return alert('Раздел «Ход работ» доступен производственному персоналу и руководству.');const p=projects.find(x=>x.id===projectId);if(!p)return alert('Объект не найден.');currentWorkProjectId=projectId;currentWorkCalendarDate=isoToday();currentWorkCalendarMonth=dateOnly(isoToday());$('workProjectTitle').textContent=`${p.name} · ${p.customer||'Заказчик не указан'}`;$('workRoleLabel').textContent=profile?.role==='foreman'?'Прораб':'Производство';const today=isoToday();$('workReportFrom').value=p.start_date||today;$('workReportTo').value=p.end_date||today;renderWorkPanel();$('workModal').classList.add('open');}
 function closeWorkModal(){$('workModal').classList.remove('open');currentWorkProjectId=null;currentWorkCalendarDate=null;currentWorkCalendarMonth=null;}
-function openWorkSectionForm(id){if(!currentWorkProjectId)return;const x=id?projectWorkSections.find(s=>s.id===id):null;editingWorkSectionId=x?.id||null;$('workSectionFormTitle').textContent=x?'Редактировать раздел':'Новый раздел работ';$('workSectionName').value=x?.name||'';$('workSectionStart').value=x?.start_date||'';$('workSectionEnd').value=x?.end_date||'';$('workSectionComment').value=x?.comment||'';$('workSectionSaveBtn').textContent=x?'Сохранить изменения':'Сохранить раздел';$('workSectionModal').classList.add('open');}
-function closeWorkSectionForm(){$('workSectionModal').classList.remove('open');editingWorkSectionId=null;}
-async function saveWorkSection(){const name=$('workSectionName').value.trim();if(!name)return alert('Введите название раздела.');const payload={project_id:currentWorkProjectId,name,start_date:$('workSectionStart').value||null,end_date:$('workSectionEnd').value||null,comment:$('workSectionComment').value.trim()||null,updated_at:new Date().toISOString()};let data,error;const user=(await sbClient.auth.getUser()).data.user;if(editingWorkSectionId){({error}=await sbClient.from('project_work_sections').update(payload).eq('id',editingWorkSectionId));const x=projectWorkSections.find(s=>s.id===editingWorkSectionId);if(x&&!error)Object.assign(x,payload);}else{({data,error}=await sbClient.from('project_work_sections').insert({...payload,created_by:user?.id||null}).select('*').single());if(data)projectWorkSections.push(data);}if(error)return alert('Не удалось сохранить раздел: '+error.message);closeWorkSectionForm();renderWorkPanel();}
+function renderWorkSectionItemRows(){
+  const el=$('workSectionItemsEditor');
+  if(!el)return;
+  if(!workingWorkSectionItems.length){el.innerHTML='<div class="muted">Пока нет работ. Нажмите «＋ Работа», чтобы добавить первую.</div>';return;}
+  el.innerHTML=workingWorkSectionItems.map((r,i)=>{
+    const category=r.category||'';
+    const rows=workCatalog.filter(w=>!category||w.category===category);
+    return `<div style="padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:8px">
+      <div class="row" style="margin-bottom:7px"><b>Работа ${i+1}</b>${r.id?'<span class="muted">существующая</span>':''}<button type="button" class="smallbtn" style="margin-left:auto;color:#b42318" onclick="removeWorkSectionItemRow(${i})">×</button></div>
+      <div class="field" style="margin-bottom:7px"><label>Раздел / категория работ</label><select onchange="onWorkSectionItemCategoryChange(${i},this.value)"><option value="">Выберите раздел работ</option>${workCatalogCategories().map(c=>`<option value="${esc(c)}" ${c===category?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
+      <div class="field" style="margin-bottom:7px"><label>Вид работы</label><select onchange="onWorkSectionItemWorkChange(${i},this.value)"><option value="">Выберите вид работы</option>${rows.map(w=>`<option value="${w.id}" ${w.id===r.work_catalog_id?'selected':''}>${esc(w.name)} (${esc(w.unit)})</option>`).join('')}</select></div>
+      <div style="display:flex;gap:8px"><div class="field" style="flex:1;margin-bottom:7px"><label>Объём по плану</label><input type="number" step="0.001" min="0" value="${r.planned_volume??''}" onchange="workingWorkSectionItems[${i}].planned_volume=parseFloat(this.value)||0"></div><div class="field" style="flex:1;margin-bottom:7px"><label>Единица</label><input readonly value="${esc(r.unit||'')}"></div></div>
+      <div class="field" style="margin-bottom:0"><label>Комментарий по работе</label><textarea rows="2" onchange="workingWorkSectionItems[${i}].comment=this.value">${esc(r.comment||'')}</textarea></div>
+    </div>`;
+  }).join('');
+}
+function addWorkSectionItemRow(){workingWorkSectionItems.push({id:null,work_catalog_id:'',category:'',work_name:'',unit:'',planned_volume:'',comment:'',existing_work:null});renderWorkSectionItemRows();}
+function removeWorkSectionItemRow(i){const r=workingWorkSectionItems[i];if(r?.id){if(!confirm('Убрать эту существующую работу из формы? Сама работа не будет удалена.'))return;r._removeFromForm=true;}workingWorkSectionItems.splice(i,1);renderWorkSectionItemRows();}
+function onWorkSectionItemCategoryChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;r.category=value;r.work_catalog_id='';r.work_name='';r.unit='';renderWorkSectionItemRows();}
+function onWorkSectionItemWorkChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;const w=workCatalog.find(x=>x.id===value);r.work_catalog_id=value;r.work_name=w?.name||'';r.unit=w?.unit||'';renderWorkSectionItemRows();}
+function openWorkSectionForm(id,addNewWork=false){
+  if(!currentWorkProjectId)return;
+  const x=id?projectWorkSections.find(s=>s.id===id):null;
+  editingWorkSectionId=x?.id||null;
+  $('workSectionFormTitle').textContent=x?'Редактировать раздел и его работы':'Новый раздел работ';
+  $('workSectionName').value=x?.name||'';
+  $('workSectionStart').value=x?.start_date||'';
+  $('workSectionEnd').value=x?.end_date||'';
+  $('workSectionComment').value=x?.comment||'';
+  const existing=x?workSectionRows(x.id):[];
+  workingWorkSectionItems=existing.map(w=>({id:w.id,work_catalog_id:w.work_catalog_id||'',category:workCatalog.find(c=>c.id===w.work_catalog_id)?.category||'',work_name:w.work_name||'',unit:w.unit||'',planned_volume:w.planned_volume??'',comment:w.comment||'',existing_work:w}));
+  if(!x)workingWorkSectionItems=[];
+  // При режиме «Добавить работы» существующие работы только показываем для контекста.
+  // Новая работа всегда создаётся отдельной строкой с id=null и поэтому не может
+  // перезаписать уже сохранённую работу.
+  if(x && addNewWork) {
+    $('workSectionFormTitle').textContent='Добавить работы в раздел';
+    $('workSectionSaveBtn').textContent='Добавить новые работы';
+    addWorkSectionItemRow();
+  } else {
+    $('workSectionSaveBtn').textContent=x?'Сохранить раздел и изменения работ':'Сохранить раздел и работы';
+  }
+  renderWorkSectionItemRows();
+  $('workSectionModal').classList.add('open');
+}
+function closeWorkSectionForm(){$('workSectionModal').classList.remove('open');editingWorkSectionId=null;workingWorkSectionItems=[];}
+async function saveWorkSection(){
+  const name=$('workSectionName').value.trim();
+  const start=$('workSectionStart').value||null;
+  const end=$('workSectionEnd').value||null;
+  if(!name)return alert('Введите название раздела.');
+  if(start&&end&&end<start)return alert('Дата завершения раздела не может быть раньше даты начала.');
+  const rows=workingWorkSectionItems.filter(r=>!r._removeFromForm);
+  for(const r of rows){if(!r.work_catalog_id)return alert('Выберите вид работы для каждой строки.');if(Number(r.planned_volume||0)<=0)return alert('Укажите плановый объём для каждой работы.');}
+  const payload={project_id:currentWorkProjectId,name,start_date:start,end_date:end,comment:$('workSectionComment').value.trim()||null,updated_at:new Date().toISOString()};
+  const user=(await sbClient.auth.getUser()).data.user;
+  let section,error;
+  if(editingWorkSectionId){
+    ({error}=await sbClient.from('project_work_sections').update(payload).eq('id',editingWorkSectionId));
+    section=projectWorkSections.find(s=>s.id===editingWorkSectionId);
+    if(!error&&section)Object.assign(section,payload);
+  }else{
+    ({data:section,error}=await sbClient.from('project_work_sections').insert({...payload,created_by:user?.id||null}).select('*').single());
+    if(section)projectWorkSections.push(section);
+  }
+  if(error)return alert('Не удалось сохранить раздел: '+error.message);
+  const sectionId=section.id;
+  const existingIds=new Set(projectWorkItems.filter(w=>w.section_id===sectionId).map(w=>w.id));
+  for(const r of rows){
+    const cat=workCatalog.find(w=>w.id===r.work_catalog_id);if(!cat)continue;
+    const existing=r.id?projectWorkItems.find(w=>w.id===r.id):null;
+    const workPayload={project_id:currentWorkProjectId,section_id:sectionId,work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume||0),start_date:start,end_date:end,status:existing?.status||'planned',comment:(r.comment||'').trim()||null,primary_material_catalog_id:existing?.primary_material_catalog_id||null,updated_at:new Date().toISOString()};
+    let row;
+    if(existing){
+      ({error}=await sbClient.from('project_work_items').update(workPayload).eq('id',existing.id));
+      if(error)return alert('Раздел сохранён, но не удалось изменить работу «'+cat.name+'»: '+error.message);
+      Object.assign(existing,workPayload);row=existing;
+    }else{
+      ({data:row,error}=await sbClient.from('project_work_items').insert({...workPayload,created_by:user?.id||null}).select('*').single());
+      if(error)return alert('Раздел сохранён, но не удалось добавить работу «'+cat.name+'»: '+error.message);
+      if(row)projectWorkItems.push(row);
+      if(row){
+        const mats=defaultMaterialsForWork(cat.id,null).filter(m=>m.material_catalog_id&&Number(m.quantity||0)>0).map(m=>({work_item_id:row.id,rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id,material_name:m.material_name||'',unit:m.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:true,is_manual_override:false}));
+        if(mats.length){const {data:md,error:me}=await sbClient.from('project_work_materials').insert(mats).select('*');if(me)return alert('Работа добавлена, но материалы для «'+cat.name+'» не удалось сохранить: '+me.message);projectWorkMaterials.push(...(md||[]));}
+      }
+    }
+    existingIds.delete(r.id);
+  }
+  // Срок раздела является источником истины: обновляем его у всех дочерних работ,
+  // включая работы, которые не редактировались в форме.
+  const childRows=projectWorkItems.filter(w=>w.section_id===sectionId);
+  for(const w of childRows){
+    if(w.start_date!==start||w.end_date!==end){
+      const {error:e}=await sbClient.from('project_work_items').update({start_date:start,end_date:end,updated_at:new Date().toISOString()}).eq('id',w.id);
+      if(e)return alert('Раздел сохранён, но не удалось синхронизировать срок работы «'+w.work_name+'»: '+e.message);
+      w.start_date=start;w.end_date=end;
+    }
+  }
+  closeWorkSectionForm();
+  renderWorkPanel();
+}
 async function deleteWorkSection(id){const x=projectWorkSections.find(s=>s.id===id);if(!x)return;if(!confirm(`Удалить раздел «${x.name}»? Работы внутри останутся отдельными и будут отвязаны от раздела.`))return;const {error}=await sbClient.from('project_work_sections').delete().eq('id',id);if(error)return alert('Не удалось удалить раздел: '+error.message);projectWorkSections=projectWorkSections.filter(s=>s.id!==id);projectWorkItems.filter(w=>w.section_id===id).forEach(w=>w.section_id=null);renderWorkPanel();}
 function workCatalogCategories(){
   return [...new Set(workCatalog.map(w=>w.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'ru'));
@@ -5406,13 +5511,23 @@ function defaultMaterialsForWork(workId,primaryId){
     return {_key:'new-'+r.id,rule_id:r.id,material_catalog_id:materialId,material_name:m?.name||'',unit:m?.unit||'',quantity:Number(r.norm_per_unit??r.recommended_quantity??0),comment:r.comment||'',material_role:r.material_role||'secondary',dependency_group:r.dependency_group||'',option_group:r.option_group||'',is_auto_generated:true,is_manual_override:false};
   });
 }
+function onWorkSectionSelectChange(){
+  const sectionId=$('workSectionSelect').value;
+  const section=projectWorkSections.find(s=>s.id===sectionId);
+  const hasSection=Boolean(section);
+  $('workStartDate').disabled=hasSection;
+  $('workEndDate').disabled=hasSection;
+  $('workSectionDatesHint').textContent=hasSection
+    ? `Срок берётся из раздела «${section.name}»: ${fmtDate(section.start_date)} — ${fmtDate(section.end_date)}. Изменять его здесь нельзя.`
+    : 'Для отдельной работы срок задаётся индивидуально.';
+  if(hasSection){$('workStartDate').value=section.start_date||'';$('workEndDate').value=section.end_date||'';}
+}
 function openWorkItemForm(id,sectionId){
   if(!workRoleAllowed()||!currentWorkProjectId)return;
   const x=id?projectWorkItems.find(w=>w.id===id):null;
   editingWorkItemId=x?.id||null;
-  if(x){
-    workingWorkMaterials=workMaterialRowsFor(x.id).map(m=>({...m,_key:m.id,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));
-  }else workingWorkMaterials=[];
+  if(x)workingWorkMaterials=workMaterialRowsFor(x.id).map(m=>({...m,_key:m.id,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));
+  else workingWorkMaterials=[];
   $('workItemFormTitle').textContent=x?'Редактировать работу':'Новая работа';
   $('workItemSaveBtn').textContent=x?'Сохранить изменения':'Сохранить работу';
   $('workSectionSelect').innerHTML='<option value="">Без раздела — отдельная работа</option>'+projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
@@ -5424,9 +5539,11 @@ function openWorkItemForm(id,sectionId){
   $('workEndDate').value=x?.end_date||'';
   $('workStatus').value=x?.status||'planned';
   $('workComment').value=x?.comment||'';
+  onWorkSectionSelectChange();
   if(!x)onWorkCatalogChange(); else renderWorkMaterialsEditor();
   $('workItemModal').classList.add('open');
 }
+
 function onWorkCatalogChange(){
   const id=$('workCatalogSelect').value;
   const w=workCatalog.find(x=>x.id===id);
@@ -5503,7 +5620,10 @@ async function saveWorkItem(){
   const nameId=$('workCatalogSelect').value;const cat=workCatalog.find(x=>x.id===nameId);const planned=parseFloat($('workPlannedVolume').value)||0;
   if(!cat)return alert('Выберите вид работы.');if(planned<=0)return alert('Укажите плановый объём больше нуля.');
   const primary=workingWorkMaterials.find(x=>x.material_role==='primary');
-  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:$('workUnit').value||cat.unit,planned_volume:planned,start_date:$('workStartDate').value||null,end_date:$('workEndDate').value||null,status:$('workStatus').value,comment:$('workComment').value.trim()||null,primary_material_catalog_id:primary?.material_catalog_id||null,updated_at:new Date().toISOString()};
+  const selectedSection=projectWorkSections.find(s=>s.id===($('workSectionSelect').value||''));
+  const workStart=selectedSection?selectedSection.start_date:($('workStartDate').value||null);
+  const workEnd=selectedSection?selectedSection.end_date:($('workEndDate').value||null);
+  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:$('workUnit').value||cat.unit,planned_volume:planned,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null,primary_material_catalog_id:primary?.material_catalog_id||null,updated_at:new Date().toISOString()};
   let row,error;const user=(await sbClient.auth.getUser()).data.user;
   if(editingWorkItemId){({error}=await sbClient.from('project_work_items').update(payload).eq('id',editingWorkItemId));row=projectWorkItems.find(x=>x.id===editingWorkItemId);if(!error&&row)Object.assign(row,payload);}
   else{({data:row,error}=await sbClient.from('project_work_items').insert({...payload,created_by:user?.id||null}).select('*').single());if(row&&!error)projectWorkItems.push(row);}
