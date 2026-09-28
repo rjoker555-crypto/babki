@@ -2073,7 +2073,17 @@ function renderTaxRegister(){
   const mOps=mb?ops.filter(x=>taxOperationDate(x)>=mb.start&&taxOperationDate(x)<=mb.end):[];
   const oooIncome=qOps.filter(x=>x.operation_type==='income'&&operationCompanyForTax(x)==='ООО').reduce((s,x)=>s+Number(x.amount||0),0);
   const oooOutput=oooIncome*0.22;
-  const oooInput=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article!=='НДС'&&x.article!=='Налог ИП'&&Boolean(x.vat_included)).reduce((s,x)=>s+Number(x.amount||0)*0.22,0);
+  // Входной НДС по ТМЦ в кредит возникает только при погашении связанной
+  // кредиторки, а не в момент получения материала.
+  const oooInputGeneral=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article!=='НДС'&&x.article!=='Налог ИП'&&x.article!=='Погашение кредиторки'&&x.article!=='ТМЦ'&&Boolean(x.vat_included)).reduce((s,x)=>s+Number(x.amount||0)*0.22,0);
+  const oooInputTmcCash=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.credit_kind!=='material'&&Boolean(x.vat_included)).reduce((s,x)=>s+Number(x.amount||0)*0.22,0);
+  const oooInputMaterialRepayments=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Погашение кредиторки'&&x.payable_id).reduce((s,x)=>{
+    const payable=aps.find(p=>String(p.id)===String(x.payable_id));
+    if(!payable||payable.credit_kind!=='material') return s;
+    const source=ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material');
+    return s+(source?.vat_included?Number(x.amount||0)*0.22:0);
+  },0);
+  const oooInput=oooInputGeneral+oooInputTmcCash+oooInputMaterialRepayments;
   const oooDue=Math.max(0,oooOutput-oooInput);
   const oooPaid=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='НДС').reduce((s,x)=>s+Number(x.amount||0),0);
   const oooRemaining=Math.max(0,oooDue-oooPaid);
@@ -4557,11 +4567,25 @@ const vatIncome=isOoo ? ops.filter(x=>
   operationCompanyForTax(x)==='ООО'
 ).reduce((s,x)=>s+Number(x.amount||0),0) : 0;
 const vatAccrued=isOoo ? vatIncome*vatRate : 0;
+// Входной НДС учитываем по фактически оплаченным расходам.
+// Важное исключение: ТМЦ, полученные в кредит/с отсрочкой, не дают вычет
+// в момент получения. Вычет по ним появляется при фактическом погашении
+// связанной кредиторки. Это исключает двойной учет: при получении + при оплате.
 const vatInputCreditGeneral=isOoo ? ops.filter(x=>
   x.project_id===projectId &&
   x.operation_type==='expense' &&
   operationCompanyForTax(x)==='ООО' &&
   x.article!=='НДС' && x.article!=='Налог ИП' &&
+  x.article!=='Погашение кредиторки' &&
+  x.article!=='ТМЦ' &&
+  Boolean(x.vat_included)
+).reduce((s,x)=>s+Number(x.amount||0)*vatRate,0) : 0;
+const vatInputCreditTmcCash=isOoo ? ops.filter(x=>
+  x.project_id===projectId &&
+  x.operation_type==='expense' &&
+  x.article==='ТМЦ' &&
+  x.cost_item_id &&
+  x.credit_kind!=='material' &&
   Boolean(x.vat_included)
 ).reduce((s,x)=>s+Number(x.amount||0)*vatRate,0) : 0;
 const vatInputCreditTmcLegacy=isOoo ? ops.filter(x=>
@@ -4569,8 +4593,24 @@ const vatInputCreditTmcLegacy=isOoo ? ops.filter(x=>
   x.operation_type==='expense' &&
   x.article==='ТМЦ' &&
   x.cost_item_id &&
+  x.credit_kind!=='material' &&
   !('vat_included' in x)
 ).reduce((s,x)=>s+Number(x.amount||0)*vatRate,0) : 0;
+const vatInputCreditMaterialRepayments=isOoo ? ops.filter(x=>
+  x.project_id===projectId &&
+  x.operation_type==='expense' &&
+  x.article==='Погашение кредиторки' &&
+  x.payable_id
+).reduce((s,x)=>{
+  const payable=aps.find(p=>String(p.id)===String(x.payable_id));
+  if(!payable || payable.credit_kind!=='material') return s;
+  const source=ops.find(o=>
+    String(o.payable_id)===String(payable.id) &&
+    o.article==='ТМЦ' &&
+    o.credit_kind==='material'
+  );
+  return s+(source?.vat_included ? Number(x.amount||0)*vatRate : 0);
+},0) : 0;
 const vatInputCreditSubcontractorsLegacy=isOoo ? ops.filter(x=>
   x.project_id===projectId &&
   x.operation_type==='expense' &&
@@ -4579,9 +4619,9 @@ const vatInputCreditSubcontractorsLegacy=isOoo ? ops.filter(x=>
   projectSubs.some(sub=>sub.id===x.subcontractor_id && Boolean(sub.has_vat)) &&
   !('vat_included' in x)
 ).reduce((s,x)=>s+Number(x.amount||0)*vatRate,0) : 0;
-const vatInputCreditTmc=vatInputCreditGeneral+vatInputCreditTmcLegacy;
+const vatInputCreditTmc=vatInputCreditTmcCash+vatInputCreditTmcLegacy+vatInputCreditMaterialRepayments;
 const vatInputCreditSubcontractors=vatInputCreditSubcontractorsLegacy;
-const vatInputCredit=vatInputCreditGeneral+vatInputCreditTmcLegacy+vatInputCreditSubcontractorsLegacy;
+const vatInputCredit=vatInputCreditGeneral+vatInputCreditTmcCash+vatInputCreditTmcLegacy+vatInputCreditMaterialRepayments+vatInputCreditSubcontractorsLegacy;
 const vatDue=Math.max(0,vatAccrued-vatInputCredit);
 const vatActual=isOoo ? ops.filter(x=>
   x.project_id===projectId &&
