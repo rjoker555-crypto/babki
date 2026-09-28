@@ -111,6 +111,69 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 .event-item{background:var(--card);border-radius:14px;padding:13px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--wire)}
 .event-item.upcoming{border-left-color:var(--amber)}
 .event-item.overdue{border-left-color:var(--red)}
+.pto-tab{border:1px solid #dce2ea;background:#f6f8fb;color:var(--navy);border-radius:11px;padding:10px 13px;font-weight:800;font-size:13px;cursor:pointer}
+.pto-tabbar{display:flex;gap:6px;margin-top:14px;padding:4px;background:#f3f6fa;border:1px solid var(--line);border-radius:12px}
+.pto-tabbar button{flex:1;border:0;background:transparent;color:var(--muted);border-radius:9px;padding:9px 10px;font-weight:800;font-size:12px;cursor:pointer}
+.pto-tabbar button.active{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.pto-score{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}
+.pto-score.s1{background:#fdeceb;color:var(--red)}
+.pto-score.s2{background:#fff3d9;color:#b56a00}
+.pto-score.s3{background:#fff3d9;color:#a85d00}
+.pto-score.s4{background:#e9f1fb;color:var(--blue)}
+.pto-score.s5{background:#e8f5ed;color:var(--green)}
+.pto-tab:hover{background:#edf2f7}
+.pto-head{padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc;margin-bottom:10px}
+.pto-doc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:9px}
+.pto-status{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:800}
+.pto-status.requested{background:#fdeceb;color:var(--red)}
+.pto-status.in_progress{background:#fff3d9;color:#b56a00}
+.pto-status.signing{background:#e9f1fb;color:var(--blue)}
+.pto-status.signed{background:#e8f5ed;color:var(--green)}
+.pto-progress.requested{background:var(--red)}
+.pto-progress.in_progress{background:#d89a16}
+.pto-progress.signing{background:var(--blue)}
+.pto-progress.signed{background:var(--green)}
+.pto-contact{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:10px;border:1px dashed #d7dee8;border-radius:12px;margin-bottom:8px;background:#fafbfd}
+.pto-contact-actions{display:flex;gap:6px;flex-shrink:0}
+.pto-contact-actions button{border:0;background:#edf1f5;border-radius:8px;padding:6px 9px;font-size:12px}
+
+
+.work-section-card{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:10px}
+.work-section-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.work-section-title{font-weight:900;color:var(--navy)}
+.work-calendar{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.work-calendar-head{display:grid;grid-template-columns:repeat(7,1fr);background:#f4f7fa;border-bottom:1px solid var(--line)}
+.work-calendar-head div{padding:8px 4px;text-align:center;font-size:11px;font-weight:800;color:var(--muted)}
+.work-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.work-calendar-day{min-height:72px;border-right:1px solid #edf0f4;border-bottom:1px solid #edf0f4;padding:6px;cursor:pointer;background:#fff}
+.work-calendar-day:nth-child(7n){border-right:0}.work-calendar-day.muted-day{background:#fafbfd;color:#a2adbc}.work-calendar-day.today{box-shadow:inset 0 0 0 2px #b7c9df}.work-calendar-day.selected{background:#eef4fb;box-shadow:inset 0 0 0 2px var(--blue)}
+.work-calendar-num{font-weight:800;font-size:12px}.work-calendar-dot{display:block;margin-top:4px;font-size:10px;line-height:1.25;padding:2px 4px;border-radius:5px;background:#eef2f6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.work-calendar-detail{margin-top:9px;padding:11px;border:1px solid var(--line);border-radius:12px;background:#f8fafc}
+.work-task{padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:8px}.work-task.done{opacity:.65}.work-task-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.work-date-progress{position:absolute;top:0;bottom:0;width:2px;background:#d64545;z-index:3}.work-date-progress:after{content:'Сегодня';position:absolute;top:2px;left:4px;font-size:9px;font-weight:800;color:#b42318;white-space:nowrap}
+.work-bar-track{position:absolute;top:18px;height:26px;border-radius:8px;background:#e9edf3;overflow:hidden;left:0;right:0}
+.work-bar-plan{position:absolute;top:0;height:100%;border-radius:8px;background:#dfe8f3}.work-bar-fact{position:absolute;top:0;height:100%;border-radius:8px;background:var(--blue);opacity:.9}
+.work-bar-label{position:absolute;top:5px;left:8px;right:8px;color:#172033;font-size:10px;font-weight:800;z-index:4;white-space:nowrap;overflow:hidden}
+@media(max-width:650px){.work-calendar-day{min-height:60px;padding:4px}.work-calendar-dot{font-size:9px}.work-calendar-head div{font-size:10px}}
+.work-tabbar{display:flex;gap:6px;margin-top:14px;padding:4px;background:#f3f6fa;border:1px solid var(--line);border-radius:12px}
+.work-tabbar button{flex:1;border:0;background:transparent;color:var(--muted);border-radius:9px;padding:9px 10px;font-weight:800;font-size:12px;cursor:pointer}
+.work-tabbar button.active{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.work-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.work-kpi{padding:10px;border:1px solid var(--line);border-radius:12px;background:#f8fafc}
+.work-kpi b{font-size:18px}
+.work-gantt{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:auto}
+.work-gantt-row{display:grid;grid-template-columns:minmax(190px,28%) minmax(420px,1fr);border-bottom:1px solid #edf0f4;min-height:62px}
+.work-gantt-name{padding:10px;border-right:1px solid #edf0f4}
+.work-gantt-track{position:relative;min-height:62px;background:repeating-linear-gradient(90deg,#fff 0,#fff calc(10% - 1px),#edf0f4 calc(10% - 1px),#edf0f4 10%)}
+.work-bar{position:absolute;top:18px;height:26px;border-radius:8px;padding:5px 8px;color:#fff;font-size:11px;font-weight:800;overflow:hidden;white-space:nowrap;box-sizing:border-box}
+.work-bar.planned{background:var(--blue)}
+.work-bar.in_progress{background:var(--amber)}
+.work-bar.completed{background:var(--green)}
+.work-item{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:9px}
+.work-material-row{display:grid;grid-template-columns:minmax(0,1fr) 110px 70px auto;gap:7px;align-items:center;margin-bottom:7px}
+.work-material-row select,.work-material-row input{width:100%;min-width:0}
+.work-report-note{padding:10px;border-radius:10px;background:#f8fafc;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:650px){.work-summary{grid-template-columns:1fr 1fr}.work-gantt-row{grid-template-columns:minmax(150px,38%) minmax(380px,1fr)}.work-material-row{grid-template-columns:minmax(0,1fr) 90px 55px auto}}
 .statement-pre{white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;background:#f6f8fb;border-radius:12px;padding:14px;border:1px solid var(--line);margin-bottom:14px;max-height:60vh;overflow:auto}
 details summary::-webkit-details-marker{color:var(--amber-dk)}
 details summary{list-style:revert;padding:4px 0}
@@ -414,7 +477,7 @@ onclick="openAr()">
 </div>
 </div>
 
-<div class="section"><h2>Сотрудники</h2>
+<div class="section" id="orgEmployeesSection"><h2>Сотрудники</h2>
 <div class="card"><button class="btn primary" onclick="openOrgEmployee()">＋ Добавить сотрудника</button>
 <div id="orgEmployeesList" style="margin-top:12px"></div></div></div>
 
@@ -427,7 +490,7 @@ onclick="openAr()">
 <div class="card"><button class="btn primary" onclick="openNewEvent()">＋ Добавить событие</button>
 <div id="orgEventsList" style="margin-top:12px"></div></div></div>
 
-<div class="section"><h2>Расходы месяца</h2><div id="orgMonthOps"></div></div>
+<div class="section" id="orgPaymentsSection"><h2>Расходы месяца</h2><div id="orgMonthOps"></div></div>
 </div>
 
 </div>
@@ -493,6 +556,216 @@ onclick="openAr()">
 <div id="eventsModalList"></div>
 <button class="btn primary" onclick="openNewEvent()">＋ Добавить событие</button>
 <button class="btn secondary" onclick="closeEventsModal()">Закрыть</button>
+</div>
+</div>
+
+<div id="ptoModal" class="modal" onclick="if(event.target===this)closePtoModal()">
+<div class="sheet">
+  <div class="row" style="margin-bottom:14px">
+    <div><h2 style="margin:0">ПТО</h2><div class="muted" id="ptoProjectTitle">Объект</div></div>
+    <span class="pill" id="ptoModeLabel">Производство документации</span>
+  </div>
+  <div class="pto-head">
+    <b>Контактные лица заказчика</b>
+    <div class="muted" style="margin-top:4px">ФИО, телефон и должность. Можно добавить несколько контактов.</div>
+    <div id="ptoContactsList" style="margin-top:10px"></div>
+    ${ptoCanEdit()?`<button class="btn primary" style="margin-top:8px" onclick="openPtoContactForm()">＋ Добавить контакт</button>`:''}
+  </div>
+  <div class="pto-head">
+    <b>Документы ПТО</b>
+    <div class="muted" style="margin-top:4px">У каждого документа есть финальная дата и текущий статус.</div>
+    <div id="ptoDocumentsList" style="margin-top:10px"></div>
+    ${ptoCanEdit()?`<button class="btn primary" style="margin-top:8px" onclick="openPtoDocumentForm()">＋ Добавить документ</button>`:''}
+  </div>
+  <button class="btn secondary" onclick="closePtoModal()">Закрыть</button>
+</div>
+</div>
+
+<div id="ptoDocumentModal" class="modal" onclick="if(event.target===this)closePtoDocumentForm()">
+<div class="sheet">
+  <h2 id="ptoDocumentFormTitle">Новый документ ПТО</h2>
+  <div class="field"><label>Тип документа</label>
+    <select id="ptoDocType">
+      <option value="executive_schemes">Исполнительные схемы</option>
+      <option value="aosr">АОСР</option>
+      <option value="work_log">Журнал производства работ</option>
+      <option value="cable_log">Кабельный журнал</option>
+      <option value="other">Прочие документы</option>
+    </select>
+  </div>
+  <div class="field"><label>Финальная дата</label><input id="ptoDocFinalDate" type="date"></div>
+  <div class="field"><label>Статус</label>
+    <select id="ptoDocStatus">
+      <option value="requested">🔴 Запрос документов</option>
+      <option value="in_progress">🟡 В производстве</option>
+      <option value="signing">🔵 На подписании</option>
+      <option value="signed">🟢 Подписан</option>
+    </select>
+  </div>
+  <div class="field"><label>Комментарий</label><input id="ptoDocComment" placeholder="Необязательно"></div>
+  <button class="btn primary" id="ptoDocSaveBtn" onclick="savePtoDocument()">Сохранить</button>
+  <button class="btn secondary" onclick="closePtoDocumentForm()">Отмена</button>
+</div>
+</div>
+
+<div id="ptoContactModal" class="modal" onclick="if(event.target===this)closePtoContactForm()">
+<div class="sheet">
+  <h2 id="ptoContactFormTitle">Новый контакт заказчика</h2>
+  <div class="field"><label>ФИО</label><input id="ptoContactName" placeholder="ФИО контактного лица"></div>
+  <div class="field"><label>Телефон</label><input id="ptoContactPhone" type="tel" placeholder="+7 ..."></div>
+  <div class="field"><label>Должность</label><input id="ptoContactPosition" placeholder="Например: начальник участка"></div>
+  <button class="btn primary" id="ptoContactSaveBtn" onclick="savePtoContact()">Сохранить</button>
+  <button class="btn secondary" onclick="closePtoContactForm()">Отмена</button>
+</div>
+</div>
+
+<div id="foremanSubModal" class="modal" onclick="if(event.target===this)closeForemanSubModal()">
+<div class="sheet">
+  <h2>Субподрядчики</h2>
+  <div class="muted" id="foremanSubProjectTitle">Объект</div>
+  <div id="foremanSubList" style="margin-top:12px"></div>
+  <div style="margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
+    <b>Добавить субподрядчика</b>
+    <div class="field"><label>Название</label><input id="foremanSubName" placeholder="Название организации / ИП"></div>
+    <div class="field"><label>Комментарий</label><input id="foremanSubComment" placeholder="Необязательно"></div>
+    <button class="btn primary" onclick="saveForemanSubcontractor()">＋ Добавить</button>
+  </div>
+  <button class="btn secondary" onclick="closeForemanSubModal()">Закрыть</button>
+</div>
+</div>
+
+<div id="managerCostModal" class="modal" onclick="if(event.target===this)closeManagerCostModal()">
+<div class="sheet">
+  <h2>Расходы объекта</h2>
+  <div class="muted" id="managerCostProjectTitle">Объект</div>
+
+  <div style="margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
+    <b>Добавить субподрядчика</b>
+    <div class="field"><label>Название</label><input id="mgrSubName" placeholder="Организация / ИП"></div>
+    <div class="field"><label>Плановая сумма, ₽</label><input id="mgrSubAmount" inputmode="decimal"></div>
+    <div class="field"><label>Комментарий</label><input id="mgrSubComment" placeholder="Необязательно"></div>
+    <label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input id="mgrSubVat" type="checkbox"> С НДС</label>
+    <button class="btn primary" onclick="saveManagerSubcontractor()">＋ Добавить субподрядчика</button>
+  </div>
+
+  <div style="margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
+    <b>Добавить ТМЦ</b>
+    <div class="field"><label>Наименование</label><input id="mgrMatName" placeholder="Кабель, щит, крепёж и т.д."></div>
+    <div class="field"><label>Плановая сумма, ₽</label><input id="mgrMatPlanned" inputmode="decimal"></div>
+    <div class="field"><label>Фактическая сумма, ₽</label><input id="mgrMatActual" inputmode="decimal"></div>
+    <div class="field"><label>Дата расхода</label><input id="mgrMatDate" type="date"></div>
+    <div class="field"><label>Комментарий</label><input id="mgrMatComment" placeholder="Необязательно"></div>
+    <button class="btn primary" onclick="saveManagerMaterial()">＋ Добавить ТМЦ</button>
+  </div>
+
+  <div style="margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
+    <b>Добавить прочий расход</b>
+    <div class="field"><label>Наименование</label><input id="mgrOthName" placeholder="Доставка, техника, проживание и т.д."></div>
+    <div class="field"><label>Плановая сумма, ₽</label><input id="mgrOthPlanned" inputmode="decimal"></div>
+    <div class="field"><label>Фактическая сумма, ₽</label><input id="mgrOthActual" inputmode="decimal"></div>
+    <div class="field"><label>Дата расхода</label><input id="mgrOthDate" type="date"></div>
+    <div class="field"><label>Комментарий</label><input id="mgrOthComment" placeholder="Необязательно"></div>
+    <button class="btn primary" onclick="saveManagerOtherExpense()">＋ Добавить расход</button>
+  </div>
+
+  <button class="btn secondary" style="margin-top:12px" onclick="closeManagerCostModal()">Закрыть</button>
+</div>
+</div>
+
+<div id="workModal" class="modal" onclick="if(event.target===this)closeWorkModal()">
+<div class="sheet">
+  <div class="row" style="margin-bottom:12px">
+    <div><h2 style="margin:0">Ход работ</h2><div class="muted" id="workProjectTitle">Объект</div></div>
+    <span class="pill" id="workRoleLabel">Производство</span>
+  </div>
+  <div id="workSummary" class="work-summary"></div>
+  <div class="work-head" style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc;margin-bottom:10px">
+    <div class="row"><div><b>График производства работ</b><div class="muted" style="margin-top:3px">План, сроки и фактическое выполнение по каждому виду работ.</div></div><button class="btn primary" onclick="openWorkItemForm()">＋ Добавить работу</button></div>
+    <div id="workGantt" style="margin-top:10px"></div>
+  </div>
+  <div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc;margin-bottom:10px">
+    <div class="row"><div><b>Разделы работ</b><div class="muted">Например: «Этаж 3». Внутри раздела можно вести кабель, розетки, светильники и другие отдельные работы.</div></div><button class="btn primary" onclick="openWorkSectionForm()">＋ Добавить раздел</button></div>
+    <div id="workSectionsList" style="margin-top:10px"></div>
+  </div>
+  <div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc;margin-bottom:10px">
+    <div class="row"><div><b>Календарь производства</b><div class="muted">Нажмите на дату — увидите работы, которые идут в этот день, и работы, которые должны завершиться.</div></div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="changeWorkCalendarMonth(-1)">‹</button><button class="smallbtn" onclick="changeWorkCalendarMonth(1)">›</button></div></div>
+    <div id="workCalendar" style="margin-top:10px"></div>
+    <div id="workCalendarDetail"></div>
+  </div>
+  <div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc;margin-bottom:10px">
+    <div class="row"><div><b>Краткосрочные задачи</b><div class="muted">Задачи после планёрки, которые не нужно включать в производственный график.</div></div><button class="btn primary" onclick="openWorkTaskForm()">＋ Задача</button></div>
+    <div id="workTasksList" style="margin-top:10px"></div>
+  </div>
+  <div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc">
+    <div class="row"><div><b>Работы и фактический объём</b><div class="muted" style="margin-top:3px">Факт заносится отдельной записью с датой — это позволяет формировать отчёт за любой период.</div></div></div>
+    <div id="workItemsList" style="margin-top:10px"></div>
+  </div>
+  <div style="margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc">
+    <b>Отчёт для сметчика / КС</b>
+    <div class="muted" style="margin-top:4px">В отчёт попадут работы, по которым есть фактический объём за выбранный период, и израсходованные материалы.</div>
+    <div style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap">
+      <div class="field" style="flex:1;min-width:140px;margin:0"><label>С</label><input id="workReportFrom" type="date"></div>
+      <div class="field" style="flex:1;min-width:140px;margin:0"><label>По</label><input id="workReportTo" type="date"></div>
+    </div>
+    <button class="btn primary" style="margin-top:10px;width:100%" onclick="printWorkReport()">🖨 Сформировать отчёт для КС / сметчика</button>
+  </div>
+  <button class="btn secondary" style="margin-top:10px" onclick="closeWorkModal()">Закрыть</button>
+</div>
+</div>
+
+<div id="workItemModal" class="modal" onclick="if(event.target===this)closeWorkItemForm()">
+<div class="sheet">
+  <h2 id="workItemFormTitle">Новая работа</h2>
+  <div class="field"><label>Раздел работ</label><select id="workSectionSelect"><option value="">Без раздела — отдельная работа</option></select></div>
+  <div class="field"><label>Раздел / категория работ</label><select id="workCatalogCategorySelect" onchange="onWorkCatalogCategoryChange()"></select></div>
+  <div class="field"><label>Вид работы</label><select id="workCatalogSelect" onchange="onWorkCatalogChange()"></select></div>
+  <div class="field"><label>Объём по плану</label><input id="workPlannedVolume" type="number" step="0.001" min="0" placeholder="Например: 250"></div>
+  <div class="field"><label>Единица измерения</label><input id="workUnit" readonly></div>
+  <div style="display:flex;gap:8px">
+    <div class="field" style="flex:1"><label>Дата начала</label><input id="workStartDate" type="date"></div>
+    <div class="field" style="flex:1"><label>Дата завершения</label><input id="workEndDate" type="date"></div>
+  </div>
+  <div class="field"><label>Статус</label><select id="workStatus"><option value="planned">Запланировано</option><option value="in_progress">В производстве</option><option value="completed">Завершено</option></select></div>
+  <div class="field"><label>Комментарий</label><textarea id="workComment" rows="2" placeholder="Комментарий прораба"></textarea></div>
+  <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
+    <div class="row"><div><b>Материалы по работе</b><div class="muted" style="margin-top:3px">Подходящие материалы подставлены из базы. Количество можно изменить.</div></div><button class="smallbtn" onclick="addWorkMaterialRow()">＋ Материал</button></div>
+    <div id="workMaterialsEditor" style="margin-top:10px"></div>
+  </div>
+  <button class="btn primary" id="workItemSaveBtn" style="margin-top:12px" onclick="saveWorkItem()">Сохранить работу</button>
+  <button class="btn secondary" onclick="closeWorkItemForm()">Отмена</button>
+</div>
+</div>
+
+<div id="workSectionModal" class="modal" onclick="if(event.target===this)closeWorkSectionForm()">
+<div class="sheet">
+  <h2 id="workSectionFormTitle">Новый раздел работ</h2>
+  <div class="field"><label>Название раздела</label><input id="workSectionName" placeholder="Например: Этаж 3"></div>
+  <div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Дата начала</label><input id="workSectionStart" type="date"></div><div class="field" style="flex:1"><label>Дата завершения</label><input id="workSectionEnd" type="date"></div></div>
+  <div class="field"><label>Комментарий</label><textarea id="workSectionComment" rows="2"></textarea></div>
+  <button class="btn primary" id="workSectionSaveBtn" onclick="saveWorkSection()">Сохранить раздел</button>
+  <button class="btn secondary" onclick="closeWorkSectionForm()">Отмена</button>
+</div></div>
+
+<div id="workTaskModal" class="modal" onclick="if(event.target===this)closeWorkTaskForm()">
+<div class="sheet">
+  <h2 id="workTaskFormTitle">Новая задача</h2>
+  <div class="field"><label>Задача</label><input id="workTaskTitle" placeholder="Например: согласовать трассу кабеля с заказчиком"></div>
+  <div class="field"><label>Срок</label><input id="workTaskDue" type="date"></div>
+  <div class="field"><label>Приоритет</label><select id="workTaskPriority"><option value="normal">Обычный</option><option value="high">Высокий</option><option value="low">Низкий</option></select></div>
+  <div class="field"><label>Комментарий</label><textarea id="workTaskComment" rows="2"></textarea></div>
+  <button class="btn primary" id="workTaskSaveBtn" onclick="saveWorkTask()">Сохранить задачу</button>
+  <button class="btn secondary" onclick="closeWorkTaskForm()">Отмена</button>
+</div></div>
+
+<div id="workProgressModal" class="modal" onclick="if(event.target===this)closeWorkProgressForm()">
+<div class="sheet">
+  <h2>Фактическое выполнение</h2>
+  <div class="muted" id="workProgressTitle" style="margin-bottom:10px"></div>
+  <div class="field"><label>Дата выполнения</label><input id="workProgressDate" type="date"></div>
+  <div class="field"><label>Выполненный объём</label><input id="workProgressVolume" type="number" step="0.001" min="0" placeholder="Например: 25"></div>
+  <div class="field"><label>Комментарий</label><textarea id="workProgressComment" rows="2" placeholder="Что выполнено"></textarea></div>
+  <button class="btn primary" onclick="saveWorkProgress()">Добавить факт</button>
+  <button class="btn secondary" onclick="closeWorkProgressForm()">Отмена</button>
 </div>
 </div>
 
@@ -822,6 +1095,27 @@ onclick="if(event.target===this)closeModal()">
 </div>
 </div>
 
+<div class="field" id="opMaterialCreditField" style="display:none">
+<div style="padding:10px;background:#fff7e6;border:1px solid #f1d39b;border-radius:10px">
+<div style="font-weight:700;margin-bottom:6px">ТМЦ получено в кредит / с отсрочкой</div>
+<div class="muted" style="margin-bottom:8px">Деньги сейчас не списываются. Стоимость материала попадёт в кредиторку выбранного поставщика и будет привязана к этой операции.</div>
+<div class="field" style="margin-top:0">
+<label>Кредитор за ТМЦ</label>
+<select id="opMaterialCreditor" onchange="onOpMaterialCreditorChange()">
+<option value="">Выберите кредитора</option>
+</select>
+</div>
+<div id="opInlineMaterialCreditorBox" style="display:none;margin-top:8px;padding:10px;background:#f5f7fa;border:1px solid #dce2ea;border-radius:10px">
+<input id="opNewMaterialCreditor" placeholder="Название нового кредитора" style="width:100%">
+<button type="button" class="btn secondary" style="margin-top:8px;width:100%" onclick="createInlineMaterialCreditor()">＋ Добавить и выбрать</button>
+</div>
+<div class="field" style="margin-top:8px">
+<label>Дата оплаты / ближайшая дата погашения</label>
+<input id="opMaterialCreditDueDate" type="date">
+</div>
+</div>
+</div>
+
 <div class="field">
 <label>Контрагент</label>
 <input id="opCounterparty" placeholder="Компания / человек">
@@ -1106,7 +1400,30 @@ let projectMaterials=[];
 let projectOtherExpenses=[];
 let orgEmployees=[];
 let orgExpenses=[];
+let ptoDocuments=[];
+let ptoContacts=[];
+let workCatalog=[];
+let materialCatalog=[];
+let workCatalogMaterials=[];
+let projectWorkItems=[];
+let projectWorkMaterials=[];
+let projectWorkProgress=[];
+let projectWorkSections=[];
+let projectWorkTasks=[];
+let workMaterialOptions=[];
+let currentWorkProjectId=null;
+let currentWorkCalendarDate=null;
+let currentWorkCalendarMonth=null;
+let editingWorkSectionId=null;
+let editingWorkTaskId=null;
+let editingWorkItemId=null;
+let workingWorkMaterials=[];
+let currentWorkProgressItemId=null;
 let profile=null;
+let currentPtoProjectId=null;
+let currentForemanSubProjectId=null;
+let editingPtoDocumentId=null;
+let editingPtoContactId=null;
 let editingOperationId=null;
 let editingReceivableId=null;
 let editingPayableId=null;
@@ -1255,6 +1572,13 @@ function setupRealtime(){
     .on('postgres_changes',{event:'*',schema:'public',table:'org_employees'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'org_expenses'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'creditors'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'pto_documents'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_customer_contacts'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_items'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_materials'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_progress'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_sections'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_tasks'},scheduleRealtimeReload)
     .subscribe(status=>{
       if(status==='SUBSCRIBED') console.log('Realtime: онлайн-синхронизация подключена.');
       if(status==='CHANNEL_ERROR') console.warn('Realtime: ошибка подключения канала.');
@@ -1338,141 +1662,225 @@ console.warn('Не удалось перенести старые данные �
 
 async function loadAll(){
 
-const userResult=
-await sbClient.auth.getUser();
-
+const userResult=await sbClient.auth.getUser();
 const user=userResult.data.user;
+if(!user){await boot(null);return;}
 
-if(!user){
+const profileResult=await sbClient.from('profiles').select('*').eq('id',user.id).maybeSingle();
+if(profileResult.error){alert('Не удалось загрузить профиль: '+profileResult.error.message);return;}
+profile=profileResult.data;
 
-await boot(null);
-return;
-
+// Для прораба загружаем только производственные данные и безопасные представления.
+// Финансовые таблицы вообще не запрашиваются из браузера.
+if(profile?.role==='foreman' || profile?.role==='manager'){
+  const manager=profile?.role==='manager';
+  const [pr,sc,mat,oth,pto,contacts,ev,orgs,wc,mc,wcm,wi,wm,wp,ws,wt,wo]=await Promise.all([
+    sbClient.rpc('foreman_projects'),
+    manager?sbClient.from('subcontractors').select('*').order('created_at',{ascending:true}):sbClient.rpc('foreman_subcontractors'),
+    manager?sbClient.from('project_materials').select('*').order('created_at',{ascending:true}):Promise.resolve({data:[],error:null}),
+    manager?sbClient.from('project_other_expenses').select('*').order('created_at',{ascending:true}):Promise.resolve({data:[],error:null}),
+    sbClient.from('pto_documents').select('*').order('final_date',{ascending:true}),
+    sbClient.from('project_customer_contacts').select('*').order('created_at',{ascending:true}),
+    manager?sbClient.from('events').select('*').order('event_date',{ascending:true}):Promise.resolve({data:[],error:null}),
+    manager?sbClient.from('org_expenses').select('*').order('created_at',{ascending:true}):Promise.resolve({data:[],error:null}),
+    sbClient.from('work_catalog').select('*').eq('is_active',true).order('category',{ascending:true}).order('name',{ascending:true}),
+    sbClient.from('material_catalog').select('*').eq('is_active',true).order('category',{ascending:true}).order('name',{ascending:true}),
+    sbClient.from('work_catalog_materials').select('*'),
+    sbClient.from('project_work_items').select('*').order('start_date',{ascending:true}),
+    sbClient.from('project_work_materials').select('*'),
+    sbClient.from('project_work_progress').select('*').order('progress_date',{ascending:true}),
+    sbClient.from('project_work_sections').select('*').order('start_date',{ascending:true}),
+    sbClient.from('project_work_tasks').select('*').order('due_date',{ascending:true}),
+    sbClient.from('work_material_options').select('*').eq('is_active',true)
+  ]);
+  const err=pr.error||sc.error||mat.error||oth.error||pto.error||contacts.error||ev.error||orgs.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error;
+  if(err){alert('Ошибка загрузки данных: '+err.message);return;}
+  projects=pr.data||[];
+  subcontractors=sc.data||[];
+  projectMaterials=mat.data||[];
+  projectOtherExpenses=oth.data||[];
+  ptoDocuments=pto.data||[];
+  ptoContacts=contacts.data||[];
+  events=ev.data||[];
+  orgExpenses=orgs.data||[];
+  workCatalog=wc.data||[];
+  materialCatalog=mc.data||[];
+  workCatalogMaterials=wcm.data||[];
+  projectWorkItems=wi.data||[];
+  projectWorkMaterials=wm.data||[];
+  projectWorkProgress=wp.data||[];
+  projectWorkSections=ws.data||[];
+  projectWorkTasks=wt.data||[];
+  workMaterialOptions=wo.data||[];
+  ops=[];ars=[];aps=[];creditors=[];orgEmployees=[];
+  $('userName').textContent=profile?.full_name||'Пользователь';
+  $('userRole').textContent=roleName(profile?.role);
+  applyRoleUi();
+  fillProjectSelects();
+  render();
+  return;
 }
 
-const [
-p,
-o,
-r,
-ap,
-cr,
-pr,
-sc,
-ev,
-mat,
-oth,
-emps,
-orgs
-]=await Promise.all([
-
-sbClient
-.from('profiles')
-.select('*')
-.eq('id',user.id)
-.maybeSingle(),
-
-sbClient
-.from('operations')
-.select('*')
-.order('operation_date',{ascending:false}),
-
-sbClient
-.from('receivables')
-.select('*')
-.order('created_at',{ascending:false}),
-
-sbClient
-.from('payables')
-.select('*')
-.order('created_at',{ascending:false}),
-
-sbClient
-.from('creditors')
-.select('*')
-.order('created_at',{ascending:true}),
-
-sbClient
-.from('projects')
-.select('*')
-.order('created_at',{ascending:false}),
-
-sbClient
-.from('subcontractors')
-.select('*')
-.order('created_at',{ascending:true}),
-
-sbClient
-.from('events')
-.select('*')
-.order('event_date',{ascending:true}),
-
-sbClient
-.from('project_materials')
-.select('*')
-.order('created_at',{ascending:true}),
-
-sbClient
-.from('project_other_expenses')
-.select('*')
-.order('created_at',{ascending:true}),
-
-sbClient
-.from('org_employees')
-.select('*')
-.order('created_at',{ascending:true}),
-
-sbClient
-.from('org_expenses')
-.select('*')
-.order('created_at',{ascending:true})
-
+const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,wt,wo]=await Promise.all([
+  sbClient.from('operations').select('*').order('operation_date',{ascending:false}),
+  sbClient.from('receivables').select('*').order('created_at',{ascending:false}),
+  sbClient.from('payables').select('*').order('created_at',{ascending:false}),
+  sbClient.from('creditors').select('*').order('created_at',{ascending:true}),
+  sbClient.from('projects').select('*').order('created_at',{ascending:false}),
+  sbClient.from('subcontractors').select('*').order('created_at',{ascending:true}),
+  sbClient.from('events').select('*').order('event_date',{ascending:true}),
+  sbClient.from('project_materials').select('*').order('created_at',{ascending:true}),
+  sbClient.from('project_other_expenses').select('*').order('created_at',{ascending:true}),
+  sbClient.from('org_employees').select('*').order('created_at',{ascending:true}),
+  sbClient.from('org_expenses').select('*').order('created_at',{ascending:true}),
+  sbClient.from('pto_documents').select('*').order('final_date',{ascending:true}),
+  sbClient.from('project_customer_contacts').select('*').order('created_at',{ascending:true}),
+  sbClient.from('work_catalog').select('*').eq('is_active',true).order('category',{ascending:true}).order('name',{ascending:true}),
+  sbClient.from('material_catalog').select('*').eq('is_active',true).order('category',{ascending:true}).order('name',{ascending:true}),
+  sbClient.from('work_catalog_materials').select('*'),
+  sbClient.from('project_work_items').select('*').order('start_date',{ascending:true}),
+  sbClient.from('project_work_materials').select('*'),
+  sbClient.from('project_work_progress').select('*').order('progress_date',{ascending:true}),
+  sbClient.from('project_work_sections').select('*').order('start_date',{ascending:true}),
+  sbClient.from('project_work_tasks').select('*').order('due_date',{ascending:true}),
+  sbClient.from('work_material_options').select('*').eq('is_active',true),
 ]);
-
-if(p.error||o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error){
-
-const e=
-p.error||
-o.error||
-r.error||
-ap.error||
-pr.error||
-sc.error||
-ev.error||
-mat.error||
-oth.error||emps.error||orgs.error;
-
-alert('Ошибка загрузки данных: '+e.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена (см. инструкцию, приложенную к файлу).');
-
-return;
-
-}
-
-profile=p.data;
-
-ops=o.data||[];
-ars=r.data||[];
-aps=ap.data||[];
-creditors=cr.data||[];
-projects=pr.data||[];
-subcontractors=sc.data||[];
-events=ev.data||[];
-projectMaterials=mat.data||[];
-projectOtherExpenses=oth.data||[];
-orgEmployees=emps.data||[];
-orgExpenses=orgs.data||[];
-
+const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error||pto.error||contacts.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error;
+if(err){alert('Ошибка загрузки данных: '+err.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена.');return;}
+ops=o.data||[];ars=r.data||[];aps=ap.data||[];creditors=cr.data||[];projects=pr.data||[];subcontractors=sc.data||[];events=ev.data||[];projectMaterials=mat.data||[];projectOtherExpenses=oth.data||[];orgEmployees=emps.data||[];orgExpenses=orgs.data||[];ptoDocuments=pto.data||[];ptoContacts=contacts.data||[];workCatalog=wc.data||[];materialCatalog=mc.data||[];workCatalogMaterials=wcm.data||[];projectWorkItems=wi.data||[];projectWorkMaterials=wm.data||[];projectWorkProgress=wp.data||[];projectWorkSections=ws.data||[];projectWorkTasks=wt.data||[];workMaterialOptions=wo.data||[];
 await migrateLegacyPlannedCost();
-
-$('userName').textContent=
-profile?.full_name||'Пользователь';
-
-$('userRole').textContent=
-roleName(profile?.role);
-
+$('userName').textContent=profile?.full_name||'Пользователь';
+$('userRole').textContent=roleName(profile?.role);
+applyRoleUi();
 fillProjectSelects();
-
 render();
 
+}
+
+function applyRoleUi(){
+  const role=profile?.role;
+  const isForeman=role==='foreman';
+  const isManager=role==='manager';
+  document.querySelectorAll('.nav button').forEach(btn=>{
+    const txt=(btn.textContent||'').trim();
+    const isProjects=txt.includes('Объекты');
+    const isOrg=txt.includes('Орг. расходы');
+    btn.style.display=(isForeman||isManager)?((isProjects||(isManager&&isOrg))?'block':'none'):'';
+  });
+  if(isManager){
+    window.currentPage='projects';
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    $('projects').classList.add('active');
+    document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+    const pb=[...document.querySelectorAll('.nav button')].find(x=>(x.textContent||'').includes('Объекты'));
+    if(pb)pb.classList.add('active');
+    if($('orgEmployeesSection'))$('orgEmployeesSection').style.display='none';
+    if($('orgPaymentsSection'))$('orgPaymentsSection').style.display='none';
+    const addProject=$('projects')?.querySelector('button[onclick="openProject()"]');
+    if(addProject)addProject.style.display='none';
+  }else if(isForeman){
+    window.currentPage='projects';
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    $('projects').classList.add('active');
+    document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+    const pb=[...document.querySelectorAll('.nav button')].find(x=>(x.textContent||'').includes('Объекты'));
+    if(pb)pb.classList.add('active');
+    if($('orgEmployeesSection'))$('orgEmployeesSection').style.display='';
+    if($('orgPaymentsSection'))$('orgPaymentsSection').style.display='';
+  }else{
+    if($('orgEmployeesSection'))$('orgEmployeesSection').style.display='';
+    if($('orgPaymentsSection'))$('orgPaymentsSection').style.display='';
+  }
+}
+
+function renderForemanProjects(){
+  $('projectsList').innerHTML=projects.length?projects.map(p=>{
+    const works=projectWorkItems.filter(w=>w.project_id===p.id);
+    const done=works.filter(w=>w.status==='completed').length;
+    const active=works.filter(w=>w.status!=='completed').length;
+    const subs=subcontractors.filter(s=>s.project_id===p.id);
+    const pto=ptoDocuments.filter(x=>x.project_id===p.id).length;
+    const statusLabel=({planned:'Планируется',active:'В работе',completed:'Завершён',closed:'Закрыт'})[p.status]||p.status||'—';
+    return `<div class="item" style="margin-bottom:10px">
+      <div class="row"><div><b>${esc(p.name)}</b><div class="muted">${esc(p.customer||'Заказчик не указан')}</div></div><span class="pill">${esc(statusLabel)}</span></div>
+      <div class="muted" style="margin-top:8px">${p.start_date?'Начало: '+esc(p.start_date):'Начало не указано'} · ${p.end_date?'Окончание: '+esc(p.end_date):'Окончание не указано'}</div>
+      ${p.comment?`<div class="muted" style="margin-top:6px">${esc(p.comment)}</div>`:''}
+      <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap">
+        <span class="status-tag p-blue">Работ: ${works.length}</span><span class="status-tag p-green">Завершено: ${done}</span><span class="status-tag p-orange">В работе: ${active}</span><span class="status-tag p-blue">Субподрядчики: ${subs.length}</span><span class="status-tag p-blue">ПТО: ${pto}</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn primary" style="flex:1;min-width:130px" onclick="openWorkPanel('${p.id}')">Ход работ</button>
+        <button class="btn secondary" style="flex:1;min-width:130px" onclick="openPtoPanel('${p.id}')">ПТО</button>
+        <button class="btn secondary" style="flex:1;min-width:130px" onclick="openForemanSubModal('${p.id}')">Субподрядчики</button>
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty">Объектов пока нет.</div>';
+}
+
+function openForemanSubModal(projectId){
+  if(profile?.role!=='foreman')return;
+  const p=projects.find(x=>x.id===projectId); if(!p)return alert('Объект не найден.');
+  currentForemanSubProjectId=projectId;
+  $('foremanSubProjectTitle').textContent=`${p.name} · ${p.customer||'Заказчик не указан'}`;
+  $('foremanSubName').value=''; $('foremanSubComment').value='';
+  renderForemanSubcontractors(projectId);
+  $('foremanSubModal').classList.add('open');
+}
+function closeForemanSubModal(){$('foremanSubModal').classList.remove('open');currentForemanSubProjectId=null;}
+function renderForemanSubcontractors(projectId){
+  const rows=subcontractors.filter(x=>x.project_id===projectId);
+  $('foremanSubList').innerHTML=rows.length?rows.map(x=>`<div class="subrow"><div><b>${esc(x.name)}</b>${x.comment?`<div class="muted" style="margin-top:4px">${esc(x.comment)}</div>`:''}</div></div>`).join(''):'<div class="empty" style="padding:12px">Субподрядчики ещё не добавлены.</div>';
+}
+async function saveForemanSubcontractor(){
+  if(profile?.role!=='foreman')return;
+  const projectId=currentForemanSubProjectId;
+  if(!projectId)return alert('Не удалось определить объект. Закройте окно и откройте его снова.');
+  const name=$('foremanSubName').value.trim(); if(!name)return alert('Введите название субподрядчика.');
+  const {data,error}=await sbClient.rpc('foreman_add_subcontractor',{p_project_id:projectId,p_name:name,p_comment:$('foremanSubComment').value.trim()||null});
+  if(error)return alert('Не удалось добавить субподрядчика: '+error.message);
+  if(data)subcontractors.push(Array.isArray(data)?data[0]:data);
+  $('foremanSubName').value=''; $('foremanSubComment').value='';
+  renderForemanSubcontractors(projectId); renderForemanProjects();
+}
+
+let currentManagerCostProjectId=null;
+function openManagerCostModal(projectId){
+  if(profile?.role!=='manager')return;
+  const p=projects.find(x=>x.id===projectId); if(!p)return alert('Объект не найден.');
+  currentManagerCostProjectId=projectId;
+  $('managerCostProjectTitle').textContent=`${p.name} · ${p.customer||'Заказчик не указан'}`;
+  ['mgrSubName','mgrSubAmount','mgrSubComment','mgrMatName','mgrMatPlanned','mgrMatActual','mgrMatComment','mgrOthName','mgrOthPlanned','mgrOthActual','mgrOthComment'].forEach(id=>$(id).value='');
+  ['mgrMatDate','mgrOthDate'].forEach(id=>$(id).value=isoToday());
+  $('mgrSubVat').checked=false;
+  $('managerCostModal').classList.add('open');
+}
+function closeManagerCostModal(){ $('managerCostModal').classList.remove('open'); currentManagerCostProjectId=null; }
+async function saveManagerSubcontractor(){
+  if(profile?.role!=='manager'||!currentManagerCostProjectId)return;
+  const name=$('mgrSubName').value.trim(); if(!name)return alert('Введите название субподрядчика.');
+  const {data,error}=await sbClient.from('subcontractors').insert({project_id:currentManagerCostProjectId,name,planned_amount:num('mgrSubAmount'),comment:$('mgrSubComment').value.trim()||null,has_vat:$('mgrSubVat').checked}).select('*').single();
+  if(error)return alert('Не удалось добавить субподрядчика: '+error.message);
+  if(data)subcontractors.push(data);
+  $('mgrSubName').value='';$('mgrSubAmount').value='';$('mgrSubComment').value='';$('mgrSubVat').checked=false;
+  renderManagerProjects();
+}
+async function saveManagerMaterial(){
+  if(profile?.role!=='manager'||!currentManagerCostProjectId)return;
+  const name=$('mgrMatName').value.trim(); if(!name)return alert('Введите наименование ТМЦ.');
+  const {data,error}=await sbClient.from('project_materials').insert({project_id:currentManagerCostProjectId,name,planned_amount:num('mgrMatPlanned'),actual_amount:num('mgrMatActual'),expense_date:$('mgrMatDate').value||null,comment:$('mgrMatComment').value.trim()||null}).select('*').single();
+  if(error)return alert('Не удалось добавить ТМЦ: '+error.message);
+  if(data)projectMaterials.push(data);
+  $('mgrMatName').value='';$('mgrMatPlanned').value='';$('mgrMatActual').value='';$('mgrMatComment').value='';$('mgrMatDate').value=isoToday();
+  renderManagerProjects();
+}
+async function saveManagerOtherExpense(){
+  if(profile?.role!=='manager'||!currentManagerCostProjectId)return;
+  const name=$('mgrOthName').value.trim(); if(!name)return alert('Введите наименование расхода.');
+  const {data,error}=await sbClient.from('project_other_expenses').insert({project_id:currentManagerCostProjectId,name,planned_amount:num('mgrOthPlanned'),actual_amount:num('mgrOthActual'),expense_date:$('mgrOthDate').value||null,comment:$('mgrOthComment').value.trim()||null}).select('*').single();
+  if(error)return alert('Не удалось добавить прочий расход: '+error.message);
+  if(data)projectOtherExpenses.push(data);
+  $('mgrOthName').value='';$('mgrOthPlanned').value='';$('mgrOthActual').value='';$('mgrOthComment').value='';$('mgrOthDate').value=isoToday();
+  renderManagerProjects();
 }
 
 function roleName(r){
@@ -1482,7 +1890,7 @@ director:'Директор',
 finance:'Финансы',
 accountant:'Бухгалтер',
 foreman:'Прораб',
-manager:'Менеджер'
+manager:'Управляющий'
 })[r]||r||'';
 
 }
@@ -1706,6 +2114,7 @@ $('opReceivableField').style.display=(type==='income')?'block':'none';
 $('opPayerCompanyField').style.display='none';
 $('opPayableField').style.display='none';
 $('opCreditField').style.display='none';
+$('opMaterialCreditField').style.display='none';
 $('opCreditNextDateField').style.display='none';
 $('opCreditFullDateField').style.display='none';
 $('opOrgConsumerTypeField').style.display='none';
@@ -1780,6 +2189,9 @@ $('opSubcontractor').innerHTML=
 projectSubs.map(s=>`<option value="${esc(s.id)}">${esc(s.name)} · план ${money(Number(s.planned_amount||0))} · ${s.has_vat?'С НДС':'Без НДС'}</option>`).join('');
 }else if(projectId && selected==='ТМЦ'){
 $('opCostItemField').style.display='block';
+$('opMaterialCreditField').style.display='block';
+refreshOperationMaterialCreditorSelect($('opMaterialCreditor').value||'');
+$('opMaterialCreditDueDate').value=$('opMaterialCreditDueDate').value||operationDateDefault();
 $('opInlineItemBox').style.display='block';
 $('opSubcontractorField').style.display='none';
 $('opCostItemLabel').textContent='Позиция ТМЦ';
@@ -1883,6 +2295,7 @@ function reportBar(value,max){const p=max>0?Math.max(0,Math.min(100,value/max*10
 function reportRows(rows,empty='Нет данных'){
 return rows.length?rows.join(''):`<tr><td colspan="99" class="rmuted">${empty}</td></tr>`;
 }
+function isMaterialCreditExpense(o){return o?.operation_type==='expense'&&o?.article==='ТМЦ'&&o?.credit_kind==='material';}
 function reportOperationCompany(o){const p=o?.project_id?projects.find(x=>x.id===o.project_id):null;return o?.payer_company||o?.credit_recipient_company||p?.contractor_company||'ООО';}
 function exportOrgMonthPdf(){
  const month=currentOrgMonth();
@@ -1892,7 +2305,7 @@ function exportOrgMonthPdf(){
  const monthOps=ops.filter(x=>monthKey(x.operation_date)===month && (company==='all'||reportOperationCompany(x)===company));
  const allMonthOps=ops.filter(x=>monthKey(x.operation_date)===month);
  const income=monthOps.filter(x=>x.operation_type==='income').reduce((s,x)=>s+reportNum(x.amount),0);
- const expense=monthOps.filter(x=>x.operation_type==='expense').reduce((s,x)=>s+reportNum(x.amount),0);
+ const expense=monthOps.filter(x=>x.operation_type==='expense'&&!isMaterialCreditExpense(x)).reduce((s,x)=>s+reportNum(x.amount),0);
  const creditMoney=monthOps.filter(x=>x.operation_type==='credit'&&x.credit_kind==='money').reduce((s,x)=>s+reportNum(x.amount),0);
  const creditTmc=monthOps.filter(x=>x.operation_type==='credit'&&x.credit_kind!=='money').reduce((s,x)=>s+reportNum(x.amount),0);
  const cashResult=income+creditMoney-expense;
@@ -1914,7 +2327,7 @@ function exportOrgMonthPdf(){
  const projectRows=projects.filter(p=>ops.some(o=>o.project_id===p.id&&monthKey(o.operation_date)===month)).map(p=>{
    const po=monthOps.filter(o=>o.project_id===p.id);
    const inc=po.filter(o=>o.operation_type==='income').reduce((s,x)=>s+reportNum(x.amount),0);
-   const exp=po.filter(o=>o.operation_type==='expense').reduce((s,x)=>s+reportNum(x.amount),0);
+   const exp=po.filter(o=>o.operation_type==='expense'&&!isMaterialCreditExpense(o)).reduce((s,x)=>s+reportNum(x.amount),0);
    const res=inc-exp;
    return `<tr><td><b>${reportEsc(p.name)}</b><div class="rmuted">${reportEsc(p.customer||'')}</div></td><td>${reportFmt(p.planned_revenue)}</td><td>${reportFmt(p.planned_cost)}</td><td>${reportFmt(inc)}</td><td>${reportFmt(exp)}</td><td class="${res>=0?'rgreen':'rred'}">${reportFmt(res)}</td><td>${reportEsc(p.status||'')}</td></tr>`;
  });
@@ -1978,9 +2391,42 @@ function renderOrgExpensesPage(){
  const activeOrgEmployees=orgEmployees.filter(x=>x.active!==false);
  const activeOrgExpenses=orgExpenses.filter(x=>x.active!==false);
  $('orgEmployeesList').innerHTML=activeOrgEmployees.length?activeOrgEmployees.map(x=>{const paid=monthOps.filter(o=>o.org_employee_id===x.id).reduce((s,o)=>s+Number(o.amount||0),0);const pct=Number(x.monthly_salary||0)>0?Math.min(100,paid/Number(x.monthly_salary)*100):0;return `<div class="subrow" style="flex-direction:column;align-items:stretch"><div class="row"><div><div class="subname">${esc(x.name)}</div><div class="muted">${esc(x.position||'')} · ${esc(x.company||'ООО')} · дата выплаты ${esc(paymentDateRu(x))}</div></div><div class="amount">${money(x.monthly_salary)}</div></div><div class="progress"><div class="p-blue" style="width:${pct}%"></div></div><div class="progress-label"><span class="muted">Оплачено за ${esc(month)}: ${money(paid)}</span><span class="status-tag ${pct>=100?'p-green':'p-orange'}">${pct.toFixed(0)}%</span></div><div style="display:flex;gap:8px;margin-top:8px"><button class="smallbtn" onclick="openOrgEmployee('${x.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteOrgEmployee('${x.id}')">Удалить</button></div></div>`}).join(''):'<div class="empty">Сотрудников пока нет.</div>';
- $('orgFixedList').innerHTML=activeOrgExpenses.length?activeOrgExpenses.map(x=>{const paid=monthOps.filter(o=>o.org_expense_id===x.id).reduce((s,o)=>s+Number(o.amount||0),0);const pct=Number(x.monthly_amount||0)>0?Math.min(100,paid/Number(x.monthly_amount)*100):0;return `<div class="subrow" style="flex-direction:column;align-items:stretch"><div class="row"><div><div class="subname">${esc(x.name)}</div><div class="muted">${esc(x.category||'')} · ${esc(x.company||'ООО')} · дата выплаты ${esc(paymentDateRu(x))}</div></div><div class="amount">${money(x.monthly_amount)}</div></div><div class="progress"><div class="p-blue" style="width:${pct}%"></div></div><div class="progress-label"><span class="muted">Оплачено за ${esc(month)}: ${money(paid)}</span><span class="status-tag ${pct>=100?'p-green':'p-orange'}">${pct.toFixed(0)}%</span></div><div style="display:flex;gap:8px;margin-top:8px"><button class="smallbtn" onclick="openOrgExpense('${x.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteOrgExpense('${x.id}')">Удалить</button></div></div>`}).join(''):'<div class="empty">Постоянных орг. расходов пока нет.</div>';
- const monthEventIds=new Set(monthOps.filter(o=>o.org_event_id).map(o=>o.org_event_id)); const monthEvents=events.filter(e=>(company==='all'||(e.company||'ООО')===company)); $('orgEventsList').innerHTML=monthEvents.length?monthEvents.map(e=>{const paid=monthOps.filter(o=>o.org_event_id===e.id).reduce((s,o)=>s+Number(o.amount||0),0);const planned=Number(e.planned_amount||0);const pct=planned>0?Math.min(100,paid/planned*100):0;const over=planned>0&&paid>planned;const inSelectedMonth=monthKey(e.event_date)===month;return `<div class="subrow" style="flex-direction:column;align-items:stretch"><div class="row"><div><div class="subname">${esc(e.title)}</div><div class="muted">${esc(e.event_date||'')} · ${esc(e.company||'ООО')} · план ${money(planned)}${inSelectedMonth?'':' · вне выбранного месяца'}</div></div><div class="amount">${money(paid)}</div></div><div class="progress"><div class="${over?'p-red':'p-blue'}" style="width:${pct}%"></div></div><div class="progress-label"><span class="muted">Факт за ${esc(month)}: ${money(paid)} · осталось по плану: ${money(Math.max(0,planned-paid))}</span><span class="status-tag ${over?'p-red':pct>=100?'p-green':'p-orange'}">${over?'Перерасход '+Math.round((paid/planned)*100)+'%':pct.toFixed(0)+'%'}</span></div><div style="display:flex;gap:8px;margin-top:8px"><button class="smallbtn" onclick="openEditEvent('${e.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteEvent('${e.id}')">Удалить</button></div></div>`}).join(''):'<div class="empty">Событий пока нет.</div>';
+ $('orgFixedList').innerHTML=activeOrgExpenses.length?activeOrgExpenses.map(x=>{const paid=monthOps.filter(o=>o.org_expense_id===x.id).reduce((s,o)=>s+Number(o.amount||0),0);const pct=Number(x.monthly_amount||0)>0?Math.min(100,paid/Number(x.monthly_amount)*100):0;return `<div class="subrow" style="flex-direction:column;align-items:stretch"><div class="row"><div><div class="subname">${esc(x.name)}</div><div class="muted">${esc(x.category||'')} · ${esc(x.company||'ООО')} · дата выплаты ${esc(paymentDateRu(x))}</div></div><div class="amount">${money(x.monthly_amount)}</div></div><div class="progress"><div class="p-blue" style="width:${pct}%"></div></div><div class="progress-label"><span class="muted">Оплачено за ${esc(month)}: ${money(paid)}</span><span class="status-tag ${pct>=100?'p-green':'p-orange'}">${pct.toFixed(0)}%</span></div>${profile?.role==='manager'?'':`<div style="display:flex;gap:8px;margin-top:8px"><button class="smallbtn" onclick="openOrgExpense('${x.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteOrgExpense('${x.id}')">Удалить</button></div>`}</div>`}).join(''):'<div class="empty">Постоянных орг. расходов пока нет.</div>';
+ const monthEventIds=new Set(monthOps.filter(o=>o.org_event_id).map(o=>o.org_event_id)); const monthEvents=events.filter(e=>(company==='all'||(e.company||'ООО')===company)); $('orgEventsList').innerHTML=monthEvents.length?monthEvents.map(e=>{const paid=monthOps.filter(o=>o.org_event_id===e.id).reduce((s,o)=>s+Number(o.amount||0),0);const planned=Number(e.planned_amount||0);const pct=planned>0?Math.min(100,paid/planned*100):0;const over=planned>0&&paid>planned;const inSelectedMonth=monthKey(e.event_date)===month;return `<div class="subrow" style="flex-direction:column;align-items:stretch"><div class="row"><div><div class="subname">${esc(e.title)}</div><div class="muted">${esc(e.event_date||'')} · ${esc(e.company||'ООО')} · план ${money(planned)}${inSelectedMonth?'':' · вне выбранного месяца'}</div></div><div class="amount">${money(paid)}</div></div><div class="progress"><div class="${over?'p-red':'p-blue'}" style="width:${pct}%"></div></div><div class="progress-label"><span class="muted">Факт за ${esc(month)}: ${money(paid)} · осталось по плану: ${money(Math.max(0,planned-paid))}</span><span class="status-tag ${over?'p-red':pct>=100?'p-green':'p-orange'}">${over?'Перерасход '+Math.round((paid/planned)*100)+'%':pct.toFixed(0)+'%'}</span></div>${profile?.role==='manager'?'':`<div style="display:flex;gap:8px;margin-top:8px"><button class="smallbtn" onclick="openEditEvent('${e.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteEvent('${e.id}')">Удалить</button></div>`}</div>`}).join(''):'<div class="empty">Событий пока нет.</div>';
  $('orgMonthOps').innerHTML=monthOps.length?monthOps.map(o=>`<div class="item"><div class="row"><div><b>${esc(o.counterparty||o.article||'Орг. расход')}</b><div class="muted">${esc(o.operation_date||'')} · ${esc(o.payer_company||'ООО')}</div></div><div class="amount red">−${money(o.amount)}</div></div><div class="muted" style="margin-top:6px">${o.org_employee_id?'Сотрудник':o.org_event_id?'Событие':'Орг. расход'}${o.comment?' · '+esc(o.comment):''}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="smallbtn" style="flex:1" onclick="openEditOp('${o.id}')">Изменить</button><button class="smallbtn" style="flex:1;color:#b42318" onclick="deleteOp('${o.id}')">Удалить</button></div></div>`).join(''):'<div class="empty">Оплаченных орг. расходов за месяц нет.</div>';
+}
+
+function operationDateDefault(){return $('opDate')?.value||new Date().toISOString().slice(0,10);}
+
+function refreshOperationMaterialCreditorSelect(selectedName=''){
+ const el=$('opMaterialCreditor'); if(!el)return;
+ const names=[];
+ creditors.forEach(x=>{const n=(x.name||'').trim();if(n&&!names.includes(n))names.push(n);});
+ aps.filter(x=>x.is_credit===true && x.credit_kind==='material').forEach(x=>{const n=(x.counterparty||'').trim();if(n&&!names.includes(n))names.push(n);});
+ el.innerHTML='<option value="">Выберите кредитора</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('')+'<option value="__new__">＋ Новый кредитор</option>';
+ if(selectedName)el.value=selectedName;
+}
+
+function onOpMaterialCreditorChange(){
+ const v=$('opMaterialCreditor')?.value||'';
+ $('opInlineMaterialCreditorBox').style.display=v==='__new__'?'block':'none';
+ if(v==='__new__'){ $('opNewMaterialCreditor').value=''; setTimeout(()=>$('opNewMaterialCreditor').focus(),0); }
+ if(v && v!=='__new__') $('opCounterparty').value=v;
+}
+
+async function createInlineMaterialCreditor(){
+ const name=$('opNewMaterialCreditor').value.trim();
+ if(!name)return alert('Введите название кредитора.');
+ const existing=creditors.find(x=>(x.name||'').trim().toLowerCase()===name.toLowerCase());
+ if(existing){refreshOperationMaterialCreditorSelect(existing.name);$('opMaterialCreditor').value=existing.name;$('opCounterparty').value=existing.name;$('opNewMaterialCreditor').value='';return;}
+ const {data,error}=await sbClient.from('creditors').insert({name}).select('*').single();
+ if(error)return alert('Не удалось сохранить кредитора: '+error.message);
+ creditors.push(data);
+ refreshOperationMaterialCreditorSelect(data.name);
+ $('opMaterialCreditor').value=data.name;
+ $('opCounterparty').value=data.name;
+ $('opNewMaterialCreditor').value='';
+ $('opInlineMaterialCreditorBox').style.display='none';
 }
 
 function onOpCreditorChange(){
@@ -2709,6 +3155,10 @@ $('opCreditor').value='';
 $('opCreditRecipientCompany').value='ООО';
 $('opCreditKind').value='money';
 $('opNewCreditor').value='';
+$('opMaterialCreditor').value='';
+$('opNewMaterialCreditor').value='';
+$('opInlineMaterialCreditorBox').style.display='none';
+$('opMaterialCreditDueDate').value='';
 $('opCreditNextDate').value='';
 $('opCreditFullDate').value='';
 $('opSubcontractor').value='';
@@ -2764,6 +3214,9 @@ $('opCreditRecipientCompany').value=x.credit_recipient_company||aps.find(r=>r.id
 $('opCreditKind').value=x.credit_kind||aps.find(r=>r.id===x.payable_id)?.credit_kind||'money';
 $('opCreditNextDate').value=x.payable_id?(aps.find(r=>r.id===x.payable_id)?.due_date||''):'';
 $('opCreditFullDate').value=x.payable_id?(aps.find(r=>r.id===x.payable_id)?.full_repayment_date||''):'';
+$('opMaterialCreditor').value=(x.article==='ТМЦ'&&x.credit_kind==='material')?(x.counterparty||''):'';
+refreshOperationMaterialCreditorSelect($('opMaterialCreditor').value||'');
+$('opMaterialCreditDueDate').value=(x.article==='ТМЦ'&&x.credit_kind==='material'&&x.payable_id)?(aps.find(r=>r.id===x.payable_id)?.due_date||''):'';
 $('opNewCreditor').value='';
 $('opNewSubName').value='';
 $('opNewSubPlanned').value='';
@@ -2814,6 +3267,13 @@ $('orgEmployeeForm').style.display='none';
 $('orgExpenseForm').style.display='none';
 
 }
+
+function closePtoModal(){
+  $('ptoModal').classList.remove('open');
+  currentPtoProjectId=null;
+}
+function closePtoDocumentForm(){$('ptoDocumentModal').classList.remove('open');}
+function closePtoContactForm(){$('ptoContactModal').classList.remove('open');}
 
 function num(id){
 
@@ -3040,17 +3500,22 @@ const linkedAps=aps.filter(x=>x.project_id===id).length;
 const linkedSubs=subcontractors.filter(x=>x.project_id===id).length;
 const linkedMats=projectMaterials.filter(x=>x.project_id===id).length;
 const linkedOth=projectOtherExpenses.filter(x=>x.project_id===id).length;
+const linkedPto=ptoDocuments.filter(x=>x.project_id===id).length;
+const linkedContacts=ptoContacts.filter(x=>x.project_id===id).length;
+const linkedWorks=projectWorkItems.filter(x=>x.project_id===id).length;
 
 let msg='Удалить объект «'+p.name+'»?';
-if(linkedOps||linkedArs||linkedAps||linkedSubs||linkedMats||linkedOth){
-msg+='\n\nС ним связаны данные: операций — '+linkedOps+', дебиторок — '+linkedArs+', кредиторок — '+linkedAps+', субподрядчиков — '+linkedSubs+', позиций ТМЦ — '+linkedMats+', прочих расходов — '+linkedOth+'. Они тоже будут удалены.';
+if(linkedOps||linkedArs||linkedAps||linkedSubs||linkedMats||linkedOth||linkedPto||linkedContacts||linkedWorks){
+msg+='\n\nС ним связаны данные: операций — '+linkedOps+', дебиторок — '+linkedArs+', кредиторок — '+linkedAps+', субподрядчиков — '+linkedSubs+', позиций ТМЦ — '+linkedMats+', прочих расходов — '+linkedOth+', документов ПТО — '+linkedPto+', контактов заказчика — '+linkedContacts+', работ — '+linkedWorks+'. Они тоже будут удалены.';
 }
 if(!confirm(msg)) return;
 
-for(const table of ['operations','receivables','payables','subcontractors','project_materials','project_other_expenses']){
+for(const table of ['operations','receivables','payables','subcontractors','project_materials','project_other_expenses','pto_documents','project_customer_contacts']){
 const {error}=await sbClient.from(table).delete().eq('project_id',id);
 if(error) return alert('Не удалось удалить связанные данные из '+table+': '+error.message);
 }
+
+for(const wi of projectWorkItems.filter(x=>x.project_id===id)) await sbClient.from('project_work_items').delete().eq('id',wi.id);
 
 const {error}=await sbClient.from('projects').delete().eq('id',id);
 if(error) return alert('Ошибка удаления объекта: '+error.message);
@@ -3061,6 +3526,12 @@ aps=aps.filter(x=>x.project_id!==id);
 subcontractors=subcontractors.filter(x=>x.project_id!==id);
 projectMaterials=projectMaterials.filter(x=>x.project_id!==id);
 projectOtherExpenses=projectOtherExpenses.filter(x=>x.project_id!==id);
+ptoDocuments=ptoDocuments.filter(x=>x.project_id!==id);
+ptoContacts=ptoContacts.filter(x=>x.project_id!==id);
+const deletedWorkIds=new Set(projectWorkItems.filter(x=>x.project_id===id).map(x=>x.id));
+projectWorkItems=projectWorkItems.filter(x=>x.project_id!==id);
+projectWorkMaterials=projectWorkMaterials.filter(x=>!deletedWorkIds.has(x.work_item_id));
+projectWorkProgress=projectWorkProgress.filter(x=>!deletedWorkIds.has(x.work_item_id));
 projects=projects.filter(x=>x.id!==id);
 
 fillProjectSelects();
@@ -3655,6 +4126,12 @@ const effectiveCompany=(type==='income'||type==='expense')
   : null;
 if((type==='income'||type==='expense') && effectiveCompany) $('opCompany').value=effectiveCompany;
 
+const materialCreditEnabled=(type==='expense'&&article==='ТМЦ'&&Boolean($('opMaterialCreditor')?.value&&$('opMaterialCreditor').value!=='__new__'));
+const materialCreditor=materialCreditEnabled?$('opMaterialCreditor').value.trim():'';
+const materialCreditDueDate=materialCreditEnabled?($('opMaterialCreditDueDate').value||''):'';
+if(type==='expense'&&article==='ТМЦ'&&$('opMaterialCreditor')?.value==='__new__') return alert('Добавьте нового кредитора и выберите его.');
+if(materialCreditEnabled&&!materialCreditDueDate) return alert('Укажите дату оплаты / ближайшую дату погашения по ТМЦ.');
+
 const payload={
 operation_date:operationDate,
 operation_type:type,
@@ -3663,7 +4140,8 @@ amount:a,
 project_id:projectId,
 payer_company:effectiveCompany,
 vat_included:(type==='expense'&&effectiveCompany==='ООО')?Boolean($('opVatIncluded').checked):false,
-payable_id:(type==='expense'&&article==='Погашение кредиторки')?payableId:null,
+payable_id:(type==='expense'&&(article==='Погашение кредиторки'))?payableId:null,
+credit_kind:materialCreditEnabled?'material':null,
 receivable_id:(type==='income')?receivableId:null,
 org_employee_id:(type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='employee')?orgConsumerId:null,
 org_event_id:(type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='event')?orgConsumerId:null,
@@ -3675,6 +4153,49 @@ counterparty:$('opCounterparty').value.trim()||null,
 document_number:$('opDocument').value.trim()||null,
 comment:$('opComment').value.trim()||null,
 };
+
+// ТМЦ, полученные без немедленной оплаты, оформляем как расход по объекту + отдельную кредиторку.
+// Денежного списания при этом нет: кредиторка будет погашаться отдельной операцией «Погашение кредиторки».
+const oldMaterialPayableId=(old&&old.article==='ТМЦ'&&old.credit_kind==='material')?(old.payable_id||null):null;
+let materialPayableCreated=null;
+if(materialCreditEnabled){
+  let linkedPayable=oldMaterialPayableId?aps.find(x=>String(x.id)===String(oldMaterialPayableId)):null;
+  const payPayload={
+    project_id:projectId,
+    counterparty:materialCreditor,
+    document_type:'ТМЦ / отсрочка',
+    document_number:$('opDocument').value.trim()||null,
+    document_date:operationDate,
+    amount:a,
+    paid_amount:linkedPayable?Number(linkedPayable.paid_amount||0):0,
+    due_date:materialCreditDueDate,
+    comment:$('opComment').value.trim()||'Получение ТМЦ с отсрочкой оплаты',
+    is_credit:true,
+    credit_start_date:operationDate,
+    full_repayment_date:materialCreditDueDate,
+    owner_company:effectiveCompany,
+    credit_kind:'material'
+  };
+  if(linkedPayable){
+    if(a<Number(linkedPayable.paid_amount||0)) return alert('Сумма ТМЦ не может быть меньше уже погашенной кредиторки.');
+    const {error:pe}=await sbClient.from('payables').update(payPayload).eq('id',linkedPayable.id);
+    if(pe) return alert('Не удалось обновить кредиторку по ТМЦ: '+pe.message);
+    payload.payable_id=linkedPayable.id;
+  }else{
+    const {data:pay,error:pe}=await sbClient.from('payables').insert(payPayload).select('*').single();
+    if(pe) return alert('Не удалось создать кредиторку по ТМЦ: '+pe.message);
+    materialPayableCreated=pay;
+    payload.payable_id=pay.id;
+  }
+}else if(oldMaterialPayableId){
+  const oldP=aps.find(x=>String(x.id)===String(oldMaterialPayableId));
+  if(oldP && Number(oldP.paid_amount||0)>0) return alert('Нельзя снять признак кредита с ТМЦ, пока по этой кредиторке есть погашение.');
+  if(oldP){
+    const {error:pe}=await sbClient.from('payables').delete().eq('id',oldP.id);
+    if(pe) return alert('Не удалось удалить связанную кредиторку по ТМЦ: '+pe.message);
+  }
+  payload.payable_id=null;
+}
 
 function linked(item, oldAmount, sign){
 if(!item) return;
@@ -3727,6 +4248,7 @@ payload.created_by=user.id;
 }
 
 if(error){
+if(materialPayableCreated){ await sbClient.from('payables').delete().eq('id',materialPayableCreated.id); }
 if(type==='income' && (oldReceivableId||receivableId)){
  const touched=[];
  if(oldReceivableId) touched.push({id:oldReceivableId,delta:Number(old?.amount||0)});
@@ -3784,7 +4306,11 @@ if(pe) return alert('Не удалось удалить связанную кр�
 
 if(x.operation_type==='expense' && x.payable_id){
 const p=aps.find(r=>r.id===x.payable_id);
-if(p){
+if(p && x.article==='ТМЦ' && x.credit_kind==='material'){
+  if(Number(p.paid_amount||0)>0) return alert('Нельзя удалить получение ТМЦ в кредит: по этой кредиторке уже есть погашение. Сначала удалите операции погашения.');
+  const {error:pe}=await sbClient.from('payables').delete().eq('id',p.id);
+  if(pe) return alert('Операция не удалена: не удалось удалить кредиторку по ТМЦ: '+pe.message);
+}else if(p){
 const next=Math.max(0,Number(p.paid_amount||0)-Number(x.amount||0));
 const {error:pe}=await sbClient.from('payables').update({paid_amount:next}).eq('id',p.id);
 if(pe) return alert('Операция не удалена: не удалось вернуть остаток кредиторки: '+pe.message);
@@ -4252,6 +4778,8 @@ function closeUnsignedModal(){$('unsignedModal').classList.remove('open');}
 
 function render(){
 
+if(profile?.role==='foreman'){ renderForemanProjects(); return; }
+
 const filteredOps=dashboardOperations();
 const filteredArs=dashboardReceivables();
 const filteredAps=dashboardPayables();
@@ -4266,7 +4794,7 @@ filteredOps
 
 const expense=
 filteredOps
-.filter(x=>x.operation_type==='expense')
+.filter(x=>x.operation_type==='expense'&&!isMaterialCreditExpense(x))
 .reduce(
 (s,x)=>s+Number(x.amount||0),
 0
@@ -4403,7 +4931,7 @@ ${esc(projectName(x.project_id))}
 ·
 ${esc(x.article||'')}
 ${x.subcontractor_id?' · '+esc(subcontractorName(x.subcontractor_id)):''}
-${x.cost_item_id&&x.article==='ТМЦ'&&projectMaterials.find(m=>m.id===x.cost_item_id)?' · '+esc(projectMaterials.find(m=>m.id===x.cost_item_id).name):''}
+${x.cost_item_id&&x.article==='ТМЦ'&&projectMaterials.find(m=>m.id===x.cost_item_id)?' · '+esc(projectMaterials.find(m=>m.id===x.cost_item_id).name):''}${isMaterialCreditExpense(x)?' · В КРЕДИТ':''}
 ${x.cost_item_id&&x.article==='Прочие расходы'&&projectOtherExpenses.find(o=>o.id===x.cost_item_id)?' · '+esc(projectOtherExpenses.find(o=>o.id===x.cost_item_id).name):''}
 </div>
 
@@ -4525,49 +5053,609 @@ ${esc(x.document_type||'Документ')}
 }
 
 function renderPayables(){
+  // В интерфейсе кредиторка агрегируется по кредитору: одна строка = один контрагент.
+  // Внутри раскрытия показываются все отдельные обязательства, ТМЦ, полученные в долг,
+  // и фактические погашения. Сами записи payables/operations при этом не объединяются в БД.
+  const groups={};
+  aps.forEach(x=>{
+    const name=(x.counterparty||'Контрагент').trim()||'Контрагент';
+    const key=name.toLowerCase();
+    if(!groups[key]) groups[key]={name,items:[]};
+    groups[key].items.push(x);
+  });
 
-$('apList').innerHTML=
-aps.length?
-aps.map(x=>{
-const total=Number(x.amount||0);
-const paid=Number(x.paid_amount||0);
-const remaining=Math.max(0,total-paid);
-const isCredit=x.is_credit===true;
-let termPct=0;
-if(isCredit && x.credit_start_date && x.full_repayment_date){
-const a=new Date(x.credit_start_date+'T00:00:00');
-const b=new Date(x.full_repayment_date+'T23:59:59');
-const n=new Date();
-termPct=Math.min(100,Math.max(0,((n-a)/(b-a))*100));
+  const groupRows=Object.values(groups).sort((a,b)=>a.name.localeCompare(b.name,'ru'));
+
+  $('apList').innerHTML=groupRows.length?groupRows.map((g,gi)=>{
+    const total=g.items.reduce((s,x)=>s+Number(x.amount||0),0);
+    const paid=g.items.reduce((s,x)=>s+Number(x.paid_amount||0),0);
+    const remaining=Math.max(0,total-paid);
+    const creditCount=g.items.filter(x=>x.is_credit===true).length;
+    const materialCount=g.items.filter(x=>x.credit_kind==='material').length;
+    const allDone=remaining<=0.005;
+    const payPct=total>0?Math.min(100,(paid/total)*100):0;
+
+    const detail=g.items.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))).map((x,idx)=>{
+      const xt=Number(x.amount||0), xp=Number(x.paid_amount||0), xr=Math.max(0,xt-xp);
+      const material=x.credit_kind==='material';
+      const linkedOps=ops.filter(o=>String(o.payable_id||'')===String(x.id));
+      const tmcOps=linkedOps.filter(o=>o.article==='ТМЦ' && o.credit_kind==='material');
+      const repaymentOps=linkedOps.filter(o=>o.article==='Погашение кредиторки');
+      const projectNames=[...new Set(linkedOps.map(o=>{
+        const pr=projects.find(p=>String(p.id)===String(o.project_id||x.project_id||''));
+        return pr?.name||'';
+      }).filter(Boolean))];
+
+      const tmcBlock=tmcOps.length?`<div style="margin-top:8px"><b>ТМЦ, взятые в долг:</b>${tmcOps.map(o=>{
+        const pr=projects.find(p=>String(p.id)===String(o.project_id||''));
+        return `<div class="subrow"><div><b>${fmtDate(o.operation_date)}</b> · ${esc(pr?.name||'Без объекта')}<div class="muted">${esc(o.comment||'ТМЦ')}</div></div><b>${money(o.amount)}</b></div>`;
+      }).join('')}</div>`:'';
+
+      const repaymentBlock=repaymentOps.length?`<div style="margin-top:8px"><b>Погашения:</b>${repaymentOps.map(o=>{
+        const pr=projects.find(p=>String(p.id)===String(o.project_id||''));
+        return `<div class="subrow"><div><b>${fmtDate(o.operation_date)}</b> · ${esc(pr?.name||'')}<div class="muted">${esc(o.comment||'Погашение кредиторки')}</div></div><b>${money(o.amount)}</b></div>`;
+      }).join('')}</div>`:'';
+
+      return `<details style="margin-top:8px" ${idx===0?'open':''}>
+        <summary style="cursor:pointer;font-weight:700;color:var(--navy)">
+          ${material?'ТМЦ / отсрочка':'Кредиторка'} · ${money(xr)} остаток
+        </summary>
+        <div style="margin-top:8px;padding:8px 0">
+          <div class="muted">Сумма: <b>${money(xt)}</b> · Оплачено: <b>${money(xp)}</b> · Остаток: <b>${money(xr)}</b></div>
+          <div class="muted" style="margin-top:4px">${material?'ТМЦ / отложенная оплата':'Денежное обязательство'}${x.project_id?` · Объект: ${esc(projectNames[0]||projects.find(p=>String(p.id)===String(x.project_id))?.name||'')}`:''}</div>
+          ${x.document_type||x.document_number?`<div class="muted" style="margin-top:4px">${esc(x.document_type||'Документ')}${x.document_number?' №'+esc(x.document_number):''}${x.document_date?' · '+fmtDate(x.document_date):''}</div>`:''}
+          <div class="muted" style="margin-top:4px">Срок оплаты: ${esc(x.due_date||'—')}${x.full_repayment_date?' · Полное погашение: '+esc(x.full_repayment_date):''}</div>
+          ${tmcBlock}${repaymentBlock}
+          ${x.comment?`<div class="muted" style="margin-top:7px">${esc(x.comment)}</div>`:''}
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="smallbtn" onclick="openEditAp('${x.id}')">Изменить</button>
+            <button class="smallbtn" style="color:#b42318" onclick="deleteAp('${x.id}')">Удалить</button>
+          </div>
+        </div>
+      </details>`;
+    }).join('');
+
+    return `<details class="item" style="margin-bottom:10px">
+      <summary style="cursor:pointer;list-style:none">
+        <div class="row">
+          <div>
+            <b>${esc(g.name)}</b>
+            <div class="muted">${g.items.length} обязательств${creditCount?' · кредитных: '+creditCount:''}${materialCount?' · ТМЦ в долг: '+materialCount:''}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="amount red">${money(remaining)}</div>
+            <div class="muted">из ${money(total)}</div>
+          </div>
+        </div>
+        <div class="progress" style="margin-top:8px"><div class="${allDone?'p-green':'p-blue'}" style="width:${payPct}%"></div></div>
+        <div class="muted" style="margin-top:5px">Оплачено: ${money(paid)} · Остаток: ${money(remaining)} · Нажмите для расшифровки</div>
+      </summary>
+      <div style="margin-top:10px">${detail}</div>
+    </details>`;
+  }).join(''):'<div class="empty">Кредиторки пока нет.</div>';
+
 }
-const payPct=total>0?Math.min(100,(paid/total)*100):0;
-return `<div class="item">
-<div class="row">
-<div>
-<b>${esc(x.counterparty||'Контрагент')}</b>
-<div class="muted">${esc(x.document_type||'Документ')}${x.document_number?' №'+esc(x.document_number):''}${isCredit?' · КРЕДИТ':''}</div>
-</div>
-<div class="amount red">${money(remaining)}</div>
-</div>
-${isCredit?`
-<div class="muted" style="margin-top:8px">Получатель: ${esc(x.owner_company||'ООО')} · Вид: ${x.credit_kind==='material'?'ТМЦ / отложенная оплата':'Деньги'}</div><div class="muted" style="margin-top:5px">Взято: ${money(total)} · Оплачено: ${money(paid)} · Остаток: ${money(remaining)}</div>
-<div class="progress" style="margin-top:6px"><div class="${taxBarClass(paid,total)}" style="width:${payPct}%"></div></div>
-<div class="muted" style="margin-top:8px">Срок кредита: ${esc(x.credit_start_date||'—')} → ${esc(x.full_repayment_date||'—')} · ближайшая выплата: ${esc(x.due_date||'—')}</div>
-<div class="muted" style="margin-top:5px">Прошло срока: ${termPct.toFixed(0)}%</div>
-<div class="progress" style="margin-top:6px"><div class="p-blue" style="width:${termPct}%"></div></div>
-`:`<div class="muted" style="margin-top:8px">Срок: ${x.due_date||'не указан'}</div>`}
-${x.comment?`<div class="muted" style="margin-top:7px">${esc(x.comment)}</div>`:''}
-<div style="display:flex;gap:8px;margin-top:12px">
-<button class="smallbtn" style="flex:1" onclick="openEditAp('${x.id}')">Изменить</button>
-<button class="smallbtn" style="flex:1;color:#b42318" onclick="deleteAp('${x.id}')">Удалить</button>
-</div>
-</div>`;
-}).join('')
-:'<div class="empty">Кредиторки пока нет.</div>';
 
+function ptoRoleAllowed(){
+  return ['director','finance','accountant','manager','foreman'].includes(profile?.role);
+}
+function ptoCanEdit(){ return ['director','finance','accountant','manager'].includes(profile?.role); }
+function ptoTypeName(type){
+  return ({executive_schemes:'Исполнительные схемы',aosr:'АОСР',work_log:'Журнал производства работ',cable_log:'Кабельный журнал',other:'Прочие документы'})[type]||'Прочие документы';
+}
+function ptoStatusInfo(status){
+  return ({requested:{label:'🔴 Запрос документов',cls:'requested'},in_progress:{label:'🟡 В производстве',cls:'in_progress'},signing:{label:'🔵 На подписании',cls:'signing'},signed:{label:'🟢 Подписан',cls:'signed'}})[status]||{label:'🔴 Запрос документов',cls:'requested'};
+}
+function ptoProgressInfo(doc){
+  const finalDate=doc?.final_date?new Date(doc.final_date+'T23:59:59'):null;
+  const created=doc?.created_at?new Date(doc.created_at):new Date();
+  const now=new Date();
+  const st=ptoStatusInfo(doc.status);
+  if(!finalDate||isNaN(finalDate)) return {pct:0,label:'Финальная дата не указана',cls:st.cls};
+  if(doc.status==='signed') return {pct:100,label:'Подписан',cls:'signed'};
+  const total=finalDate-created;
+  let pct=total>0?((now-created)/total)*100:(now>=finalDate?100:0);
+  pct=Math.min(100,Math.max(0,pct));
+  let label=now>finalDate?'Срок истёк':(pct>=80?'Финальная дата близко':'В сроке');
+  return {pct,label,cls:st.cls};
+}
+function renderPtoContacts(){
+  const rows=ptoContacts.filter(x=>x.project_id===currentPtoProjectId);
+  $('ptoContactsList').innerHTML=rows.length?rows.map(x=>`
+    <div class="pto-contact">
+      <div style="min-width:0">
+        <b>${esc(x.full_name)}</b>
+        ${x.position?`<div class="muted" style="margin-top:3px">${esc(x.position)}</div>`:''}
+        ${x.phone?`<div style="margin-top:4px">${esc(x.phone)}</div>`:''}
+      </div>
+      ${ptoCanEdit()?`<div class="pto-contact-actions">
+        <button onclick="openPtoContactForm('${x.id}')">Изменить</button>
+        <button style="color:#b42318" onclick="deletePtoContact('${x.id}')">Удалить</button>
+      </div>`:''}
+    </div>`).join(''):'<div class="empty" style="padding:12px">Контакты заказчика ещё не добавлены.</div>';
+}
+function ptoDocScore(doc){
+  if(doc?.status==='signed') return 5;
+  if(doc?.status==='signing') return 4;
+  if(doc?.status==='requested') return 1;
+  // Производство: 2 базовых балла + до 1 балла за приближение к финальной дате.
+  const prog=ptoProgressInfo(doc);
+  return 2 + Math.min(1, Math.max(0, Number(prog.pct||0)/100));
+}
+function ptoOverallState(projectId){
+  const rows=ptoDocuments.filter(x=>x.project_id===projectId);
+  if(!rows.length) return {score:null,label:'Нет документов',cls:'s2',count:0};
+  const avg=rows.reduce((sum,x)=>sum+ptoDocScore(x),0)/rows.length;
+  const rounded=Math.max(1,Math.min(5,Math.round(avg*10)/10));
+  const level=Math.max(1,Math.min(5,Math.round(avg)));
+  let label='Запрос документов';
+  if(avg>=4.5) label='Почти завершено';
+  else if(avg>=4) label='Все на подписании';
+  else if(avg>=3) label='Производство близко к финишу';
+  else if(avg>=2) label='В производстве';
+  return {score:rounded,label,cls:'s'+level,count:rows.length};
+}
+function ptoScoreBadge(projectId){
+  const st=ptoOverallState(projectId);
+  if(st.score===null) return `<span class="pto-score s2">ПТО · нет документов</span>`;
+  return `<span class="pto-score ${st.cls}">ПТО · ${st.score.toFixed(1)} / 5 · ${esc(st.label)}</span>`;
+}
+
+function renderPtoDocuments(){
+  const rows=ptoDocuments.filter(x=>x.project_id===currentPtoProjectId);
+  $('ptoDocumentsList').innerHTML=rows.length?rows.map(doc=>{
+    const st=ptoStatusInfo(doc.status), prog=ptoProgressInfo(doc);
+    return `<div class="pto-doc">
+      <div class="row">
+        <div style="min-width:0"><b>${esc(ptoTypeName(doc.document_type))}</b><div class="muted" style="margin-top:3px">Финальная дата: ${esc(doc.final_date||'—')}</div></div>
+        <span class="pto-status ${st.cls}">${esc(st.label)}</span>
+      </div>
+      <div class="progress" style="margin-top:10px"><div class="pto-progress ${prog.cls}" style="width:${prog.pct}%"></div></div>
+      <div class="progress-label"><div class="muted">${prog.pct.toFixed(0)}% · ${esc(prog.label)}</div><div class="muted">Создан: ${esc((doc.created_at||'').slice(0,10))}</div></div>
+      ${doc.comment?`<div class="muted" style="margin-top:7px">${esc(doc.comment)}</div>`:''}
+      ${ptoCanEdit()?`<div style="display:flex;gap:8px;margin-top:10px">
+        <button class="smallbtn" style="flex:1" onclick="openPtoDocumentForm('${doc.id}')">Изменить</button>
+        <button class="smallbtn" style="flex:1;color:#b42318" onclick="deletePtoDocument('${doc.id}')">Удалить</button>
+      </div>`:''}
+    </div>`;
+  }).join(''):'<div class="empty" style="padding:12px">Документы ПТО ещё не добавлены.</div>';
+}
+function openPtoPanel(projectId){
+  if(!ptoRoleAllowed()) return alert('Раздел ПТО доступен сотрудникам ПТО и руководству.');
+  const p=projects.find(x=>x.id===projectId);
+  if(!p) return alert('Объект не найден.');
+  currentPtoProjectId=projectId;
+  $('ptoProjectTitle').textContent=`${p.name} · ${p.customer||'Заказчик не указан'}`;
+  renderPtoContacts(); renderPtoDocuments();
+  $('ptoModeLabel').textContent=profile?.role==='foreman'?'Только просмотр':'Производство документации';
+  $('ptoModal').classList.add('open');
+}
+function openPtoDocumentForm(id){
+  if(!ptoCanEdit()||!currentPtoProjectId) return;
+  const x=id?ptoDocuments.find(d=>d.id===id):null;
+  editingPtoDocumentId=x?.id||null;
+  $('ptoDocumentFormTitle').textContent=x?'Редактировать документ ПТО':'Новый документ ПТО';
+  $('ptoDocSaveBtn').textContent=x?'Сохранить изменения':'Сохранить';
+  $('ptoDocType').value=x?.document_type||'executive_schemes';
+  $('ptoDocFinalDate').value=x?.final_date||'';
+  $('ptoDocStatus').value=x?.status||'requested';
+  $('ptoDocComment').value=x?.comment||'';
+  $('ptoDocumentModal').classList.add('open');
+}
+async function savePtoDocument(){
+  if(!ptoCanEdit()||!currentPtoProjectId) return;
+  const finalDate=$('ptoDocFinalDate').value;
+  if(!finalDate) return alert('Укажите финальную дату документа.');
+  const payload={project_id:currentPtoProjectId,document_type:$('ptoDocType').value,final_date:finalDate,status:$('ptoDocStatus').value,comment:$('ptoDocComment').value.trim()||null,updated_at:new Date().toISOString()};
+  let data,error;
+  if(editingPtoDocumentId){
+    ({error}=await sbClient.from('pto_documents').update(payload).eq('id',editingPtoDocumentId));
+    if(!error){const i=ptoDocuments.findIndex(x=>x.id===editingPtoDocumentId);if(i>=0) ptoDocuments[i]={...ptoDocuments[i],...payload};}
+  }else{
+    const user=(await sbClient.auth.getUser()).data.user;
+    payload.created_by=user?.id||null;
+    ({data,error}=await sbClient.from('pto_documents').insert(payload).select('*').single());
+    if(data&&!error) ptoDocuments.push(data);
+  }
+  if(error) return alert('Не удалось сохранить документ ПТО: '+error.message);
+  editingPtoDocumentId=null; closePtoDocumentForm(); renderPtoDocuments();
+}
+async function deletePtoDocument(id){
+  if(!ptoCanEdit()) return;
+  const x=ptoDocuments.find(d=>d.id===id);
+  if(!x||!confirm(`Удалить документ «${ptoTypeName(x.document_type)}»?`)) return;
+  const {error}=await sbClient.from('pto_documents').delete().eq('id',id);
+  if(error) return alert('Не удалось удалить документ: '+error.message);
+  ptoDocuments=ptoDocuments.filter(d=>d.id!==id); renderPtoDocuments();
+}
+function openPtoContactForm(id){
+  if(!ptoCanEdit()||!currentPtoProjectId) return;
+  const x=id?ptoContacts.find(c=>c.id===id):null;
+  editingPtoContactId=x?.id||null;
+  $('ptoContactFormTitle').textContent=x?'Редактировать контакт заказчика':'Новый контакт заказчика';
+  $('ptoContactSaveBtn').textContent=x?'Сохранить изменения':'Сохранить';
+  $('ptoContactName').value=x?.full_name||'';
+  $('ptoContactPhone').value=x?.phone||'';
+  $('ptoContactPosition').value=x?.position||'';
+  $('ptoContactModal').classList.add('open');
+}
+async function savePtoContact(){
+  if(!ptoCanEdit()||!currentPtoProjectId) return;
+  const name=$('ptoContactName').value.trim();
+  if(!name) return alert('Введите ФИО контактного лица.');
+  const payload={project_id:currentPtoProjectId,full_name:name,phone:$('ptoContactPhone').value.trim()||null,position:$('ptoContactPosition').value.trim()||null,updated_at:new Date().toISOString()};
+  let data,error;
+  if(editingPtoContactId){
+    ({error}=await sbClient.from('project_customer_contacts').update(payload).eq('id',editingPtoContactId));
+    if(!error){const i=ptoContacts.findIndex(x=>x.id===editingPtoContactId);if(i>=0) ptoContacts[i]={...ptoContacts[i],...payload};}
+  }else{
+    const user=(await sbClient.auth.getUser()).data.user;
+    payload.created_by=user?.id||null;
+    ({data,error}=await sbClient.from('project_customer_contacts').insert(payload).select('*').single());
+    if(data&&!error) ptoContacts.push(data);
+  }
+  if(error) return alert('Не удалось сохранить контакт: '+error.message);
+  editingPtoContactId=null; closePtoContactForm(); renderPtoContacts();
+}
+async function deletePtoContact(id){
+  if(!ptoCanEdit()) return;
+  const x=ptoContacts.find(c=>c.id===id);
+  if(!x||!confirm(`Удалить контакт «${x.full_name}»?`)) return;
+  const {error}=await sbClient.from('project_customer_contacts').delete().eq('id',id);
+  if(error) return alert('Не удалось удалить контакт: '+error.message);
+  ptoContacts=ptoContacts.filter(c=>c.id!==id); renderPtoContacts();
+}
+
+function workRoleAllowed(){ return ['director','finance','accountant','manager','foreman'].includes(profile?.role); }
+function workStatusInfo(s){return ({planned:{label:'Запланировано',cls:'planned'},in_progress:{label:'В производстве',cls:'in_progress'},completed:{label:'Завершено',cls:'completed'}})[s]||{label:'Запланировано',cls:'planned'};}
+function workMaterialRowsFor(id){return projectWorkMaterials.filter(x=>x.work_item_id===id);}
+function workProgressRowsFor(id){return projectWorkProgress.filter(x=>x.work_item_id===id).sort((a,b)=>String(a.progress_date).localeCompare(String(b.progress_date)));}
+function workCompletedTotal(id){const logs=workProgressRowsFor(id);if(logs.length)return logs.reduce((s,x)=>s+Number(x.completed_volume||0),0);const w=projectWorkItems.find(x=>x.id===id);return w?.status==='completed'?Number(w.completed_volume||w.planned_volume||0):0;}
+function workItemPct(w){const plan=Number(w.planned_volume||0),fact=workCompletedTotal(w.id);return plan>0?Math.min(100,(fact/plan)*100):0;}
+function workSectionRows(id){return projectWorkItems.filter(w=>w.section_id===id);}
+function workSectionPct(sec){const rows=workSectionRows(sec.id);const plan=rows.reduce((s,w)=>s+Number(w.planned_volume||0),0);const fact=rows.reduce((s,w)=>s+workCompletedTotal(w.id),0);return plan>0?Math.min(100,fact/plan*100):0;}
+function isoToday(){return new Date().toISOString().slice(0,10);}
+function dateOnly(s){return new Date((s||isoToday())+'T00:00:00');}
+function fmtDate(s){return s?dateOnly(s).toLocaleDateString('ru-RU'):'—';}
+function workDateRange(rows){
+ const vals=[]; rows.forEach(x=>{if(x.start_date)vals.push(x.start_date);if(x.end_date)vals.push(x.end_date);});
+ const today=isoToday(); if(!vals.length) return {min:dateOnly(today),max:dateOnly(today),span:86400000};
+ vals.sort(); let min=dateOnly(vals[0]),max=dateOnly(vals[vals.length-1]);
+ if(max<=min) max=new Date(min.getTime()+86400000); else max=new Date(max.getTime()+86400000);
+ return {min,max,span:max-min};
+}
+function renderWorkSummary(){
+ const rows=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId); const plan=rows.reduce((s,x)=>s+Number(x.planned_volume||0),0); const fact=rows.reduce((s,x)=>s+workCompletedTotal(x.id),0); const done=rows.filter(x=>x.status==='completed'||(Number(x.planned_volume)>0&&workItemPct(x)>=100)).length;
+ const secs=projectWorkSections.filter(x=>x.project_id===currentWorkProjectId); const tasks=projectWorkTasks.filter(x=>x.project_id===currentWorkProjectId&&x.status==='open');
+ $('workSummary').innerHTML=`<div class="work-kpi"><div class="muted">Работ</div><b>${rows.length}</b></div><div class="work-kpi"><div class="muted">Выполнено</div><b>${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</b></div><div class="work-kpi"><div class="muted">Разделов / задач</div><b>${secs.length} / ${tasks.length}</b></div>`;
+}
+function renderWorkGantt(){
+ const rows=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId); const range=workDateRange(rows); const min=range.min,max=range.max,span=range.span;
+ const now=dateOnly(isoToday()); const todayPct=Math.max(0,Math.min(100,(now-min)/span*100));
+ const header=`<div class="work-gantt-row"><div class="work-gantt-name"><b>Работа</b></div><div class="work-gantt-track" style="min-height:38px"><div style="position:absolute;left:4px;top:8px;font-size:11px;color:#738096">${min.toLocaleDateString('ru-RU')}</div><div style="position:absolute;right:4px;top:8px;font-size:11px;color:#738096">${new Date(max.getTime()-86400000).toLocaleDateString('ru-RU')}</div><div class="work-date-progress" style="left:${todayPct}%"></div></div></div>`;
+ const sectionMap=new Map(projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>[s.id,s]));
+ const sorted=[...rows].sort((a,b)=>(a.section_id||'').localeCompare(b.section_id||'')||String(a.start_date||'').localeCompare(String(b.start_date||'')));
+ const body=sorted.map(w=>{const st=workStatusInfo(w.status); const a=dateOnly(w.start_date||w.end_date||isoToday()), b=dateOnly(w.end_date||w.start_date||isoToday()); const left=Math.max(0,Math.min(100,(a-min)/span*100)); const right=Math.max(left+1.5,Math.min(100,(new Date(b.getTime()+86400000)-min)/span*100)); const width=Math.max(1.5,right-left); const pct=workItemPct(w); const elapsedRaw=(now-a)/(Math.max(86400000,b-a))*100; const elapsed=Math.max(0,Math.min(100,elapsedRaw)); const factWidth=width*(pct/100); return `<div class="work-gantt-row"><div class="work-gantt-name"><b>${esc(w.work_name)}</b>${w.section_id&&sectionMap.has(w.section_id)?`<div class="muted">${esc(sectionMap.get(w.section_id).name)}</div>`:''}<div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · факт ${workCompletedTotal(w.id).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)}</div></div><div class="work-gantt-track"><div class="work-date-progress" style="left:${todayPct}%"></div><div class="work-bar-track" style="left:${left}%;width:${width}%"><div class="work-bar-plan" style="width:100%"></div><div class="work-bar-fact" style="width:${factWidth}%"></div><div class="work-bar-label">${pct.toFixed(0)}% факт · ${elapsedRaw>=100?'срок завершён':elapsedRaw<0?'до начала':`по времени ${elapsed.toFixed(0)}%`}</div></div></div></div>`}).join('');
+ $('workGantt').innerHTML=rows.length?`<div class="work-gantt">${header}${body}</div><div class="muted" style="padding:8px 10px;font-size:11px">Красная линия — сегодня. Светлая полоса — плановый срок, синяя часть — фактически выполненный объём.</div>`:'<div class="empty" style="padding:16px">Работы ещё не добавлены. Добавьте первую работу — она появится на графике.</div>';
+}
+function renderWorkSections(){
+ const secs=projectWorkSections.filter(x=>x.project_id===currentWorkProjectId); const standalone=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId&&!x.section_id);
+ let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}%</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkItemForm(null,'${s.id}')">＋ Работа</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
+ html+=standalone.length?`<div class="work-section-card"><div class="work-section-title">Отдельные работы</div><div class="muted" style="margin-top:3px">Работы без раздела — они продолжают работать как раньше.</div>${standalone.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join('')}</div>`:'';
+ $('workSectionsList').innerHTML=html||'<div class="empty" style="padding:12px">Разделов пока нет. Можно продолжать создавать отдельные работы без раздела.</div>';
+}
+function renderWorkItems(){
+ const rows=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId); $('workItemsList').innerHTML=rows.length?rows.map(w=>{const st=workStatusInfo(w.status),fact=workCompletedTotal(w.id),pct=workItemPct(w), mats=workMaterialRowsFor(w.id); const progress=workProgressRowsFor(w.id); const sec=projectWorkSections.find(s=>s.id===w.section_id); return `<div class="work-item"><div class="row"><div style="min-width:0"><b>${esc(w.work_name)}</b><div class="muted">${sec?`Раздел: ${esc(sec.name)} · `:''}План: ${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)}</div></div><span class="status-tag ${st.cls==='completed'?'p-green':st.cls==='in_progress'?'p-orange':'p-blue'}">${esc(st.label)}</span></div><div class="progress"><div class="${pct>=100?'p-green':pct>=60?'p-blue':'p-orange'}" style="width:${pct}%"></div></div><div class="progress-label"><div class="muted">${pct.toFixed(0)}% выполнено · ${fmtDate(w.start_date)} — ${fmtDate(w.end_date)}</div><div class="muted">Фактов: ${progress.length}</div></div>${w.comment?`<div class="muted" style="margin-top:6px">${esc(w.comment)}</div>`:''}<details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">Материалы (${mats.length})</summary><div style="margin-top:8px">${mats.length?mats.map(m=>`<div class="subrow"><div>${esc(m.material_name)}</div><b>${Number(m.quantity||0).toLocaleString('ru-RU',{maximumFractionDigits:3})} ${esc(m.unit)}</b></div>`).join(''):'<div class="muted">Материалы не указаны.</div>'}</div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">История выполнения (${progress.length})</summary><div style="margin-top:8px">${progress.length?progress.map(x=>`<div class="subrow"><div><b>${fmtDate(x.progress_date)}</b>${x.comment?`<div class="muted">${esc(x.comment)}</div>`:''}</div><b>+${Number(x.completed_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:3})} ${esc(w.unit)}</b></div>`).join(''):'<div class="muted">Фактов выполнения пока нет.</div>'}</div></details><div style="display:flex;gap:7px;margin-top:9px;flex-wrap:wrap"><button class="smallbtn" onclick="openWorkProgressForm('${w.id}')">＋ Факт</button>${w.status==='completed'?'<span class="smallbtn" style="color:#16803c;background:#eefbf3;cursor:default">✓ Завершено</span>':`<button class="smallbtn" style="color:#16803c" onclick="completeWorkItem('${w.id}')">✓ Завершено</button>`}<button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkItem('${w.id}')">Удалить</button></div></div>`}).join(''):'<div class="empty" style="padding:14px">Работы ещё не добавлены.</div>';
+}
+function workTasksForCurrent(){return projectWorkTasks.filter(x=>x.project_id===currentWorkProjectId).sort((a,b)=>String(a.due_date||'9999').localeCompare(String(b.due_date||'9999')));}
+function renderWorkTasks(){const rows=workTasksForCurrent();$('workTasksList').innerHTML=rows.length?rows.map(t=>`<div class="work-task ${t.status==='done'?'done':''}"><div class="row"><div><b>${esc(t.title)}</b><div class="muted">${t.due_date?`Срок: ${fmtDate(t.due_date)}`:'Без срока'} · ${t.priority==='high'?'Высокий':t.priority==='low'?'Низкий':'Обычный'}</div></div><span class="status-tag ${t.status==='done'?'p-green':'p-orange'}">${t.status==='done'?'Готово':'Открыта'}</span></div>${t.comment?`<div class="muted" style="margin-top:5px">${esc(t.comment)}</div>`:''}<div class="work-task-actions"><button class="smallbtn" onclick="toggleWorkTask('${t.id}')">${t.status==='done'?'Вернуть в работу':'Выполнено'}</button><button class="smallbtn" onclick="openWorkTaskForm('${t.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkTask('${t.id}')">Удалить</button></div></div>`).join(''):'<div class="empty" style="padding:12px">Краткосрочных задач пока нет.</div>';}
+function calendarKey(d){return d.toISOString().slice(0,10);}
+function renderWorkCalendar(){
+ const base=currentWorkCalendarMonth||dateOnly(isoToday()); const y=base.getFullYear(),m=base.getMonth(); const first=new Date(y,m,1),start=new Date(first); const mondayOffset=(first.getDay()+6)%7; start.setDate(1-mondayOffset); const selected=currentWorkCalendarDate||isoToday(); const names=['Пн','Вт','Ср','Чт','Пт','Сб','Вс']; let cells='';
+ for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const key=calendarKey(d);const inMonth=d.getMonth()===m;const active=projectWorkItems.filter(w=>w.project_id===currentWorkProjectId&&w.start_date&&w.end_date&&w.start_date<=key&&key<=w.end_date);const closing=active.filter(w=>w.end_date===key);cells+=`<div class="work-calendar-day ${inMonth?'':'muted-day'} ${key===selected?'selected':''} ${key===isoToday()?'today':''}" onclick="selectWorkCalendarDate('${key}')"><div class="work-calendar-num">${d.getDate()}</div>${active.slice(0,2).map(w=>`<span class="work-calendar-dot">${w.end_date===key?'■ ':''}${esc(w.work_name)}</span>`).join('')}${active.length>2?`<span class="work-calendar-dot">+${active.length-2} ещё</span>`:''}</div>`;}
+ $('workCalendar').innerHTML=`<div style="padding:10px;text-align:center;font-weight:900">${first.toLocaleDateString('ru-RU',{month:'long',year:'numeric'})}</div><div class="work-calendar-head">${names.map(x=>`<div>${x}</div>`).join('')}</div><div class="work-calendar-grid">${cells}</div>`; renderWorkCalendarDetail();
+}
+function selectWorkCalendarDate(key){currentWorkCalendarDate=key;renderWorkCalendar();}
+function changeWorkCalendarMonth(delta){const d=currentWorkCalendarMonth||dateOnly(isoToday());d.setMonth(d.getMonth()+delta);currentWorkCalendarMonth=d;renderWorkCalendar();}
+function renderWorkCalendarDetail(){const key=currentWorkCalendarDate||isoToday();const rows=projectWorkItems.filter(w=>w.project_id===currentWorkProjectId&&w.start_date&&w.end_date&&w.start_date<=key&&key<=w.end_date);const starting=rows.filter(w=>w.start_date===key),closing=rows.filter(w=>w.end_date===key);$('workCalendarDetail').innerHTML=`<div class="work-calendar-detail"><b>${fmtDate(key)}</b>${rows.length?`<div style="margin-top:7px">${rows.map(w=>`<div class="subrow"><div><b>${esc(w.work_name)}</b><div class="muted">${w.start_date===key?'Начинается · ':''}${w.end_date===key?'Завершается · ':''}План ${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · факт ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join('')}</div>`:'<div class="muted" style="margin-top:6px">На эту дату запланированных работ нет.</div>'}${starting.length?`<div class="muted" style="margin-top:7px">Начинаются: ${starting.map(w=>esc(w.work_name)).join(', ')}</div>`:''}${closing.length?`<div class="muted" style="margin-top:4px">Закрываются: ${closing.map(w=>esc(w.work_name)).join(', ')}</div>`:''}</div>`;}
+function renderWorkPanel(){renderWorkSummary();renderWorkGantt();renderWorkSections();renderWorkCalendar();renderWorkTasks();renderWorkItems();}
+function openWorkPanel(projectId){if(!workRoleAllowed())return alert('Раздел «Ход работ» доступен производственному персоналу и руководству.');const p=projects.find(x=>x.id===projectId);if(!p)return alert('Объект не найден.');currentWorkProjectId=projectId;currentWorkCalendarDate=isoToday();currentWorkCalendarMonth=dateOnly(isoToday());$('workProjectTitle').textContent=`${p.name} · ${p.customer||'Заказчик не указан'}`;$('workRoleLabel').textContent=profile?.role==='foreman'?'Прораб':'Производство';const today=isoToday();$('workReportFrom').value=p.start_date||today;$('workReportTo').value=p.end_date||today;renderWorkPanel();$('workModal').classList.add('open');}
+function closeWorkModal(){$('workModal').classList.remove('open');currentWorkProjectId=null;currentWorkCalendarDate=null;currentWorkCalendarMonth=null;}
+function openWorkSectionForm(id){if(!currentWorkProjectId)return;const x=id?projectWorkSections.find(s=>s.id===id):null;editingWorkSectionId=x?.id||null;$('workSectionFormTitle').textContent=x?'Редактировать раздел':'Новый раздел работ';$('workSectionName').value=x?.name||'';$('workSectionStart').value=x?.start_date||'';$('workSectionEnd').value=x?.end_date||'';$('workSectionComment').value=x?.comment||'';$('workSectionSaveBtn').textContent=x?'Сохранить изменения':'Сохранить раздел';$('workSectionModal').classList.add('open');}
+function closeWorkSectionForm(){$('workSectionModal').classList.remove('open');editingWorkSectionId=null;}
+async function saveWorkSection(){const name=$('workSectionName').value.trim();if(!name)return alert('Введите название раздела.');const payload={project_id:currentWorkProjectId,name,start_date:$('workSectionStart').value||null,end_date:$('workSectionEnd').value||null,comment:$('workSectionComment').value.trim()||null,updated_at:new Date().toISOString()};let data,error;const user=(await sbClient.auth.getUser()).data.user;if(editingWorkSectionId){({error}=await sbClient.from('project_work_sections').update(payload).eq('id',editingWorkSectionId));const x=projectWorkSections.find(s=>s.id===editingWorkSectionId);if(x&&!error)Object.assign(x,payload);}else{({data,error}=await sbClient.from('project_work_sections').insert({...payload,created_by:user?.id||null}).select('*').single());if(data)projectWorkSections.push(data);}if(error)return alert('Не удалось сохранить раздел: '+error.message);closeWorkSectionForm();renderWorkPanel();}
+async function deleteWorkSection(id){const x=projectWorkSections.find(s=>s.id===id);if(!x)return;if(!confirm(`Удалить раздел «${x.name}»? Работы внутри останутся отдельными и будут отвязаны от раздела.`))return;const {error}=await sbClient.from('project_work_sections').delete().eq('id',id);if(error)return alert('Не удалось удалить раздел: '+error.message);projectWorkSections=projectWorkSections.filter(s=>s.id!==id);projectWorkItems.filter(w=>w.section_id===id).forEach(w=>w.section_id=null);renderWorkPanel();}
+function workCatalogCategories(){
+  return [...new Set(workCatalog.map(w=>w.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'ru'));
+}
+function renderWorkCatalogNavigation(selectedCategory,selectedWorkId){
+  const catSel=$('workCatalogCategorySelect'), workSel=$('workCatalogSelect');
+  if(!catSel||!workSel)return;
+  const categories=workCatalogCategories();
+  const category=selectedCategory||catSel.value||'';
+  catSel.innerHTML='<option value="">Выберите раздел работ</option>'+categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if(category&&categories.includes(category))catSel.value=category;
+  const rows=workCatalog.filter(w=>!category||w.category===category);
+  workSel.innerHTML='<option value="">Выберите вид работы</option>'+rows.map(w=>`<option value="${w.id}">${esc(w.name)} (${esc(w.unit)})</option>`).join('');
+  if(selectedWorkId&&rows.some(w=>w.id===selectedWorkId))workSel.value=selectedWorkId;
+}
+function onWorkCatalogCategoryChange(){
+  renderWorkCatalogNavigation($('workCatalogCategorySelect').value,'');
+  $('workUnit').value='';
+  workingWorkMaterials=[];
+  renderWorkMaterialsEditor();
+}
+function filterWorkCatalogOptions(){
+  // Совместимость со старым кодом: теперь это не поиск, а навигация по категориям.
+  renderWorkCatalogNavigation($('workCatalogCategorySelect')?.value||'', $('workCatalogSelect')?.value||'');
+}
+function primaryRuleRows(workId){return workCatalogMaterials.filter(r=>r.work_catalog_id===workId&&r.material_role==='primary');}
+function secondaryRuleRows(workId){return workCatalogMaterials.filter(r=>r.work_catalog_id===workId&&r.material_role!=='primary');}
+function defaultMaterialsForWork(workId,primaryId){
+  const rules=workCatalogMaterials.filter(r=>r.work_catalog_id===workId);
+  return rules.map(r=>{
+    let materialId=r.material_catalog_id;
+    const opts=workMaterialOptions.filter(o=>o.work_catalog_id===workId&&o.option_group===r.option_group&&o.is_active);
+    if(r.material_role!=='primary'&&opts.length){
+      const primary=primaryId||null;
+      let compatible=opts.filter(o=>!o.primary_material_catalog_id||o.primary_material_catalog_id===primary);
+      const def=compatible.find(o=>o.is_default)||compatible[0];
+      if(def?.secondary_material_catalog_id)materialId=def.secondary_material_catalog_id;
+    }
+    const m=materialCatalog.find(x=>x.id===materialId);
+    return {_key:'new-'+r.id,rule_id:r.id,material_catalog_id:materialId,material_name:m?.name||'',unit:m?.unit||'',quantity:Number(r.norm_per_unit??r.recommended_quantity??0),comment:r.comment||'',material_role:r.material_role||'secondary',dependency_group:r.dependency_group||'',option_group:r.option_group||'',is_auto_generated:true,is_manual_override:false};
+  });
+}
+function openWorkItemForm(id,sectionId){
+  if(!workRoleAllowed()||!currentWorkProjectId)return;
+  const x=id?projectWorkItems.find(w=>w.id===id):null;
+  editingWorkItemId=x?.id||null;
+  if(x){
+    workingWorkMaterials=workMaterialRowsFor(x.id).map(m=>({...m,_key:m.id,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));
+  }else workingWorkMaterials=[];
+  $('workItemFormTitle').textContent=x?'Редактировать работу':'Новая работа';
+  $('workItemSaveBtn').textContent=x?'Сохранить изменения':'Сохранить работу';
+  $('workSectionSelect').innerHTML='<option value="">Без раздела — отдельная работа</option>'+projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  $('workSectionSelect').value=x?.section_id||sectionId||'';
+  renderWorkCatalogNavigation(x?.work_catalog_id?workCatalog.find(w=>w.id===x.work_catalog_id)?.category||'':'',x?.work_catalog_id||'');
+  $('workPlannedVolume').value=x?.planned_volume??'';
+  $('workUnit').value=x?.unit||'';
+  $('workStartDate').value=x?.start_date||'';
+  $('workEndDate').value=x?.end_date||'';
+  $('workStatus').value=x?.status||'planned';
+  $('workComment').value=x?.comment||'';
+  if(!x)onWorkCatalogChange(); else renderWorkMaterialsEditor();
+  $('workItemModal').classList.add('open');
+}
+function onWorkCatalogChange(){
+  const id=$('workCatalogSelect').value;
+  const w=workCatalog.find(x=>x.id===id);
+  $('workUnit').value=w?.unit||'';
+  if(id){
+    const oldPrimary=editingWorkItemId?projectWorkItems.find(x=>x.id===editingWorkItemId)?.primary_material_catalog_id:null;
+    const primary=primaryRuleRows(id).find(r=>r.material_catalog_id===oldPrimary)||primaryRuleRows(id)[0];
+    const primaryId=primary?.material_catalog_id||null;
+    workingWorkMaterials=defaultMaterialsForWork(id,primaryId);
+    renderWorkMaterialsEditor();
+  }else{
+    workingWorkMaterials=[];
+    renderWorkMaterialsEditor();
+  }
+}
+function onPrimaryMaterialChange(i){
+  const row=workingWorkMaterials[i];
+  if(!row)return;
+  const primaryId=row.material_catalog_id;
+  const workId=$('workCatalogSelect').value;
+  const fresh=defaultMaterialsForWork(workId,primaryId);
+  workingWorkMaterials=fresh.map((r,j)=>({...r,_key:'new-'+Date.now()+'-'+j,is_manual_override:false,is_auto_generated:true}));
+  renderWorkMaterialsEditor();
+}
+function onSecondaryMaterialChange(i,value){
+  const row=workingWorkMaterials[i]; if(!row)return;
+  const m=materialCatalog.find(x=>x.id===value);
+  row.material_catalog_id=value; row.material_name=m?.name||''; row.unit=m?.unit||row.unit;
+  row.is_manual_override=true; row.is_auto_generated=false;
+  renderWorkMaterialsEditor();
+}
+function materialChoicesForRow(m){
+  const opts=m.option_group?workMaterialOptions.filter(o=>o.work_catalog_id===$('workCatalogSelect').value&&o.option_group===m.option_group&&o.is_active):[];
+  let choices;
+  if(m.material_role==='primary') {
+    const cur=materialCatalog.find(x=>x.id===m.material_catalog_id);
+    if(cur?.category==='Кабель') choices=materialCatalog.filter(x=>x.category==='Кабель').map(x=>x.id);
+    else if(cur?.category==='Провод') choices=materialCatalog.filter(x=>x.category==='Провод').map(x=>x.id);
+    else if(cur?.subtype) choices=materialCatalog.filter(x=>x.category===cur.category && x.subtype===cur.subtype).map(x=>x.id);
+    else choices=materialCatalog.filter(x=>x.category===cur?.category).map(x=>x.id);
+    if(!choices.includes(m.material_catalog_id)) choices.unshift(m.material_catalog_id);
+  } else choices=opts.length?opts.map(o=>o.secondary_material_catalog_id).filter(Boolean):materialCatalog.map(x=>x.id);
+  return [...new Set(choices)].map(id=>materialCatalog.find(x=>x.id===id)).filter(Boolean);
+}
+function materialCategoriesForRow(m){
+  return [...new Set(materialChoicesForRow(m).map(x=>x.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'ru'));
+}
+function onMaterialCategoryChange(i,value){
+  const m=workingWorkMaterials[i]; if(!m)return;
+  const list=materialChoicesForRow(m).filter(x=>!value||x.category===value);
+  const current=list.find(x=>x.id===m.material_catalog_id);
+  const next=current||list[0];
+  if(next){m.material_catalog_id=next.id;m.material_name=next.name;m.unit=next.unit;}
+  renderWorkMaterialsEditor();
+}
+function renderWorkMaterialsEditor(){
+  const el=$('workMaterialsEditor');
+  if(!workingWorkMaterials.length){el.innerHTML='<div class="muted">Для выбранной работы пока нет шаблона материалов. Можно добавить материал вручную.</div>';return;}
+  el.innerHTML=workingWorkMaterials.map((m,i)=>{
+    const list=materialChoicesForRow(m);
+    const categories=materialCategoriesForRow(m);
+    const cur=materialCatalog.find(x=>x.id===m.material_catalog_id);
+    const category=cur?.category||categories[0]||'';
+    const categoryList=categories.includes(category)?categories:categories;
+    const filtered=list.filter(x=>!category||x.category===category);
+    const selected=filtered.some(x=>x.id===m.material_catalog_id)?m.material_catalog_id:(filtered[0]?.id||m.material_catalog_id);
+    const label=m.material_role==='primary'?'Основной материал':'Вторичный материал';
+    const hint=m.material_role==='primary'?'Изменение этого материала пересчитывает зависимые материалы.':(m.is_manual_override?'✎ Изменено вручную — до смены основного материала не пересчитывается.':'Автоматически из шаблона.');
+    return `<div class="work-material-row" style="align-items:flex-start;flex-wrap:wrap;gap:6px"><div style="width:100%"><b>${label}</b><div class="muted" style="font-size:11px">${esc(hint)}</div></div><select style="flex:1;min-width:150px" onchange="onMaterialCategoryChange(${i},this.value)"><option value="">Все категории</option>${categoryList.map(c=>`<option value="${esc(c)}" ${c===category?'selected':''}>${esc(c)}</option>`).join('')}</select><select style="flex:2;min-width:190px" onchange="${m.material_role==='primary'?`workingWorkMaterials[${i}].material_catalog_id=this.value;onPrimaryMaterialChange(${i})`:`onSecondaryMaterialChange(${i},this.value)`}">${filtered.map(x=>`<option value="${x.id}" ${x.id===selected?'selected':''}>${esc(x.name)}</option>`).join('')}</select><input style="width:100px" type="number" step="0.001" min="0" value="${m.quantity??0}" onchange="workingWorkMaterials[${i}].quantity=parseFloat(this.value)||0;workingWorkMaterials[${i}].is_manual_override=true;workingWorkMaterials[${i}].is_auto_generated=false"><span class="muted">${esc(m.unit||'')}</span>${m.option_group?`<span class="muted" style="font-size:11px">${esc(m.option_group)}</span>`:''}<button class="smallbtn" onclick="workingWorkMaterials.splice(${i},1);renderWorkMaterialsEditor()">×</button></div>`;
+  }).join('');
+}
+function addWorkMaterialRow(){const m=materialCatalog[0];if(!m)return;workingWorkMaterials.push({_key:'new-'+Date.now(),material_catalog_id:m.id,material_name:m.name,unit:m.unit,quantity:0,comment:'',material_role:'secondary',is_auto_generated:false,is_manual_override:true});renderWorkMaterialsEditor();}
+async function saveWorkItem(){
+  const nameId=$('workCatalogSelect').value;const cat=workCatalog.find(x=>x.id===nameId);const planned=parseFloat($('workPlannedVolume').value)||0;
+  if(!cat)return alert('Выберите вид работы.');if(planned<=0)return alert('Укажите плановый объём больше нуля.');
+  const primary=workingWorkMaterials.find(x=>x.material_role==='primary');
+  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:$('workUnit').value||cat.unit,planned_volume:planned,start_date:$('workStartDate').value||null,end_date:$('workEndDate').value||null,status:$('workStatus').value,comment:$('workComment').value.trim()||null,primary_material_catalog_id:primary?.material_catalog_id||null,updated_at:new Date().toISOString()};
+  let row,error;const user=(await sbClient.auth.getUser()).data.user;
+  if(editingWorkItemId){({error}=await sbClient.from('project_work_items').update(payload).eq('id',editingWorkItemId));row=projectWorkItems.find(x=>x.id===editingWorkItemId);if(!error&&row)Object.assign(row,payload);}
+  else{({data:row,error}=await sbClient.from('project_work_items').insert({...payload,created_by:user?.id||null}).select('*').single());if(row&&!error)projectWorkItems.push(row);}
+  if(error)return alert('Не удалось сохранить работу: '+error.message);
+  // Если работу отметили завершённой через форму редактирования,
+  // автоматически фиксируем оставшийся объём как факт на сегодняшнюю дату.
+  // Это связывает статус «Завершено» с отчётом по фактическому выполнению.
+  if(row && payload.status==='completed'){
+    const factBefore=workCompletedTotal(row.id);
+    const planNow=Number(payload.planned_volume||row.planned_volume||0);
+    const remaining=Math.max(0,planNow-factBefore);
+    if(remaining>0){
+      const u=(await sbClient.auth.getUser()).data.user;
+      const completionFact={work_item_id:row.id,progress_date:isoToday(),completed_volume:remaining,comment:'Работа отмечена как завершённая',created_by:u?.id||null};
+      const {data:completionRow,error:completionError}=await sbClient.from('project_work_progress').insert(completionFact).select('*').single();
+      if(completionError)return alert('Работа отмечена завершённой, но не удалось записать факт для отчёта: '+completionError.message);
+      projectWorkProgress.push(completionRow);
+      row.completed_volume=planNow;
+    }
+  }
+  if(editingWorkItemId){await sbClient.from('project_work_materials').delete().eq('work_item_id',editingWorkItemId);projectWorkMaterials=projectWorkMaterials.filter(x=>x.work_item_id!==editingWorkItemId);}
+  if(row){
+    const mats=workingWorkMaterials.filter(x=>x.material_catalog_id&&Number(x.quantity||0)>0).map(x=>({work_item_id:row.id,rule_id:x.rule_id||null,material_catalog_id:x.material_catalog_id,material_name:x.material_name||materialCatalog.find(m=>m.id===x.material_catalog_id)?.name||'',unit:x.unit||materialCatalog.find(m=>m.id===x.material_catalog_id)?.unit||'',quantity:Number(x.quantity||0),comment:x.comment||null,material_role:x.material_role||'secondary',dependency_group:x.dependency_group||null,option_group:x.option_group||null,is_auto_generated:x.is_auto_generated!==false,is_manual_override:x.is_manual_override===true}));
+    if(mats.length){const {data,error:e}=await sbClient.from('project_work_materials').insert(mats).select('*');if(e)return alert('Работа сохранена, но материалы не удалось сохранить: '+e.message);projectWorkMaterials.push(...(data||[]));}
+  }
+  editingWorkItemId=null;workingWorkMaterials=[];closeWorkItemForm();renderWorkPanel();
+}
+function closeWorkItemForm(){$('workItemModal').classList.remove('open');editingWorkItemId=null;workingWorkMaterials=[];}
+async function deleteWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||!confirm(`Удалить работу «${x.work_name}» и её историю выполнения?`))return;const {error}=await sbClient.from('project_work_items').delete().eq('id',id);if(error)return alert('Не удалось удалить работу: '+error.message);projectWorkItems=projectWorkItems.filter(w=>w.id!==id);projectWorkMaterials=projectWorkMaterials.filter(m=>m.work_item_id!==id);projectWorkProgress=projectWorkProgress.filter(p=>p.work_item_id!==id);renderWorkPanel();}
+async function completeWorkItem(id){
+  const w=projectWorkItems.find(x=>x.id===id);
+  if(!w||w.status==='completed')return;
+  if(!confirm(`Отметить работу «${w.work_name}» как завершённую?`))return;
+  const plan=Number(w.planned_volume||0);
+  if(plan<=0)return alert('У работы не указан плановый объём. Сначала укажите плановый объём.');
+  const before=workCompletedTotal(w.id);
+  const remaining=Math.max(0,plan-before);
+  const now=new Date().toISOString();
+  const {error}=await sbClient.from('project_work_items').update({status:'completed',completed_volume:plan,updated_at:now}).eq('id',id);
+  if(error)return alert('Не удалось отметить работу завершённой: '+error.message);
+  w.status='completed';
+  w.completed_volume=plan;
+  w.updated_at=now;
+  if(remaining>0){
+    const u=(await sbClient.auth.getUser()).data.user;
+    const completionFact={work_item_id:id,progress_date:isoToday(),completed_volume:remaining,comment:'Работа отмечена как завершённая',created_by:u?.id||null};
+    const {data:fact,error:factError}=await sbClient.from('project_work_progress').insert(completionFact).select('*').single();
+    if(factError){
+      // Статус уже сохранён, поэтому не откатываем его; сообщаем только о проблеме с записью факта.
+      renderWorkPanel();
+      return alert('Работа завершена, но не удалось записать факт для отчёта: '+factError.message);
+    }
+    projectWorkProgress.push(fact);
+  }
+  renderWorkPanel();
+}
+
+function openWorkProgressForm(id){const w=projectWorkItems.find(x=>x.id===id);if(!w)return;currentWorkProgressItemId=id;$('workProgressTitle').textContent=`${w.work_name} · план ${Number(w.planned_volume||0)} ${w.unit}`;$('workProgressDate').value=isoToday();$('workProgressVolume').value='';$('workProgressComment').value='';$('workProgressModal').classList.add('open');}
+function closeWorkProgressForm(){$('workProgressModal').classList.remove('open');currentWorkProgressItemId=null;}
+async function saveWorkProgress(){
+const w=projectWorkItems.find(x=>x.id===currentWorkProgressItemId);if(!w)return;
+const qty=parseFloat($('workProgressVolume').value)||0;if(qty<=0)return alert('Укажите выполненный объём больше нуля.');
+const date=$('workProgressDate').value;if(!date)return alert('Укажите дату выполнения.');
+const before=workCompletedTotal(w.id),plan=Number(w.planned_volume||0);
+if(plan>0&&before+qty>plan+0.000001&&!confirm(`Факт станет ${before+qty} ${w.unit}, что больше плана ${plan} ${w.unit}. Продолжить?`))return;
+const user=(await sbClient.auth.getUser()).data.user;
+const payload={work_item_id:w.id,progress_date:date,completed_volume:qty,comment:$('workProgressComment').value.trim()||null,created_by:user?.id||null};
+const {data,error}=await sbClient.from('project_work_progress').insert(payload).select('*').single();
+if(error)return alert('Не удалось сохранить факт: '+error.message);
+projectWorkProgress.push(data);
+const total=before+qty;
+const nextStatus=total>=plan&&plan>0?'completed':'in_progress';
+const updatedAt=new Date().toISOString();
+const {error:updateError}=await sbClient.from('project_work_items').update({completed_volume:total,status:nextStatus,updated_at:updatedAt}).eq('id',w.id);
+if(updateError){
+  projectWorkProgress=projectWorkProgress.filter(x=>x.id!==data.id);
+  await sbClient.from('project_work_progress').delete().eq('id',data.id);
+  return alert('Факт не сохранён в итоговом состоянии работы: '+updateError.message);
+}
+w.completed_volume=total;w.status=nextStatus;w.updated_at=updatedAt;
+closeWorkProgressForm();renderWorkPanel();
+}
+function openWorkTaskForm(id){if(!currentWorkProjectId)return;const x=id?projectWorkTasks.find(t=>t.id===id):null;editingWorkTaskId=x?.id||null;$('workTaskFormTitle').textContent=x?'Редактировать задачу':'Новая задача';$('workTaskTitle').value=x?.title||'';$('workTaskDue').value=x?.due_date||'';$('workTaskPriority').value=x?.priority||'normal';$('workTaskComment').value=x?.comment||'';$('workTaskSaveBtn').textContent=x?'Сохранить изменения':'Сохранить задачу';$('workTaskModal').classList.add('open');}
+function closeWorkTaskForm(){$('workTaskModal').classList.remove('open');editingWorkTaskId=null;}
+async function saveWorkTask(){const title=$('workTaskTitle').value.trim();if(!title)return alert('Введите задачу.');const payload={project_id:currentWorkProjectId,title,due_date:$('workTaskDue').value||null,priority:$('workTaskPriority').value||'normal',comment:$('workTaskComment').value.trim()||null,updated_at:new Date().toISOString()};let data,error;const user=(await sbClient.auth.getUser()).data.user;if(editingWorkTaskId){({error}=await sbClient.from('project_work_tasks').update(payload).eq('id',editingWorkTaskId));const x=projectWorkTasks.find(t=>t.id===editingWorkTaskId);if(x&&!error)Object.assign(x,payload);}else{({data,error}=await sbClient.from('project_work_tasks').insert({...payload,created_by:user?.id||null}).select('*').single());if(data)projectWorkTasks.push(data);}if(error)return alert('Не удалось сохранить задачу: '+error.message);closeWorkTaskForm();renderWorkPanel();}
+async function toggleWorkTask(id){const x=projectWorkTasks.find(t=>t.id===id);if(!x)return;const status=x.status==='done'?'open':'done';const {error}=await sbClient.from('project_work_tasks').update({status,updated_at:new Date().toISOString()}).eq('id',id);if(error)return alert('Не удалось изменить задачу: '+error.message);x.status=status;renderWorkPanel();}
+async function deleteWorkTask(id){const x=projectWorkTasks.find(t=>t.id===id);if(!x||!confirm(`Удалить задачу «${x.title}»?`))return;const {error}=await sbClient.from('project_work_tasks').delete().eq('id',id);if(error)return alert('Не удалось удалить задачу: '+error.message);projectWorkTasks=projectWorkTasks.filter(t=>t.id!==id);renderWorkPanel();}
+function printWorkReport(){
+  const p=projects.find(x=>x.id===currentWorkProjectId);
+  if(!p)return;
+  const from=$('workReportFrom').value,to=$('workReportTo').value;
+  if(!from||!to||from>to)return alert('Укажите корректный период.');
+
+  const rows=projectWorkItems
+    .filter(w=>w.project_id===p.id)
+    .map(w=>{
+      const logs=workProgressRowsFor(w.id).filter(x=>x.progress_date>=from&&x.progress_date<=to);
+      const qty=logs.reduce((s,x)=>s+Number(x.completed_volume||0),0);
+      const completionDate=(w.updated_at||'').slice(0,10);
+      const completedByStatus=w.status==='completed'&&completionDate>=from&&completionDate<=to;
+      const reportQty=qty>0?qty:(completedByStatus?Number(w.completed_volume||w.planned_volume||0):0);
+      const reportLogs=logs.length?logs:[{progress_date:completionDate||from,comment:'Работа отмечена как завершённая'}];
+      return {w,logs:reportLogs,qty:reportQty,completedByStatus};
+    })
+    .filter(x=>x.qty>0&&(x.logs.length>0||x.completedByStatus));
+
+  if(!rows.length)return alert('За выбранный период завершённых или фактически выполненных работ не найдено.');
+
+  const matsByWork=new Map(rows.map(x=>[x.w.id,workMaterialRowsFor(x.w.id)]));
+  const total=rows.reduce((s,x)=>s+x.qty,0);
+  const escR=reportEsc;
+  const report=`<!doctype html><html><head><meta charset="utf-8"><title>Отчёт по выполненным работам — ${escR(p.name)}</title><style>@page{size:A4;margin:14mm}body{font-family:Arial,sans-serif;color:#172033;font-size:11px}h1{font-size:19px;margin:0 0 6px}h2{font-size:14px;margin:18px 0 7px}.muted{color:#66758a}.head{display:flex;justify-content:space-between;border-bottom:2px solid #172033;padding-bottom:10px;margin-bottom:14px}.meta{line-height:1.6}table{width:100%;border-collapse:collapse;margin-top:7px}th,td{border:1px solid #bfc7d3;padding:6px;vertical-align:top}th{background:#eef2f6;text-align:left}.total{font-weight:800;margin-top:8px}.note{margin-top:16px;padding:9px;border:1px solid #d5dbe3;background:#f8fafc}footer{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.sign{border-top:1px solid #777;padding-top:5px;margin-top:35px}.status-done{color:#16803c;font-weight:700}</style></head><body><div class="head"><div><h1>Отчёт по выполненным электромонтажным работам</h1><div class="meta"><b>Объект:</b> ${escR(p.name)}<br><b>Заказчик:</b> ${escR(p.customer||'—')}<br><b>Период:</b> ${escR(from)} — ${escR(to)}</div></div><div class="meta"><b>Сформирован:</b><br>${escR(new Date().toLocaleDateString('ru-RU'))}</div></div><h2>Выполненные работы</h2><table><thead><tr><th style="width:28px">№</th><th>Вид работы</th><th>Ед.</th><th>Объём за период</th><th>Даты / статус</th><th>Комментарий</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td>${escR(x.w.work_name)}</td><td>${escR(x.w.unit)}</td><td>${x.qty.toLocaleString('ru-RU',{maximumFractionDigits:3})}</td><td>${x.logs.map(l=>escR(l.progress_date)).join('<br>')}${x.w.status==='completed'?'<br><span class="status-done">Завершено</span>':''}</td><td>${x.logs.map(l=>escR(l.comment||'')).filter(Boolean).join('<br>')}</td></tr>`).join('')}</tbody></table><div class="total">Всего позиций: ${rows.length} · Объём: ${total.toLocaleString('ru-RU',{maximumFractionDigits:3})}</div><h2>Материалы, относящиеся к выполненным работам</h2><table><thead><tr><th>Вид работы</th><th>Материал</th><th>Ед.</th><th>Количество</th></tr></thead><tbody>${rows.flatMap(x=>matsByWork.get(x.w.id)||[]).map(m=>`<tr><td>${escR(projectWorkItems.find(w=>w.id===m.work_item_id)?.work_name||'')}</td><td>${escR(m.material_name)}</td><td>${escR(m.unit)}</td><td>${Number(m.quantity||0).toLocaleString('ru-RU',{maximumFractionDigits:3})}</td></tr>`).join('')||'<tr><td colspan="4">Материалы не указаны.</td></tr>'}</tbody></table><div class="note">Отчёт учитывает фактические записи выполнения за выбранный период. Если работа отмечена статусом «Завершено» без отдельной записи факта, в отчёт также попадает её плановый/зафиксированный объём при условии, что дата изменения статуса относится к выбранному периоду.</div><footer><div><div class="sign">Производитель работ / прораб</div></div><div><div class="sign">Сметчик / проверил</div></div></footer><script>window.onload=function(){window.print();};<\/script></body></html>`;
+  const w=window.open('','_blank');
+  if(!w)return alert('Не удалось открыть окно отчёта. Разрешите всплывающие окна.');
+  w.document.open();w.document.write(report);w.document.close();
+}
+
+function renderManagerProjects(){
+  $('projectsList').innerHTML=projects.length?projects.map(p=>{
+    const subRows=subcontractors.filter(x=>x.project_id===p.id);
+    const matRows=projectMaterials.filter(x=>x.project_id===p.id);
+    const othRows=projectOtherExpenses.filter(x=>x.project_id===p.id);
+    const works=projectWorkItems.filter(x=>x.project_id===p.id);
+    const done=works.filter(w=>w.status==='completed').length;
+    const pto=ptoDocuments.filter(x=>x.project_id===p.id).length;
+    const subPlan=subRows.reduce((s,x)=>s+Number(x.planned_amount||0),0);
+    const matPlan=matRows.reduce((s,x)=>s+Number(x.planned_amount||0),0);
+    const matFact=matRows.reduce((s,x)=>s+Number(x.actual_amount||0),0);
+    const othPlan=othRows.reduce((s,x)=>s+Number(x.planned_amount||0),0);
+    const othFact=othRows.reduce((s,x)=>s+Number(x.actual_amount||0),0);
+    const statusLabel=({planned:'Планируется',active:'В работе',completed:'Завершён',closed:'Закрыт'})[p.status]||p.status||'—';
+    return `<div class="item" style="margin-bottom:10px">
+      <div class="row"><div><b>${esc(p.name)}</b><div class="muted">${esc(p.customer||'Заказчик не указан')}</div></div><span class="pill">${esc(statusLabel)}</span></div>
+      <div class="muted" style="margin-top:8px">${p.start_date?'Начало: '+esc(p.start_date):'Начало не указано'} · ${p.end_date?'Окончание: '+esc(p.end_date):'Окончание не указано'}</div>
+      <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap">
+        <span class="status-tag p-blue">Работ: ${works.length}</span><span class="status-tag p-green">Завершено: ${done}</span><span class="status-tag p-blue">ПТО: ${pto}</span>
+      </div>
+      <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">Субподрядчики (${subRows.length}) · план ${money(subPlan)}</summary><div style="margin-top:8px">${subRows.length?subRows.map(x=>`<div class="subrow"><div><b>${esc(x.name)}</b>${x.comment?`<div class="muted">${esc(x.comment)}</div>`:''}</div><b>${money(x.planned_amount)}</b></div>`).join(''):'<div class="muted">Субподрядчики не добавлены.</div>'}</div></details>
+      <details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">ТМЦ (${matRows.length}) · план ${money(matPlan)} · факт ${money(matFact)}</summary><div style="margin-top:8px">${matRows.length?matRows.map(x=>`<div class="subrow"><div><b>${esc(x.name)}</b><div class="muted">План: ${money(x.planned_amount)} · Факт: ${money(x.actual_amount)}${x.expense_date?' · '+esc(x.expense_date):''}${x.comment?' · '+esc(x.comment):''}</div></div></div>`).join(''):'<div class="muted">ТМЦ не добавлены.</div>'}</div></details>
+      <details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">Прочие расходы (${othRows.length}) · план ${money(othPlan)} · факт ${money(othFact)}</summary><div style="margin-top:8px">${othRows.length?othRows.map(x=>`<div class="subrow"><div><b>${esc(x.name)}</b><div class="muted">План: ${money(x.planned_amount)} · Факт: ${money(x.actual_amount)}${x.expense_date?' · '+esc(x.expense_date):''}${x.comment?' · '+esc(x.comment):''}</div></div></div>`).join(''):'<div class="muted">Прочие расходы не добавлены.</div>'}</div></details>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn primary" style="flex:1;min-width:120px" onclick="openWorkPanel('${p.id}')">Ход работ</button>
+        <button class="btn secondary" style="flex:1;min-width:120px" onclick="openPtoPanel('${p.id}')">ПТО ${ptoScoreBadge(p.id)}</button>
+        <button class="btn secondary" style="flex:1;min-width:120px" onclick="openManagerCostModal('${p.id}')">＋ Расходы</button>
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty">Объектов пока нет.</div>';
 }
 
 function renderProjects(){
+if(profile?.role==='manager'){renderManagerProjects();return;}
+
 
 $('projectsList').innerHTML=
 projects.length?
@@ -4671,6 +5759,12 @@ ${esc(p.contractor_company||'ООО')} &nbsp;·&nbsp; ${esc(p.customer||'Зак�
 ${esc(p.status||'')}
 </span>
 
+</div>
+
+<div class="pto-tabbar">
+  <button class="active" type="button">Объект</button>
+  ${ptoRoleAllowed()?`<button type="button" onclick="openPtoPanel('${p.id}')">ПТО ${ptoScoreBadge(p.id)}</button>`:''}
+  ${workRoleAllowed()?`<button type="button" onclick="openWorkPanel('${p.id}')">Ход работ</button>`:''}
 </div>
 
 <div style="margin-top:12px">
@@ -5018,6 +6112,47 @@ if(o.comment) t+='  Комментарий: '+o.comment+'\n';
 }
 }
 t+='Итого прочие расходы: план '+money(s.otherPlanned)+' · факт '+money(s.otherActual)+'\n\n';
+
+// ПТО объекта
+const ptoRows=ptoDocuments.filter(x=>x.project_id===projectId).sort((a,b)=>String(a.final_date||'').localeCompare(String(b.final_date||'')));
+const ptoContactsRows=ptoContacts.filter(x=>x.project_id===projectId);
+const ptoState=ptoOverallState(projectId);
+t+='ПТО\n';
+if(ptoState.score===null){
+  t+='Общий показатель состояния ПТО: нет документов\n';
+}else{
+  t+='Общий показатель состояния ПТО: '+ptoState.score.toFixed(1)+' / 5 — '+ptoState.label+'\n';
+  t+='Расчёт: среднее значение по документам объекта.\n';
+  t+='Документов: '+ptoRows.length+'\n';
+  for(const doc of ptoRows){
+    const st=ptoStatusInfo(doc.status);
+    const prog=ptoProgressInfo(doc);
+    const score=ptoDocScore(doc);
+    t+='- '+ptoTypeName(doc.document_type)+': '+st.label.replace(/^.. /,'')+', балл '+score.toFixed(1)+' / 5, финальная дата '+fmtDate(doc.final_date)+'\n';
+    t+='  Состояние срока: '+prog.label+' · прогресс '+Math.round(prog.pct)+'%'+(doc.comment?' · '+doc.comment:'')+'\n';
+  }
+}
+t+='Контакты заказчика ПТО: '+ptoContactsRows.length+'\n';
+for(const c of ptoContactsRows){
+  t+='- '+c.full_name+(c.position?' · '+c.position:'')+(c.phone?' · '+c.phone:'')+'\n';
+}
+t+='\n';
+
+const workRows=projectWorkItems.filter(x=>x.project_id===projectId).sort((a,b)=>String(a.start_date||'').localeCompare(String(b.start_date||'')));
+t+='ХОД РАБОТ\n';
+if(!workRows.length){ t+='Работы по объекту не добавлены.\n'; }
+else{
+  const totalPlan=workRows.reduce((s,x)=>s+Number(x.planned_volume||0),0);
+  const totalFact=workRows.reduce((s,x)=>s+workCompletedTotal(x.id),0);
+  t+='Работ: '+workRows.length+' · плановый объём: '+totalPlan+' · фактический объём: '+totalFact+'\n';
+  for(const w of workRows){
+    const fact=workCompletedTotal(w.id); const pct=Number(w.planned_volume||0)>0?Math.min(100,fact/Number(w.planned_volume)*100):0;
+    t+='- '+w.work_name+': план '+w.planned_volume+' '+w.unit+', факт '+fact+' '+w.unit+', '+Math.round(pct)+'%, срок '+fmtDate(w.start_date)+' — '+fmtDate(w.end_date)+'\n';
+    if(w.comment)t+='  Комментарий: '+w.comment+'\n';
+    const wm=workMaterialRowsFor(w.id); if(wm.length){t+='  Материалы:\n';for(const m of wm)t+='    · '+m.material_name+': '+m.quantity+' '+m.unit+'\n';}
+  }
+}
+t+='\n';
 
 const upcomingEvents=sortedEvents().slice(0,5);
 t+='БЛИЖАЙШИЕ СОБЫТИЯ КОМПАНИИ\n';
