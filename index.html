@@ -6533,7 +6533,7 @@ function renderProjectDocuments(){
         ${d.comment?`<div class="muted">${esc(d.comment)}</div>`:''}
         ${reason?`<div class="status-tag p-blue" style="display:inline-block;margin-top:4px">Есть изменение цены</div>`:''}
         </div>
-        <div class="subactions"><button type="button" onclick="viewProjectDocument('${d.id}')">👁 Просмотр</button><button type="button" onclick="replaceProjectDocument('${d.id}')">↻ Заменить</button></div>
+        <div class="subactions"><button type="button" onclick="viewProjectDocument('${d.id}')">👁 Просмотр</button><button type="button" onclick="replaceProjectDocument('${d.id}')">↻ Заменить</button><button type="button" onclick="deleteProjectDocument('${d.id}')" style="color:#b42318">🗑 Удалить</button></div>
       </div>`;
     }).join(''):'<div class="muted" style="margin-top:8px">Документы не загружены.</div>';
     return `<div style="border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px"><div class="row"><b>${documentIcon(type)} ${documentTypeLabel(type)}</b>${addButton}</div>${body}</div>`;
@@ -6651,6 +6651,33 @@ function handleContractFileSelected(input){
   $('contractParseStatus').textContent='Выбран файл: '+file.name+'. Реквизиты договора заполняются вручную.';
 }
 
+
+async function deleteProjectDocument(id){
+  if(!documentsRoleAllowed())return alert('Нет доступа.');
+  const d=projectDocuments.find(x=>x.id===id);
+  if(!d)return;
+  const title=d.title||d.file_name||'документ';
+  if(!confirm('Удалить документ «'+title+'»?\n\nБудут удалены сам документ, все его версии и файлы из хранилища. Это действие нельзя отменить.'))return;
+  try{
+    const {data:versions,error:verErr}=await sbClient.from('project_document_versions').select('file_path').eq('document_id',id);
+    if(verErr)throw verErr;
+    const paths=[d.file_path,...(versions||[]).map(v=>v.file_path)].filter(Boolean);
+    const uniquePaths=[...new Set(paths)];
+    if(uniquePaths.length){
+      const {error:storageErr}=await sbClient.storage.from('project-documents').remove(uniquePaths);
+      if(storageErr)throw storageErr;
+    }
+    const {error:docErr}=await sbClient.from('project_documents').delete().eq('id',id);
+    if(docErr)throw docErr;
+    projectDocuments=projectDocuments.filter(x=>x.id!==id);
+    projectPriceHistory=projectPriceHistory.filter(h=>h.reason_document_id!==id);
+    renderProjectDocuments();
+    render();
+    alert('Документ удалён.');
+  }catch(e){
+    alert('Не удалось удалить документ: '+(e?.message||e));
+  }
+}
 
 async function viewProjectDocument(id){
   if(!documentsRoleAllowed())return alert('Нет доступа.');
