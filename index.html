@@ -778,6 +778,47 @@ onclick="openAr()">
 </div>
 </div>
 
+
+<div id="documentModal" class="modal" onclick="if(event.target===this)closeDocumentModal()">
+<div class="sheet">
+<h2 id="documentModalTitle">Документы объекта</h2>
+<div class="muted" style="margin-bottom:10px">Доступ: директор и управляющий.</div>
+<div id="projectDocumentsContent"></div>
+<button class="btn secondary" onclick="closeDocumentModal()">Закрыть</button>
+</div>
+</div>
+
+<div id="documentUploadModal" class="modal" onclick="if(event.target===this)closeDocumentUploadModal()">
+<div class="sheet">
+<h2 id="documentUploadTitle">Загрузка документа</h2>
+<div id="documentUploadHint" class="muted" style="margin-bottom:10px"></div>
+<div class="field"><label>Тип документа</label><select id="docType"><option value="contract">Договор</option><option value="estimate">Смета</option><option value="addendum">Дополнительное соглашение</option><option value="other">Прочий документ</option></select></div>
+<div class="field"><label>Название документа</label><input id="docTitle" placeholder="Например: Смета по объекту"></div>
+<div class="field"><label>Номер</label><input id="docNumber" placeholder="Для ДС — номер соглашения"></div>
+<div class="field"><label>Дата документа</label><input id="docDate" type="date"></div>
+<div class="field"><label>Комментарий</label><textarea id="docComment" rows="2" placeholder="Комментарий / основание"></textarea></div>
+<div class="field" id="docRevenueField" style="display:none"><label>Новая плановая выручка после ДС, ₽</label><input id="docNewRevenue" inputmode="decimal" placeholder="Оставьте пустым, если цена не меняется"><div class="muted" style="margin-top:5px">Если сумма отличается от текущей, приложение создаст запись в истории цены с основанием «Дополнительное соглашение».</div></div>
+<div class="field"><label>Файл</label><input id="docFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx" onchange="handleDocumentFileSelected(this)"></div>
+<button class="btn primary" id="documentUploadSaveBtn" onclick="saveDocumentUpload()">Загрузить документ</button>
+<button class="btn secondary" onclick="closeDocumentUploadModal()">Отмена</button>
+</div>
+</div>
+
+<div id="documentViewerModal" class="modal" onclick="if(event.target===this)closeDocumentViewer()">
+<div class="sheet" style="max-width:1100px;width:96vw;height:92vh;display:flex;flex-direction:column">
+<div class="row"><h2 id="documentViewerTitle" style="margin:0">Просмотр документа</h2><button class="btn secondary" style="width:auto;margin:0" onclick="closeDocumentViewer()">✕ Закрыть просмотр</button></div>
+<div id="documentViewerContent" style="flex:1;min-height:0;overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#fff"></div>
+</div>
+</div>
+
+<div id="priceHistoryModal" class="modal" onclick="if(event.target===this)closePriceHistoryModal()">
+<div class="sheet">
+<h2>История плановой выручки</h2>
+<div id="priceHistoryContent"></div>
+<button class="btn secondary" onclick="closePriceHistoryModal()">Закрыть</button>
+</div>
+</div>
+
 <div id="statementModal" class="modal" onclick="if(event.target===this)closeStatementModal()">
 <div class="sheet">
 <h2>Выписка по объекту</h2>
@@ -838,6 +879,13 @@ onclick="if(event.target===this)closeModal()">
 <div class="field">
 <label>Дата окончания</label>
 <input id="prEndDate" type="date">
+</div>
+
+<div class="field" style="border:1px solid #d9e0e8;border-radius:12px;padding:12px;background:#f8fafc">
+<label style="font-weight:700">📄 Договор</label>
+<div class="muted" style="margin-bottom:8px">Можно загрузить PDF или Word. Реквизиты договора заполняются вручную в полях выше.</div>
+<input id="contractFileInput" type="file" accept=".pdf,.doc,.docx" onchange="handleContractFileSelected(this)">
+<div id="contractParseStatus" class="muted" style="margin-top:7px">Файл будет загружен вместе с объектом.</div>
 </div>
 
 <div class="field">
@@ -1354,6 +1402,8 @@ onclick="if(event.target===this)closeModal()">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 
 const SUPABASE_URL='https://tkoxgvftneoereukiomr.supabase.co';
@@ -1422,6 +1472,13 @@ let projectWorkProgress=[];
 let projectWorkSections=[];
 let projectWorkTasks=[];
 let workMaterialOptions=[];
+let projectDocuments=[];
+let projectDocumentVersions=[];
+let projectPriceHistory=[];
+let pendingContractFile=null;
+let currentDocumentProjectId=null;
+let currentDocumentUploadProjectId=null;
+let currentViewerUrl=null;
 let currentWorkProjectId=null;
 let currentWorkCalendarDate=null;
 let currentWorkCalendarMonth=null;
@@ -1591,6 +1648,8 @@ function setupRealtime(){
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_progress'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_sections'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_tasks'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_documents'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_price_history'},scheduleRealtimeReload)
     .subscribe(status=>{
       if(status==='SUBSCRIBED') console.log('Realtime: онлайн-синхронизация подключена.');
       if(status==='CHANNEL_ERROR') console.warn('Realtime: ошибка подключения канала.');
@@ -1686,7 +1745,7 @@ profile=profileResult.data;
 // Финансовые таблицы вообще не запрашиваются из браузера.
 if(profile?.role==='foreman' || profile?.role==='manager'){
   const manager=profile?.role==='manager';
-  const [pr,sc,mat,oth,pto,contacts,ev,orgs,wc,mc,wcm,wi,wm,wp,ws,wt,wo]=await Promise.all([
+  const [pr,sc,mat,oth,pto,contacts,ev,orgs,wc,mc,wcm,wi,wm,wp,ws,wt,wo,docs,prices]=await Promise.all([
     sbClient.rpc('foreman_projects'),
     manager?sbClient.from('subcontractors').select('*').order('created_at',{ascending:true}):sbClient.rpc('foreman_subcontractors'),
     manager?sbClient.from('project_materials').select('*').order('created_at',{ascending:true}):Promise.resolve({data:[],error:null}),
@@ -1703,9 +1762,11 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
     sbClient.from('project_work_progress').select('*').order('progress_date',{ascending:true}),
     sbClient.from('project_work_sections').select('*').order('start_date',{ascending:true}),
     sbClient.from('project_work_tasks').select('*').order('due_date',{ascending:true}),
-    sbClient.from('work_material_options').select('*').eq('is_active',true)
+    sbClient.from('work_material_options').select('*').eq('is_active',true),
+    sbClient.from('project_documents').select('*').order('created_at',{ascending:false}),
+    sbClient.from('project_price_history').select('*').order('change_date',{ascending:true}).order('created_at',{ascending:true})
   ]);
-  const err=pr.error||sc.error||mat.error||oth.error||pto.error||contacts.error||ev.error||orgs.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error;
+  const err=pr.error||sc.error||mat.error||oth.error||pto.error||contacts.error||ev.error||orgs.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error;
   if(err){alert('Ошибка загрузки данных: '+err.message);return;}
   projects=pr.data||[];
   subcontractors=sc.data||[];
@@ -1724,6 +1785,9 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
   projectWorkSections=ws.data||[];
   projectWorkTasks=wt.data||[];
   workMaterialOptions=wo.data||[];
+  projectDocuments=docs.data||[];
+  projectPriceHistory=prices.data||[];
+  projectDocumentVersions=[];
   ops=[];ars=[];aps=[];creditors=[];orgEmployees=[];
   $('userName').textContent=profile?.full_name||'Пользователь';
   $('userRole').textContent=roleName(profile?.role);
@@ -1733,7 +1797,7 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
   return;
 }
 
-const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,wt,wo]=await Promise.all([
+const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,wt,wo,docs,prices]=await Promise.all([
   sbClient.from('operations').select('*').order('operation_date',{ascending:false}),
   sbClient.from('receivables').select('*').order('created_at',{ascending:false}),
   sbClient.from('payables').select('*').order('created_at',{ascending:false}),
@@ -1756,10 +1820,13 @@ const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,w
   sbClient.from('project_work_sections').select('*').order('start_date',{ascending:true}),
   sbClient.from('project_work_tasks').select('*').order('due_date',{ascending:true}),
   sbClient.from('work_material_options').select('*').eq('is_active',true),
+  sbClient.from('project_documents').select('*').order('created_at',{ascending:false}),
+  sbClient.from('project_price_history').select('*').order('change_date',{ascending:true}).order('created_at',{ascending:true}),
 ]);
-const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error||pto.error||contacts.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error;
+const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error||pto.error||contacts.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error;
 if(err){alert('Ошибка загрузки данных: '+err.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена.');return;}
 ops=o.data||[];ars=r.data||[];aps=ap.data||[];creditors=cr.data||[];projects=pr.data||[];subcontractors=sc.data||[];events=ev.data||[];projectMaterials=mat.data||[];projectOtherExpenses=oth.data||[];orgEmployees=emps.data||[];orgExpenses=orgs.data||[];ptoDocuments=pto.data||[];ptoContacts=contacts.data||[];workCatalog=wc.data||[];materialCatalog=mc.data||[];workCatalogMaterials=wcm.data||[];projectWorkItems=wi.data||[];projectWorkMaterials=wm.data||[];projectWorkProgress=wp.data||[];projectWorkSections=ws.data||[];projectWorkTasks=wt.data||[];workMaterialOptions=wo.data||[];
+projectDocuments=docs.data||[]; projectPriceHistory=prices.data||[]; projectDocumentVersions=[];
 await migrateLegacyPlannedCost();
 $('userName').textContent=profile?.full_name||'Пользователь';
 $('userRole').textContent=roleName(profile?.role);
@@ -2586,6 +2653,7 @@ preview.textContent='Налог ИП, план: '+money(revenue*0.08)+' (8% от
 function openProject(){
 
 editingProjectId=null;
+pendingContractFile=null;
 $('projectFormTitle').textContent='Новый объект';
 $('projectSaveBtn').textContent='Сохранить';
 $('projectForm').style.display='block';
@@ -2600,6 +2668,7 @@ $('prContractNumber').value='';
 $('prContractDate').value='';
 $('prStartDate').value='';
 $('prEndDate').value='';
+if($('contractFileInput'))$('contractFileInput').value=''; if($('contractParseStatus'))$('contractParseStatus').textContent='Файл будет загружен вместе с объектом.';
 $('prRevenue').value='';
 $('prStatus').value='planned';
 $('prComment').value='';
@@ -2641,6 +2710,7 @@ const x=projects.find(p=>p.id===id);
 if(!x) return alert('Объект не найден. Обновите страницу и попробуйте снова.');
 
 editingProjectId=id;
+pendingContractFile=null;
 $('projectFormTitle').textContent='Редактировать объект';
 $('projectSaveBtn').textContent='Сохранить изменения';
 $('projectForm').style.display='block';
@@ -3355,6 +3425,7 @@ projects.unshift(saved);
 }
 
 const projectId=saved.id;
+if(pendingContractFile){ try{ await uploadContractForProject(projectId,pendingContractFile); }catch(e){ alert('Объект сохранён, но договор не удалось загрузить: '+(e?.message||e)); } }
 const syncErrors=[];
 
 // ---- субподрядчики ----
@@ -5811,6 +5882,7 @@ function renderManagerProjects(){
       <details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;color:var(--navy)">Прочие расходы (${othRows.length}) · план ${money(othPlan)} · факт ${money(othFact)}</summary><div style="margin-top:8px">${othRows.length?othRows.map(x=>`<div class="subrow"><div><b>${esc(x.name)}</b><div class="muted">План: ${money(x.planned_amount)} · Факт: ${money(x.actual_amount)}${x.expense_date?' · '+esc(x.expense_date):''}${x.comment?' · '+esc(x.comment):''}</div></div></div>`).join(''):'<div class="muted">Прочие расходы не добавлены.</div>'}</div></details>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
         <button class="btn primary" style="flex:1;min-width:120px" onclick="openWorkPanel('${p.id}')">Ход работ</button>
+        <button class="btn secondary" style="flex:1;min-width:120px" onclick="openProjectDocuments('${p.id}')">📁 Документы</button>
         <button class="btn secondary" style="flex:1;min-width:120px" onclick="openPtoPanel('${p.id}')">ПТО ${ptoScoreBadge(p.id)}</button>
         <button class="btn secondary" style="flex:1;min-width:120px" onclick="openManagerCostModal('${p.id}')">＋ Расходы</button>
       </div>
@@ -5939,7 +6011,7 @@ ${esc(p.status||'')}
 </div>
 
 <b>${money(revenue)}</b>
-
+<div style="margin-top:4px"><button type="button" class="smallbtn" onclick="openPriceHistory('${p.id}')">История изменений цены</button></div>
 <div class="progress">
 <div class="${revenueState.color}" style="width:${revenueState.width}%"></div>
 </div>
@@ -6078,6 +6150,7 @@ ${renderProjectOperationsHtml(p.id)}
 </details>
 
 <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn secondary" style="flex:1;min-width:120px" onclick="openProjectDocuments('${p.id}')">📁 Документы</button>
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="openEditProject('${p.id}')">Изменить</button>
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="openProjectStatement('${p.id}')">📄 Выписка</button>
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="deleteProject('${p.id}')">Удалить</button>
@@ -6427,6 +6500,190 @@ let t='ВЫПИСКА ПО ОБЪЕКТУ\nСформирована: '+nowStr+'\
 t+='\nСУБПОДРЯДЧИКИ ('+subRows.length+')\n';for(const sub of subRows){const plan=Number(sub.planned_amount||0),paid=subcontractorPaid(sub.id);t+='- '+sub.name+': план '+money(plan)+', оплачено '+money(paid)+', остаток '+money(Math.max(0,plan-paid))+'\n';}
 t+='\nТМЦ ('+matRows.length+')\n';for(const m of matRows)t+='- '+m.name+': план '+money(Number(m.planned_amount||0))+', факт '+money(Number(m.actual_amount||0))+'\n';t+='\nПРОЧИЕ РАСХОДЫ ('+othRows.length+')\n';for(const o of othRows)t+='- '+o.name+': план '+money(Number(o.planned_amount||0))+', факт '+money(Number(o.actual_amount||0))+'\n';return t;
 }
+
+function documentsRoleAllowed(){return profile?.role==='director'||profile?.role==='manager';}
+function documentTypeLabel(t){return ({contract:'Договор',estimate:'Смета',addendum:'Дополнительное соглашение',other:'Прочий документ'})[t]||t||'Документ';}
+function documentIcon(t){return ({contract:'📄',estimate:'📊',addendum:'📝',other:'📎'})[t]||'📎';}
+function safeFileName(name){const s=String(name||'file');const ext=(s.includes('.')?'.'+s.split('.').pop().replace(/[^a-zA-Z0-9]/g,'').slice(0,12):'');const base=s.replace(/\.[^.]*$/,'').replace(/[^a-zA-Z0-9_-]/g,'_').replace(/_+/g,'_').replace(/^_+|_+$/g,'').slice(0,100)||'document';return base+ext;}
+function fileExt(name){return String(name||'').toLowerCase().split('.').pop();}
+function formatBytes(n){n=Number(n||0);if(!n)return '—';if(n<1024)return n+' Б';if(n<1024*1024)return (n/1024).toFixed(0)+' КБ';return (n/1024/1024).toFixed(1)+' МБ';}
+
+function openProjectDocuments(projectId){
+  if(!documentsRoleAllowed()) return alert('Доступ к договору, сметам и дополнительным соглашениям имеют только директор и управляющий.');
+  currentDocumentProjectId=projectId;
+  renderProjectDocuments();
+  $('documentModal').classList.add('open');
+}
+function closeDocumentModal(){ $('documentModal').classList.remove('open'); currentDocumentProjectId=null; }
+
+function renderProjectDocuments(){
+  const p=projects.find(x=>x.id===currentDocumentProjectId);
+  if(!p)return;
+  $('documentModalTitle').textContent='Документы · '+(p.name||'Объект');
+  const docs=projectDocuments.filter(d=>d.project_id===p.id);
+  const groups=['contract','estimate','addendum','other'];
+  $('projectDocumentsContent').innerHTML=groups.map(type=>{
+    const rows=docs.filter(d=>d.document_type===type);
+    const addButton=`<button class="smallbtn" type="button" onclick="openDocumentUpload('${p.id}','${type}')">＋ Добавить</button>`;
+    const body=rows.length?rows.map(d=>{
+      const reason=d.document_type==='addendum'&&projectPriceHistory.some(h=>h.reason_document_id===d.id);
+      return `<div class="subrow" style="align-items:flex-start;gap:10px;margin-top:8px">
+        <div style="flex:1"><div><b>${documentIcon(d.document_type)} ${esc(d.title||d.file_name||'Документ')}</b>${d.version_no>1?` <span class="muted">v${d.version_no}</span>`:''}</div>
+        <div class="muted">${d.document_number?'№ '+esc(d.document_number)+' · ':''}${d.document_date?fmtDate(d.document_date)+' · ':''}${esc(d.file_name||'')} · ${formatBytes(d.file_size)}</div>
+        ${d.comment?`<div class="muted">${esc(d.comment)}</div>`:''}
+        ${reason?`<div class="status-tag p-blue" style="display:inline-block;margin-top:4px">Есть изменение цены</div>`:''}
+        </div>
+        <div class="subactions"><button type="button" onclick="viewProjectDocument('${d.id}')">👁 Просмотр</button><button type="button" onclick="replaceProjectDocument('${d.id}')">↻ Заменить</button></div>
+      </div>`;
+    }).join(''):'<div class="muted" style="margin-top:8px">Документы не загружены.</div>';
+    return `<div style="border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px"><div class="row"><b>${documentIcon(type)} ${documentTypeLabel(type)}</b>${addButton}</div>${body}</div>`;
+  }).join('')+
+  `<div style="margin-top:8px;padding:10px;border-radius:10px;background:#f8fafc" class="muted">Прорабу этот раздел недоступен. Файлы хранятся в закрытом хранилище и не выдаются производственным ролям.</div>`;
+}
+
+function openDocumentUpload(projectId,type='other'){
+  if(!documentsRoleAllowed())return alert('Нет доступа.');
+  currentDocumentUploadProjectId=projectId;
+  $('documentUploadTitle').textContent='Загрузить '+documentTypeLabel(type).toLowerCase();
+  $('docType').value=type;
+  $('docTitle').value='';$('docNumber').value='';$('docDate').value='';$('docComment').value='';$('docNewRevenue').value='';$('docFile').value='';
+  $('docRevenueField').style.display=type==='addendum'?'block':'none';
+  $('documentUploadHint').textContent=type==='addendum'?'Реквизиты ДС заполняются вручную. Если ДС изменяет цену, укажите новую плановую выручку — приложение создаст историю изменения.':'Заполните реквизиты и выберите файл.';
+  $('documentUploadModal').classList.add('open');
+}
+function closeDocumentUploadModal(){$('documentUploadModal').classList.remove('open');currentDocumentUploadProjectId=null;delete $('documentUploadModal').dataset.replaceId;}
+
+function handleDocumentFileSelected(input){
+  const file=input.files?.[0];
+  if(!file)return;
+  $('documentUploadHint').textContent='Файл выбран: '+file.name+'. Все реквизиты заполняются вручную.';
+}
+
+async function saveDocumentUpload(){
+  if(!documentsRoleAllowed())return alert('Нет доступа.');
+  const projectId=currentDocumentUploadProjectId;
+  const file=$('docFile').files?.[0];
+  if(!projectId||!file)return alert('Выберите файл.');
+  const type=$('docType').value;
+  const title=$('docTitle').value.trim()||file.name;
+  const number=$('docNumber').value.trim()||null;
+  const date=$('docDate').value||null;
+  const comment=$('docComment').value.trim()||null;
+  const p=projects.find(x=>x.id===projectId);
+  const user=(await sbClient.auth.getUser()).data.user;
+  const replaceId=$('documentUploadModal').dataset.replaceId||null;
+  const existingReplace=replaceId?projectDocuments.find(x=>x.id===replaceId):null;
+  const docId=existingReplace?.id||crypto.randomUUID();
+  const version=(existingReplace?.version_no||0)+1;
+  const path=`${projectId}/${docId}/v${version}_${safeFileName(file.name)}`;
+  const btn=$('documentUploadSaveBtn');btn.disabled=true;btn.textContent='Загрузка…';
+  try{
+    const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false,contentType:file.type||undefined});
+    if(up.error)throw up.error;
+    let doc;
+    if(existingReplace){
+      const {data:updated,error:docErr}=await sbClient.from('project_documents').update({document_type:type,title,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,document_number:number,document_date:date,comment,version_no:version,is_current:true,updated_at:new Date().toISOString(),uploaded_by:user?.id||null}).eq('id',docId).select('*').single();
+      if(docErr){await sbClient.storage.from('project-documents').remove([path]);throw docErr;} doc=updated;
+    }else{
+      const {data:created,error:docErr}=await sbClient.from('project_documents').insert({id:docId,project_id:projectId,document_type:type,title,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,document_number:number,document_date:date,comment,version_no:1,is_current:true,uploaded_by:user?.id||null}).select('*').single();
+      if(docErr){await sbClient.storage.from('project-documents').remove([path]);throw docErr;} doc=created;
+    }
+    const {error:verErr}=await sbClient.from('project_document_versions').insert({document_id:docId,version_no:version,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,uploaded_by:user?.id||null});
+    if(verErr)console.warn('Не удалось записать версию документа:',verErr.message);
+    if(existingReplace){const i=projectDocuments.findIndex(x=>x.id===docId);if(i>=0)projectDocuments[i]=doc;else projectDocuments.push(doc);}else projectDocuments.unshift(doc);
+    delete $('documentUploadModal').dataset.replaceId;
+    if(type==='addendum'){
+      const raw=$('docNewRevenue').value.trim();
+      if(raw){
+        const newRevenue=parseFloat(raw.replace(/\s/g,'').replace(',','.'));
+        const oldRevenue=Number(p?.planned_revenue||0);
+        if(Number.isFinite(newRevenue)&&newRevenue!==oldRevenue){
+          const {error:phErr}=await sbClient.from('project_price_history').insert({project_id:projectId,change_date:date||isoToday(),previous_amount:oldRevenue,change_amount:newRevenue-oldRevenue,new_amount:newRevenue,reason_type:'addendum',reason_document_id:docId,reason_text:comment||('ДС №'+(number||'без номера')),created_by:user?.id||null});
+          if(phErr)throw phErr;
+          const {data:updated,error:pErr}=await sbClient.from('projects').update({planned_revenue:newRevenue,updated_at:new Date().toISOString()}).eq('id',projectId).select('*').single();
+          if(pErr)throw pErr;
+          const idx=projects.findIndex(x=>x.id===projectId);if(idx>=0)projects[idx]=updated;
+          projectPriceHistory.push({project_id:projectId,change_date:date||isoToday(),previous_amount:oldRevenue,change_amount:newRevenue-oldRevenue,new_amount:newRevenue,reason_type:'addendum',reason_document_id:docId,reason_text:comment||('ДС №'+(number||'без номера')),created_by:user?.id||null});
+        }
+      }
+    }
+    closeDocumentUploadModal();renderProjectDocuments();render();
+    alert('Документ загружен.');
+  }catch(e){alert('Не удалось загрузить документ: '+(e?.message||e));}
+  finally{btn.disabled=false;btn.textContent='Загрузить документ';}
+}
+
+function replaceProjectDocument(id){
+  const d=projectDocuments.find(x=>x.id===id);if(!d)return;
+  if(!documentsRoleAllowed())return alert('Нет доступа.');
+  currentDocumentUploadProjectId=d.project_id;
+  $('documentUploadTitle').textContent='Заменить '+documentTypeLabel(d.document_type).toLowerCase();
+  $('docType').value=d.document_type;$('docTitle').value=d.title||'';$('docNumber').value=d.document_number||'';$('docDate').value=d.document_date||'';$('docComment').value=d.comment||'';$('docNewRevenue').value='';$('docFile').value='';
+  $('docRevenueField').style.display=d.document_type==='addendum'?'block':'none';
+  $('documentUploadHint').textContent='При замене будет создана новая версия файла. Для ДС изменение цены можно указать отдельно.';
+  $('documentUploadModal').dataset.replaceId=id;
+  $('documentUploadModal').classList.add('open');
+}
+
+async function uploadContractForProject(projectId,file){
+  if(!documentsRoleAllowed())throw new Error('Нет доступа к документам.');
+  const user=(await sbClient.auth.getUser()).data.user;
+  const existing=projectDocuments.find(d=>d.project_id===projectId&&d.document_type==='contract'&&d.is_current);
+  const version=(existing?.version_no||0)+1;
+  const docId=existing?.id||crypto.randomUUID();
+  const path=`${projectId}/${docId}/v${version}_${safeFileName(file.name)}`;
+  const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false,contentType:file.type||undefined});
+  if(up.error)throw up.error;
+  if(existing){
+    await sbClient.from('project_document_versions').insert({document_id:docId,version_no:version,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,uploaded_by:user?.id||null});
+    const {data:updated,error}=await sbClient.from('project_documents').update({title:'Договор',file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,version_no:version,updated_at:new Date().toISOString(),uploaded_by:user?.id||null}).eq('id',docId).select('*').single();
+    if(error)throw error;const i=projectDocuments.findIndex(x=>x.id===docId);if(i>=0)projectDocuments[i]=updated;else projectDocuments.push(updated);
+  }else{
+    const {data:doc,error}=await sbClient.from('project_documents').insert({id:docId,project_id:projectId,document_type:'contract',title:'Договор',file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,document_number:$('prContractNumber').value.trim()||null,document_date:$('prContractDate').value||null,comment:null,version_no:1,is_current:true,uploaded_by:user?.id||null}).select('*').single();
+    if(error)throw error;projectDocuments.unshift(doc);await sbClient.from('project_document_versions').insert({document_id:docId,version_no:1,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,uploaded_by:user?.id||null});
+  }
+}
+
+function handleContractFileSelected(input){
+  const file=input.files?.[0];
+  if(!file)return;
+  pendingContractFile=file;
+  $('contractParseStatus').textContent='Выбран файл: '+file.name+'. Реквизиты договора заполняются вручную.';
+}
+
+
+async function viewProjectDocument(id){
+  if(!documentsRoleAllowed())return alert('Нет доступа.');
+  const d=projectDocuments.find(x=>x.id===id);if(!d)return;
+  const {data,error}=await sbClient.storage.from('project-documents').createSignedUrl(d.file_path,600);
+  if(error||!data?.signedUrl)return alert('Не удалось открыть документ: '+(error?.message||'нет ссылки'));
+  currentViewerUrl=data.signedUrl;$('documentViewerTitle').textContent=(d.title||d.file_name||'Документ');
+  const ext=fileExt(d.file_name);const box=$('documentViewerContent');box.innerHTML='<div class="muted" style="padding:20px">Открываю документ…</div>';
+  $('documentViewerModal').classList.add('open');
+  try{
+    if(ext==='pdf'){box.innerHTML=`<iframe src="${data.signedUrl}#toolbar=1&navpanes=0" style="width:100%;height:100%;border:0"></iframe>`;}
+    else if(ext==='xlsx'||ext==='xls'){
+      const resp=await fetch(data.signedUrl);const ab=await resp.arrayBuffer();const wb=XLSX.read(ab,{type:'array'});box.innerHTML=`<div style="padding:10px"><div id="xlsxTabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="xlsxSheet"></div></div>`;const tabs=$('xlsxTabs'),sheet=$('xlsxSheet');wb.SheetNames.forEach((name,i)=>{const b=document.createElement('button');b.className='smallbtn';b.textContent=name;b.onclick=()=>{sheet.innerHTML=XLSX.utils.sheet_to_html(wb.Sheets[name],{editable:false});};tabs.appendChild(b);if(i===0)b.click();});
+    }
+    else if(ext==='docx'){
+      const resp=await fetch(data.signedUrl);const ab=await resp.arrayBuffer();const r=await mammoth.convertToHtml({arrayBuffer:ab});box.innerHTML=`<div style="padding:20px;line-height:1.6">${r.value}</div>`;
+    }
+    else {box.innerHTML=`<div style="padding:20px">Предпросмотр формата DOC в браузере не поддерживается. <a href="${data.signedUrl}" target="_blank" rel="noopener">Открыть файл</a></div>`;}
+  }catch(e){box.innerHTML=`<div style="padding:20px">Не удалось отобразить документ. <a href="${data.signedUrl}" target="_blank" rel="noopener">Открыть файл</a></div>`;}
+}
+function closeDocumentViewer(){ $('documentViewerModal').classList.remove('open');$('documentViewerContent').innerHTML='';currentViewerUrl=null; }
+
+function openPriceHistory(projectId){
+  if(!documentsRoleAllowed())return alert('История изменения цены доступна только директору и управляющему.');
+  const p=projects.find(x=>x.id===projectId);if(!p)return;
+  const rows=projectPriceHistory.filter(x=>x.project_id===projectId);
+  $('priceHistoryContent').innerHTML=`<div class="muted" style="margin-bottom:10px">Текущая плановая выручка: <b>${money(p.planned_revenue)}</b></div>`+(rows.length?rows.map(h=>{
+    const d=projectDocuments.find(x=>x.id===h.reason_document_id);const sign=Number(h.change_amount||0)>=0?'+':'';
+    return `<div class="subrow" style="flex-direction:column;align-items:stretch;margin-bottom:8px"><div class="row"><b>${fmtDate(h.change_date)}</b><span class="status-tag ${Number(h.change_amount||0)>=0?'p-green':'p-red'}">${sign}${money(h.change_amount)}</span></div><div class="muted">Было: ${money(h.previous_amount)} · Стало: ${money(h.new_amount)}</div><div style="margin-top:4px"><b>Основание:</b> ${h.reason_type==='addendum'?'Дополнительное соглашение':(h.reason_type||'Изменение')}</div>${d?`<button class="smallbtn" style="margin-top:6px" onclick="viewProjectDocument('${d.id}')">👁 ${esc(d.title||d.file_name)}</button>`:''}${h.reason_text?`<div class="muted" style="margin-top:4px">${esc(h.reason_text)}</div>`:''}</div>`;
+  }).join(''):'<div class="muted">История изменений пока пуста. Изменения через ДС появятся здесь автоматически.</div>');
+  $('priceHistoryModal').classList.add('open');
+}
+function closePriceHistoryModal(){$('priceHistoryModal').classList.remove('open');}
 
 function openProjectStatement(projectId){
 const p=projects.find(x=>x.id===projectId); currentStatementProjectName=p?p.name:'Объект'; currentStatementText=buildStatementText(projectId); $('statementContent').innerHTML=buildStatementReportHtml(projectId); $('statementModal').classList.add('open');
