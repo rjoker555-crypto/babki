@@ -819,6 +819,13 @@ onclick="openAr()">
 </div>
 </div>
 
+<div id="vatHistoryModal" class="modal" onclick="if(event.target===this)closeVatHistoryModal()">
+<div class="sheet" style="max-width:1200px;width:96vw">
+<div class="row"><div><h2 style="margin:0">История НДС</h2><div class="muted" id="vatHistoryPeriodLabel"></div></div><button class="btn secondary" style="width:auto;margin:0" onclick="closeVatHistoryModal()">✕ Закрыть</button></div>
+<div id="vatHistoryContent" style="margin-top:12px"></div>
+</div>
+</div>
+
 <div id="statementModal" class="modal" onclick="if(event.target===this)closeStatementModal()">
 <div class="sheet">
 <h2>Выписка по объекту</h2>
@@ -2122,6 +2129,119 @@ function taxOperationDate(x){
   const d=String(x?.operation_date||'').slice(0,10);
   return /^\d{4}-\d{2}-\d{2}$/.test(d)?d:'';
 }
+function closeVatHistoryModal(){ $('vatHistoryModal').classList.remove('open'); }
+
+function vatHistoryData(period){
+  const qb=quarterBounds(period);
+  const qOps=qb?ops.filter(x=>taxOperationDate(x)>=qb.start&&taxOperationDate(x)<=qb.end):[];
+  const vatRate=0.22;
+  const incomeRows=qOps.filter(x=>x.operation_type==='income'&&operationCompanyForTax(x)==='ООО');
+  const outputRows=incomeRows.map(x=>({
+    kind:'output', operation:x, base:Number(x.amount||0), vat:Number(x.amount||0)*vatRate, reason:'Поступление ООО'
+  }));
+
+  const generalRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article!=='НДС'&&x.article!=='Налог ИП'&&x.article!=='Погашение кредиторки'&&x.article!=='ТМЦ'&&Boolean(x.vat_included));
+  const tmcCashRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.credit_kind!=='material'&&Boolean(x.vat_included));
+  // История должна совпадать с фактическим расчётом НДС объекта, включая
+  // старые операции, созданные до появления поля «С НДС». Для таких записей
+  // текущая модель расчёта сохраняет отдельные legacy-правила: ТМЦ и
+  // субподрядчики с НДС учитываются даже при отсутствии vat_included.
+  const tmcCashLegacyRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.cost_item_id&&x.credit_kind!=='material'&&!('vat_included' in x));
+  const subcontractorLegacyRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Субподрядчики'&&x.subcontractor_id&&!('vat_included' in x)&&(()=>{
+    const p=projects.find(pr=>String(pr.id)===String(x.project_id));
+    const subs=subcontractors.filter(sub=>String(sub.project_id)===String(x.project_id));
+    return Boolean(subs.find(sub=>String(sub.id)===String(x.subcontractor_id))?.has_vat);
+  })());
+  const materialRepaymentRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Погашение кредиторки'&&x.payable_id).map(x=>{
+    const payable=aps.find(p=>String(p.id)===String(x.payable_id));
+    if(!payable||payable.credit_kind!=='material') return null;
+    const source=ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material');
+    if(!source?.vat_included) return null;
+    return {kind:'material_repayment',operation:x,source,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Погашение ТМЦ в кредит'};
+  }).filter(Boolean);
+
+  const inputRows=[
+    ...generalRows.map(x=>({kind:'general',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Расход отмечен «С НДС»',status:'Учтено'})),
+    ...tmcCashRows.map(x=>({kind:'tmc_cash',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'ТМЦ оплачены сразу, отмечены «С НДС»',status:'Учтено'})),
+    ...tmcCashLegacyRows.map(x=>({kind:'tmc_cash_legacy',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Старая операция ТМЦ: учтена по историческому правилу до появления поля «С НДС»',status:'Учтено (старая операция)'})),
+    ...subcontractorLegacyRows.map(x=>({kind:'subcontractor_legacy',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Старый расход субподрядчика с признаком «С НДС»: учтён по историческому правилу',status:'Учтено (старая операция)'})),
+    ...materialRepaymentRows
+  ];
+
+  const inputIds=new Set(inputRows.map(r=>r.operation.id));
+  const excludedRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&!inputIds.has(x.id)).map(x=>{
+    let reason='Без отметки «С НДС»';
+    if(x.article==='НДС') reason='Оплата самого НДС — вычет не применяется';
+    else if(x.article==='Налог ИП') reason='Налог ИП — вычет не применяется';
+    else if(x.article==='Погашение кредиторки'){
+      const payable=aps.find(p=>String(p.id)===String(x.payable_id));
+      const source=payable?ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material'):null;
+      reason=payable?.credit_kind==='material'?(source?.vat_included?'Связано с ТМЦ в кредит — входной НДС рассчитан отдельной строкой погашения':'ТМЦ в кредит без отметки «С НДС»'):'Погашение кредиторки — входной НДС не начисляется автоматически';
+    } else if(x.article==='ТМЦ'&&x.credit_kind==='material') reason=x.vat_included?'ТМЦ получены в кредит — вычет появится при погашении':'ТМЦ в кредит без отметки «С НДС»';
+    else if(x.article==='ТМЦ'&&x.cost_item_id&&!('vat_included' in x)) reason='Старая операция ТМЦ: проверена по историческому правилу — учтена в вычете';
+    else if(x.article==='Субподрядчики'&&x.subcontractor_id&&!('vat_included' in x)){
+      const subs=subcontractors.filter(sub=>String(sub.project_id)===String(x.project_id));
+      const sub=subs.find(sub=>String(sub.id)===String(x.subcontractor_id));
+      reason=sub?.has_vat?'Старая операция субподрядчика с НДС: учтена в вычете':'У субподрядчика нет признака НДС';
+    }
+    return {operation:x,reason};
+  });
+
+  const pendingMaterialCredits=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.credit_kind==='material'&&x.vat_included).filter(x=>{
+    const payable=aps.find(p=>String(p.id)===String(x.payable_id));
+    return payable && Number(payable.paid_amount||0)<=0;
+  });
+
+  return {outputRows,inputRows,excludedRows,pendingMaterialCredits,outputTotal:outputRows.reduce((s,r)=>s+r.vat,0),inputTotal:inputRows.reduce((s,r)=>s+r.vat,0),incomeTotal:incomeRows.reduce((s,x)=>s+Number(x.amount||0),0),inputBase:inputRows.reduce((s,r)=>s+r.base,0)};
+}
+
+function openVatHistory(){
+  if(!taxVatPeriod) taxVatPeriod=currentQuarterKey();
+  const data=vatHistoryData(taxVatPeriod);
+  $('vatHistoryPeriodLabel').textContent='Период: '+quarterLabel(taxVatPeriod)+' · управленческая модель НДС ООО — 22%';
+  const rowDate=x=>fmtDate(taxOperationDate(x));
+  const projectLabel=x=>{const p=projects.find(p=>String(p.id)===String(x?.project_id));return p?.name||'Без объекта';};
+  const commonCols=(x)=>`<td>${rowDate(x)}</td><td>${esc(x.counterparty||'—')}</td><td>${esc(x.document_number||'—')}</td><td>${esc(projectLabel(x))}</td>`;
+  const outputHtml=data.outputRows.length?data.outputRows.map(r=>`<tr>${commonCols(r.operation)}<td>${money(r.base)}</td><td><b>${money(r.vat)}</b></td><td>${esc(r.operation.comment||'')}</td></tr>`).join(''):'<tr><td colspan="7" class="muted">Поступлений ООО за период нет.</td></tr>';
+  const inputHtml=data.inputRows.length?data.inputRows.map(r=>{
+    const source=r.source;
+    const sourceText=source?`ТМЦ: ${esc(source.counterparty||'—')} · ${esc(source.document_number||'—')}`:esc(r.reason);
+    const status=r.status||'Учтено';
+    return `<tr>${commonCols(r.operation)}<td>${esc(r.operation.article||'—')}</td><td>${money(r.base)}</td><td><b>${money(r.vat)}</b></td><td>${sourceText}</td><td><span class="status-tag p-green">${esc(status)}</span></td></tr>`;
+  }).join(''):'<tr><td colspan="8" class="muted">Входной НДС за период не учтён.</td></tr>';
+  const excludedHtml=data.excludedRows.length?data.excludedRows.map(r=>`<tr>${commonCols(r.operation)}<td>${esc(r.operation.article||'—')}</td><td>${money(Number(r.operation.amount||0))}</td><td>${esc(r.reason)}</td></tr>`).join(''):'<tr><td colspan="7" class="muted">Расходов ООО, исключённых из входного НДС, нет.</td></tr>';
+  const pendingHtml=data.pendingMaterialCredits.length?data.pendingMaterialCredits.map(x=>{const p=aps.find(a=>String(a.id)===String(x.payable_id));return `<tr>${commonCols(x)}<td>${money(Number(x.amount||0))}</td><td>${money(Number(x.amount||0)*0.22)}</td><td>В кредит, оплачено ${money(Number(p?.paid_amount||0))} из ${money(Number(p?.amount||0))}. Входной НДС ещё не списан.</td></tr>`}).join(''):'<tr><td colspan="7" class="muted">ТМЦ в кредит с отметкой «С НДС», ожидающих погашения, нет.</td></tr>';
+  $('vatHistoryContent').innerHTML=`
+    <div class="grid" style="margin-bottom:12px">
+      <div class="card"><div class="label">Сделок-поступлений ООО</div><div class="value">${data.outputRows.length}</div><div class="muted">База: ${money(data.incomeTotal)}</div></div>
+      <div class="card"><div class="label">Начислено НДС</div><div class="value">${money(data.outputTotal)}</div></div>
+      <div class="card"><div class="label">Операций с входным НДС</div><div class="value">${data.inputRows.length}</div><div class="muted">База: ${money(data.inputBase)}</div></div>
+      <div class="card"><div class="label">Входной НДС</div><div class="value">${money(data.inputTotal)}</div></div>
+    </div>
+    <div class="section" style="padding:10px 0">
+      <h3>1. Начисленный НДС — по каждой сделке / поступлению</h3>
+      <div style="overflow:auto"><table><thead><tr><th>Дата</th><th>Контрагент</th><th>Документ</th><th>Объект</th><th>Поступило</th><th>НДС 22%</th><th>Комментарий</th></tr></thead><tbody>${outputHtml}</tbody></table></div>
+      <div class="muted" style="margin-top:7px">Итого начислено: <b>${money(data.outputTotal)}</b></div>
+    </div>
+    <div class="section" style="padding:10px 0">
+      <h3>2. Входной НДС — по каждой операции, попавшей в вычет</h3>
+      <div class="muted" style="margin-bottom:7px">В историю включены и старые операции, созданные до введения отметки «С НДС», если они ранее учитывались расчётом по историческим правилам.</div>
+      <div style="overflow:auto"><table><thead><tr><th>Дата</th><th>Контрагент</th><th>Документ</th><th>Объект</th><th>Статья</th><th>Расход</th><th>Входной НДС</th><th>Основание</th><th>Статус</th></tr></thead><tbody>${inputHtml}</tbody></table></div>
+      <div class="muted" style="margin-top:7px">Итого входной НДС: <b>${money(data.inputTotal)}</b></div>
+    </div>
+    <div class="section" style="padding:10px 0">
+      <h3>3. Контроль — операции ООО, которые не вошли во входной НДС</h3>
+      <div class="muted" style="margin-bottom:7px">Здесь удобно проверить, не забыта ли отметка «С НДС». Часть исключений является нормальной: например, сама уплата НДС и ТМЦ в кредит до момента погашения.</div>
+      <div style="overflow:auto"><table><thead><tr><th>Дата</th><th>Контрагент</th><th>Документ</th><th>Объект</th><th>Статья</th><th>Сумма</th><th>Почему не вошло</th></tr></thead><tbody>${excludedHtml}</tbody></table></div>
+    </div>
+    <div class="section" style="padding:10px 0">
+      <h3>4. ТМЦ в кредит — НДС ожидает погашения</h3>
+      <div class="muted" style="margin-bottom:7px">Если по ТМЦ стоит «С НДС», входной НДС появляется только при фактическом погашении связанной кредиторки.</div>
+      <div style="overflow:auto"><table><thead><tr><th>Дата</th><th>Контрагент</th><th>Документ</th><th>Объект</th><th>Сумма ТМЦ</th><th>Ожидаемый НДС</th><th>Статус</th></tr></thead><tbody>${pendingHtml}</tbody></table></div>
+    </div>`;
+  $('vatHistoryModal').classList.add('open');
+}
+
 function renderTaxRegister(){
   const today=new Date();
   const todayKey=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
@@ -2170,6 +2290,7 @@ function renderTaxRegister(){
     <div class="muted" style="margin-top:8px">Поступило: ${money(oooIncome)} · начислено НДС: ${money(oooOutput)} · входной вычет: ${money(oooInput)} · оплачено: ${money(oooPaid)}</div>
     <div class="progress" style="margin-top:7px"><div class="${oooRemaining>0?'p-orange':'p-green'}" style="width:${pct(oooPaid,oooDue)}%"></div></div>
     <div class="progress-label"><span class="muted">К уплате после вычетов: ${money(oooDue)}</span><span class="status-tag ${oooRemaining>0?'p-orange':'p-green'}">${oooDue>0?pct(oooPaid,oooDue).toFixed(0)+'% оплачено':'Нет налога'}</span></div>
+    <button class="btn secondary" style="margin-top:10px;width:auto" type="button" onclick="openVatHistory()">📋 История: из каких сделок начислен и учтён входной НДС</button>
   </div>
   <div style="margin-top:16px;padding-top:12px;border-top:1px solid #edf0f4">
     <div class="row"><div><b>Налог ИП</b><div class="muted">8% от всех поступлений ИП за месяц</div></div><div class="amount red">${money(ipRemaining)}</div></div>
