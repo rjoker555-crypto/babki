@@ -61,6 +61,8 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 .fab{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom,0));border:0;border-radius:16px;background:var(--navy);color:white;padding:14px 18px;font-weight:700;box-shadow:0 8px 25px #0e2a4450;z-index:4}
 .list{padding:0 14px;max-width:100%}
 .item{background:var(--card);border-radius:14px;padding:14px;margin-bottom:9px;border:1px solid var(--line);max-width:100%;overflow:hidden}
+.project-compact{padding:0}.project-compact>summary{list-style:none;cursor:pointer;padding:13px 14px}.project-compact>summary::-webkit-details-marker{display:none}.project-compact .compact-name{font-size:16px;font-weight:900;color:#0e2a44;letter-spacing:.15px}.project-compact .compact-body{padding:0 14px 14px}.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.filter-grid input,.filter-grid select{width:100%;padding:11px;border:1px solid #dce2ea;border-radius:10px;background:#fff;font-size:14px}.proposal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.proposal-stat{background:#f5f7fa;border:1px solid var(--line);border-radius:12px;padding:10px}.proposal-stat b{font-size:19px;display:block}.proposal-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.proposal-form-grid input,.proposal-form-grid select,.proposal-form-grid textarea{width:100%;padding:11px;border:1px solid #dce2ea;border-radius:10px;font-size:14px;background:white}.proposal-form-grid .full{grid-column:1/-1}
+@media(max-width:420px){.filter-grid,.proposal-form-grid{grid-template-columns:1fr}}
 .pill{display:inline-block;padding:5px 9px;border-radius:20px;background:#eef3f8;font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .pill.tag-red{background:#fdeceb;color:var(--red)}
 .pill.tag-orange{background:#fdf1de;color:var(--orange)}
@@ -202,6 +204,9 @@ details summary{list-style:revert;padding:4px 0}
 
 /* PDF statement */
 .statement-pre{max-height:65vh;overflow:auto}.pdf-report{font-family:Arial,sans-serif;background:#fff;color:#172033;padding:4px;max-width:900px;margin:0 auto}.pdf-cover{padding:18px 20px 20px;border-bottom:3px solid #e8a324;margin-bottom:14px}.pdf-brand{font-size:11px;font-weight:800;letter-spacing:1.4px;color:#738096}.pdf-cover h1{font-size:26px;color:#0e2a44;margin:8px 0 4px}.pdf-cover h2{font-size:21px;margin:0 0 8px;color:#172033}.pdf-meta{font-size:11px;color:#738096}.pdf-section{border:1px solid #dfe5ec;border-radius:12px;padding:14px;margin:0 0 12px;break-inside:avoid}.pdf-section h3{font-size:15px;color:#0e2a44;margin:0 0 11px;padding-bottom:7px;border-bottom:2px solid #e8a324}.pdf-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pdf-info-grid>div{background:#f7f9fb;border-radius:8px;padding:9px}.pdf-info-grid span,.pdf-kpis span{display:block;font-size:9px;color:#738096;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}.pdf-info-grid b{font-size:11px}.pdf-status{display:inline-block}.pdf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}.pdf-kpis>div{border:1px solid #e3e8ef;border-radius:9px;padding:10px;background:#fff}.pdf-kpis strong{font-size:15px}.pdf-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pdf-chart{border:1px solid #e3e8ef;border-radius:9px;padding:10px}.pdf-chart h4{font-size:11px;margin:0 0 8px;color:#0e2a44}.pdf-bar-row{margin:7px 0 10px}.pdf-bar-head,.pdf-bar-foot{display:flex;justify-content:space-between;gap:8px;font-size:9px}.pdf-bar-head b{font-size:10px}.pdf-bar-foot{color:#738096;margin-top:3px}.pdf-bar{height:7px;background:#edf1f5;border-radius:8px;overflow:hidden;margin-top:4px}.pdf-bar span{display:block;height:100%;border-radius:8px;background:#1e65b7}.pdf-bar span.green{background:#1a8a4a}.pdf-bar span.orange{background:#d47b00}.pdf-bar span.blue{background:#1e65b7}.pdf-finance-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pdf-finance-strip span{background:#f7f9fb;border-radius:8px;padding:8px;font-size:10px}.pdf-item{border:1px solid #e5e9ef;border-radius:9px;padding:9px;margin:7px 0;background:#fff;break-inside:avoid}.pdf-item-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;font-size:10px}.pdf-item-head span{color:#738096;text-align:right}.pdf-small{font-size:9px;color:#68778a;margin-top:5px;line-height:1.4}.pdf-total{background:#f5f7fa;border-radius:8px;padding:9px;margin-top:8px;font-size:10px}.pdf-empty{font-size:10px;color:#738096;padding:8px}.pdf-score{display:grid;grid-template-columns:75px 1fr;gap:12px;align-items:center;background:#f7f9fb;border-radius:10px;padding:10px;margin-bottom:9px}.pdf-score-value{font-size:24px;font-weight:800;color:#0e2a44}.pdf-score-value small{font-size:10px;color:#738096}.pdf-scale{height:8px;background:#e9edf2;border-radius:8px;overflow:hidden;margin-top:7px}.pdf-scale i{display:block;height:100%;background:#1a8a4a;border-radius:8px}.pdf-contact{font-size:9px;padding:6px 8px;border-bottom:1px solid #edf0f4}.pdf-footer{font-size:8px;color:#8a95a5;text-align:center;padding:8px 0}.pdf-report *{box-sizing:border-box}@media(max-width:650px){.pdf-info-grid,.pdf-chart-grid{grid-template-columns:1fr}.pdf-kpis{grid-template-columns:1fr 1fr}.pdf-cover h1{font-size:22px}}
+#taxVatPeriod,#taxIpPeriod{position:relative;z-index:2;pointer-events:auto;cursor:pointer;display:block;width:100%;min-height:46px;padding:11px 38px 11px 12px;margin-top:6px;border:1px solid #cbd5e1;border-radius:11px;background-color:#fff;color:#172033;font-size:16px;line-height:1.3;box-sizing:border-box;appearance:auto;-webkit-appearance:menulist}
+.tax-period-control{flex:1 1 220px;min-width:0;max-width:100%}
+.tax-period-control label{display:block;font-size:13px;color:#738096;margin-bottom:2px}
 </style>
 </head>
 
@@ -364,7 +369,24 @@ style="font-size:30px;font-weight:800;margin-top:6px">
 <h1>Операции</h1>
 <div class="muted">Фактически полученные и оплаченные деньги</div>
 </div>
-
+<div class="wide card" style="margin-bottom:10px">
+ <div style="font-weight:800;margin-bottom:9px">Поиск и сводный анализ</div>
+ <div class="filter-grid">
+  <input id="opsSearch" placeholder="Поиск: контрагент, статья, объект, комментарий" oninput="renderOperations()">
+  <select id="opsTypeFilter" onchange="renderOperations()"><option value="all">Приходы и расходы</option><option value="income">Только приход</option><option value="expense">Только расход</option></select>
+  <select id="opsCompanyFilter" onchange="renderOperations()"><option value="all">Все организации</option><option value="ООО">ООО</option><option value="ИП">ИП</option></select>
+  <input id="opsCounterpartyFilter" list="opsCounterpartyOptions" placeholder="Контрагент / получатель" oninput="renderOperations()">
+  <datalist id="opsCounterpartyOptions"></datalist>
+  <input id="opsDateFrom" type="date" aria-label="Дата с" onchange="renderOperations()">
+  <input id="opsDateTo" type="date" aria-label="Дата по" onchange="renderOperations()">
+ </div>
+ <div class="proposal-stats" style="margin-top:10px">
+  <div class="proposal-stat"><span class="muted">Получено</span><b id="opsIncomeTotal" class="green">0 ₽</b><span class="muted" id="opsIncomeCount">0 операций</span></div>
+  <div class="proposal-stat"><span class="muted">Выплачено</span><b id="opsExpenseTotal" class="red">0 ₽</b><span class="muted" id="opsExpenseCount">0 операций</span></div>
+  <div class="proposal-stat"><span class="muted">Баланс периода</span><b id="opsNetTotal">0 ₽</b><span class="muted" id="opsRowsCount">0 операций</span></div>
+ </div>
+ <div class="muted" style="margin-top:7px">Контрагенты в подсказках формируются из уже сохранённых операций. Сводка пересчитывается по выбранным датам и фильтрам.</div><div id="opsCounterpartySummary" style="margin-top:10px"></div>
+</div>
 <div id="opsList" class="list"></div>
 
 <button class="fab" onclick="openOp()">＋ Операция</button>
@@ -420,13 +442,13 @@ onclick="openAr()">
 <h2>Налоги</h2>
 <div class="card" style="margin-bottom:10px">
 <div class="row" style="align-items:flex-end;gap:10px;flex-wrap:wrap">
-<div style="flex:1;min-width:220px">
-<div class="muted">НДС ООО — квартал</div>
-<select id="taxVatPeriod" onchange="renderTaxRegister()"></select>
+<div class="tax-period-control">
+<label for="taxVatPeriod" class="muted">НДС ООО — квартал</label>
+<select id="taxVatPeriod" onchange="onTaxVatPeriodChange(this.value)" aria-label="Выбрать квартал НДС ООО"></select>
 </div>
-<div style="flex:1;min-width:220px">
-<div class="muted">Налог ИП — месяц</div>
-<select id="taxIpPeriod" onchange="renderTaxRegister()"></select>
+<div class="tax-period-control">
+<label for="taxIpPeriod" class="muted">Налог ИП — месяц</label>
+<select id="taxIpPeriod" onchange="onTaxIpPeriodChange(this.value)" aria-label="Выбрать месяц налога ИП"></select>
 </div>
 </div>
 <div id="taxRegister"></div>
@@ -446,9 +468,62 @@ onclick="openAr()">
 <div class="muted">План и фактическая экономика проектов</div>
 </div>
 
-<button class="btn primary" style="margin-bottom:12px" onclick="openProject()">+ Добавить объект</button>
-
-<div id="projectsList" class="list"></div>
+<div class="wide card" style="margin-bottom:10px">
+ <div class="pto-tabbar" style="margin:0">
+  <button id="projectsTabActive" class="active" onclick="switchProjectsTab('active')">Действующие</button>
+  <button id="projectsTabKp" onclick="switchProjectsTab('kp')">КП</button>
+ </div>
+</div>
+<div id="projectsActivePane">
+ <button class="btn primary" style="margin:0 14px 10px;width:calc(100% - 28px)" onclick="openProject()">+ Добавить объект</button>
+ <div class="wide card" style="margin-bottom:10px">
+  <div class="filter-grid">
+   <input id="projectsSearch" placeholder="Поиск объекта, заказчика, город" oninput="renderProjects()">
+   <select id="projectsStatusFilter" onchange="renderProjects()"><option value="all">Все статусы</option><option value="active">В работе</option><option value="planned">Запланирован</option><option value="completed">Завершён</option><option value="closed">Закрыт</option></select>
+   <select id="projectsCompanyFilter" onchange="renderProjects()"><option value="all">ООО и ИП</option><option value="ООО">ООО</option><option value="ИП">ИП</option></select>
+   <select id="projectsSort" onchange="renderProjects()"><option value="name">По названию</option><option value="revenue">По выручке</option><option value="date">По дате начала</option></select>
+  </div>
+ </div>
+ <div id="projectsList" class="list"></div>
+</div>
+<div id="projectsKpPane" style="display:none">
+ <div class="wide card" style="margin-bottom:10px">
+  <div class="row" style="margin-bottom:10px"><b>Коммерческие предложения</b><button class="smallbtn" onclick="exportProposalsPdf()">PDF статистика</button></div>
+  <div class="proposal-stats">
+   <div class="proposal-stat"><span class="muted">В рассмотрении</span><b id="kpReviewCount">0</b></div>
+   <div class="proposal-stat"><span class="muted">Выиграли</span><b id="kpWonCount" class="green">0</b></div>
+   <div class="proposal-stat"><span class="muted">Проиграли</span><b id="kpLostCount" class="red">0</b></div>
+  </div>
+  <div class="filter-grid" style="margin-top:10px">
+   <input id="kpSearch" placeholder="Поиск: объект, заказчик, источник" oninput="renderProposals()">
+   <input id="kpCityFilter" placeholder="Город" oninput="renderProposals()">
+   <select id="kpStatusFilter" onchange="renderProposals()"><option value="all">Все статусы</option><option value="review">В рассмотрении</option><option value="won">Выиграли</option><option value="lost">Проиграли</option></select>
+   <select id="kpSegmentFilter" onchange="renderProposals()"><option value="all">Коммерция и гос.</option><option value="commercial">Коммерция</option><option value="government">Госзакупка</option></select>
+   <input id="kpDateFrom" type="date" onchange="renderProposals()"><input id="kpDateTo" type="date" onchange="renderProposals()">
+   <input id="kpSourceFilter" placeholder="Источник / площадка" oninput="renderProposals()">
+  </div>
+ </div>
+ <div class="wide card" style="margin-bottom:10px">
+  <b id="kpFormTitle">Новое КП</b>
+  <input id="kpEditId" type="hidden">
+  <div class="proposal-form-grid" style="margin-top:10px">
+   <input id="kpName" class="full" placeholder="Наименование объекта *">
+   <input id="kpCity" placeholder="Город"><input id="kpCustomer" placeholder="Заказчик">
+   <input id="kpAmount" type="number" min="0" step="0.01" placeholder="Сумма КП, ₽">
+   <select id="kpSegment"><option value="commercial">Коммерция</option><option value="government">Государственная закупка</option></select>
+   <select id="kpStatus" onchange="toggleKpLostReason()"><option value="review">В рассмотрении</option><option value="won">Выиграли</option><option value="lost">Проиграли</option></select>
+   <input id="kpSource" list="kpSourceOptions" placeholder="Источник / площадка"><datalist id="kpSourceOptions"><option value="РосТендер"><option value="СБИС"><option value="РТС-тендер"><option value="Фабрикант"><option value="B2B-Center"><option value="ЕИС / zakupki.gov.ru"><option value="ЭТП ГПБ"><option value="ТЭК-Торг"><option value="Прямой запрос заказчика"><option value="Повторный заказ / рекомендация"><option value="Другое"></datalist>
+   <input id="kpSentDate" type="date" title="Дата отправления"><input id="kpExpectedDate" type="date" title="Примерная дата рассмотрения">
+   <input id="kpDeadline" type="date" title="Срок рассмотрения">
+   <input id="kpLetter" type="file" class="full" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+   <textarea id="kpLostReason" class="full" rows="2" placeholder="Причина проигрыша (обязательно при статусе «Проиграли»)" style="display:none"></textarea>
+   <textarea id="kpComment" class="full" rows="2" placeholder="Комментарий"></textarea>
+  </div>
+  <button class="btn primary" style="margin-top:10px" onclick="saveProposal()">Сохранить КП</button>
+  <button class="btn secondary" id="kpCancelEdit" style="display:none" onclick="resetProposalForm()">Отмена редактирования</button>
+ </div>
+ <div id="kpList" class="list"></div>
+</div>
 
 </div>
 
@@ -1462,6 +1537,8 @@ let ars=[];
 let aps=[];
 let creditors=[];
 let projects=[];
+let proposals=[];
+let projectsTab="active";
 let subcontractors=[];
 let events=[];
 let projectMaterials=[];
@@ -1657,6 +1734,7 @@ function setupRealtime(){
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_tasks'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_documents'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_price_history'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'commercial_proposals'},scheduleRealtimeReload)
     .subscribe(status=>{
       if(status==='SUBSCRIBED') console.log('Realtime: онлайн-синхронизация подключена.');
       if(status==='CHANNEL_ERROR') console.warn('Realtime: ошибка подключения канала.');
@@ -1794,6 +1872,8 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
   workMaterialOptions=wo.data||[];
   projectDocuments=docs.data||[];
   projectPriceHistory=prices.data||[];
+  const kpRes=manager?await sbClient.from('commercial_proposals').select('*').order('sent_date',{ascending:false}):{data:[],error:null};
+  if(kpRes.error){console.warn('КП:',kpRes.error.message);} proposals=kpRes.data||[];
   projectDocumentVersions=[];
   ops=[];ars=[];aps=[];creditors=[];orgEmployees=[];
   $('userName').textContent=profile?.full_name||'Пользователь';
@@ -1834,6 +1914,9 @@ const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||ma
 if(err){alert('Ошибка загрузки данных: '+err.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена.');return;}
 ops=o.data||[];ars=r.data||[];aps=ap.data||[];creditors=cr.data||[];projects=pr.data||[];subcontractors=sc.data||[];events=ev.data||[];projectMaterials=mat.data||[];projectOtherExpenses=oth.data||[];orgEmployees=emps.data||[];orgExpenses=orgs.data||[];ptoDocuments=pto.data||[];ptoContacts=contacts.data||[];workCatalog=wc.data||[];materialCatalog=mc.data||[];workCatalogMaterials=wcm.data||[];projectWorkItems=wi.data||[];projectWorkMaterials=wm.data||[];projectWorkProgress=wp.data||[];projectWorkSections=ws.data||[];projectWorkTasks=wt.data||[];workMaterialOptions=wo.data||[];
 projectDocuments=docs.data||[]; projectPriceHistory=prices.data||[]; projectDocumentVersions=[];
+const kpRes=await sbClient.from('commercial_proposals').select('*').order('sent_date',{ascending:false});
+if(kpRes.error && !/commercial_proposals/.test(kpRes.error.message)) console.warn('КП:',kpRes.error.message);
+proposals=kpRes.data||[];
 await migrateLegacyPlannedCost();
 $('userName').textContent=profile?.full_name||'Пользователь';
 $('userRole').textContent=roleName(profile?.role);
@@ -1853,6 +1936,7 @@ function applyRoleUi(){
     const isOrg=txt.includes('Орг. расходы');
     btn.style.display=(isForeman||isManager)?((isProjects||(isManager&&isOrg))?'block':'none'):'';
   });
+  const kpTab=$('projectsTabKp'); if(kpTab) kpTab.style.display=isForeman?'none':'';
   if(isManager){
     window.currentPage='projects';
     document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
@@ -1887,8 +1971,7 @@ function renderForemanProjects(){
     const subs=subcontractors.filter(s=>s.project_id===p.id);
     const pto=ptoDocuments.filter(x=>x.project_id===p.id).length;
     const statusLabel=({planned:'Планируется',active:'В работе',completed:'Завершён',closed:'Закрыт'})[p.status]||p.status||'—';
-    return `<div class="item" style="margin-bottom:10px">
-      <div class="row"><div><b>${esc(p.name)}</b><div class="muted">${esc(p.customer||'Заказчик не указан')}</div></div><span class="pill">${esc(statusLabel)}</span></div>
+    return `<details class="item project-compact" style="margin-bottom:10px"><summary><div class="compact-name">${esc(p.name)}</div><div class="muted" style="margin-top:7px">${esc(statusLabel)} · Работы: ${done}/${works.length}</div><div class="progress"><div class="p-green" style="width:${works.length?Math.round(done/works.length*100):0}%"></div></div></summary><div class="compact-body">
       <div class="muted" style="margin-top:8px">${p.start_date?'Начало: '+esc(p.start_date):'Начало не указано'} · ${p.end_date?'Окончание: '+esc(p.end_date):'Окончание не указано'}</div>
       ${p.comment?`<div class="muted" style="margin-top:6px">${esc(p.comment)}</div>`:''}
       <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap">
@@ -2152,12 +2235,13 @@ function vatHistoryData(period){
     const subs=subcontractors.filter(sub=>String(sub.project_id)===String(x.project_id));
     return Boolean(subs.find(sub=>String(sub.id)===String(x.subcontractor_id))?.has_vat);
   })());
-  const materialRepaymentRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Погашение кредиторки'&&x.payable_id).map(x=>{
+  // НДС по кредиторке списываем по фактической оплате, когда галочка «С НДС» стоит именно в операции погашения.
+  // Для старых ТМЦ-кредитов сохраняем прежнее правило: отметка в исходной операции ТМЦ также учитывается при погашении.
+  const payableRepaymentRows=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Погашение кредиторки'&&x.payable_id).map(x=>{
     const payable=aps.find(p=>String(p.id)===String(x.payable_id));
-    if(!payable||payable.credit_kind!=='material') return null;
-    const source=ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material');
-    if(!source?.vat_included) return null;
-    return {kind:'material_repayment',operation:x,source,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Погашение ТМЦ в кредит'};
+    const source=payable?.credit_kind==='material'?ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material'):null;
+    if(!Boolean(x.vat_included)&&!Boolean(source?.vat_included)) return null;
+    return {kind:'payable_repayment',operation:x,source,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:x.vat_included?'Погашение кредиторки: в операции отмечено «С НДС»':'Погашение ТМЦ в кредит с отметкой «С НДС»',status:'Учтено при оплате'};
   }).filter(Boolean);
 
   const inputRows=[
@@ -2165,7 +2249,7 @@ function vatHistoryData(period){
     ...tmcCashRows.map(x=>({kind:'tmc_cash',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'ТМЦ оплачены сразу, отмечены «С НДС»',status:'Учтено'})),
     ...tmcCashLegacyRows.map(x=>({kind:'tmc_cash_legacy',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Старая операция ТМЦ: учтена по историческому правилу до появления поля «С НДС»',status:'Учтено (старая операция)'})),
     ...subcontractorLegacyRows.map(x=>({kind:'subcontractor_legacy',operation:x,base:Number(x.amount||0),vat:Number(x.amount||0)*vatRate,reason:'Старый расход субподрядчика с признаком «С НДС»: учтён по историческому правилу',status:'Учтено (старая операция)'})),
-    ...materialRepaymentRows
+    ...payableRepaymentRows
   ];
 
   const inputIds=new Set(inputRows.map(r=>r.operation.id));
@@ -2176,7 +2260,7 @@ function vatHistoryData(period){
     else if(x.article==='Погашение кредиторки'){
       const payable=aps.find(p=>String(p.id)===String(x.payable_id));
       const source=payable?ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material'):null;
-      reason=payable?.credit_kind==='material'?(source?.vat_included?'Связано с ТМЦ в кредит — входной НДС рассчитан отдельной строкой погашения':'ТМЦ в кредит без отметки «С НДС»'):'Погашение кредиторки — входной НДС не начисляется автоматически';
+      reason=x.vat_included?'В операции погашения не найдено связанное начисление — проверьте организацию ООО':(payable?.credit_kind==='material'?(source?.vat_included?'Погашение ТМЦ в кредит: входной НДС учтён по отметке исходной операции':'ТМЦ в кредит без отметки «С НДС»'):'В операции погашения не установлена отметка «С НДС»');
     } else if(x.article==='ТМЦ'&&x.credit_kind==='material') reason=x.vat_included?'ТМЦ получены в кредит — вычет появится при погашении':'ТМЦ в кредит без отметки «С НДС»';
     else if(x.article==='ТМЦ'&&x.cost_item_id&&!('vat_included' in x)) reason='Старая операция ТМЦ: проверена по историческому правилу — учтена в вычете';
     else if(x.article==='Субподрядчики'&&x.subcontractor_id&&!('vat_included' in x)){
@@ -2187,10 +2271,11 @@ function vatHistoryData(period){
     return {operation:x,reason};
   });
 
-  const pendingMaterialCredits=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.credit_kind==='material'&&x.vat_included).filter(x=>{
+  const pendingMaterialCredits=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.credit_kind==='material'&&x.vat_included).map(x=>{
     const payable=aps.find(p=>String(p.id)===String(x.payable_id));
-    return payable && Number(payable.paid_amount||0)<=0;
-  });
+    const remaining=payable?Math.max(0,Number(payable.amount||0)-Number(payable.paid_amount||0)):0;
+    return payable&&remaining>0.005?{...x,remainingBase:remaining,remainingVat:remaining*vatRate}:null;
+  }).filter(Boolean);
 
   return {outputRows,inputRows,excludedRows,pendingMaterialCredits,outputTotal:outputRows.reduce((s,r)=>s+r.vat,0),inputTotal:inputRows.reduce((s,r)=>s+r.vat,0),incomeTotal:incomeRows.reduce((s,x)=>s+Number(x.amount||0),0),inputBase:inputRows.reduce((s,r)=>s+r.base,0)};
 }
@@ -2210,7 +2295,7 @@ function openVatHistory(){
     return `<tr>${commonCols(r.operation)}<td>${esc(r.operation.article||'—')}</td><td>${money(r.base)}</td><td><b>${money(r.vat)}</b></td><td>${sourceText}</td><td><span class="status-tag p-green">${esc(status)}</span></td></tr>`;
   }).join(''):'<tr><td colspan="8" class="muted">Входной НДС за период не учтён.</td></tr>';
   const excludedHtml=data.excludedRows.length?data.excludedRows.map(r=>`<tr>${commonCols(r.operation)}<td>${esc(r.operation.article||'—')}</td><td>${money(Number(r.operation.amount||0))}</td><td>${esc(r.reason)}</td></tr>`).join(''):'<tr><td colspan="7" class="muted">Расходов ООО, исключённых из входного НДС, нет.</td></tr>';
-  const pendingHtml=data.pendingMaterialCredits.length?data.pendingMaterialCredits.map(x=>{const p=aps.find(a=>String(a.id)===String(x.payable_id));return `<tr>${commonCols(x)}<td>${money(Number(x.amount||0))}</td><td>${money(Number(x.amount||0)*0.22)}</td><td>В кредит, оплачено ${money(Number(p?.paid_amount||0))} из ${money(Number(p?.amount||0))}. Входной НДС ещё не списан.</td></tr>`}).join(''):'<tr><td colspan="7" class="muted">ТМЦ в кредит с отметкой «С НДС», ожидающих погашения, нет.</td></tr>';
+  const pendingHtml=data.pendingMaterialCredits.length?data.pendingMaterialCredits.map(x=>{const p=aps.find(a=>String(a.id)===String(x.payable_id));return `<tr>${commonCols(x)}<td>${money(Number(x.remainingBase||0))}</td><td>${money(Number(x.remainingVat||0))}</td><td>Остаток в кредит. Оплачено ${money(Number(p?.paid_amount||0))} из ${money(Number(p?.amount||0))}; НДС по остатку ожидает погашения.</td></tr>`}).join(''):'<tr><td colspan="7" class="muted">ТМЦ в кредит с отметкой «С НДС», ожидающих погашения, нет.</td></tr>';
   $('vatHistoryContent').innerHTML=`
     <div class="grid" style="margin-bottom:12px">
       <div class="card"><div class="label">Сделок-поступлений ООО</div><div class="value">${data.outputRows.length}</div><div class="muted">База: ${money(data.incomeTotal)}</div></div>
@@ -2242,11 +2327,42 @@ function openVatHistory(){
   $('vatHistoryModal').classList.add('open');
 }
 
+function onTaxVatPeriodChange(value){
+  // Сохраняем выбранный квартал до повторной отрисовки, иначе select пересоздаётся
+  // со старым значением и пользователь не может открыть историю прошлого квартала.
+  taxVatPeriod=String(value||'');
+  renderTaxRegister();
+}
+function onTaxIpPeriodChange(value){
+  // Аналогично сохраняем выбранный месяц налога ИП.
+  taxIpPeriod=String(value||'');
+  renderTaxRegister();
+}
+
 function renderTaxRegister(){
   const today=new Date();
   const todayKey=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-  const qKeys=Array.from(new Set(ops.map(x=>taxQuarterKey(taxOperationDate(x))).filter(Boolean).concat([currentQuarterKey()]))).sort().reverse();
-  const mKeys=Array.from(new Set(ops.map(x=>taxMonthKey(taxOperationDate(x))).filter(Boolean).concat([currentMonthKey()]))).sort().reverse();
+  const datedOps=ops.map(x=>taxOperationDate(x)).filter(Boolean).sort();
+  const firstDate=datedOps.length?datedOps[0]:todayKey;
+  const lastDate=datedOps.length?datedOps[datedOps.length-1]:todayKey;
+  // Диапазон включает и текущий период, и все периоды с операциями,
+  // даже если пользователь случайно внёс операцию будущей датой.
+  const rangeStart=firstDate<todayKey?firstDate:todayKey;
+  const rangeEnd=lastDate>todayKey?lastDate:todayKey;
+  const firstYear=Number(rangeStart.slice(0,4)), firstMonth=Number(rangeStart.slice(5,7));
+  const endYear=Number(rangeEnd.slice(0,4)), endMonth=Number(rangeEnd.slice(5,7));
+  const qKeys=[],mKeys=[];
+  // Создаём непрерывный список кварталов и месяцев без пропусков.
+  let qYear=firstYear, qNo=Math.floor((firstMonth-1)/3)+1;
+  const endQuarterYear=endYear, endQuarterNo=Math.floor((endMonth-1)/3)+1;
+  while(qYear<endQuarterYear || (qYear===endQuarterYear && qNo<=endQuarterNo)){
+    qKeys.push(`${qYear}-Q${qNo}`); qNo++; if(qNo>4){qNo=1;qYear++;}
+  }
+  let mYear=firstYear, mNo=firstMonth;
+  while(mYear<endYear || (mYear===endYear && mNo<=endMonth)){
+    mKeys.push(`${mYear}-${String(mNo).padStart(2,'0')}`); mNo++; if(mNo>12){mNo=1;mYear++;}
+  }
+  qKeys.reverse(); mKeys.reverse();
 
   // При первом открытии выбираем период последней операции соответствующего типа,
   // а не всегда текущий календарный период. Это исключает ситуацию, когда
@@ -2265,17 +2381,16 @@ function renderTaxRegister(){
   const mOps=mb?ops.filter(x=>taxOperationDate(x)>=mb.start&&taxOperationDate(x)<=mb.end):[];
   const oooIncome=qOps.filter(x=>x.operation_type==='income'&&operationCompanyForTax(x)==='ООО').reduce((s,x)=>s+Number(x.amount||0),0);
   const oooOutput=oooIncome*0.22;
-  // Входной НДС по ТМЦ в кредит возникает только при погашении связанной
-  // кредиторки, а не в момент получения материала.
+  // Входной НДС учитывается по расходам с отметкой «С НДС».
+  // Для ТМЦ, полученных в кредит, вычет переносится на дату фактического погашения.
   const oooInputGeneral=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article!=='НДС'&&x.article!=='Налог ИП'&&x.article!=='Погашение кредиторки'&&x.article!=='ТМЦ'&&Boolean(x.vat_included)).reduce((s,x)=>s+Number(x.amount||0)*0.22,0);
   const oooInputTmcCash=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='ТМЦ'&&x.credit_kind!=='material'&&Boolean(x.vat_included)).reduce((s,x)=>s+Number(x.amount||0)*0.22,0);
-  const oooInputMaterialRepayments=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Погашение кредиторки'&&x.payable_id).reduce((s,x)=>{
+  const oooInputPayableRepayments=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='Погашение кредиторки'&&x.payable_id).reduce((s,x)=>{
     const payable=aps.find(p=>String(p.id)===String(x.payable_id));
-    if(!payable||payable.credit_kind!=='material') return s;
-    const source=ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material');
-    return s+(source?.vat_included?Number(x.amount||0)*0.22:0);
+    const source=payable?.credit_kind==='material'?ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material'):null;
+    return s+((Boolean(x.vat_included)||Boolean(source?.vat_included))?Number(x.amount||0)*0.22:0);
   },0);
-  const oooInput=oooInputGeneral+oooInputTmcCash+oooInputMaterialRepayments;
+  const oooInput=oooInputGeneral+oooInputTmcCash+oooInputPayableRepayments;
   const oooDue=Math.max(0,oooOutput-oooInput);
   const oooPaid=qOps.filter(x=>x.operation_type==='expense'&&operationCompanyForTax(x)==='ООО'&&x.article==='НДС').reduce((s,x)=>s+Number(x.amount||0),0);
   const oooRemaining=Math.max(0,oooDue-oooPaid);
@@ -4793,20 +4908,12 @@ const vatInputCreditTmcLegacy=isOoo ? ops.filter(x=>
   x.credit_kind!=='material' &&
   !('vat_included' in x)
 ).reduce((s,x)=>s+Number(x.amount||0)*vatRate,0) : 0;
-const vatInputCreditMaterialRepayments=isOoo ? ops.filter(x=>
-  x.project_id===projectId &&
-  x.operation_type==='expense' &&
-  x.article==='Погашение кредиторки' &&
-  x.payable_id
+const vatInputCreditPayableRepayments=isOoo ? ops.filter(x=>
+  x.project_id===projectId && x.operation_type==='expense' && x.article==='Погашение кредиторки' && x.payable_id
 ).reduce((s,x)=>{
   const payable=aps.find(p=>String(p.id)===String(x.payable_id));
-  if(!payable || payable.credit_kind!=='material') return s;
-  const source=ops.find(o=>
-    String(o.payable_id)===String(payable.id) &&
-    o.article==='ТМЦ' &&
-    o.credit_kind==='material'
-  );
-  return s+(source?.vat_included ? Number(x.amount||0)*vatRate : 0);
+  const source=payable?.credit_kind==='material'?ops.find(o=>String(o.payable_id)===String(payable.id)&&o.article==='ТМЦ'&&o.credit_kind==='material'):null;
+  return s+((Boolean(x.vat_included)||Boolean(source?.vat_included))?Number(x.amount||0)*vatRate:0);
 },0) : 0;
 const vatInputCreditSubcontractorsLegacy=isOoo ? ops.filter(x=>
   x.project_id===projectId &&
@@ -4816,9 +4923,9 @@ const vatInputCreditSubcontractorsLegacy=isOoo ? ops.filter(x=>
   projectSubs.some(sub=>sub.id===x.subcontractor_id && Boolean(sub.has_vat)) &&
   !('vat_included' in x)
 ).reduce((s,x)=>s+Number(x.amount||0)*vatRate,0) : 0;
-const vatInputCreditTmc=vatInputCreditTmcCash+vatInputCreditTmcLegacy+vatInputCreditMaterialRepayments;
+const vatInputCreditTmc=vatInputCreditTmcCash+vatInputCreditTmcLegacy+vatInputCreditPayableRepayments;
 const vatInputCreditSubcontractors=vatInputCreditSubcontractorsLegacy;
-const vatInputCredit=vatInputCreditGeneral+vatInputCreditTmcCash+vatInputCreditTmcLegacy+vatInputCreditMaterialRepayments+vatInputCreditSubcontractorsLegacy;
+const vatInputCredit=vatInputCreditGeneral+vatInputCreditTmcCash+vatInputCreditTmcLegacy+vatInputCreditPayableRepayments+vatInputCreditSubcontractorsLegacy;
 const vatDue=Math.max(0,vatAccrued-vatInputCredit);
 const vatActual=isOoo ? ops.filter(x=>
   x.project_id===projectId &&
@@ -5128,6 +5235,7 @@ renderProjects();
 renderDashboardProjects();
 renderEventsInfo();
 renderOrgExpensesPage();
+if(projectsTab==='kp' && $('kpList')) renderProposals();
 
 }
 
@@ -5154,80 +5262,35 @@ return `<div class="subrow">
 }
 
 function renderOperations(){
-
-$('opsList').innerHTML=
-ops.length?
-
-ops.map(x=>`
-
-<div class="item">
-
-<div class="row">
-
-<div>
-
-<b>
-${x.operation_type==='credit'?'Кредит':(x.operation_type==='income'?'Приход':'Расход')}
-</b>
-
-<div class="muted">
-${esc(projectName(x.project_id))}
-·
-${esc(x.article||'')}
-${x.subcontractor_id?' · '+esc(subcontractorName(x.subcontractor_id)):''}
-${x.cost_item_id&&x.article==='ТМЦ'&&projectMaterials.find(m=>m.id===x.cost_item_id)?' · '+esc(projectMaterials.find(m=>m.id===x.cost_item_id).name):''}${isMaterialCreditExpense(x)?' · В КРЕДИТ':''}
-${x.cost_item_id&&x.article==='Прочие расходы'&&projectOtherExpenses.find(o=>o.id===x.cost_item_id)?' · '+esc(projectOtherExpenses.find(o=>o.id===x.cost_item_id).name):''}
-</div>
-
-<div class="muted">
-${esc(x.counterparty||'')}
-</div>
-
-<div class="muted">
-${esc(x.operation_date||'')}
-</div>
-
-</div>
-
-<div class="amount ${
-x.operation_type==='income'
-?'green'
-:'red'
-}">
-
-${x.operation_type==='income'?'+':'−'}
-${money(x.amount)}
-
-</div>
-
-</div>
-
-<div style="display:flex;gap:8px;margin-top:12px">
-
-<button
-class="smallbtn"
-style="flex:1"
-onclick="openEditOp('${x.id}')">
-Изменить
-</button>
-
-<button
-class="smallbtn"
-style="flex:1;color:#b42318"
-onclick="deleteOp('${x.id}')">
-Удалить
-</button>
-
-</div>
-
-</div>
-
-`).join('')
-
-:
-
-'<div class="empty">Операций пока нет.</div>';
-
+ const uniq=[...new Set(ops.map(x=>(x.counterparty||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
+ const dl=$('opsCounterpartyOptions'); if(dl) dl.innerHTML=uniq.map(x=>`<option value="${esc(x)}"></option>`).join('');
+ const q=($('opsSearch')?.value||'').trim().toLowerCase();
+ const type=$('opsTypeFilter')?.value||'all', company=$('opsCompanyFilter')?.value||'all';
+ const cp=($('opsCounterpartyFilter')?.value||'').trim().toLowerCase();
+ const from=$('opsDateFrom')?.value||'', to=$('opsDateTo')?.value||'';
+ const rows=ops.filter(x=>{
+  const co=x.payer_company||x.credit_recipient_company||aps.find(a=>a.id===x.payable_id)?.owner_company||projects.find(p=>p.id===x.project_id)?.contractor_company||'';
+  const hay=[x.counterparty,x.article,x.comment,x.document_number,projectName(x.project_id),co].join(' ').toLowerCase();
+  return (!q||hay.includes(q))&&(type==='all'||x.operation_type===type)&&(company==='all'||co===company)&&(!cp||(x.counterparty||'').toLowerCase().includes(cp))&&(!from||String(x.operation_date||'')>=from)&&(!to||String(x.operation_date||'')<=to);
+ });
+ const income=rows.filter(x=>x.operation_type==='income'), expense=rows.filter(x=>x.operation_type==='expense');
+ const sum=a=>a.reduce((n,x)=>n+Number(x.amount||0),0);
+ if($('opsIncomeTotal')) $('opsIncomeTotal').textContent=money(sum(income));
+ if($('opsExpenseTotal')) $('opsExpenseTotal').textContent=money(sum(expense));
+ if($('opsNetTotal')) $('opsNetTotal').textContent=money(sum(income)-sum(expense));
+ if($('opsIncomeCount')) $('opsIncomeCount').textContent=income.length+' операций';
+ if($('opsExpenseCount')) $('opsExpenseCount').textContent=expense.length+' операций';
+ if($('opsRowsCount')) $('opsRowsCount').textContent=rows.length+' операций';
+ const byCp={}; rows.forEach(x=>{const k=(x.counterparty||'Контрагент не указан').trim();if(!byCp[k])byCp[k]={income:0,expense:0,count:0};if(x.operation_type==='income')byCp[k].income+=Number(x.amount||0);if(x.operation_type==='expense')byCp[k].expense+=Number(x.amount||0);byCp[k].count++;});
+ const cpRows=Object.entries(byCp).sort((a,b)=>(b[1].income+b[1].expense)-(a[1].income+a[1].expense));
+ if($('opsCounterpartySummary')) $('opsCounterpartySummary').innerHTML=cpRows.length?`<details><summary style="cursor:pointer;font-weight:800;color:var(--navy)">Итоги по контрагентам (${cpRows.length})</summary><div style="overflow:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr><th style="text-align:left;padding:6px">Контрагент</th><th style="text-align:right;padding:6px">Получено</th><th style="text-align:right;padding:6px">Выплачено</th><th style="text-align:right;padding:6px">Операций</th></tr></thead><tbody>${cpRows.map(([k,v])=>`<tr><td style="padding:6px;border-top:1px solid var(--line)">${esc(k)}</td><td style="padding:6px;text-align:right;border-top:1px solid var(--line);color:var(--green)">${money(v.income)}</td><td style="padding:6px;text-align:right;border-top:1px solid var(--line);color:var(--red)">${money(v.expense)}</td><td style="padding:6px;text-align:right;border-top:1px solid var(--line)">${v.count}</td></tr>`).join('')}</tbody></table></div></details>`:'<div class="muted">Нет данных по контрагентам за выбранный период.</div>';
+ $('opsList').innerHTML=rows.length?rows.map(x=>`
+ <div class="item"><div class="row"><div><b>${x.operation_type==='credit'?'Кредит':(x.operation_type==='income'?'Приход':'Расход')}</b>
+ <div class="muted">${esc(projectName(x.project_id))} · ${esc(x.article||'')}${x.subcontractor_id?' · '+esc(subcontractorName(x.subcontractor_id)):''}${x.cost_item_id&&x.article==='ТМЦ'&&projectMaterials.find(m=>m.id===x.cost_item_id)?' · '+esc(projectMaterials.find(m=>m.id===x.cost_item_id).name):''}${isMaterialCreditExpense(x)?' · В КРЕДИТ':''}</div>
+ <div class="muted">${esc(x.counterparty||'Контрагент не указан')} · ${esc(x.payer_company||x.credit_recipient_company||projects.find(p=>p.id===x.project_id)?.contractor_company||'Организация не указана')}</div>
+ <div class="muted">${esc(x.operation_date||'')}${x.vat_included?' · С НДС':''}${x.document_number?' · № '+esc(x.document_number):''}</div></div>
+ <div class="amount ${x.operation_type==='income'?'green':'red'}">${x.operation_type==='income'?'+':'−'}${money(x.amount)}</div></div>
+ <div style="display:flex;gap:8px;margin-top:12px"><button class="smallbtn" style="flex:1" onclick="openEditOp('${x.id}')">Изменить</button><button class="smallbtn" style="flex:1;color:#b42318" onclick="deleteOp('${x.id}')">Удалить</button></div></div>`).join(''):'<div class="empty">По выбранным условиям операций нет.</div>';
 }
 
 function renderReceivables(){
@@ -5979,7 +6042,10 @@ function printWorkReport(){
 }
 
 function renderManagerProjects(){
-  $('projectsList').innerHTML=projects.length?projects.map(p=>{
+  const q=($('projectsSearch')?.value||'').trim().toLowerCase(), st=$('projectsStatusFilter')?.value||'all', co=$('projectsCompanyFilter')?.value||'all';
+  const visible=projects.filter(p=>(st==='all'||p.status===st)&&(co==='all'||(p.contractor_company||'ООО')===co)&&(!q||[p.name,p.customer,p.comment].join(' ').toLowerCase().includes(q)));
+  visible.sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ru'));
+  $('projectsList').innerHTML=visible.length?visible.map(p=>{
     const subRows=subcontractors.filter(x=>x.project_id===p.id);
     const matRows=projectMaterials.filter(x=>x.project_id===p.id);
     const othRows=projectOtherExpenses.filter(x=>x.project_id===p.id);
@@ -6007,7 +6073,7 @@ function renderManagerProjects(){
         <button class="btn secondary" style="flex:1;min-width:120px" onclick="openPtoPanel('${p.id}')">ПТО ${ptoScoreBadge(p.id)}</button>
         <button class="btn secondary" style="flex:1;min-width:120px" onclick="openManagerCostModal('${p.id}')">＋ Расходы</button>
       </div>
-    </div>`;
+    </div></div></details>`;
   }).join(''):'<div class="empty">Объектов пока нет.</div>';
 }
 
@@ -6015,10 +6081,15 @@ function renderProjects(){
 if(profile?.role==='manager'){renderManagerProjects();return;}
 
 
+const q=($('projectsSearch')?.value||'').trim().toLowerCase();
+const st=$('projectsStatusFilter')?.value||'all', co=$('projectsCompanyFilter')?.value||'all';
+let visibleProjects=projects.filter(p=>(st==='all'||p.status===st)&&(co==='all'||(p.contractor_company||'ООО')===co)&&(!q||[p.name,p.customer,p.comment].join(' ').toLowerCase().includes(q)));
+const sort=$('projectsSort')?.value||'name';
+visibleProjects.sort((a,b)=>sort==='revenue'?Number(b.planned_revenue||0)-Number(a.planned_revenue||0):sort==='date'?String(b.start_date||'').localeCompare(String(a.start_date||'')):String(a.name||'').localeCompare(String(b.name||''),'ru'));
 $('projectsList').innerHTML=
-projects.length?
+visibleProjects.length?
 
-projects.map(p=>{
+visibleProjects.map(p=>{
 
 const s=projectStats(p.id);
 
@@ -6099,7 +6170,7 @@ ${o.comment?`<div class="muted">${esc(o.comment)}</div>`:''}
 
 return `
 
-<div class="item">
+<details class="item project-compact"><summary><div class="compact-name">${esc(p.name)}</div><div class="muted" style="margin-top:7px;display:flex;justify-content:space-between"><span>Выручка: ${money(s.income)} / ${money(revenue)}</span><b>${revenueState.width.toFixed(0)}%</b></div><div class="progress"><div class="${revenueState.color}" style="width:${revenueState.width}%"></div></div></summary><div class="compact-body">
 
 <div class="row">
 
@@ -6277,7 +6348,7 @@ ${renderProjectOperationsHtml(p.id)}
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="deleteProject('${p.id}')">Удалить</button>
 </div>
 
-</div>
+</div></div></details>
 
 `;
 
@@ -6288,6 +6359,35 @@ ${renderProjectOperationsHtml(p.id)}
 '<div class="empty">Объектов пока нет.</div>';
 
 }
+
+
+function switchProjectsTab(tab){
+ projectsTab=tab; $('projectsActivePane').style.display=tab==='active'?'block':'none'; $('projectsKpPane').style.display=tab==='kp'?'block':'none';
+ $('projectsTabActive').classList.toggle('active',tab==='active'); $('projectsTabKp').classList.toggle('active',tab==='kp');
+ if(tab==='kp') renderProposals(); else renderProjects();
+}
+function toggleKpLostReason(){const lost=$('kpStatus').value==='lost';$('kpLostReason').style.display=lost?'block':'none';}
+function resetProposalForm(){['kpEditId','kpName','kpCity','kpCustomer','kpAmount','kpSource','kpSentDate','kpExpectedDate','kpDeadline','kpLostReason','kpComment'].forEach(id=>$(id).value='');$('kpStatus').value='review';$('kpSegment').value='commercial';$('kpLetter').value='';$('kpFormTitle').textContent='Новое КП';$('kpCancelEdit').style.display='none';toggleKpLostReason();}
+async function saveProposal(){
+ const name=$('kpName').value.trim(); if(!name)return alert('Укажите наименование объекта.');
+ const status=$('kpStatus').value, reason=$('kpLostReason').value.trim(); if(status==='lost'&&!reason)return alert('При статусе «Проиграли» укажите причину.');
+ const payload={name,city:$('kpCity').value.trim()||null,customer:$('kpCustomer').value.trim()||null,amount:Number($('kpAmount').value||0),status,segment:$('kpSegment').value,source:$('kpSource').value.trim()||null,sent_date:$('kpSentDate').value||null,expected_review_date:$('kpExpectedDate').value||null,review_deadline:$('kpDeadline').value||null,lost_reason:status==='lost'?reason:null,comment:$('kpComment').value.trim()||null,updated_at:new Date().toISOString()};
+ const id=$('kpEditId').value; let file=$('kpLetter').files?.[0]||null;
+ if(file){const safe=(file.name||'letter').normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_');const path='kps/'+(id||crypto.randomUUID())+'/'+Date.now()+'_'+safe;const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false});if(up.error)return alert('Не удалось загрузить письмо КП: '+up.error.message);payload.letter_file_path=path;payload.letter_file_name=file.name;}
+ let res;if(id)res=await sbClient.from('commercial_proposals').update(payload).eq('id',id).select('*').single();else{const u=(await sbClient.auth.getUser()).data.user;payload.created_by=u?.id;res=await sbClient.from('commercial_proposals').insert(payload).select('*').single();}
+ if(res.error)return alert('Не удалось сохранить КП: '+res.error.message); if(id){const previous=proposals.find(x=>x.id===id);if(file&&previous?.letter_file_path)await sbClient.storage.from('project-documents').remove([previous.letter_file_path]);proposals=proposals.map(x=>x.id===id?res.data:x);}else proposals.unshift(res.data);resetProposalForm();renderProposals();
+}
+function editProposal(id){const x=proposals.find(p=>p.id===id);if(!x)return; $('kpEditId').value=x.id;$('kpName').value=x.name||'';$('kpCity').value=x.city||'';$('kpCustomer').value=x.customer||'';$('kpAmount').value=x.amount||'';$('kpSegment').value=x.segment||'commercial';$('kpStatus').value=x.status||'review';$('kpSource').value=x.source||'';$('kpSentDate').value=x.sent_date||'';$('kpExpectedDate').value=x.expected_review_date||'';$('kpDeadline').value=x.review_deadline||'';$('kpLostReason').value=x.lost_reason||'';$('kpComment').value=x.comment||'';$('kpFormTitle').textContent='Изменить КП';$('kpCancelEdit').style.display='block';toggleKpLostReason();$('projectsKpPane').scrollIntoView({behavior:'smooth'});}
+async function openProposalLetter(id){const x=proposals.find(p=>p.id===id);if(!x?.letter_file_path)return alert('Письмо не прикреплено.');const r=await sbClient.storage.from('project-documents').createSignedUrl(x.letter_file_path,300);if(r.error)return alert(r.error.message);window.open(r.data.signedUrl,'_blank');}
+async function deleteProposal(id){if(!confirm('Удалить это КП?'))return;const x=proposals.find(p=>p.id===id);const r=await sbClient.from('commercial_proposals').delete().eq('id',id);if(r.error)return alert(r.error.message);if(x?.letter_file_path)await sbClient.storage.from('project-documents').remove([x.letter_file_path]);proposals=proposals.filter(p=>p.id!==id);renderProposals();}
+function renderProposals(){
+ const n=proposals.filter(x=>x.status==='review').length,w=proposals.filter(x=>x.status==='won').length,l=proposals.filter(x=>x.status==='lost').length;$('kpReviewCount').textContent=n;$('kpWonCount').textContent=w;$('kpLostCount').textContent=l;
+ const q=($('kpSearch')?.value||'').toLowerCase(),city=($('kpCityFilter')?.value||'').toLowerCase(),status=$('kpStatusFilter')?.value||'all',seg=$('kpSegmentFilter')?.value||'all',src=($('kpSourceFilter')?.value||'').toLowerCase(),from=$('kpDateFrom')?.value||'',to=$('kpDateTo')?.value||'';
+ const rows=proposals.filter(x=>(status==='all'||x.status===status)&&(seg==='all'||x.segment===seg)&&(!q||[x.name,x.customer,x.source,x.city].join(' ').toLowerCase().includes(q))&&(!city||(x.city||'').toLowerCase().includes(city))&&(!src||(x.source||'').toLowerCase().includes(src))&&(!from||String(x.sent_date||'')>=from)&&(!to||String(x.sent_date||'')<=to)).sort((a,b)=>String(b.sent_date||'').localeCompare(String(a.sent_date||'')));
+ $('kpList').innerHTML=rows.length?rows.map(x=>`<div class="item"><div class="row"><div style="min-width:0"><b>${esc(x.name)}</b><div class="muted">${esc(x.city||'Город не указан')} · ${esc(x.customer||'Заказчик не указан')}</div></div><b>${money(x.amount)}</b></div><div style="margin-top:7px"><span class="pill ${x.status==='won'?'tag-green':x.status==='lost'?'tag-red':'tag-orange'}">${x.status==='won'?'Выиграли':x.status==='lost'?'Проиграли':'В рассмотрении'}</span><span class="pill">${x.segment==='government'?'Гос.':'Коммерция'}</span></div><div class="muted" style="margin-top:7px">Источник: ${esc(x.source||'—')} · Отправлено: ${esc(x.sent_date||'—')} · Рассмотрение: ${esc(x.expected_review_date||'—')}${x.review_deadline?' · Срок: '+esc(x.review_deadline):''}</div>${x.lost_reason?`<div class="muted" style="margin-top:5px">Причина проигрыша: ${esc(x.lost_reason)}</div>`:''}${x.comment?`<div class="muted">${esc(x.comment)}</div>`:''}<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px"><button class="smallbtn" onclick="editProposal('${x.id}')">Изменить / статус</button>${x.letter_file_path?`<button class="smallbtn" onclick="openProposalLetter('${x.id}')">Открыть письмо</button>`:''}<button class="smallbtn" style="color:#b42318" onclick="deleteProposal('${x.id}')">Удалить</button></div></div>`).join(''):'<div class="empty">КП по выбранным фильтрам не найдены.</div>';
+ const sources=[...new Set(proposals.map(x=>x.source).filter(Boolean))];$('kpSourceOptions').innerHTML=[...new Set(['РосТендер','СБИС','РТС-тендер','Фабрикант','B2B-Center','ЕИС / zakupki.gov.ru','ЭТП ГПБ','ТЭК-Торг','Прямой запрос заказчика','Повторный заказ / рекомендация','Другое',...sources])].map(x=>`<option value="${esc(x)}">`).join('');
+}
+function exportProposalsPdf(){const rows=proposals;const count=(v)=>rows.filter(x=>x.status===v).length;const by=(field)=>{const m={};rows.forEach(x=>{const k=x[field]||'Не указано';m[k]=(m[k]||0)+1;});return Object.entries(m).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join('');};const html=`<!doctype html><html><head><meta charset="utf-8"><title>Статистика КП</title><style>body{font:14px Arial;padding:25px;color:#172033}table{width:100%;border-collapse:collapse;margin:12px 0 24px}td,th{border:1px solid #ccc;padding:7px;text-align:left}h1{color:#0e2a44}</style></head><body><h1>Статистика коммерческих предложений</h1><p>Всего: ${rows.length} · В рассмотрении: ${count('review')} · Выиграли: ${count('won')} · Проиграли: ${count('lost')}</p><h2>По источникам</h2><table><tr><th>Источник</th><th>Количество</th></tr>${by('source')}</table><h2>Причины проигрыша</h2><table><tr><th>Причина</th><th>Количество</th></tr>${by('lost_reason')}</table><h2>Реестр КП</h2><table><tr><th>Объект</th><th>Город</th><th>Заказчик</th><th>Сумма</th><th>Статус</th><th>Источник</th><th>Отправлено</th></tr>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.city||'')}</td><td>${esc(x.customer||'')}</td><td>${money(x.amount)}</td><td>${x.status==='won'?'Выиграли':x.status==='lost'?'Проиграли':'В рассмотрении'}</td><td>${esc(x.source||'')}</td><td>${esc(x.sent_date||'')}</td></tr>`).join('')}</table><script>window.onload=()=>window.print()<\/script></body></html>`;const w=window.open('','_blank');if(!w)return alert('Разрешите всплывающие окна для выгрузки PDF.');w.document.write(html);w.document.close();}
 
 function taxBarClass(actual,planned){
 const pct=planned>0?(Number(actual||0)/Number(planned||0))*100:0;
