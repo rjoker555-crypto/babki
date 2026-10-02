@@ -787,6 +787,7 @@ onclick="openAr()">
     </div>
     <button class="btn primary" style="margin-top:10px;width:100%" onclick="printWorkReport()">🖨 Сформировать отчёт для КС / сметчика</button>
   </div>
+  <button class="btn primary" style="margin-top:12px" onclick="openVolumeSubmissions()">Подача объёмов</button>
   <button class="btn secondary" style="margin-top:10px" onclick="closeWorkModal()">Закрыть</button>
 </div>
 </div>
@@ -795,6 +796,7 @@ onclick="openAr()">
 <div class="sheet">
   <h2 id="workItemFormTitle">Новая работа</h2>
   <div class="field"><label>Раздел работ</label><select id="workSectionSelect" onchange="onWorkSectionSelectChange()"><option value="">Без раздела — отдельная работа</option></select></div>
+  <div class="field"><label>Поиск вида работ</label><input id="workCatalogSearch" type="search" placeholder="Начните вводить: подрозетник, кабель, щит…" oninput="onWorkCatalogSearchInput()"></div>
   <div class="field"><label>Раздел / категория работ</label><select id="workCatalogCategorySelect" onchange="onWorkCatalogCategoryChange()"></select></div>
   <div class="field"><label>Вид работы</label><select id="workCatalogSelect" onchange="onWorkCatalogChange()"></select></div>
   <div class="field"><label>Объём по плану</label><input id="workPlannedVolume" type="number" step="0.001" min="0" placeholder="Например: 250"></div>
@@ -822,6 +824,9 @@ onclick="openAr()">
   <div class="field"><label>Название раздела</label><input id="workSectionName" placeholder="Например: Электромонтаж 1 этажа"></div>
   <div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Общая дата начала</label><input id="workSectionStart" type="date"></div><div class="field" style="flex:1"><label>Общая дата завершения</label><input id="workSectionEnd" type="date"></div></div>
   <div class="field"><label>Комментарий раздела</label><textarea id="workSectionComment" rows="2" placeholder="Общий комментарий по разделу"></textarea></div>
+  <div class="field"><label>Статус раздела</label><select id="workSectionStatus"><option value="planned">Не начат</option><option value="in_progress">В работе</option><option value="completed">Выполнен</option></select></div>
+  <div class="field" style="margin:8px 0"><label>Использовать сохранённый состав</label><select id="workSectionTemplateSelect" onchange="loadWorkSectionTemplate(this.value)"><option value="">— Выберите состав, чтобы автоматически добавить все работы —</option></select><div class="muted" style="margin-top:5px">После выбора работы, объёмы и материалы подставятся автоматически. Дополнительно заполнять строки не нужно.</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button type="button" class="smallbtn" onclick="saveCurrentWorkSectionTemplate()">Сохранить состав как шаблон</button><button type="button" class="smallbtn" onclick="loadWorkSectionTemplate()">Выбрать из списка</button></div>
   <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin-top:8px">
     <div class="row"><div><b>Работы в разделе</b><div class="muted" style="margin-top:3px">Добавьте несколько разных работ. Сроки здесь не указываются — они общие для всего раздела.</div></div><button class="smallbtn" type="button" onclick="addWorkSectionItemRow()">＋ Работа</button></div>
     <div id="workSectionItemsEditor" style="margin-top:10px"></div>
@@ -841,6 +846,8 @@ onclick="openAr()">
   <button class="btn secondary" onclick="closeWorkTaskForm()">Отмена</button>
 </div></div>
 
+<div id="volumeSubmissionModal" class="modal" onclick="if(event.target===this)closeVolumeSubmissionForm()"><div class="sheet" style="max-width:900px"><h2 id="volumeSubmissionTitle">Подача объёмов</h2><div class="muted" style="margin-bottom:10px">Выберите готовые разделы, укажите количество закрываемых единиц и комментарий-обозначение. Все работы внутри разделов автоматически попадут в факт «Хода работ».</div><div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Период с</label><input id="volumeFrom" type="date"></div><div class="field" style="flex:1"><label>Период по</label><input id="volumeTo" type="date"></div></div><div class="field"><label>Комментарий к подаче</label><textarea id="volumeComment" rows="2"></textarea></div><div id="volumeSubmissionEditor"></div><button class="btn primary" onclick="saveVolumeSubmission()">Сохранить и выгрузить подачу объёмов</button><button class="btn secondary" onclick="closeVolumeSubmissionForm()">Отмена</button></div></div>
+<div id="volumeSubmissionsListModal" class="modal" onclick="if(event.target===this)closeVolumeSubmissions()"><div class="sheet"><h2>Подача объёмов</h2><button class="btn primary" onclick="openVolumeSubmissionForm()">＋ Новая подача</button><div id="volumeSubmissionsList" style="margin-top:12px"></div><button class="btn secondary" onclick="closeVolumeSubmissions()">Закрыть</button></div></div>
 <div id="workProgressModal" class="modal" onclick="if(event.target===this)closeWorkProgressForm()">
 <div class="sheet">
   <h2>Фактическое выполнение</h2>
@@ -1554,6 +1561,9 @@ let projectWorkItems=[];
 let projectWorkMaterials=[];
 let projectWorkProgress=[];
 let projectWorkSections=[];
+let workVolumeSubmissions=[];
+let workVolumeSubmissionItems=[];
+let editingVolumeSubmissionId=null;
 let projectWorkTasks=[];
 let workMaterialOptions=[];
 let projectDocuments=[];
@@ -1830,7 +1840,7 @@ profile=profileResult.data;
 // Финансовые таблицы вообще не запрашиваются из браузера.
 if(profile?.role==='foreman' || profile?.role==='manager'){
   const manager=profile?.role==='manager';
-  const [pr,sc,mat,oth,pto,contacts,ev,orgs,wc,mc,wcm,wi,wm,wp,ws,wt,wo,docs,prices]=await Promise.all([
+  const [pr,sc,mat,oth,pto,contacts,ev,orgs,wc,mc,wcm,wi,wm,wp,ws,wt,wo,docs,prices,vsubs,vsitems]=await Promise.all([
     sbClient.rpc('foreman_projects'),
     manager?sbClient.from('subcontractors').select('*').order('created_at',{ascending:true}):sbClient.rpc('foreman_subcontractors'),
     manager?sbClient.from('project_materials').select('*').order('created_at',{ascending:true}):Promise.resolve({data:[],error:null}),
@@ -1849,9 +1859,11 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
     sbClient.from('project_work_tasks').select('*').order('due_date',{ascending:true}),
     sbClient.from('work_material_options').select('*').eq('is_active',true),
     sbClient.from('project_documents').select('*').order('created_at',{ascending:false}),
-    sbClient.from('project_price_history').select('*').order('change_date',{ascending:true}).order('created_at',{ascending:true})
+    sbClient.from('project_price_history').select('*').order('change_date',{ascending:true}).order('created_at',{ascending:true}),
+    sbClient.from('work_volume_submissions').select('*').order('period_from',{ascending:false}),
+    sbClient.from('work_volume_submission_items').select('*')
   ]);
-  const err=pr.error||sc.error||mat.error||oth.error||pto.error||contacts.error||ev.error||orgs.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error;
+  const err=pr.error||sc.error||mat.error||oth.error||pto.error||contacts.error||ev.error||orgs.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error||vsubs.error||vsitems.error;
   if(err){alert('Ошибка загрузки данных: '+err.message);return;}
   projects=pr.data||[];
   subcontractors=sc.data||[];
@@ -1868,6 +1880,8 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
   projectWorkMaterials=wm.data||[];
   projectWorkProgress=wp.data||[];
   projectWorkSections=ws.data||[];
+  workVolumeSubmissions=vsubs.data||[];
+  workVolumeSubmissionItems=vsitems.data||[];
   projectWorkTasks=wt.data||[];
   workMaterialOptions=wo.data||[];
   projectDocuments=docs.data||[];
@@ -1884,7 +1898,7 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
   return;
 }
 
-const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,wt,wo,docs,prices]=await Promise.all([
+const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,wt,wo,docs,prices,vsubs,vsitems]=await Promise.all([
   sbClient.from('operations').select('*').order('operation_date',{ascending:false}),
   sbClient.from('receivables').select('*').order('created_at',{ascending:false}),
   sbClient.from('payables').select('*').order('created_at',{ascending:false}),
@@ -1909,10 +1923,14 @@ const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,w
   sbClient.from('work_material_options').select('*').eq('is_active',true),
   sbClient.from('project_documents').select('*').order('created_at',{ascending:false}),
   sbClient.from('project_price_history').select('*').order('change_date',{ascending:true}).order('created_at',{ascending:true}),
+  sbClient.from('work_volume_submissions').select('*').order('period_from',{ascending:false}),
+  sbClient.from('work_volume_submission_items').select('*')
 ]);
-const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error||pto.error||contacts.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error;
+const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error||pto.error||contacts.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error||vsubs.error||vsitems.error;
 if(err){alert('Ошибка загрузки данных: '+err.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена.');return;}
-ops=o.data||[];ars=r.data||[];aps=ap.data||[];creditors=cr.data||[];projects=pr.data||[];subcontractors=sc.data||[];events=ev.data||[];projectMaterials=mat.data||[];projectOtherExpenses=oth.data||[];orgEmployees=emps.data||[];orgExpenses=orgs.data||[];ptoDocuments=pto.data||[];ptoContacts=contacts.data||[];workCatalog=wc.data||[];materialCatalog=mc.data||[];workCatalogMaterials=wcm.data||[];projectWorkItems=wi.data||[];projectWorkMaterials=wm.data||[];projectWorkProgress=wp.data||[];projectWorkSections=ws.data||[];projectWorkTasks=wt.data||[];workMaterialOptions=wo.data||[];
+ops=o.data||[];ars=r.data||[];aps=ap.data||[];creditors=cr.data||[];projects=pr.data||[];subcontractors=sc.data||[];events=ev.data||[];projectMaterials=mat.data||[];projectOtherExpenses=oth.data||[];orgEmployees=emps.data||[];orgExpenses=orgs.data||[];ptoDocuments=pto.data||[];ptoContacts=contacts.data||[];workCatalog=wc.data||[];materialCatalog=mc.data||[];workCatalogMaterials=wcm.data||[];projectWorkItems=wi.data||[];projectWorkMaterials=wm.data||[];projectWorkProgress=wp.data||[];projectWorkSections=ws.data||[];
+  workVolumeSubmissions=vsubs.data||[];
+  workVolumeSubmissionItems=vsitems.data||[];projectWorkTasks=wt.data||[];workMaterialOptions=wo.data||[];
 projectDocuments=docs.data||[]; projectPriceHistory=prices.data||[]; projectDocumentVersions=[];
 const kpRes=await sbClient.from('commercial_proposals').select('*').order('sent_date',{ascending:false});
 if(kpRes.error && !/commercial_proposals/.test(kpRes.error.message)) console.warn('КП:',kpRes.error.message);
@@ -5647,8 +5665,8 @@ function renderWorkGantt(){
 }
 function renderWorkSections(){
  const secs=projectWorkSections.filter(x=>x.project_id===currentWorkProjectId); const standalone=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId&&!x.section_id);
- let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}%</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',true)">＋ Добавить работы</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',false)">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
- html+=standalone.length?`<div class="work-section-card"><div class="work-section-title">Отдельные работы</div><div class="muted" style="margin-top:3px">Работы без раздела — они продолжают работать как раньше.</div>${standalone.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join('')}</div>`:'';
+ let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}% · ${s.status==='completed'?'Выполнен':s.status==='in_progress'?'В работе':'Не начат'}</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',true)">＋ Добавить работы</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',false)">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
+ html+=standalone.length?`<div class="work-section-card"><div class="work-section-title">Отдельные работы</div><div class="muted" style="margin-top:3px">Работы без раздела — они продолжают работать как раньше.</div>${standalone.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkItem('${w.id}')">Удалить</button></div></div>`).join('')}</div>`:'';
  $('workSectionsList').innerHTML=html||'<div class="empty" style="padding:12px">Разделов пока нет. Можно продолжать создавать отдельные работы без раздела.</div>';
 }
 function renderWorkItems(){
@@ -5677,8 +5695,9 @@ function renderWorkSectionItemRows(){
     const rows=workCatalog.filter(w=>!category||w.category===category);
     return `<div style="padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:8px">
       <div class="row" style="margin-bottom:7px"><b>Работа ${i+1}</b>${r.id?'<span class="muted">существующая</span>':''}<button type="button" class="smallbtn" style="margin-left:auto;color:#b42318" onclick="removeWorkSectionItemRow(${i})">×</button></div>
-      <div class="field" style="margin-bottom:7px"><label>Раздел / категория работ</label><select onchange="onWorkSectionItemCategoryChange(${i},this.value)"><option value="">Выберите раздел работ</option>${workCatalogCategories().map(c=>`<option value="${esc(c)}" ${c===category?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
-      <div class="field" style="margin-bottom:7px"><label>Вид работы</label><select onchange="onWorkSectionItemWorkChange(${i},this.value)"><option value="">Выберите вид работы</option>${rows.map(w=>`<option value="${w.id}" ${w.id===r.work_catalog_id?'selected':''}>${esc(w.name)} (${esc(w.unit)})</option>`).join('')}</select></div>
+      <div class="field" style="margin-bottom:7px"><label>Поиск вида работ</label><input type="search" placeholder="Введите часть названия работы…" value="${esc(r.search||'')}" oninput="onWorkSectionItemSearch(${i},this.value)"></div>
+      <div class="field" style="margin-bottom:7px"><label>Раздел / категория работ</label><select onchange="onWorkSectionItemCategoryChange(${i},this.value)"><option value="">Все категории</option>${workCatalogCategories().map(c=>`<option value="${esc(c)}" ${c===category?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
+      <div class="field" style="margin-bottom:7px"><label>Вид работы</label><select onchange="onWorkSectionItemWorkChange(${i},this.value)"><option value="">Выберите вид работы</option>${rows.filter(w=>!r.search||w.name.toLocaleLowerCase('ru').includes(r.search.toLocaleLowerCase('ru'))).map(w=>`<option value="${w.id}" ${w.id===r.work_catalog_id?'selected':''}>${esc(w.name)} (${esc(w.unit)})</option>`).join('')}</select></div>
       <div style="display:flex;gap:8px"><div class="field" style="flex:1;margin-bottom:7px"><label>Объём по плану</label><input type="number" step="0.001" min="0" value="${r.planned_volume??''}" onchange="workingWorkSectionItems[${i}].planned_volume=parseFloat(this.value)||0"></div><div class="field" style="flex:1;margin-bottom:7px"><label>Единица</label><input readonly value="${esc(r.unit||'')}"></div></div>
       <div class="field" style="margin-bottom:0"><label>Комментарий по работе</label><textarea rows="2" onchange="workingWorkSectionItems[${i}].comment=this.value">${esc(r.comment||'')}</textarea></div>
     </div>`;
@@ -5687,7 +5706,31 @@ function renderWorkSectionItemRows(){
 function addWorkSectionItemRow(){workingWorkSectionItems.push({id:null,work_catalog_id:'',category:'',work_name:'',unit:'',planned_volume:'',comment:'',existing_work:null});renderWorkSectionItemRows();}
 function removeWorkSectionItemRow(i){const r=workingWorkSectionItems[i];if(r?.id){if(!confirm('Убрать эту существующую работу из формы? Сама работа не будет удалена.'))return;r._removeFromForm=true;}workingWorkSectionItems.splice(i,1);renderWorkSectionItemRows();}
 function onWorkSectionItemCategoryChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;r.category=value;r.work_catalog_id='';r.work_name='';r.unit='';renderWorkSectionItemRows();}
-function onWorkSectionItemWorkChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;const w=workCatalog.find(x=>x.id===value);r.work_catalog_id=value;r.work_name=w?.name||'';r.unit=w?.unit||'';renderWorkSectionItemRows();}
+function onWorkSectionItemWorkChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;const w=workCatalog.find(x=>x.id===value);r.work_catalog_id=value;r.work_name=w?.name||'';r.unit=w?.unit||'';r.category=w?.category||r.category;renderWorkSectionItemRows();}
+function onWorkSectionItemSearch(i,value){
+  const r=workingWorkSectionItems[i];if(!r)return;
+  r.search=value;
+  const q=String(value||'').trim().toLocaleLowerCase('ru');
+  const matches=workCatalog.filter(w=>q&&String(w.name||'').toLocaleLowerCase('ru').includes(q));
+  const cats=[...new Set(matches.map(w=>w.category).filter(Boolean))];
+  if(matches.length===1||cats.length===1)r.category=cats[0]||'';
+  else if(!q)r.category='';
+  // Не перерисовываем всю форму на каждый символ: иначе браузер теряет фокус
+  // и следующий символ не попадает в поисковое поле.
+  const card=$('workSectionItemsEditor')?.children?.[i];
+  if(!card)return;
+  const categorySelect=card.querySelector('select');
+  const workSelect=card.querySelectorAll('select')[1];
+  if(categorySelect){
+    categorySelect.innerHTML='<option value="">Все категории</option>'+workCatalogCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    categorySelect.value=r.category||'';
+  }
+  if(workSelect){
+    const rows=workCatalog.filter(w=>(!r.category||w.category===r.category)&&(!q||String(w.name||'').toLocaleLowerCase('ru').includes(q)));
+    workSelect.innerHTML='<option value="">Выберите вид работы</option>'+rows.map(w=>`<option value="${w.id}">${esc(w.name)} (${esc(w.unit)})</option>`).join('');
+    if(r.work_catalog_id&&rows.some(w=>w.id===r.work_catalog_id))workSelect.value=r.work_catalog_id;
+  }
+}
 function openWorkSectionForm(id,addNewWork=false){
   if(!currentWorkProjectId)return;
   const x=id?projectWorkSections.find(s=>s.id===id):null;
@@ -5697,6 +5740,7 @@ function openWorkSectionForm(id,addNewWork=false){
   $('workSectionStart').value=x?.start_date||'';
   $('workSectionEnd').value=x?.end_date||'';
   $('workSectionComment').value=x?.comment||'';
+  $('workSectionStatus').value=x?.status||'planned';
   const existing=x?workSectionRows(x.id):[];
   workingWorkSectionItems=existing.map(w=>({id:w.id,work_catalog_id:w.work_catalog_id||'',category:workCatalog.find(c=>c.id===w.work_catalog_id)?.category||'',work_name:w.work_name||'',unit:w.unit||'',planned_volume:w.planned_volume??'',comment:w.comment||'',existing_work:w}));
   if(!x)workingWorkSectionItems=[];
@@ -5712,6 +5756,7 @@ function openWorkSectionForm(id,addNewWork=false){
   }
   renderWorkSectionItemRows();
   $('workSectionModal').classList.add('open');
+  loadWorkSectionTemplateOptions();
 }
 function closeWorkSectionForm(){$('workSectionModal').classList.remove('open');editingWorkSectionId=null;workingWorkSectionItems=[];}
 async function saveWorkSection(){
@@ -5722,7 +5767,7 @@ async function saveWorkSection(){
   if(start&&end&&end<start)return alert('Дата завершения раздела не может быть раньше даты начала.');
   const rows=workingWorkSectionItems.filter(r=>!r._removeFromForm);
   for(const r of rows){if(!r.work_catalog_id)return alert('Выберите вид работы для каждой строки.');if(Number(r.planned_volume||0)<=0)return alert('Укажите плановый объём для каждой работы.');}
-  const payload={project_id:currentWorkProjectId,name,start_date:start,end_date:end,comment:$('workSectionComment').value.trim()||null,updated_at:new Date().toISOString()};
+  const payload={project_id:currentWorkProjectId,name,start_date:start,end_date:end,status:$('workSectionStatus').value||'planned',comment:$('workSectionComment').value.trim()||null,updated_at:new Date().toISOString()};
   const user=(await sbClient.auth.getUser()).data.user;
   let section,error;
   if(editingWorkSectionId){
@@ -5750,7 +5795,7 @@ async function saveWorkSection(){
       if(error)return alert('Раздел сохранён, но не удалось добавить работу «'+cat.name+'»: '+error.message);
       if(row)projectWorkItems.push(row);
       if(row){
-        const mats=defaultMaterialsForWork(cat.id,null).filter(m=>m.material_catalog_id&&Number(m.quantity||0)>0).map(m=>({work_item_id:row.id,rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id,material_name:m.material_name||'',unit:m.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:true,is_manual_override:false}));
+        const importedTemplate=window.pendingWorkSectionTemplateMaterials?.find(x=>x.work_catalog_id===cat.id&&Number(x.planned_volume)===Number(r.planned_volume));const sourceMats=importedTemplate?importedTemplate._templateMaterials:defaultMaterialsForWork(cat.id,null);const mats=sourceMats.filter(m=>(m.material_catalog_id||m.material_name)&&Number(m.quantity||0)>0).map(m=>({work_item_id:row.id,rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name||materialCatalog.find(z=>z.id===m.material_catalog_id)?.name||'',unit:m.unit||materialCatalog.find(z=>z.id===m.material_catalog_id)?.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:true,is_manual_override:false}));
         if(mats.length){const {data:md,error:me}=await sbClient.from('project_work_materials').insert(mats).select('*');if(me)return alert('Работа добавлена, но материалы для «'+cat.name+'» не удалось сохранить: '+me.message);projectWorkMaterials.push(...(md||[]));}
       }
     }
@@ -5766,10 +5811,50 @@ async function saveWorkSection(){
       w.start_date=start;w.end_date=end;
     }
   }
+  window.pendingWorkSectionTemplateMaterials=null;
   closeWorkSectionForm();
   renderWorkPanel();
 }
-async function deleteWorkSection(id){const x=projectWorkSections.find(s=>s.id===id);if(!x)return;if(!confirm(`Удалить раздел «${x.name}»? Работы внутри останутся отдельными и будут отвязаны от раздела.`))return;const {error}=await sbClient.from('project_work_sections').delete().eq('id',id);if(error)return alert('Не удалось удалить раздел: '+error.message);projectWorkSections=projectWorkSections.filter(s=>s.id!==id);projectWorkItems.filter(w=>w.section_id===id).forEach(w=>w.section_id=null);renderWorkPanel();}
+async function deleteWorkSection(id){const x=projectWorkSections.find(s=>s.id===id);if(!x)return;const childIds=projectWorkItems.filter(w=>w.section_id===id).map(w=>w.id);if(!confirm(`Удалить раздел «${x.name}» вместе со всеми ${childIds.length} работами, материалами и историей выполнения? Это действие нельзя отменить.`))return;const {error}=await sbClient.from('project_work_sections').delete().eq('id',id);if(error)return alert('Не удалось удалить раздел: '+error.message);projectWorkSections=projectWorkSections.filter(s=>s.id!==id);projectWorkItems=projectWorkItems.filter(w=>w.section_id!==id);projectWorkMaterials=projectWorkMaterials.filter(m=>!childIds.includes(m.work_item_id));projectWorkProgress=projectWorkProgress.filter(p=>!childIds.includes(p.work_item_id));renderWorkPanel();}
+async function saveCurrentWorkSectionTemplate(){
+ const name=$('workSectionName').value.trim();if(!name)return alert('Сначала укажите название состава/раздела.');
+ const rows=workingWorkSectionItems.filter(r=>!r._removeFromForm);if(!rows.length)return alert('Добавьте хотя бы одну работу.');
+ for(const r of rows){if(!r.work_catalog_id||Number(r.planned_volume||0)<=0)return alert('Для каждой работы выберите вид и укажите плановый объём.');}
+ const templateName=prompt('Название сохраняемого состава:',name);if(!templateName?.trim())return;
+ const user=(await sbClient.auth.getUser()).data.user;
+ const {data:t,error}=await sbClient.from('project_work_section_templates').insert({project_id:currentWorkProjectId,name:templateName.trim(),comment:$('workSectionComment').value.trim()||null,created_by:user?.id||null}).select('*').single();
+ if(error)return alert('Не удалось создать состав: '+error.message);
+ for(let i=0;i<rows.length;i++){
+  const r=rows[i],cat=workCatalog.find(w=>w.id===r.work_catalog_id);if(!cat)continue;
+  const {data:ti,error:ie}=await sbClient.from('project_work_section_template_items').insert({template_id:t.id,work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,sort_order:i}).select('*').single();
+  if(ie)return alert('Состав создан, но не удалось сохранить работу «'+cat.name+'»: '+ie.message);
+  const existing=r.id?projectWorkItems.find(w=>w.id===r.id):null;
+  let mats=existing?projectWorkMaterials.filter(m=>m.work_item_id===existing.id):defaultMaterialsForWork(cat.id,null);
+  mats=mats.filter(m=>m.material_name&&Number(m.quantity||0)>0).map((m,j)=>({template_item_id:ti.id,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name,unit:m.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,sort_order:j}));
+  if(mats.length){const {error:me}=await sbClient.from('project_work_section_template_materials').insert(mats);if(me)return alert('Не удалось сохранить материалы состава: '+me.message);}
+ }
+ alert('Состав «'+templateName.trim()+'» сохранён для этого объекта.');
+}
+async function loadWorkSectionTemplateOptions(){
+ const sel=$('workSectionTemplateSelect');if(!sel||!currentWorkProjectId)return;
+ const {data,error}=await sbClient.from('project_work_section_templates').select('id,name').eq('project_id',currentWorkProjectId).order('name');
+ if(error){console.warn('Не удалось получить сохранённые составы',error);return;}
+ sel.innerHTML='<option value="">— Выберите сохранённый состав —</option>'+(data||[]).map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
+}
+async function loadWorkSectionTemplate(templateId){
+ const {data:list,error}=await sbClient.from('project_work_section_templates').select('*').eq('project_id',currentWorkProjectId).order('name');
+ if(error)return alert('Не удалось загрузить составы: '+error.message);if(!list?.length)return alert('Для этого объекта ещё нет сохранённых составов.');
+ let t=templateId?list.find(x=>x.id===templateId):null;
+ if(!templateId){const choice=prompt('Введите номер состава:\n'+list.map((x,i)=>(i+1)+'. '+x.name).join('\n'));if(choice===null)return;t=list[Number(choice)-1];}
+ if(!t)return alert('Выберите существующий состав.');
+ const {data:items,error:ie}=await sbClient.from('project_work_section_template_items').select('*').eq('template_id',t.id).order('sort_order');if(ie)return alert('Не удалось прочитать состав: '+ie.message);
+ const imported=[];
+ for(const it of items||[]){const {data:mats,error:me}=await sbClient.from('project_work_section_template_materials').select('*').eq('template_item_id',it.id).order('sort_order');if(me)return alert('Не удалось прочитать материалы: '+me.message);imported.push({...it,_templateMaterials:mats||[]});}
+ if(!imported.length)return alert('В сохранённом составе нет работ.');
+ workingWorkSectionItems=imported.map(it=>({id:null,work_catalog_id:it.work_catalog_id||'',category:workCatalog.find(c=>c.id===it.work_catalog_id)?.category||'',work_name:it.work_name,unit:it.unit,planned_volume:it.planned_volume,comment:it.comment||'',_templateMaterials:it._templateMaterials}));
+ $('workSectionName').value=t.name;$('workSectionComment').value=t.comment||'';renderWorkSectionItemRows();window.pendingWorkSectionTemplateMaterials=imported;
+}
+
 function workCatalogCategories(){
   return [...new Set(workCatalog.map(w=>w.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'ru'));
 }
@@ -5778,22 +5863,26 @@ function renderWorkCatalogNavigation(selectedCategory,selectedWorkId){
   if(!catSel||!workSel)return;
   const categories=workCatalogCategories();
   const category=selectedCategory||catSel.value||'';
-  catSel.innerHTML='<option value="">Выберите раздел работ</option>'+categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  catSel.innerHTML='<option value="">Все категории</option>'+categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
   if(category&&categories.includes(category))catSel.value=category;
-  const rows=workCatalog.filter(w=>!category||w.category===category);
+  const q=String($('workCatalogSearch')?.value||'').trim().toLocaleLowerCase('ru');
+  const rows=workCatalog.filter(w=>(!category||w.category===category)&&(!q||w.name.toLocaleLowerCase('ru').includes(q)));
   workSel.innerHTML='<option value="">Выберите вид работы</option>'+rows.map(w=>`<option value="${w.id}">${esc(w.name)} (${esc(w.unit)})</option>`).join('');
   if(selectedWorkId&&rows.some(w=>w.id===selectedWorkId))workSel.value=selectedWorkId;
 }
+function onWorkCatalogSearchInput(){
+  const q=String($('workCatalogSearch')?.value||'').trim().toLocaleLowerCase('ru');
+  const matches=workCatalog.filter(w=>q&&w.name.toLocaleLowerCase('ru').includes(q));
+  const cats=[...new Set(matches.map(w=>w.category).filter(Boolean))];
+  if(matches.length===1||cats.length===1){renderWorkCatalogNavigation(cats[0]||'', '');}
+  else renderWorkCatalogNavigation($('workCatalogCategorySelect')?.value||'', '');
+  $('workUnit').value='';workingWorkMaterials=[];renderWorkMaterialsEditor();
+}
 function onWorkCatalogCategoryChange(){
   renderWorkCatalogNavigation($('workCatalogCategorySelect').value,'');
-  $('workUnit').value='';
-  workingWorkMaterials=[];
-  renderWorkMaterialsEditor();
+  $('workUnit').value='';workingWorkMaterials=[];renderWorkMaterialsEditor();
 }
-function filterWorkCatalogOptions(){
-  // Совместимость со старым кодом: теперь это не поиск, а навигация по категориям.
-  renderWorkCatalogNavigation($('workCatalogCategorySelect')?.value||'', $('workCatalogSelect')?.value||'');
-}
+function filterWorkCatalogOptions(){renderWorkCatalogNavigation($('workCatalogCategorySelect')?.value||'', $('workCatalogSelect')?.value||'');}
 function primaryRuleRows(workId){return workCatalogMaterials.filter(r=>r.work_catalog_id===workId&&r.material_role==='primary');}
 function secondaryRuleRows(workId){return workCatalogMaterials.filter(r=>r.work_catalog_id===workId&&r.material_role!=='primary');}
 function defaultMaterialsForWork(workId,primaryId){
@@ -5832,6 +5921,7 @@ function openWorkItemForm(id,sectionId){
   $('workItemSaveBtn').textContent=x?'Сохранить изменения':'Сохранить работу';
   $('workSectionSelect').innerHTML='<option value="">Без раздела — отдельная работа</option>'+projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
   $('workSectionSelect').value=x?.section_id||sectionId||'';
+  $('workCatalogSearch').value=x?.work_name||'';
   renderWorkCatalogNavigation(x?.work_catalog_id?workCatalog.find(w=>w.id===x.work_catalog_id)?.category||'':'',x?.work_catalog_id||'');
   $('workPlannedVolume').value=x?.planned_volume??'';
   $('workUnit').value=x?.unit||'';
@@ -5847,6 +5937,7 @@ function openWorkItemForm(id,sectionId){
 function onWorkCatalogChange(){
   const id=$('workCatalogSelect').value;
   const w=workCatalog.find(x=>x.id===id);
+  if(w&&$('workCatalogCategorySelect').value!==w.category)renderWorkCatalogNavigation(w.category,id);
   $('workUnit').value=w?.unit||'';
   if(id){
     const oldPrimary=editingWorkItemId?projectWorkItems.find(x=>x.id===editingWorkItemId)?.primary_material_catalog_id:null;
@@ -5952,7 +6043,7 @@ async function saveWorkItem(){
   editingWorkItemId=null;workingWorkMaterials=[];closeWorkItemForm();renderWorkPanel();
 }
 function closeWorkItemForm(){$('workItemModal').classList.remove('open');editingWorkItemId=null;workingWorkMaterials=[];}
-async function deleteWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||!confirm(`Удалить работу «${x.work_name}» и её историю выполнения?`))return;const {error}=await sbClient.from('project_work_items').delete().eq('id',id);if(error)return alert('Не удалось удалить работу: '+error.message);projectWorkItems=projectWorkItems.filter(w=>w.id!==id);projectWorkMaterials=projectWorkMaterials.filter(m=>m.work_item_id!==id);projectWorkProgress=projectWorkProgress.filter(p=>p.work_item_id!==id);renderWorkPanel();}
+async function deleteWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||!confirm(`Удалить работу «${x.work_name}» вместе с материалами и историей выполнения? Это действие нельзя отменить.`))return;let {error}=await sbClient.from('project_work_progress').delete().eq('work_item_id',id);if(error)return alert('Не удалось удалить историю выполнения: '+error.message);({error}=await sbClient.from('project_work_materials').delete().eq('work_item_id',id));if(error)return alert('Не удалось удалить материалы работы: '+error.message);({error}=await sbClient.from('project_work_items').delete().eq('id',id));if(error)return alert('Не удалось удалить работу: '+error.message);projectWorkItems=projectWorkItems.filter(w=>w.id!==id);projectWorkMaterials=projectWorkMaterials.filter(m=>m.work_item_id!==id);projectWorkProgress=projectWorkProgress.filter(p=>p.work_item_id!==id);renderWorkPanel();}
 async function completeWorkItem(id){
   const w=projectWorkItems.find(x=>x.id===id);
   if(!w||w.status==='completed')return;
@@ -5981,6 +6072,30 @@ async function completeWorkItem(id){
   renderWorkPanel();
 }
 
+async function refreshWorkFactsForIds(ids){for(const wid of ids){const w=projectWorkItems.find(x=>x.id===wid);if(!w)continue;const total=projectWorkProgress.filter(p=>p.work_item_id===wid).reduce((a,p)=>a+Number(p.completed_volume||0),0);w.completed_volume=total;w.status=total>=Number(w.planned_volume||0)&&Number(w.planned_volume||0)>0?'completed':total>0?'in_progress':'planned';const {error}=await sbClient.from('project_work_items').update({completed_volume:total,status:w.status,updated_at:new Date().toISOString()}).eq('id',wid);if(error)console.warn('Не удалось обновить итоговый факт',wid,error);}}
+function openVolumeSubmissions(){renderVolumeSubmissions();$('volumeSubmissionsListModal').classList.add('open');}
+function closeVolumeSubmissions(){$('volumeSubmissionsListModal').classList.remove('open');}
+function closeVolumeSubmissionForm(){$('volumeSubmissionModal').classList.remove('open');editingVolumeSubmissionId=null;}
+function renderVolumeSubmissions(){const rows=workVolumeSubmissions.filter(x=>x.project_id===currentWorkProjectId);$('volumeSubmissionsList').innerHTML=rows.length?rows.map(x=>{const its=workVolumeSubmissionItems.filter(i=>i.submission_id===x.id);const total=its.reduce((a,i)=>a+Number(i.completed_volume||0),0);const labels=[...new Set(its.map(i=>i.section_label).filter(Boolean))];const counts=[...new Set(its.map(i=>Number(i.unit_count||1)))];return `<div class="work-item"><b>${fmtDate(x.period_from)} — ${fmtDate(x.period_to)}</b><div class="muted">${labels.length?labels.map((v,i)=>`${esc(v)}${counts[i]?' · '+counts[i]+' шт.':''}`).join(' | '):its.length+' работ'} · ${total.toLocaleString('ru-RU',{maximumFractionDigits:3})} суммарного объёма</div>${x.comment?`<div class="muted">${esc(x.comment)}</div>`:''}<div class="work-task-actions"><button class="smallbtn" onclick="openVolumeSubmissionForm('${x.id}')">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteVolumeSubmission('${x.id}')">Удалить</button></div></div>`}).join(''):'<div class="empty">Подач пока нет.</div>';}
+function openVolumeSubmissionForm(id){
+ editingVolumeSubmissionId=id||null;const sub=id?workVolumeSubmissions.find(x=>x.id===id):null;const its=id?workVolumeSubmissionItems.filter(x=>x.submission_id===id):[];
+ $('volumeSubmissionTitle').textContent=id?'Изменить подачу объёмов':'Новая подача объёмов';$('volumeFrom').value=sub?.period_from||isoToday();$('volumeTo').value=sub?.period_to||isoToday();$('volumeComment').value=sub?.comment||'';
+ const groups=projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>({id:s.id,name:s.name,rows:projectWorkItems.filter(w=>w.section_id===s.id)}));
+ const standalone=projectWorkItems.filter(w=>w.project_id===currentWorkProjectId&&!w.section_id);if(standalone.length)groups.push({id:'standalone',name:'Отдельные работы',rows:standalone});
+ $('volumeSubmissionEditor').innerHTML='<div class="muted" style="margin:8px 0 12px">Выберите готовые разделы и укажите, сколько единиц закрываете. Все работы внутри раздела будут засчитаны автоматически: плановый объём каждой работы × количество. Комментарий — ваше обозначение, например «402–421» или «1–5 этажи».</div>'+groups.map(g=>{const old=its.filter(i=>g.rows.some(w=>w.id===i.work_item_id));const count=old.length?Number(old[0].unit_count||1):'';const label=old[0]?.section_label||'';const lines=g.rows.map(w=>`<div class="muted" style="padding:3px 0">${esc(w.work_name)} — ${Number(w.planned_volume||0)} ${esc(w.unit)} на 1 единицу</div>`).join('');return `<div class="work-section-card" style="margin-bottom:10px"><b>${esc(g.name)}</b><div style="display:flex;gap:8px;margin:8px 0"><div style="flex:0 0 125px"><label>Количество</label><input type="number" min="0" step="1" data-volume-count="${g.id}" value="${count}" placeholder="0" style="width:100%;padding:9px;border:1px solid #dce2ea;border-radius:9px"></div><div style="flex:1"><label>Комментарий / обозначение</label><input type="text" data-volume-label="${g.id}" value="${esc(label)}" placeholder="Например: 402–421" style="width:100%;padding:9px;border:1px solid #dce2ea;border-radius:9px"></div></div><details><summary class="muted">Состав работ (${g.rows.length})</summary>${lines}</details></div>`}).join('');
+ $('volumeSubmissionModal').classList.add('open');
+}
+async function saveVolumeSubmission(){
+ const from=$('volumeFrom').value,to=$('volumeTo').value;if(!from||!to||to<from)return alert('Укажите корректный период.');
+ const entries=[];for(const inp of $('volumeSubmissionEditor').querySelectorAll('[data-volume-count]')){const count=Math.floor(Number(inp.value||0));if(count<=0)continue;const groupId=inp.dataset.volumeCount,label=document.querySelector(`#volumeSubmissionEditor [data-volume-label="${groupId}"]`)?.value.trim()||'';const rows=groupId==='standalone'?projectWorkItems.filter(w=>w.project_id===currentWorkProjectId&&!w.section_id):projectWorkItems.filter(w=>w.section_id===groupId);if(!rows.length)continue;for(const w of rows){const qty=Number(w.planned_volume||0)*count;if(qty>0)entries.push({work_item_id:w.id,qty,date:to,unit_count:count,section_label:label||projectWorkSections.find(s=>s.id===groupId)?.name||'Отдельные работы'});}}
+ if(!entries.length)return alert('Укажите количество хотя бы для одного раздела.');
+ const user=(await sbClient.auth.getUser()).data.user;let sub,error;
+ if(editingVolumeSubmissionId){sub=workVolumeSubmissions.find(x=>x.id===editingVolumeSubmissionId);({error}=await sbClient.from('work_volume_submissions').update({period_from:from,period_to:to,comment:$('volumeComment').value.trim()||null,updated_at:new Date().toISOString()}).eq('id',sub.id));if(error)return alert(error.message);const old=workVolumeSubmissionItems.filter(i=>i.submission_id===sub.id);for(const i of old){if(i.progress_id){const {error:de}=await sbClient.from('project_work_progress').delete().eq('id',i.progress_id);if(de)return alert('Не удалось заменить старый факт: '+de.message);projectWorkProgress=projectWorkProgress.filter(p=>p.id!==i.progress_id);}}await refreshWorkFactsForIds([...new Set(old.map(i=>i.work_item_id))]);const {error:di}=await sbClient.from('work_volume_submission_items').delete().eq('submission_id',sub.id);if(di)return alert(di.message);workVolumeSubmissionItems=workVolumeSubmissionItems.filter(i=>i.submission_id!==sub.id);Object.assign(sub,{period_from:from,period_to:to,comment:$('volumeComment').value.trim()||null});
+ }else{({data:sub,error}=await sbClient.from('work_volume_submissions').insert({project_id:currentWorkProjectId,period_from:from,period_to:to,comment:$('volumeComment').value.trim()||null,created_by:user?.id||null}).select('*').single());if(error)return alert('Не удалось создать подачу: '+error.message);workVolumeSubmissions.unshift(sub);}
+ for(const e of entries){const {data:item,error:ie}=await sbClient.from('work_volume_submission_items').insert({submission_id:sub.id,work_item_id:e.work_item_id,completed_volume:e.qty,progress_date:e.date,unit_count:e.unit_count,section_label:e.section_label}).select('*').single();if(ie)return alert('Подача сохранена частично: '+ie.message);const {data:pr,error:pe}=await sbClient.from('project_work_progress').insert({work_item_id:e.work_item_id,progress_date:e.date,completed_volume:e.qty,comment:`Подача объёмов: ${e.section_label} × ${e.unit_count}`,created_by:user?.id||null}).select('*').single();if(pe)return alert('Позиция сохранена, но факт не добавлен: '+pe.message);const {error:ue}=await sbClient.from('work_volume_submission_items').update({progress_id:pr.id}).eq('id',item.id);if(ue)return alert('Факт записан, но связь с подачей не сохранена: '+ue.message);item.progress_id=pr.id;workVolumeSubmissionItems.push(item);projectWorkProgress.push(pr);}
+ await refreshWorkFactsForIds([...new Set(entries.map(e=>e.work_item_id))]);closeVolumeSubmissionForm();closeVolumeSubmissions();renderWorkPanel();alert('Подача сохранена. Все работы выбранных разделов автоматически добавлены в факт «Хода работ».');
+}
+async function deleteVolumeSubmission(id){const items=workVolumeSubmissionItems.filter(i=>i.submission_id===id);if(!confirm('Удалить подачу и убрать связанные с ней факты из «Хода работ»?'))return;for(const i of items){if(i.progress_id){const {error}=await sbClient.from('project_work_progress').delete().eq('id',i.progress_id);if(error)return alert('Не удалось удалить связанный факт: '+error.message);projectWorkProgress=projectWorkProgress.filter(p=>p.id!==i.progress_id);}}const {error}=await sbClient.from('work_volume_submissions').delete().eq('id',id);if(error)return alert('Не удалось удалить подачу: '+error.message);workVolumeSubmissions=workVolumeSubmissions.filter(x=>x.id!==id);workVolumeSubmissionItems=workVolumeSubmissionItems.filter(x=>x.submission_id!==id);const affected=new Set(items.map(i=>i.work_item_id));await refreshWorkFactsForIds([...affected]);renderVolumeSubmissions();renderWorkPanel();}
 function openWorkProgressForm(id){const w=projectWorkItems.find(x=>x.id===id);if(!w)return;currentWorkProgressItemId=id;$('workProgressTitle').textContent=`${w.work_name} · план ${Number(w.planned_volume||0)} ${w.unit}`;$('workProgressDate').value=isoToday();$('workProgressVolume').value='';$('workProgressComment').value='';$('workProgressModal').classList.add('open');}
 function closeWorkProgressForm(){$('workProgressModal').classList.remove('open');currentWorkProgressItemId=null;}
 async function saveWorkProgress(){
