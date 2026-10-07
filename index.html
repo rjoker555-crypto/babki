@@ -1872,14 +1872,17 @@ console.warn('Не удалось перенести старые данные �
 
 }
 
-async function loadAll(){
+const isTransientLoadError=error=>/failed to fetch|networkerror|load failed|network request failed/i.test(String(error?.message||error||''));
+const retryInitialLoad=async attempt=>{await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));return loadAll(attempt+1);};
+
+async function loadAll(attempt=0){
 
 const userResult=await sbClient.auth.getUser();
 const user=userResult.data.user;
 if(!user){await boot(null);return;}
 
 const profileResult=await sbClient.from('profiles').select('*').eq('id',user.id).maybeSingle();
-if(profileResult.error){alert('Не удалось загрузить профиль: '+profileResult.error.message);return;}
+if(profileResult.error){if(attempt<2&&isTransientLoadError(profileResult.error))return retryInitialLoad(attempt);alert('Не удалось загрузить профиль: '+profileResult.error.message);return;}
 profile=profileResult.data;
 const telegramButton=$('telegramConnectButton');if(telegramButton)telegramButton.hidden=!(profile?.is_active&&['director','foreman'].includes(profile.role));
 const telegramAdminControls=$('telegramAdminControls');if(telegramAdminControls)telegramAdminControls.hidden=!(profile?.is_active&&profile.role==='director');
@@ -1913,7 +1916,7 @@ if(profile?.role==='foreman' || profile?.role==='manager'){
     sbClient.from('work_volume_submission_items').select('*')
   ]);
   const err=pr.error||sc.error||mat.error||oth.error||pto.error||contacts.error||ev.error||orgs.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error||vsubs.error||vsitems.error;
-  if(err){alert('Ошибка загрузки данных: '+err.message);return;}
+  if(err){if(attempt<2&&isTransientLoadError(err))return retryInitialLoad(attempt);alert('Ошибка загрузки данных: '+err.message);return;}
   projects=pr.data||[];
   subcontractors=sc.data||[];
   projectMaterials=mat.data||[];
@@ -1976,7 +1979,7 @@ const [o,r,ap,cr,pr,sc,ev,mat,oth,emps,orgs,pto,contacts,wc,mc,wcm,wi,wm,wp,ws,w
   sbClient.from('work_volume_submission_items').select('*')
 ]);
 const err=o.error||r.error||ap.error||cr.error||pr.error||sc.error||ev.error||mat.error||oth.error||emps.error||orgs.error||pto.error||contacts.error||wc.error||mc.error||wcm.error||wi.error||wm.error||wp.error||ws.error||wt.error||wo.error||docs.error||prices.error||vsubs.error||vsitems.error;
-if(err){alert('Ошибка загрузки данных: '+err.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена.');return;}
+if(err){if(attempt<2&&isTransientLoadError(err))return retryInitialLoad(attempt);alert('Ошибка загрузки данных: '+err.message+'\n\nЕсли ошибка связана с таблицами subcontractors, events, project_materials или project_other_expenses — убедитесь, что SQL-миграция базы данных выполнена.');return;}
 ops=o.data||[];ars=r.data||[];aps=ap.data||[];creditors=cr.data||[];projects=pr.data||[];subcontractors=sc.data||[];events=ev.data||[];projectMaterials=mat.data||[];projectOtherExpenses=oth.data||[];orgEmployees=emps.data||[];orgExpenses=orgs.data||[];ptoDocuments=pto.data||[];ptoContacts=contacts.data||[];workCatalog=wc.data||[];materialCatalog=mc.data||[];workCatalogMaterials=wcm.data||[];projectWorkItems=wi.data||[];projectWorkMaterials=wm.data||[];projectWorkProgress=wp.data||[];projectWorkSections=ws.data||[];
   workVolumeSubmissions=vsubs.data||[];
   workVolumeSubmissionItems=vsitems.data||[];projectWorkTasks=wt.data||[];workMaterialOptions=wo.data||[];
