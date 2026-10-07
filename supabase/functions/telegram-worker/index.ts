@@ -89,16 +89,25 @@ async function callAgent(update,link,messageId,operation=null,approval=null){
  const r=await fetch(base()+'/functions/v1/main-agent',{method:'POST',headers:{apikey:s,Authorization:'Bearer '+s,'X-Voltmaster-Internal':key,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(125000)});
  const data=await r.json();if(!r.ok)throw Error(data.error||'Агент не ответил. Сообщение сохранено в приложении.');return data;
 }
-async function approvals(update,link,messageId){
+async function approvalPlans(update,link,messageId){
  if(link.chat_id!==update.chat_id||link.generation!==update.generation)return null;
  const response=await callAgent(update,link,messageId,'list_approvals');const plans=response.approvals||[];if(!plans.length)return null;
+ return plans;
+}
+async function approvalKeyboard(link,plans){
  const keyboard=[];for(const plan of plans.slice(0,8)){
   const yes=await createCallback(link,'confirm',{plan_id:plan.id,version:plan.version}),no=await createCallback(link,'cancel',{plan_id:plan.id,version:plan.version});
   keyboard.push([{text:'✅ Подтвердить',callback_data:'c:'+yes},{text:'✏️ Уточнить',callback_data:'mode:instruction'},{text:'❌ Отменить',callback_data:'c:'+no}]);
  }
  return {inline_keyboard:keyboard};
 }
-async function executionStatus(link){
+async function approvals(update,link,messageId){const plans=await approvalPlans(update,link,messageId);return plans?approvalKeyboard(link,plans):null;}
+async function executionStatus(update,link,messageId){
+ const pending=await approvalPlans(update,link,messageId);
+ if(pending?.length){
+  const text='Ожидают подтверждения:\n\n'+pending.slice(0,8).map((plan,index)=>(index+1)+'. '+plan.description+'\nДействует до '+new Date(plan.expires_at).toLocaleString('ru-RU',{timeZone:'Asia/Krasnoyarsk'})).join('\n\n');
+  return plain(link,text,await approvalKeyboard(link,pending));
+ }
  const tables=['agent_operator_plans','agent_action_plans','agent_file_action_plans'];
  const rows=[];
  for(const table of tables){
@@ -159,12 +168,14 @@ export async function processUpdate(update){
  else if(item.event==='new_chat'||item.event==='new_submission')answer=plain(link,'Новый личный '+(link.role==='foreman'?'разговор подачи':'чат')+' создан. Прежняя история доступна в приложении.');
  else if(item.event==='consultation'||item.event==='instruction'||item.event==='document')answer=item.event==='document'&&!link.project_id?await projectsKeyboard(fixed,link):plain(link,item.event==='document'?'Режим подачи документа. Объект уже выбран; можно отправлять файлы.':item.event==='consultation'?'Режим консультации: чтение и анализ.':'Режим указаний: поручения выполняются только после подтверждения.');
  else if(item.text==='❓ Помощь'||item.text==='/start')answer=plain(link,link.role==='foreman'?'Выберите объект и отправьте документы, затем пояснение и подтвердите подачу.':'Выберите консультацию, подачу документа или указание. Подтверждение записи происходит отдельной кнопкой.');
- else if(item.text==='🌐 Открыть приложение')answer=plain(link,'Откройте приложение: '+(Deno.env.get('VOLTMASTER_APP_URL')||'адрес появится после публикации frontend'));
+ else if(item.text==='🌐 Открыть приложение')answer=plain(link,'Откройте приложение: '+(Deno.env.get('VOLTMASTER_APP_URL')||'https://rjoker555-crypto.github.io/babki/'));
  else if(item.event==='cancel')answer=plain(link,'Текущий ввод отменён. Уже выполненные действия не изменились.');
  else if(item.text==='📬 Статус подачи'){
   const rows=await bridge('status',{owner_id:link.owner_id,telegram_user_id:link.telegram_user_id});answer=plain(link,rows.length?rows.map(x=>x.project_name+' · '+x.status+' · '+x.id).join('\n'):'Сохранённых подач пока нет.');
  }
- else if(item.text==='📊 Статус выполнения'&&link.role==='director')answer=await executionStatus(link);
+ else if(item.text==='📊 Статус выполнения'&&link.role==='director'){
+  const msg=await saveChat(fixed,link,item.text,'text');answer=await executionStatus(fixed,link,msg.id);answer._incoming_saved=true;
+ }
  else if(item.text==='Выбрать объект'||item.text==='📎 Подать документ'&&!link.project_id)answer=await projectsKeyboard(fixed,link);
  else if(item.kind==='document'||item.kind==='photo')answer=await stageFile(fixed,link,item);
  else if(item.kind==='voice'){
@@ -187,15 +198,15 @@ export async function processUpdate(update){
   }
  }
  else answer=plain(link,'Поддерживаются сообщения, голос и документы.');
- if(!answer._agent_saved){await saveChat(fixed,link,item.text||'[Telegram: '+item.kind+']',item.kind==='callback'?'callback':item.kind==='voice'?'voice':item.kind==='document'||item.kind==='photo'?'document':'system');await request('rpc/telegram_save_transport_answer',{method:'POST',body:JSON.stringify({p_update:fixed.update_id,p_owner:link.owner_id,p_chat:fixed.chat_id,p_content:answer.text})});}
- delete answer._agent_saved;
+ if(!answer._agent_saved){if(!answer._incoming_saved)await saveChat(fixed,link,item.text||'[Telegram: '+item.kind+']',item.kind==='callback'?'callback':item.kind==='voice'?'voice':item.kind==='document'||item.kind==='photo'?'document':'system');await request('rpc/telegram_save_transport_answer',{method:'POST',body:JSON.stringify({p_update:fixed.update_id,p_owner:link.owner_id,p_chat:fixed.chat_id,p_content:answer.text})});}
+ delete answer._agent_saved;delete answer._incoming_saved;
  return {result:{processed:true,mode:fixed.mode,owner_id:link.owner_id},answer};
 }
 export async function drain(limit=3){
  let processed=0;for(let i=0;i<limit;i++){
   const update=await bridge('claim');if(!update)break;
   try{const done=await processUpdate(update);await bridge('finish',{update_id:update.update_id,result:done.result,answer:done.answer});}
-  catch(error){const permanent=/лимит|недоступ|слишком|формат|объект|проект|измен|отключ|расшифр|повторн|прервал/i.test(error.message||'');await bridge('finish',{update_id:update.update_id,result:{error:safeTelegramText(error.message)},answer:permanent?{method:'sendMessage',chat_id:update.telegram_user_id,text:safeTelegramText(error.message)}:null,retry_seconds:permanent?null:Math.min(3600,30*(update.attempts+1))});}
+  catch(error){const errorText=safeTelegramText(error.message),permanent=/лимит|недоступ|слишком|формат|объект|проект|измен|отключ|расшифр|повторн|прервал/i.test(error.message||'');if(permanent&&update.owner_id&&update.chat_id)try{await request('rpc/telegram_save_transport_answer',{method:'POST',body:JSON.stringify({p_update:update.update_id,p_owner:update.owner_id,p_chat:update.chat_id,p_content:errorText})});}catch{/* The incoming message may not have reached shared chat yet. */}await bridge('finish',{update_id:update.update_id,result:{error:errorText},answer:permanent?{method:'sendMessage',chat_id:update.telegram_user_id,text:errorText}:null,retry_seconds:permanent?null:Math.min(3600,30*(update.attempts+1))});}
   processed++;
  }
  return processed;
