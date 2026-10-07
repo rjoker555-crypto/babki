@@ -85,7 +85,7 @@ async function stageFile(update,link,item){
 }
 async function callAgent(update,link,messageId,operation=null,approval=null){
  const key=Deno.env.get('TELEGRAM_INTERNAL_SECRET'),s=service();if(!key)throw Error('Внутренний канал агента не настроен.');
- const payload={message_id:messageId,telegram:{owner_id:link.owner_id,telegram_user_id:link.telegram_user_id,chat_id:update.chat_id,mode:update.mode,update_id:update.update_id},...(operation?{operation}:{}),...(approval?{approval}:{})};
+ const payload={message_id:messageId,chat_id:link.chat_id,telegram:{owner_id:link.owner_id,telegram_user_id:link.telegram_user_id,chat_id:update.chat_id,mode:update.mode,update_id:update.update_id},...(operation?{operation}:{}),...(approval?{approval}:{})};
  const r=await fetch(base()+'/functions/v1/main-agent',{method:'POST',headers:{apikey:s,Authorization:'Bearer '+s,'X-Voltmaster-Internal':key,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(125000)});
  const data=await r.json();if(!r.ok)throw Error(data.error||'Агент не ответил. Сообщение сохранено в приложении.');return data;
 }
@@ -185,7 +185,7 @@ export async function processUpdate(update){
    answer=plain(link,'Распознано: '+transcript+'\nДобавлено как пояснение. Для отправки документов нажмите «Завершить подбор».');
   }else{
    const msg=await saveChat(fixed,link,'[голос, Telegram] '+transcript,'voice');const r=await callAgent(fixed,link,msg.id);answer=plain(link,'Распознано: '+transcript+'\n\n'+(r.message?.content||'Ответ сохранён.'));
-   const keyboard=await approvals(fixed,link,msg.id);if(keyboard)answer.reply_markup=keyboard;answer._agent_saved=true;
+   if(fixed.mode==='instruction'){const keyboard=await approvals(fixed,link,msg.id);if(keyboard)answer.reply_markup=keyboard;}answer._agent_saved=true;
   }
  }
  else if(item.kind==='text'){
@@ -214,6 +214,7 @@ export async function drain(limit=3){
 export async function sendOutbox(limit=5){
  let count=0;for(let i=0;i<limit;i++){
   const item=await bridge('claim_outbox');if(!item)break;
+  if(!item.body||typeof item.body!=='object'||Array.isArray(item.body)||typeof item.body.method!=='string'||!Number.isSafeInteger(item.body.chat_id)){await bridge('finish_outbox',{id:item.id,state:'blocked'});count++;continue;}
   const link=await bridge('get_link',{telegram_user_id:item.telegram_user_id});if(!link){await bridge('finish_outbox',{id:item.id,state:'blocked'});continue;}
   const response=await telegramApi(item.body.method||'sendMessage',item.body);
   if(response.data?.ok)await bridge('finish_outbox',{id:item.id,state:'sent',telegram_message_id:response.data.result?.message_id});
