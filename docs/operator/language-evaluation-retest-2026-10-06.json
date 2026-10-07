@@ -1,0 +1,232 @@
+{
+  "id": "174c17a2-fbc2-4927-8cff-869fa32db2f7",
+  "calls": 13,
+  "reserved_micro_usd": 130000,
+  "finished_at": "2026-10-06 16:28:34.25149+00",
+  "results": [
+    {
+      "name": "income_no_date",
+      "plans": [
+        {
+          "action": "create",
+          "values": {
+            "amount": 50000,
+            "article": "Аванс заказчика",
+            "project_id": "11111111-1111-4111-8111-111111111111",
+            "operation_type": "income"
+          }
+        }
+      ],
+      "trace": [
+        {
+          "args": {
+            "query": "Ёлки",
+            "offset": 0
+          },
+          "tool": "list_projects"
+        },
+        {
+          "args": {
+            "project_id": "11111111-1111-4111-8111-111111111111"
+          },
+          "tool": "get_operation_options"
+        },
+        {
+          "args": {
+            "action": "create",
+            "values_json": "{\"operation_type\":\"income\",\"article\":\"Аванс заказчика\",\"amount\":50000,\"project_id\":\"11111111-1111-4111-8111-111111111111\"}",
+            "operation_id": null,
+            "expected_json": "null"
+          },
+          "tool": "propose_operation"
+        }
+      ],
+      "usage": {
+        "input_tokens": 5954,
+        "output_tokens": 134
+      },
+      "answer": "",
+      "passed": true,
+      "failure": null,
+      "request": "Пришло пятьдесят тысяч по ЖК Ёлки, это аванс заказчика.",
+      "cost_usd": 0.0006624
+    },
+    {
+      "name": "amount_decimal",
+      "plans": [
+        {
+          "action": "create",
+          "values": {
+            "amount": 13500.5,
+            "article": "Аванс заказчика",
+            "project_id": "11111111-1111-4111-8111-111111111111",
+            "operation_type": "income"
+          }
+        }
+      ],
+      "trace": [
+        {
+          "args": {
+            "query": "ЖК Ёлки",
+            "offset": 0
+          },
+          "tool": "list_projects"
+        },
+        {
+          "args": {
+            "action": "create",
+            "values_json": "{\"operation_type\":\"income\",\"article\":\"Аванс заказчика\",\"amount\":13500.5,\"project_id\":\"11111111-1111-4111-8111-111111111111\"}",
+            "operation_id": null,
+            "expected_json": "null"
+          },
+          "tool": "propose_operation"
+        }
+      ],
+      "usage": {
+        "input_tokens": 3841,
+        "output_tokens": 102
+      },
+      "answer": "",
+      "passed": true,
+      "failure": null,
+      "request": "Добавь приход по ЖК Ёлки 13 500,50 рублей как аванс заказчика.",
+      "cost_usd": 0.0004351
+    },
+    {
+      "name": "amount_short",
+      "plans": [
+        {
+          "action": "create",
+          "values": {
+            "amount": 1200000,
+            "article": "Аванс заказчика",
+            "project_id": "11111111-1111-4111-8111-111111111111",
+            "operation_type": "income"
+          }
+        }
+      ],
+      "trace": [
+        {
+          "args": {
+            "query": "ЖК Ёлки",
+            "offset": 0
+          },
+          "tool": "list_projects"
+        },
+        {
+          "args": {
+            "project_id": "11111111-1111-4111-8111-111111111111"
+          },
+          "tool": "get_operation_options"
+        },
+        {
+          "args": {
+            "action": "create",
+            "values_json": "{\"operation_type\":\"income\",\"article\":\"Аванс заказчика\",\"amount\":1200000,\"project_id\":\"11111111-1111-4111-8111-111111111111\"}",
+            "operation_id": null,
+            "expected_json": "null"
+          },
+          "tool": "propose_operation"
+        }
+      ],
+      "usage": {
+        "input_tokens": 5949,
+        "output_tokens": 137
+      },
+      "answer": "",
+      "passed": true,
+      "failure": null,
+      "request": "По ЖК Ёлки поступил аванс 1,2 млн руб.",
+      "cost_usd": 0.0006634
+    },
+    {
+      "name": "ambiguous_project",
+      "plans": [],
+      "trace": [
+        {
+          "args": {
+            "query": "Ёлки",
+            "offset": 0
+          },
+          "tool": "list_projects"
+        }
+      ],
+      "usage": {
+        "input_tokens": 3867,
+        "output_tokens": 63
+      },
+      "answer": "Нашёл два объекта: «Ёлки Север» и «Ёлки Юг». Уточните, к какому добавить аванс 50 000 ₽?",
+      "passed": true,
+      "failure": null,
+      "request": "Добавь 50 тысяч аванса по объекту Ёлки.",
+      "cost_usd": 0.00041820000000000003
+    },
+    {
+      "name": "last_entered",
+      "plans": [
+        {
+          "id": "22222222-2222-4222-8222-222222222222",
+          "action": "update",
+          "values": {
+            "amount": 13000
+          },
+          "expected": {
+            "id": "22222222-2222-4222-8222-222222222222",
+            "amount": 50000,
+            "article": "Аванс заказчика",
+            "comment": "Не менять",
+            "created_at": "2026-10-06T01:00:00Z",
+            "project_id": "11111111-1111-4111-8111-111111111111",
+            "payer_company": "ИП",
+            "receivable_id": null,
+            "operation_date": "2026-10-05",
+            "operation_type": "income"
+          }
+        }
+      ],
+      "trace": [
+        {
+          "args": {
+            "sort": "created_at",
+            "offset": 0,
+            "project_id": null,
+            "operation_type": "income"
+          },
+          "tool": "list_operations"
+        },
+        {
+          "args": {
+            "query": "ЖК Ёлки",
+            "offset": 0
+          },
+          "tool": "list_projects"
+        },
+        {
+          "args": {
+            "action": "update",
+            "values_json": "{\"amount\":13000}",
+            "operation_id": "22222222-2222-4222-8222-222222222222",
+            "expected_json": "{\"id\":\"22222222-2222-4222-8222-222222222222\",\"project_id\":\"11111111-1111-4111-8111-111111111111\",\"amount\":50000,\"operation_date\":\"2026-10-05\",\"created_at\":\"2026-10-06T01:00:00Z\",\"operation_type\":\"income\",\"article\":\"Аванс заказчика\",\"payer_company\":\"ИП\",\"comment\":\"Не менять\",\"receivable_id\":null}"
+          },
+          "tool": "propose_operation"
+        }
+      ],
+      "usage": {
+        "input_tokens": 6263,
+        "output_tokens": 217
+      },
+      "answer": "",
+      "passed": true,
+      "failure": null,
+      "request": "По ЖК Ёлки в последнем внесённом приходе поставь 13 тысяч, остальное оставь.",
+      "cost_usd": 0.0007348000000000001
+    },
+    {
+      "model": "gpt-6-luna",
+      "finished": true,
+      "price_source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "financial_writes": 0,
+      "reserved_limit_usd": 0.48
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+begin;
+create temporary table retention_test(own uuid,other_user uuid,live uuid,expired uuid,foreign_chat uuid,old_message uuid);
+do $$ declare u uuid; v uuid; a uuid:=gen_random_uuid(); b uuid:=gen_random_uuid(); c uuid:=gen_random_uuid(); m uuid:=gen_random_uuid(); begin
+ select id into u from public.profiles where is_active limit 1;
+ select id into v from public.profiles where is_active and id<>u limit 1;
+ if u is null or v is null then raise exception 'Two active test identities required'; end if;
+ insert into retention_test values(u,v,a,b,c,m);
+ insert into public.agent_conversations(id,owner_id,title) values(a,u,'TEST live'),(b,u,'TEST expired'),(c,v,'TEST other user');
+ insert into public.agent_chat_messages(id,owner_id,chat_id,kind,content,created_at) values(m,u,b,'user','TEST old message',now()-interval '15 days');
+ update public.agent_conversations set last_message_at=now()-interval '15 days' where id=b;
+ insert into public.agent_request_runs(message_id,owner_id,status) values(m,u,'completed');
+ insert into public.agent_protocol_entries(actor_name,entry_type,summary,created_at) values('TEST','instruction','TEST expired protocol',now()-interval '2 months');
+ perform set_config('request.jwt.claim.sub',u::text,true);
+end $$;
+grant select on retention_test to authenticated;
+set local role authenticated;
+do $$ declare r retention_test; caught boolean:=false; begin
+ select * into r from retention_test;
+ if not exists(select 1 from public.agent_conversations where id=r.live) then raise exception 'Own chat hidden'; end if;
+ if exists(select 1 from public.agent_conversations where id in(r.expired,r.foreign_chat)) then raise exception 'Expired or other chat leaked'; end if;
+ if exists(select 1 from public.agent_chat_messages where id=r.old_message) then raise exception 'Expired message leaked'; end if;
+ if exists(select 1 from public.agent_protocol_entries where summary='TEST expired protocol') then raise exception 'Expired protocol leaked'; end if;
+ begin insert into public.agent_chat_messages(owner_id,chat_id,kind,content) values(r.own,r.foreign_chat,'user','TEST forbidden'); exception when others then caught:=true; end;
+ if not caught then raise exception 'Cross-owner thread insert allowed'; end if;
+ caught:=false;
+ begin insert into public.agent_conversations(owner_id,last_message_at) values(r.own,now()+interval '1 year'); exception when others then caught:=true; end;
+ if not caught then raise exception 'Retention timestamp can be forged'; end if;
+ insert into public.agent_chat_messages(owner_id,chat_id,kind,content) values(r.own,r.live,'user','TEST latest message');
+ if not exists(select 1 from public.agent_conversations where id=r.live and last_message_at>now()-interval '1 minute') then raise exception 'Last message not updated'; end if;
+end $$;
+reset role;
+select agent_private.prune_chat_data();
+do $$ declare r retention_test; begin
+ select * into r from retention_test;
+ if exists(select 1 from public.agent_conversations where id=r.expired) or exists(select 1 from public.agent_chat_messages where id=r.old_message) then raise exception 'Expired chat not physically cleaned'; end if;
+ if not exists(select 1 from public.agent_request_runs where message_id=r.old_message) then raise exception 'Deleting chat reset spend quota'; end if;
+ if exists(select 1 from public.agent_protocol_entries where summary='TEST expired protocol') then raise exception 'Expired protocol not cleaned'; end if;
+ if ('2026-01-31 10:00:00+07'::timestamptz+interval '1 month')::date<>'2026-02-28'::date then raise exception 'Calendar month semantics changed'; end if;
+ if (('2026-10-01 00:30:00+07'::timestamptz at time zone 'Asia/Krasnoyarsk')+interval '1 month')::date<>'2026-11-01'::date then raise exception 'Local calendar month boundary failed'; end if;
+end $$;
+rollback;
+select 'PASS: private/expired history, cross-owner insert, trusted retention clock, calendar month, cleanup and quota preservation; all rolled back' as verification;

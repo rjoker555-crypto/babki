@@ -1,0 +1,339 @@
+{
+  "date": "2026-10-07",
+  "js_suites": [
+    {
+      "test": "agent-calculations.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "agent-document-flow.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "agent-documents.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "agent-extraction.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "agent-files.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "agent-worker.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "agent.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "chat-files-ui.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "chat.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "financial-ui-numbers.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "obligations-ui.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-approval.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-document-files.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-reports.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-text-revision.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-tools.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "security-document-ui.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "security-request-size.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "security-team-ui.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "voice.test.cjs",
+      "status": "PASS"
+    },
+    {
+      "test": "volumes.test.cjs",
+      "status": "PASS"
+    }
+  ],
+  "sql_suites": [
+    {
+      "test": "operator-financial",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-financial-extended",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-financial-deferred",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-credit",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-obligations",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-project-card",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-volumes",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-team-records",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-production",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-templates",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-proposals",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-project-settings",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-project-delete",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-reports",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-organizational-links",
+      "status": "PASS"
+    },
+    {
+      "test": "operator-role-compat",
+      "status": "PASS"
+    },
+    {
+      "test": "security-authority",
+      "status": "PASS"
+    }
+  ],
+  "extra_sql_audit": {
+    "anonymous_tables": 30,
+    "self_escalation": false,
+    "foreman_foreign_access": false,
+    "fixtures_rolled_back": true
+  },
+  "frontend": {
+    "status": "PASS",
+    "scripts": [
+      {
+        "file": "financial-commands.js",
+        "status": "PASS"
+      },
+      {
+        "file": "chat.js",
+        "status": "PASS"
+      },
+      {
+        "file": "volumes.js",
+        "status": "PASS"
+      },
+      {
+        "file": "obligations.js",
+        "status": "PASS"
+      },
+      {
+        "file": "project-team.js",
+        "status": "PASS"
+      },
+      {
+        "inline": 9,
+        "status": "PASS"
+      },
+      {
+        "inline": 10,
+        "status": "PASS"
+      }
+    ],
+    "identical_report_renderer": true,
+    "renderer_sha256": "525a9155bb2184ee6e48651022ae6883ed883bac2cf5f45368dbfbb0c031f21b",
+    "private_credential_pattern_findings": [],
+    "publication": "not performed"
+  },
+  "http": [
+    {
+      "name": "no authorization: main-agent",
+      "status": 401
+    },
+    {
+      "name": "public key used as bearer: main-agent",
+      "status": 401
+    },
+    {
+      "name": "no authorization: transcribe-voice",
+      "status": 401
+    },
+    {
+      "name": "public key used as bearer: transcribe-voice",
+      "status": 401
+    },
+    {
+      "name": "no authorization: agent-files",
+      "status": 401
+    },
+    {
+      "name": "public key used as bearer: agent-files",
+      "status": 401
+    },
+    {
+      "name": "no authorization: agent-worker",
+      "status": 401
+    },
+    {
+      "name": "public key used as bearer: agent-worker",
+      "status": 401
+    },
+    {
+      "name": "no authorization: operator-evaluation",
+      "status": 401
+    },
+    {
+      "name": "public key used as bearer: operator-evaluation",
+      "status": 401
+    },
+    {
+      "name": "anonymous read: projects",
+      "status": 200,
+      "rows": 0
+    },
+    {
+      "name": "anonymous read: operations",
+      "status": 200,
+      "rows": 0
+    },
+    {
+      "name": "anonymous read: profiles",
+      "status": 200,
+      "rows": 0
+    },
+    {
+      "name": "anonymous read: agent_chat_messages",
+      "status": 401
+    },
+    {
+      "name": "anonymous read: project_documents",
+      "status": 401
+    },
+    {
+      "name": "anonymous read: agent_file_assets",
+      "status": 401
+    },
+    {
+      "name": "anonymous read: agent_report_assets",
+      "status": 401
+    },
+    {
+      "name": "anonymous read: agent_operator_plans",
+      "status": 401
+    },
+    {
+      "name": "anonymous storage listing: project-documents",
+      "status": 200,
+      "rows": 0
+    },
+    {
+      "name": "anonymous storage listing: agent-files",
+      "status": 200,
+      "rows": 0
+    },
+    {
+      "name": "anonymous storage listing: operator-reports",
+      "status": 200,
+      "rows": 0
+    },
+    {
+      "name": "public Auth settings",
+      "status": 200
+    },
+    {
+      "auth_settings_available": true,
+      "email_enabled": true,
+      "anonymous_sign_ins_enabled": false,
+      "disable_signup": false
+    },
+    {
+      "name": "internal net schema not exposed",
+      "status": 406
+    }
+  ],
+  "server": {
+    "main_agent_version": 19,
+    "agent_files_version": 6,
+    "verify_jwt": true
+  },
+  "cleanup": {
+    "synthetic_users_remaining": 0,
+    "project_remaining": 0,
+    "storage_remaining": 0
+  },
+  "language": {
+    "calls": 46,
+    "reserved_usd": 0.46,
+    "hard_test_limit_usd": 0.48,
+    "authorized_usd": 0.5,
+    "estimated_usage_cost_usd": 0.0132276,
+    "enabled": false
+  },
+  "coverage": {
+    "matrix_rows": 59,
+    "catalog_tools": 60,
+    "limitations": "See CONTROL_REPORT_2026-10-07.md"
+  },
+  "published": false,
+  "secret_scan": {
+    "commits": 15,
+    "shallow": "false",
+    "worktree_files": 310,
+    "history_blobs": 217,
+    "findings": 0
+  }
+}

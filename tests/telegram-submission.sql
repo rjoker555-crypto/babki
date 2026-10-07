@@ -1,0 +1,34 @@
+do $test$
+declare director uuid:=gen_random_uuid();foreman uuid:=gen_random_uuid();pid uuid:=gen_random_uuid();foreign_pid uuid:=gen_random_uuid();chat uuid;draft jsonb;receipt jsonb;listed jsonb;details jsonb;f uuid:=gen_random_uuid();denied boolean;
+begin begin
+ insert into auth.users(id) values(director),(foreman);
+ insert into public.profiles(id,role,is_active) values(director,'director',true),(foreman,'foreman',true);
+ insert into public.agent_director_access values(director);
+ insert into public.projects(id,name) values(pid,'TEST Telegram assigned'),(foreign_pid,'TEST Telegram foreign');
+ insert into public.project_team_members(project_id,user_id,assigned_by) values(pid,foreman,director);
+ insert into public.agent_conversations(owner_id,title) values(foreman,'Telegram: подача') returning id into chat;
+ insert into voltmaster_private.telegram_links(owner_id,telegram_user_id,current_chat_id,mode,selected_project_id) values(foreman,911111111,chat,'document',pid);
+ perform set_config('request.jwt.claim.role','service_role',true);execute 'set local role service_role';
+ if public.telegram_bridge('choose_project',jsonb_build_object('owner_id',foreman,'telegram_user_id',911111111,'project_id',foreign_pid,'generation',1)) is distinct from 'false'::jsonb then raise exception 'Foreign project selected';end if;
+ draft:=public.telegram_bridge('draft',jsonb_build_object('owner_id',foreman,'chat_id',chat,'project_id',pid));
+ if draft->>'project_name'<>'TEST Telegram assigned' then raise exception 'Assigned draft missing';end if;
+ receipt:=public.telegram_bridge('append_file',jsonb_build_object('submission_id',draft->>'id','owner_id',foreman,'telegram_file_id','TEST-file-id','file_name','TEST.pdf','mime_type','application/pdf','file_size',100,'storage_path',foreman::text||'/TEST.pdf','sha256',repeat('a',64)));
+ if (receipt->>'files')::int<>1 then raise exception 'One file expected';end if;
+ receipt:=public.telegram_bridge('append_file',jsonb_build_object('submission_id',draft->>'id','owner_id',foreman,'telegram_file_id','TEST-file-id','file_name','TEST.pdf','mime_type','application/pdf','file_size',100,'storage_path',foreman::text||'/TEST.pdf','sha256',repeat('a',64)));
+ if (receipt->>'files')::int<>1 then raise exception 'Duplicate file inserted';end if;
+ perform public.telegram_bridge('explain',jsonb_build_object('owner_id',foreman,'chat_id',chat,'text','TEST explanation only'));
+ receipt:=public.telegram_bridge('submit',jsonb_build_object('owner_id',foreman,'chat_id',chat,'project_id',pid,'explanation','TEST explanation only'));
+ if receipt->>'status'<>'pending_review' or (receipt->>'files')::int<>1 then raise exception 'Submission not pending review';end if;
+ execute 'reset role';perform set_config('request.jwt.claim.role','authenticated',true);perform set_config('request.jwt.claim.sub',director::text,true);execute 'set local role authenticated';
+ listed:=public.telegram_review_submissions();execute 'reset role';
+ if jsonb_array_length(listed)<>1 or listed->0->>'explanation'<>'TEST explanation only' then raise exception 'Director review missing';end if;
+ perform set_config('request.jwt.claim.role','service_role',true);execute 'set local role service_role';
+ details:=public.telegram_review_claim(director,(listed->0->'files'->0->>'id')::uuid);
+ if details->>'storage_path'<>foreman::text||'/TEST.pdf' then raise exception 'Review path changed';end if;
+ denied:=false;begin perform public.telegram_review_claim(director,(listed->0->'files'->0->>'id')::uuid);exception when others then denied:=true;end;if not denied then raise exception 'Concurrent review allowed';end if;
+ receipt:=public.telegram_review_finish(director,(listed->0->'files'->0->>'id')::uuid,null,null);
+ if receipt->>'status'<>'rejected' then raise exception 'Review result';end if;
+ execute 'reset role';
+ raise exception using errcode='P0995',message='ROLLBACK_TELEGRAM_SUBMISSION';exception when sqlstate 'P0995' then null;end;
+end $test$;
+select 'PASS: foreman assigned-only draft, five-file boundary path, duplicate file resistance, explanation, explicit pending review, director review lease/rejection; fixtures rolled back' result;

@@ -1,0 +1,3355 @@
+{
+  "description": "Static inventory of the current manual interface; actions require the domain matrix review, not every handler is a business mutation.",
+  "handlers": [
+    {
+      "event": "click",
+      "code": "login()",
+      "line": 240
+    },
+    {
+      "event": "click",
+      "code": "resetPassword()",
+      "line": 241
+    },
+    {
+      "event": "click",
+      "code": "volumeObligations.open(sbClient,projects)",
+      "line": 256
+    },
+    {
+      "event": "click",
+      "code": "logout()",
+      "line": 257
+    },
+    {
+      "event": "change",
+      "code": "render()",
+      "line": 316
+    },
+    {
+      "event": "click",
+      "code": "openUnsignedModal()",
+      "line": 330
+    },
+    {
+      "event": "click",
+      "code": "openPaymentCalendar()",
+      "line": 340
+    },
+    {
+      "event": "click",
+      "code": "openEventsModal()",
+      "line": 350
+    },
+    {
+      "event": "change",
+      "code": "renderOperations()",
+      "line": 385
+    },
+    {
+      "event": "change",
+      "code": "renderOperations()",
+      "line": 386
+    },
+    {
+      "event": "change",
+      "code": "renderOperations()",
+      "line": 389
+    },
+    {
+      "event": "change",
+      "code": "renderOperations()",
+      "line": 390
+    },
+    {
+      "event": "click",
+      "code": "openOp()",
+      "line": 401
+    },
+    {
+      "event": "click",
+      "code": "openAr()",
+      "line": 419
+    },
+    {
+      "event": "click",
+      "code": "openNewPayable()",
+      "line": 443
+    },
+    {
+      "event": "change",
+      "code": "onTaxVatPeriodChange(this.value)",
+      "line": 456
+    },
+    {
+      "event": "change",
+      "code": "onTaxIpPeriodChange(this.value)",
+      "line": 460
+    },
+    {
+      "event": "click",
+      "code": "switchProjectsTab('active')",
+      "line": 482
+    },
+    {
+      "event": "click",
+      "code": "switchProjectsTab('kp')",
+      "line": 483
+    },
+    {
+      "event": "click",
+      "code": "openProject()",
+      "line": 487
+    },
+    {
+      "event": "change",
+      "code": "renderProjects()",
+      "line": 491
+    },
+    {
+      "event": "change",
+      "code": "renderProjects()",
+      "line": 492
+    },
+    {
+      "event": "change",
+      "code": "renderProjects()",
+      "line": 493
+    },
+    {
+      "event": "click",
+      "code": "exportProposalsPdf()",
+      "line": 500
+    },
+    {
+      "event": "change",
+      "code": "renderProposals()",
+      "line": 509
+    },
+    {
+      "event": "change",
+      "code": "renderProposals()",
+      "line": 510
+    },
+    {
+      "event": "change",
+      "code": "renderProposals()",
+      "line": 511
+    },
+    {
+      "event": "change",
+      "code": "renderProposals()",
+      "line": 511
+    },
+    {
+      "event": "change",
+      "code": "toggleKpLostReason()",
+      "line": 523
+    },
+    {
+      "event": "click",
+      "code": "saveProposal()",
+      "line": 531
+    },
+    {
+      "event": "click",
+      "code": "resetProposalForm()",
+      "line": 532
+    },
+    {
+      "event": "change",
+      "code": "renderOrgExpensesPage()",
+      "line": 549
+    },
+    {
+      "event": "change",
+      "code": "renderOrgExpensesPage()",
+      "line": 553
+    },
+    {
+      "event": "click",
+      "code": "exportOrgMonthPdf()",
+      "line": 556
+    },
+    {
+      "event": "click",
+      "code": "openOrgEmployee()",
+      "line": 568
+    },
+    {
+      "event": "click",
+      "code": "openOrgExpense()",
+      "line": 572
+    },
+    {
+      "event": "click",
+      "code": "openNewEvent()",
+      "line": 577
+    },
+    {
+      "event": "click",
+      "code": "financeChat.setMode('chat')",
+      "line": 586
+    },
+    {
+      "event": "click",
+      "code": "financeChat.setMode('history')",
+      "line": 586
+    },
+    {
+      "event": "click",
+      "code": "financeChat.setMode('protocol')",
+      "line": 586
+    },
+    {
+      "event": "click",
+      "code": "financeChat.newChat()",
+      "line": 586
+    },
+    {
+      "event": "click",
+      "code": "financeChat.refresh(true)",
+      "line": 587
+    },
+    {
+      "event": "change",
+      "code": "financeChat.attachFile(this)",
+      "line": 588
+    },
+    {
+      "event": "click",
+      "code": "document.getElementById('agentChatFileInput').click()",
+      "line": 588
+    },
+    {
+      "event": "submit",
+      "code": "event.preventDefault();financeChat.send()",
+      "line": 589
+    },
+    {
+      "event": "click",
+      "code": "financeChat.voice()",
+      "line": 590
+    },
+    {
+      "event": "click",
+      "code": "financeChat.cancelVoice()",
+      "line": 590
+    },
+    {
+      "event": "click",
+      "code": "financeChat.refresh()",
+      "line": 590
+    },
+    {
+      "event": "click",
+      "code": "go('dashboard',this)",
+      "line": 602
+    },
+    {
+      "event": "click",
+      "code": "go('operations',this)",
+      "line": 606
+    },
+    {
+      "event": "click",
+      "code": "go('receivables',this)",
+      "line": 610
+    },
+    {
+      "event": "click",
+      "code": "go('payables',this)",
+      "line": 614
+    },
+    {
+      "event": "click",
+      "code": "go('projects',this)",
+      "line": 618
+    },
+    {
+      "event": "click",
+      "code": "go('orgexpenses',this)",
+      "line": 622
+    },
+    {
+      "event": "click",
+      "code": "go('agentchat',this)",
+      "line": 625
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeUnsignedModal()",
+      "line": 632
+    },
+    {
+      "event": "click",
+      "code": "closeUnsignedModal()",
+      "line": 637
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closePaymentCalendar()",
+      "line": 641
+    },
+    {
+      "event": "click",
+      "code": "openNewPayment()",
+      "line": 646
+    },
+    {
+      "event": "click",
+      "code": "closePaymentCalendar()",
+      "line": 647
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeEventsModal()",
+      "line": 651
+    },
+    {
+      "event": "click",
+      "code": "openNewEvent()",
+      "line": 656
+    },
+    {
+      "event": "click",
+      "code": "closeEventsModal()",
+      "line": 657
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closePtoModal()",
+      "line": 661
+    },
+    {
+      "event": "click",
+      "code": "openPtoContactForm()",
+      "line": 671
+    },
+    {
+      "event": "click",
+      "code": "openPtoDocumentForm()",
+      "line": 677
+    },
+    {
+      "event": "click",
+      "code": "closePtoModal()",
+      "line": 679
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closePtoDocumentForm()",
+      "line": 683
+    },
+    {
+      "event": "click",
+      "code": "savePtoDocument()",
+      "line": 705
+    },
+    {
+      "event": "click",
+      "code": "closePtoDocumentForm()",
+      "line": 706
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closePtoContactForm()",
+      "line": 710
+    },
+    {
+      "event": "click",
+      "code": "savePtoContact()",
+      "line": 716
+    },
+    {
+      "event": "click",
+      "code": "closePtoContactForm()",
+      "line": 717
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeForemanSubModal()",
+      "line": 721
+    },
+    {
+      "event": "click",
+      "code": "saveForemanSubcontractor()",
+      "line": 730
+    },
+    {
+      "event": "click",
+      "code": "closeForemanSubModal()",
+      "line": 732
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeManagerCostModal()",
+      "line": 736
+    },
+    {
+      "event": "click",
+      "code": "saveManagerSubcontractor()",
+      "line": 747
+    },
+    {
+      "event": "click",
+      "code": "saveManagerMaterial()",
+      "line": 757
+    },
+    {
+      "event": "click",
+      "code": "saveManagerOtherExpense()",
+      "line": 767
+    },
+    {
+      "event": "click",
+      "code": "closeManagerCostModal()",
+      "line": 770
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeWorkModal()",
+      "line": 774
+    },
+    {
+      "event": "click",
+      "code": "openWorkItemForm()",
+      "line": 782
+    },
+    {
+      "event": "click",
+      "code": "openWorkSectionForm()",
+      "line": 786
+    },
+    {
+      "event": "click",
+      "code": "changeWorkCalendarMonth(-1)",
+      "line": 790
+    },
+    {
+      "event": "click",
+      "code": "changeWorkCalendarMonth(1)",
+      "line": 790
+    },
+    {
+      "event": "click",
+      "code": "openWorkTaskForm()",
+      "line": 795
+    },
+    {
+      "event": "click",
+      "code": "printWorkReport()",
+      "line": 809
+    },
+    {
+      "event": "click",
+      "code": "openVolumeSubmissions()",
+      "line": 811
+    },
+    {
+      "event": "click",
+      "code": "closeWorkModal()",
+      "line": 812
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeWorkItemForm()",
+      "line": 816
+    },
+    {
+      "event": "change",
+      "code": "onWorkSectionSelectChange()",
+      "line": 819
+    },
+    {
+      "event": "change",
+      "code": "onWorkCatalogCategoryChange()",
+      "line": 821
+    },
+    {
+      "event": "change",
+      "code": "onWorkCatalogChange()",
+      "line": 822
+    },
+    {
+      "event": "click",
+      "code": "addWorkMaterialRow()",
+      "line": 833
+    },
+    {
+      "event": "click",
+      "code": "saveWorkItem()",
+      "line": 836
+    },
+    {
+      "event": "click",
+      "code": "closeWorkItemForm()",
+      "line": 837
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeWorkSectionForm()",
+      "line": 841
+    },
+    {
+      "event": "change",
+      "code": "loadWorkSectionTemplate(this.value)",
+      "line": 849
+    },
+    {
+      "event": "click",
+      "code": "saveCurrentWorkSectionTemplate()",
+      "line": 850
+    },
+    {
+      "event": "click",
+      "code": "loadWorkSectionTemplate()",
+      "line": 850
+    },
+    {
+      "event": "click",
+      "code": "addWorkSectionItemRow()",
+      "line": 852
+    },
+    {
+      "event": "click",
+      "code": "saveWorkSection()",
+      "line": 855
+    },
+    {
+      "event": "click",
+      "code": "closeWorkSectionForm()",
+      "line": 856
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeWorkTaskForm()",
+      "line": 859
+    },
+    {
+      "event": "click",
+      "code": "saveWorkTask()",
+      "line": 866
+    },
+    {
+      "event": "click",
+      "code": "closeWorkTaskForm()",
+      "line": 867
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeVolumeSubmissionForm()",
+      "line": 870
+    },
+    {
+      "event": "click",
+      "code": "saveVolumeSubmission()",
+      "line": 870
+    },
+    {
+      "event": "click",
+      "code": "closeVolumeSubmissionForm()",
+      "line": 870
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeVolumeSubmissions()",
+      "line": 871
+    },
+    {
+      "event": "click",
+      "code": "openVolumeSubmissionForm()",
+      "line": 871
+    },
+    {
+      "event": "click",
+      "code": "closeVolumeSubmissions()",
+      "line": 871
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeWorkProgressForm()",
+      "line": 872
+    },
+    {
+      "event": "click",
+      "code": "saveWorkProgress()",
+      "line": 879
+    },
+    {
+      "event": "click",
+      "code": "closeWorkProgressForm()",
+      "line": 880
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeDocumentModal()",
+      "line": 885
+    },
+    {
+      "event": "click",
+      "code": "closeDocumentModal()",
+      "line": 890
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeDocumentUploadModal()",
+      "line": 894
+    },
+    {
+      "event": "change",
+      "code": "handleDocumentFileSelected(this)",
+      "line": 904
+    },
+    {
+      "event": "click",
+      "code": "saveDocumentUpload()",
+      "line": 905
+    },
+    {
+      "event": "click",
+      "code": "closeDocumentUploadModal()",
+      "line": 906
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeDocumentViewer()",
+      "line": 910
+    },
+    {
+      "event": "click",
+      "code": "closeDocumentViewer()",
+      "line": 912
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closePriceHistoryModal()",
+      "line": 917
+    },
+    {
+      "event": "click",
+      "code": "closePriceHistoryModal()",
+      "line": 921
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeVatHistoryModal()",
+      "line": 925
+    },
+    {
+      "event": "click",
+      "code": "closeVatHistoryModal()",
+      "line": 927
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeStatementModal()",
+      "line": 932
+    },
+    {
+      "event": "click",
+      "code": "downloadStatementPdf()",
+      "line": 936
+    },
+    {
+      "event": "click",
+      "code": "printStatement()",
+      "line": 937
+    },
+    {
+      "event": "click",
+      "code": "downloadStatementTxt()",
+      "line": 938
+    },
+    {
+      "event": "click",
+      "code": "closeStatementModal()",
+      "line": 939
+    },
+    {
+      "event": "click",
+      "code": "if(event.target===this)closeModal()",
+      "line": 946
+    },
+    {
+      "event": "change",
+      "code": "updateProjectTaxPreview()",
+      "line": 963
+    },
+    {
+      "event": "change",
+      "code": "handleContractFileSelected(this)",
+      "line": 997
+    },
+    {
+      "event": "click",
+      "code": "addSubcontractorRow()",
+      "line": 1026
+    },
+    {
+      "event": "click",
+      "code": "addMaterialRow()",
+      "line": 1044
+    },
+    {
+      "event": "click",
+      "code": "addOtherExpenseRow()",
+      "line": 1062
+    },
+    {
+      "event": "click",
+      "code": "saveProject()",
+      "line": 1088
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1089
+    },
+    {
+      "event": "change",
+      "code": "onOpArticleOrProjectChange()",
+      "line": 1101
+    },
+    {
+      "event": "change",
+      "code": "onOpCompanyChange()",
+      "line": 1120
+    },
+    {
+      "event": "change",
+      "code": "onOpVatChange()",
+      "line": 1128
+    },
+    {
+      "event": "change",
+      "code": "onOpArticleOrProjectChange()",
+      "line": 1136
+    },
+    {
+      "event": "change",
+      "code": "onOpReceivableChange()",
+      "line": 1143
+    },
+    {
+      "event": "change",
+      "code": "onOpArticleOrProjectChange()",
+      "line": 1151
+    },
+    {
+      "event": "change",
+      "code": "onOpCostItemChange()",
+      "line": 1156
+    },
+    {
+      "event": "click",
+      "code": "createInlineCostItem()",
+      "line": 1166
+    },
+    {
+      "event": "click",
+      "code": "createInlineSubcontractor()",
+      "line": 1186
+    },
+    {
+      "event": "change",
+      "code": "refreshOrgConsumerSelect()",
+      "line": 1197
+    },
+    {
+      "event": "change",
+      "code": "onOrgConsumerChange()",
+      "line": 1203
+    },
+    {
+      "event": "click",
+      "code": "createInlineOrgConsumer()",
+      "line": 1207
+    },
+    {
+      "event": "change",
+      "code": "onOpPayableChange()",
+      "line": 1223
+    },
+    {
+      "event": "change",
+      "code": "onOpCreditorChange()",
+      "line": 1246
+    },
+    {
+      "event": "click",
+      "code": "createInlineCreditor()",
+      "line": 1252
+    },
+    {
+      "event": "change",
+      "code": "onOpMaterialCreditorChange()",
+      "line": 1272
+    },
+    {
+      "event": "click",
+      "code": "createInlineMaterialCreditor()",
+      "line": 1278
+    },
+    {
+      "event": "click",
+      "code": "saveOp()",
+      "line": 1302
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1303
+    },
+    {
+      "event": "click",
+      "code": "saveAr()",
+      "line": 1360
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1361
+    },
+    {
+      "event": "change",
+      "code": "onApTypeChange()",
+      "line": 1373
+    },
+    {
+      "event": "click",
+      "code": "saveAp()",
+      "line": 1442
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1443
+    },
+    {
+      "event": "click",
+      "code": "saveOrgEmployee()",
+      "line": 1457
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1458
+    },
+    {
+      "event": "click",
+      "code": "saveOrgExpense()",
+      "line": 1469
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1470
+    },
+    {
+      "event": "click",
+      "code": "saveEvent()",
+      "line": 1502
+    },
+    {
+      "event": "click",
+      "code": "closeModal()",
+      "line": 1503
+    },
+    {
+      "event": "click",
+      "code": "openProject()",
+      "line": 2000
+    },
+    {
+      "event": "click",
+      "code": "openWorkPanel('${p.id}')",
+      "line": 2033
+    },
+    {
+      "event": "click",
+      "code": "openPtoPanel('${p.id}')",
+      "line": 2034
+    },
+    {
+      "event": "click",
+      "code": "openProjectDocuments('${p.id}')",
+      "line": 2035
+    },
+    {
+      "event": "click",
+      "code": "openForemanSubModal('${p.id}')",
+      "line": 2036
+    },
+    {
+      "event": "click",
+      "code": "openVatHistory()",
+      "line": 2461
+    },
+    {
+      "event": "click",
+      "code": "openOrgEmployee('${x.id}')",
+      "line": 2771
+    },
+    {
+      "event": "click",
+      "code": "deleteOrgEmployee('${x.id}')",
+      "line": 2771
+    },
+    {
+      "event": "click",
+      "code": "openOrgExpense('${x.id}')",
+      "line": 2772
+    },
+    {
+      "event": "click",
+      "code": "deleteOrgExpense('${x.id}')",
+      "line": 2772
+    },
+    {
+      "event": "click",
+      "code": "openEditEvent('${e.id}')",
+      "line": 2773
+    },
+    {
+      "event": "click",
+      "code": "deleteEvent('${e.id}')",
+      "line": 2773
+    },
+    {
+      "event": "click",
+      "code": "openEditOp('${o.id}')",
+      "line": 2774
+    },
+    {
+      "event": "click",
+      "code": "deleteOp('${o.id}')",
+      "line": 2774
+    },
+    {
+      "event": "click",
+      "code": "saveSubcontractorEdit('${key}')",
+      "line": 3093
+    },
+    {
+      "event": "click",
+      "code": "cancelSubcontractorEdit()",
+      "line": 3094
+    },
+    {
+      "event": "click",
+      "code": "editSubcontractorRow('${key}')",
+      "line": 3108
+    },
+    {
+      "event": "click",
+      "code": "deleteSubcontractorRow('${key}')",
+      "line": 3109
+    },
+    {
+      "event": "click",
+      "code": "saveMaterialEdit('${key}')",
+      "line": 3233
+    },
+    {
+      "event": "click",
+      "code": "cancelMaterialEdit()",
+      "line": 3234
+    },
+    {
+      "event": "click",
+      "code": "editMaterialRow('${key}')",
+      "line": 3248
+    },
+    {
+      "event": "click",
+      "code": "deleteMaterialRow('${key}')",
+      "line": 3249
+    },
+    {
+      "event": "click",
+      "code": "saveOtherExpenseEdit('${key}')",
+      "line": 3375
+    },
+    {
+      "event": "click",
+      "code": "cancelOtherExpenseEdit()",
+      "line": 3376
+    },
+    {
+      "event": "click",
+      "code": "editOtherExpenseRow('${key}')",
+      "line": 3390
+    },
+    {
+      "event": "click",
+      "code": "deleteOtherExpenseRow('${key}')",
+      "line": 3391
+    },
+    {
+      "event": "click",
+      "code": "openEditPayment('${x.id}')",
+      "line": 4010
+    },
+    {
+      "event": "click",
+      "code": "deletePayment('${x.id}')",
+      "line": 4010
+    },
+    {
+      "event": "click",
+      "code": "openEditEvent('${x.id}')",
+      "line": 4105
+    },
+    {
+      "event": "click",
+      "code": "deleteEvent('${x.id}')",
+      "line": 4106
+    },
+    {
+      "event": "click",
+      "code": "openEditOp('${x.id}')",
+      "line": 5374
+    },
+    {
+      "event": "click",
+      "code": "deleteOp('${x.id}')",
+      "line": 5374
+    },
+    {
+      "event": "click",
+      "code": "openEditAr('${x.id}')",
+      "line": 5429
+    },
+    {
+      "event": "click",
+      "code": "deleteAr('${x.id}')",
+      "line": 5430
+    },
+    {
+      "event": "click",
+      "code": "openEditAp('${x.id}')",
+      "line": 5499
+    },
+    {
+      "event": "click",
+      "code": "deleteAp('${x.id}')",
+      "line": 5500
+    },
+    {
+      "event": "click",
+      "code": "openPtoContactForm('${x.id}')",
+      "line": 5560
+    },
+    {
+      "event": "click",
+      "code": "deletePtoContact('${x.id}')",
+      "line": 5561
+    },
+    {
+      "event": "click",
+      "code": "openPtoDocumentForm('${doc.id}')",
+      "line": 5605
+    },
+    {
+      "event": "click",
+      "code": "deletePtoDocument('${doc.id}')",
+      "line": 5606
+    },
+    {
+      "event": "click",
+      "code": "openWorkSectionForm('${s.id}',true)",
+      "line": 5731
+    },
+    {
+      "event": "click",
+      "code": "openWorkSectionForm('${s.id}',false)",
+      "line": 5731
+    },
+    {
+      "event": "click",
+      "code": "deleteWorkSection('${s.id}')",
+      "line": 5731
+    },
+    {
+      "event": "click",
+      "code": "openWorkItemForm('${w.id}')",
+      "line": 5731
+    },
+    {
+      "event": "click",
+      "code": "openWorkItemForm('${w.id}')",
+      "line": 5732
+    },
+    {
+      "event": "click",
+      "code": "deleteWorkItem('${w.id}')",
+      "line": 5732
+    },
+    {
+      "event": "click",
+      "code": "openWorkProgressForm('${w.id}')",
+      "line": 5736
+    },
+    {
+      "event": "click",
+      "code": "completeWorkItem('${w.id}')",
+      "line": 5736
+    },
+    {
+      "event": "click",
+      "code": "openWorkItemForm('${w.id}')",
+      "line": 5736
+    },
+    {
+      "event": "click",
+      "code": "deleteWorkItem('${w.id}')",
+      "line": 5736
+    },
+    {
+      "event": "click",
+      "code": "toggleWorkTask('${t.id}')",
+      "line": 5739
+    },
+    {
+      "event": "click",
+      "code": "openWorkTaskForm('${t.id}')",
+      "line": 5739
+    },
+    {
+      "event": "click",
+      "code": "deleteWorkTask('${t.id}')",
+      "line": 5739
+    },
+    {
+      "event": "click",
+      "code": "selectWorkCalendarDate('${key}')",
+      "line": 5743
+    },
+    {
+      "event": "click",
+      "code": "openWorkItemForm('${w.id}')",
+      "line": 5748
+    },
+    {
+      "event": "click",
+      "code": "removeWorkSectionItemRow(${i})",
+      "line": 5760
+    },
+    {
+      "event": "change",
+      "code": "onWorkSectionItemCategoryChange(${i},this.value)",
+      "line": 5762
+    },
+    {
+      "event": "change",
+      "code": "onWorkSectionItemWorkChange(${i},this.value)",
+      "line": 5763
+    },
+    {
+      "event": "change",
+      "code": "workingWorkSectionItems[${i}].planned_volume=parseFloat(this.value)||0",
+      "line": 5764
+    },
+    {
+      "event": "change",
+      "code": "workingWorkSectionItems[${i}].comment=this.value",
+      "line": 5765
+    },
+    {
+      "event": "change",
+      "code": "onMaterialCategoryChange(${i},this.value)",
+      "line": 6069
+    },
+    {
+      "event": "change",
+      "code": "${m.material_role==='primary'?`workingWorkMaterials[${i}].material_catalog_id=this.value;onPrimaryMaterialChange(${i})`:`onSecondaryMaterialChange(${i},this.value)`}",
+      "line": 6069
+    },
+    {
+      "event": "change",
+      "code": "workingWorkMaterials[${i}].quantity=parseFloat(this.value)||0;workingWorkMaterials[${i}].is_manual_override=true;workingWorkMaterials[${i}].is_auto_generated=false",
+      "line": 6069
+    },
+    {
+      "event": "click",
+      "code": "workingWorkMaterials.splice(${i},1);renderWorkMaterialsEditor()",
+      "line": 6069
+    },
+    {
+      "event": "click",
+      "code": "openVolumeSubmissionForm('${x.id}')",
+      "line": 6142
+    },
+    {
+      "event": "click",
+      "code": "deleteVolumeSubmission('${x.id}')",
+      "line": 6142
+    },
+    {
+      "event": "click",
+      "code": "openWorkPanel('${p.id}')",
+      "line": 6272
+    },
+    {
+      "event": "click",
+      "code": "openProjectDocuments('${p.id}')",
+      "line": 6273
+    },
+    {
+      "event": "click",
+      "code": "openPtoPanel('${p.id}')",
+      "line": 6274
+    },
+    {
+      "event": "click",
+      "code": "openManagerCostModal('${p.id}')",
+      "line": 6275
+    },
+    {
+      "event": "click",
+      "code": "openPtoPanel('${p.id}')",
+      "line": 6396
+    },
+    {
+      "event": "click",
+      "code": "openWorkPanel('${p.id}')",
+      "line": 6397
+    },
+    {
+      "event": "click",
+      "code": "openPriceHistory('${p.id}')",
+      "line": 6407
+    },
+    {
+      "event": "click",
+      "code": "openProjectDocuments('${p.id}')",
+      "line": 6546
+    },
+    {
+      "event": "click",
+      "code": "openDocumentUpload('${p.id}','project')",
+      "line": 6546
+    },
+    {
+      "event": "click",
+      "code": "openEditProject('${p.id}')",
+      "line": 6547
+    },
+    {
+      "event": "click",
+      "code": "projectTeam.open(sbClient,{id:'${p.id}',name:this.closest('details')?.querySelector('.compact-name')?.textContent||'Объект'})",
+      "line": 6548
+    },
+    {
+      "event": "click",
+      "code": "openProjectStatement('${p.id}')",
+      "line": 6549
+    },
+    {
+      "event": "click",
+      "code": "deleteProject('${p.id}')",
+      "line": 6550
+    },
+    {
+      "event": "click",
+      "code": "editProposal('${x.id}')",
+      "line": 6589
+    },
+    {
+      "event": "click",
+      "code": "openProposalLetter('${x.id}')",
+      "line": 6589
+    },
+    {
+      "event": "click",
+      "code": "deleteProposal('${x.id}')",
+      "line": 6589
+    },
+    {
+      "event": "click",
+      "code": "openDocumentUpload('${p.id}','${type}')",
+      "line": 6951
+    },
+    {
+      "event": "click",
+      "code": "viewProjectDocument('${d.id}')",
+      "line": 6960
+    },
+    {
+      "event": "click",
+      "code": "replaceProjectDocument('${d.id}')",
+      "line": 6960
+    },
+    {
+      "event": "click",
+      "code": "deleteProjectDocument('${d.id}')",
+      "line": 6960
+    },
+    {
+      "event": "click",
+      "code": "viewProjectDocument('${d.id}')",
+      "line": 7145
+    }
+  ],
+  "functions": [
+    {
+      "name": "login",
+      "line": 1654
+    },
+    {
+      "name": "resetPassword",
+      "line": 1700
+    },
+    {
+      "name": "logout",
+      "line": 1722
+    },
+    {
+      "name": "scheduleRealtimeReload",
+      "line": 1733
+    },
+    {
+      "name": "setupRealtime",
+      "line": 1748
+    },
+    {
+      "name": "stopRealtime",
+      "line": 1782
+    },
+    {
+      "name": "boot",
+      "line": 1789
+    },
+    {
+      "name": "migrateLegacyPlannedCost",
+      "line": 1819
+    },
+    {
+      "name": "loadAll",
+      "line": 1860
+    },
+    {
+      "name": "applyRoleUi",
+      "line": 1978
+    },
+    {
+      "name": "renderForemanProjects",
+      "line": 2018
+    },
+    {
+      "name": "openForemanSubModal",
+      "line": 2042
+    },
+    {
+      "name": "closeForemanSubModal",
+      "line": 2051
+    },
+    {
+      "name": "renderForemanSubcontractors",
+      "line": 2052
+    },
+    {
+      "name": "saveForemanSubcontractor",
+      "line": 2056
+    },
+    {
+      "name": "openManagerCostModal",
+      "line": 2069
+    },
+    {
+      "name": "closeManagerCostModal",
+      "line": 2079
+    },
+    {
+      "name": "saveManagerSubcontractor",
+      "line": 2080
+    },
+    {
+      "name": "saveManagerMaterial",
+      "line": 2089
+    },
+    {
+      "name": "saveManagerOtherExpense",
+      "line": 2098
+    },
+    {
+      "name": "roleName",
+      "line": 2108
+    },
+    {
+      "name": "fillProjectSelects",
+      "line": 2120
+    },
+    {
+      "name": "creditPayables",
+      "line": 2135
+    },
+    {
+      "name": "refreshOperationPayableSelects",
+      "line": 2139
+    },
+    {
+      "name": "refreshOperationReceivableSelect",
+      "line": 2152
+    },
+    {
+      "name": "onOpReceivableChange",
+      "line": 2166
+    },
+    {
+      "name": "refreshOperationCreditorSelect",
+      "line": 2179
+    },
+    {
+      "name": "expenseArticleOptions",
+      "line": 2198
+    },
+    {
+      "name": "onOpCompanyChange",
+      "line": 2212
+    },
+    {
+      "name": "onOpVatChange",
+      "line": 2227
+    },
+    {
+      "name": "taxQuarterKey",
+      "line": 2231
+    },
+    {
+      "name": "taxMonthKey",
+      "line": 2237
+    },
+    {
+      "name": "currentQuarterKey",
+      "line": 2238
+    },
+    {
+      "name": "currentMonthKey",
+      "line": 2239
+    },
+    {
+      "name": "quarterLabel",
+      "line": 2240
+    },
+    {
+      "name": "monthLabel",
+      "line": 2241
+    },
+    {
+      "name": "quarterBounds",
+      "line": 2242
+    },
+    {
+      "name": "monthBounds",
+      "line": 2249
+    },
+    {
+      "name": "operationCompanyForTax",
+      "line": 2254
+    },
+    {
+      "name": "taxOperationDate",
+      "line": 2264
+    },
+    {
+      "name": "closeVatHistoryModal",
+      "line": 2268
+    },
+    {
+      "name": "vatHistoryData",
+      "line": 2270
+    },
+    {
+      "name": "openVatHistory",
+      "line": 2336
+    },
+    {
+      "name": "onTaxVatPeriodChange",
+      "line": 2383
+    },
+    {
+      "name": "onTaxIpPeriodChange",
+      "line": 2389
+    },
+    {
+      "name": "renderTaxRegister",
+      "line": 2395
+    },
+    {
+      "name": "onOpArticleOrProjectChange",
+      "line": 2471
+    },
+    {
+      "name": "monthKey",
+      "line": 2602
+    },
+    {
+      "name": "paymentDateValue",
+      "line": 2603
+    },
+    {
+      "name": "paymentDateRu",
+      "line": 2610
+    },
+    {
+      "name": "currentOrgMonth",
+      "line": 2614
+    },
+    {
+      "name": "orgScheduledForMonth",
+      "line": 2615
+    },
+    {
+      "name": "orgOpsForMonth",
+      "line": 2616
+    },
+    {
+      "name": "refreshOrgConsumerSelect",
+      "line": 2617
+    },
+    {
+      "name": "renderInlineOrgFields",
+      "line": 2630
+    },
+    {
+      "name": "onOrgConsumerChange",
+      "line": 2636
+    },
+    {
+      "name": "createInlineOrgConsumer",
+      "line": 2641
+    },
+    {
+      "name": "openOrgEmployee",
+      "line": 2652
+    },
+    {
+      "name": "saveOrgEmployee",
+      "line": 2658
+    },
+    {
+      "name": "deleteOrgEmployee",
+      "line": 2664
+    },
+    {
+      "name": "openOrgExpense",
+      "line": 2665
+    },
+    {
+      "name": "saveOrgExpense",
+      "line": 2666
+    },
+    {
+      "name": "deleteOrgExpense",
+      "line": 2667
+    },
+    {
+      "name": "reportEsc",
+      "line": 2668
+    },
+    {
+      "name": "reportNum",
+      "line": 2669
+    },
+    {
+      "name": "reportFmt",
+      "line": 2670
+    },
+    {
+      "name": "reportPct",
+      "line": 2671
+    },
+    {
+      "name": "reportBar",
+      "line": 2672
+    },
+    {
+      "name": "reportRows",
+      "line": 2673
+    },
+    {
+      "name": "isMaterialCreditExpense",
+      "line": 2676
+    },
+    {
+      "name": "reportOperationCompany",
+      "line": 2677
+    },
+    {
+      "name": "exportOrgMonthPdf",
+      "line": 2678
+    },
+    {
+      "name": "renderOrgExpensesPage",
+      "line": 2761
+    },
+    {
+      "name": "operationDateDefault",
+      "line": 2777
+    },
+    {
+      "name": "refreshOperationMaterialCreditorSelect",
+      "line": 2779
+    },
+    {
+      "name": "onOpMaterialCreditorChange",
+      "line": 2788
+    },
+    {
+      "name": "createInlineMaterialCreditor",
+      "line": 2795
+    },
+    {
+      "name": "onOpCreditorChange",
+      "line": 2810
+    },
+    {
+      "name": "createInlineCreditor",
+      "line": 2819
+    },
+    {
+      "name": "onOpPayableChange",
+      "line": 2837
+    },
+    {
+      "name": "createInlineSubcontractor",
+      "line": 2847
+    },
+    {
+      "name": "createInlineCostItem",
+      "line": 2870
+    },
+    {
+      "name": "onOpCostItemChange",
+      "line": 2897
+    },
+    {
+      "name": "go",
+      "line": 2912
+    },
+    {
+      "name": "updateProjectTaxPreview",
+      "line": 2933
+    },
+    {
+      "name": "openProject",
+      "line": 2943
+    },
+    {
+      "name": "openEditProject",
+      "line": 2997
+    },
+    {
+      "name": "itemKey",
+      "line": 3061
+    },
+    {
+      "name": "subKey",
+      "line": 3065
+    },
+    {
+      "name": "renderSubcontractorEditor",
+      "line": 3069
+    },
+    {
+      "name": "addSubcontractorRow",
+      "line": 3129
+    },
+    {
+      "name": "editSubcontractorRow",
+      "line": 3154
+    },
+    {
+      "name": "cancelSubcontractorEdit",
+      "line": 3159
+    },
+    {
+      "name": "saveSubcontractorEdit",
+      "line": 3164
+    },
+    {
+      "name": "deleteSubcontractorRow",
+      "line": 3192
+    },
+    {
+      "name": "renderMaterialsEditor",
+      "line": 3213
+    },
+    {
+      "name": "addMaterialRow",
+      "line": 3270
+    },
+    {
+      "name": "editMaterialRow",
+      "line": 3300
+    },
+    {
+      "name": "cancelMaterialEdit",
+      "line": 3305
+    },
+    {
+      "name": "saveMaterialEdit",
+      "line": 3310
+    },
+    {
+      "name": "deleteMaterialRow",
+      "line": 3334
+    },
+    {
+      "name": "renderOtherExpensesEditor",
+      "line": 3355
+    },
+    {
+      "name": "addOtherExpenseRow",
+      "line": 3412
+    },
+    {
+      "name": "editOtherExpenseRow",
+      "line": 3442
+    },
+    {
+      "name": "cancelOtherExpenseEdit",
+      "line": 3447
+    },
+    {
+      "name": "saveOtherExpenseEdit",
+      "line": 3452
+    },
+    {
+      "name": "deleteOtherExpenseRow",
+      "line": 3476
+    },
+    {
+      "name": "renderCostSummary",
+      "line": 3495
+    },
+    {
+      "name": "openOp",
+      "line": 3511
+    },
+    {
+      "name": "openEditOp",
+      "line": 3562
+    },
+    {
+      "name": "openAr",
+      "line": 3621
+    },
+    {
+      "name": "closeModal",
+      "line": 3642
+    },
+    {
+      "name": "closePtoModal",
+      "line": 3653
+    },
+    {
+      "name": "closePtoDocumentForm",
+      "line": 3657
+    },
+    {
+      "name": "closePtoContactForm",
+      "line": 3658
+    },
+    {
+      "name": "num",
+      "line": 3660
+    },
+    {
+      "name": "projectName",
+      "line": 3670
+    },
+    {
+      "name": "subcontractorName",
+      "line": 3676
+    },
+    {
+      "name": "saveProject",
+      "line": 3682
+    },
+    {
+      "name": "deleteProject",
+      "line": 3875
+    },
+    {
+      "name": "openEditAr",
+      "line": 3925
+    },
+    {
+      "name": "saveEditedAr",
+      "line": 3944
+    },
+    {
+      "name": "deleteAr",
+      "line": 3959
+    },
+    {
+      "name": "openEditAp",
+      "line": 3970
+    },
+    {
+      "name": "openPaymentCalendar",
+      "line": 3993
+    },
+    {
+      "name": "closePaymentCalendar",
+      "line": 4015
+    },
+    {
+      "name": "openNewPayment",
+      "line": 4017
+    },
+    {
+      "name": "openEditPayment",
+      "line": 4041
+    },
+    {
+      "name": "deletePayment",
+      "line": 4048
+    },
+    {
+      "name": "sortedEvents",
+      "line": 4053
+    },
+    {
+      "name": "eventDateInfo",
+      "line": 4057
+    },
+    {
+      "name": "renderEventsInfo",
+      "line": 4069
+    },
+    {
+      "name": "renderEventsModalList",
+      "line": 4087
+    },
+    {
+      "name": "openEventsModal",
+      "line": 4114
+    },
+    {
+      "name": "closeEventsModal",
+      "line": 4119
+    },
+    {
+      "name": "openNewEvent",
+      "line": 4123
+    },
+    {
+      "name": "openEditEvent",
+      "line": 4142
+    },
+    {
+      "name": "saveEvent",
+      "line": 4163
+    },
+    {
+      "name": "deleteEvent",
+      "line": 4216
+    },
+    {
+      "name": "onApTypeChange",
+      "line": 4231
+    },
+    {
+      "name": "openNewPayable",
+      "line": 4240
+    },
+    {
+      "name": "saveAp",
+      "line": 4264
+    },
+    {
+      "name": "deleteAp",
+      "line": 4306
+    },
+    {
+      "name": "saveOp",
+      "line": 4317
+    },
+    {
+      "name": "linked",
+      "line": 4604
+    },
+    {
+      "name": "deleteOp",
+      "line": 4698
+    },
+    {
+      "name": "saveAr",
+      "line": 4761
+    },
+    {
+      "name": "subcontractorPaid",
+      "line": 4841
+    },
+    {
+      "name": "projectStats",
+      "line": 4852
+    },
+    {
+      "name": "computeProgress",
+      "line": 5081
+    },
+    {
+      "name": "dashboardProjects",
+      "line": 5150
+    },
+    {
+      "name": "dashboardOperations",
+      "line": 5156
+    },
+    {
+      "name": "dashboardReceivables",
+      "line": 5180
+    },
+    {
+      "name": "dashboardPayables",
+      "line": 5187
+    },
+    {
+      "name": "openUnsignedModal",
+      "line": 5198
+    },
+    {
+      "name": "closeUnsignedModal",
+      "line": 5209
+    },
+    {
+      "name": "render",
+      "line": 5211
+    },
+    {
+      "name": "renderProjectOperationsHtml",
+      "line": 5323
+    },
+    {
+      "name": "renderOperations",
+      "line": 5345
+    },
+    {
+      "name": "renderReceivables",
+      "line": 5377
+    },
+    {
+      "name": "renderPayables",
+      "line": 5443
+    },
+    {
+      "name": "ptoRoleAllowed",
+      "line": 5527
+    },
+    {
+      "name": "ptoCanEdit",
+      "line": 5530
+    },
+    {
+      "name": "ptoTypeName",
+      "line": 5531
+    },
+    {
+      "name": "ptoStatusInfo",
+      "line": 5534
+    },
+    {
+      "name": "ptoProgressInfo",
+      "line": 5537
+    },
+    {
+      "name": "renderPtoContacts",
+      "line": 5550
+    },
+    {
+      "name": "ptoDocScore",
+      "line": 5565
+    },
+    {
+      "name": "ptoOverallState",
+      "line": 5573
+    },
+    {
+      "name": "ptoScoreBadge",
+      "line": 5586
+    },
+    {
+      "name": "renderPtoDocuments",
+      "line": 5592
+    },
+    {
+      "name": "openPtoPanel",
+      "line": 5611
+    },
+    {
+      "name": "openPtoDocumentForm",
+      "line": 5621
+    },
+    {
+      "name": "savePtoDocument",
+      "line": 5633
+    },
+    {
+      "name": "deletePtoDocument",
+      "line": 5651
+    },
+    {
+      "name": "openPtoContactForm",
+      "line": 5659
+    },
+    {
+      "name": "savePtoContact",
+      "line": 5670
+    },
+    {
+      "name": "deletePtoContact",
+      "line": 5688
+    },
+    {
+      "name": "workRoleAllowed",
+      "line": 5697
+    },
+    {
+      "name": "workStatusInfo",
+      "line": 5698
+    },
+    {
+      "name": "workMaterialRowsFor",
+      "line": 5699
+    },
+    {
+      "name": "workProgressRowsFor",
+      "line": 5700
+    },
+    {
+      "name": "workCompletedTotal",
+      "line": 5701
+    },
+    {
+      "name": "workItemPct",
+      "line": 5702
+    },
+    {
+      "name": "workSectionRows",
+      "line": 5703
+    },
+    {
+      "name": "workSectionPct",
+      "line": 5704
+    },
+    {
+      "name": "isoToday",
+      "line": 5705
+    },
+    {
+      "name": "dateOnly",
+      "line": 5706
+    },
+    {
+      "name": "fmtDate",
+      "line": 5707
+    },
+    {
+      "name": "workDateRange",
+      "line": 5708
+    },
+    {
+      "name": "renderWorkSummary",
+      "line": 5715
+    },
+    {
+      "name": "renderWorkGantt",
+      "line": 5720
+    },
+    {
+      "name": "renderWorkSections",
+      "line": 5729
+    },
+    {
+      "name": "renderWorkItems",
+      "line": 5735
+    },
+    {
+      "name": "workTasksForCurrent",
+      "line": 5738
+    },
+    {
+      "name": "renderWorkTasks",
+      "line": 5739
+    },
+    {
+      "name": "calendarKey",
+      "line": 5740
+    },
+    {
+      "name": "renderWorkCalendar",
+      "line": 5741
+    },
+    {
+      "name": "selectWorkCalendarDate",
+      "line": 5746
+    },
+    {
+      "name": "changeWorkCalendarMonth",
+      "line": 5747
+    },
+    {
+      "name": "renderWorkCalendarDetail",
+      "line": 5748
+    },
+    {
+      "name": "renderWorkPanel",
+      "line": 5749
+    },
+    {
+      "name": "openWorkPanel",
+      "line": 5750
+    },
+    {
+      "name": "closeWorkModal",
+      "line": 5751
+    },
+    {
+      "name": "renderWorkSectionItemRows",
+      "line": 5752
+    },
+    {
+      "name": "addWorkSectionItemRow",
+      "line": 5769
+    },
+    {
+      "name": "removeWorkSectionItemRow",
+      "line": 5770
+    },
+    {
+      "name": "onWorkSectionItemCategoryChange",
+      "line": 5771
+    },
+    {
+      "name": "onWorkSectionItemWorkChange",
+      "line": 5772
+    },
+    {
+      "name": "onWorkSectionItemSearch",
+      "line": 5773
+    },
+    {
+      "name": "openWorkSectionForm",
+      "line": 5797
+    },
+    {
+      "name": "closeWorkSectionForm",
+      "line": 5824
+    },
+    {
+      "name": "saveWorkSection",
+      "line": 5825
+    },
+    {
+      "name": "deleteWorkSection",
+      "line": 5881
+    },
+    {
+      "name": "saveCurrentWorkSectionTemplate",
+      "line": 5882
+    },
+    {
+      "name": "loadWorkSectionTemplateOptions",
+      "line": 5901
+    },
+    {
+      "name": "loadWorkSectionTemplate",
+      "line": 5907
+    },
+    {
+      "name": "workCatalogCategories",
+      "line": 5921
+    },
+    {
+      "name": "renderWorkCatalogNavigation",
+      "line": 5924
+    },
+    {
+      "name": "onWorkCatalogSearchInput",
+      "line": 5936
+    },
+    {
+      "name": "onWorkCatalogCategoryChange",
+      "line": 5944
+    },
+    {
+      "name": "filterWorkCatalogOptions",
+      "line": 5948
+    },
+    {
+      "name": "primaryRuleRows",
+      "line": 5949
+    },
+    {
+      "name": "secondaryRuleRows",
+      "line": 5950
+    },
+    {
+      "name": "defaultMaterialsForWork",
+      "line": 5951
+    },
+    {
+      "name": "onWorkSectionSelectChange",
+      "line": 5966
+    },
+    {
+      "name": "openWorkItemForm",
+      "line": 5977
+    },
+    {
+      "name": "onWorkCatalogChange",
+      "line": 6000
+    },
+    {
+      "name": "onPrimaryMaterialChange",
+      "line": 6016
+    },
+    {
+      "name": "onSecondaryMaterialChange",
+      "line": 6025
+    },
+    {
+      "name": "materialChoicesForRow",
+      "line": 6032
+    },
+    {
+      "name": "materialCategoriesForRow",
+      "line": 6045
+    },
+    {
+      "name": "onMaterialCategoryChange",
+      "line": 6048
+    },
+    {
+      "name": "renderWorkMaterialsEditor",
+      "line": 6056
+    },
+    {
+      "name": "addWorkMaterialRow",
+      "line": 6072
+    },
+    {
+      "name": "saveWorkItem",
+      "line": 6073
+    },
+    {
+      "name": "closeWorkItemForm",
+      "line": 6108
+    },
+    {
+      "name": "deleteWorkItem",
+      "line": 6109
+    },
+    {
+      "name": "completeWorkItem",
+      "line": 6110
+    },
+    {
+      "name": "refreshWorkFactsForIds",
+      "line": 6138
+    },
+    {
+      "name": "openVolumeSubmissions",
+      "line": 6139
+    },
+    {
+      "name": "closeVolumeSubmissions",
+      "line": 6140
+    },
+    {
+      "name": "closeVolumeSubmissionForm",
+      "line": 6141
+    },
+    {
+      "name": "renderVolumeSubmissions",
+      "line": 6142
+    },
+    {
+      "name": "openVolumeSubmissionForm",
+      "line": 6143
+    },
+    {
+      "name": "saveVolumeSubmission",
+      "line": 6151
+    },
+    {
+      "name": "atomicVolumeClient",
+      "line": 6167
+    },
+    {
+      "name": "applyAtomicVolumeResult",
+      "line": 6168
+    },
+    {
+      "name": "deleteVolumeSubmission",
+      "line": 6176
+    },
+    {
+      "name": "openWorkProgressForm",
+      "line": 6185
+    },
+    {
+      "name": "closeWorkProgressForm",
+      "line": 6186
+    },
+    {
+      "name": "saveWorkProgress",
+      "line": 6187
+    },
+    {
+      "name": "openWorkTaskForm",
+      "line": 6210
+    },
+    {
+      "name": "closeWorkTaskForm",
+      "line": 6211
+    },
+    {
+      "name": "saveWorkTask",
+      "line": 6212
+    },
+    {
+      "name": "toggleWorkTask",
+      "line": 6213
+    },
+    {
+      "name": "deleteWorkTask",
+      "line": 6214
+    },
+    {
+      "name": "printWorkReport",
+      "line": 6215
+    },
+    {
+      "name": "renderManagerProjects",
+      "line": 6245
+    },
+    {
+      "name": "renderProjects",
+      "line": 6281
+    },
+    {
+      "name": "switchProjectsTab",
+      "line": 6566
+    },
+    {
+      "name": "toggleKpLostReason",
+      "line": 6571
+    },
+    {
+      "name": "resetProposalForm",
+      "line": 6572
+    },
+    {
+      "name": "saveProposal",
+      "line": 6573
+    },
+    {
+      "name": "editProposal",
+      "line": 6582
+    },
+    {
+      "name": "openProposalLetter",
+      "line": 6583
+    },
+    {
+      "name": "deleteProposal",
+      "line": 6584
+    },
+    {
+      "name": "renderProposals",
+      "line": 6585
+    },
+    {
+      "name": "exportProposalsPdf",
+      "line": 6592
+    },
+    {
+      "name": "taxBarClass",
+      "line": 6594
+    },
+    {
+      "name": "renderDashboardProjects",
+      "line": 6603
+    },
+    {
+      "name": "docStatus",
+      "line": 6669
+    },
+    {
+      "name": "fmtDate",
+      "line": 6682
+    },
+    {
+      "name": "buildStatementText",
+      "line": 6687
+    },
+    {
+      "name": "statementEsc",
+      "line": 6833
+    },
+    {
+      "name": "statementNum",
+      "line": 6836
+    },
+    {
+      "name": "statementPct",
+      "line": 6837
+    },
+    {
+      "name": "statementBar",
+      "line": 6838
+    },
+    {
+      "name": "statementMoney",
+      "line": 6842
+    },
+    {
+      "name": "buildStatementReportHtml",
+      "line": 6844
+    },
+    {
+      "name": "buildStatementText",
+      "line": 6919
+    },
+    {
+      "name": "documentsRoleAllowed",
+      "line": 6927
+    },
+    {
+      "name": "documentsCanView",
+      "line": 6928
+    },
+    {
+      "name": "documentTypeLabel",
+      "line": 6929
+    },
+    {
+      "name": "documentIcon",
+      "line": 6930
+    },
+    {
+      "name": "safeFileName",
+      "line": 6931
+    },
+    {
+      "name": "fileExt",
+      "line": 6932
+    },
+    {
+      "name": "formatBytes",
+      "line": 6933
+    },
+    {
+      "name": "openProjectDocuments",
+      "line": 6935
+    },
+    {
+      "name": "closeDocumentModal",
+      "line": 6941
+    },
+    {
+      "name": "renderProjectDocuments",
+      "line": 6943
+    },
+    {
+      "name": "openDocumentUpload",
+      "line": 6968
+    },
+    {
+      "name": "closeDocumentUploadModal",
+      "line": 6978
+    },
+    {
+      "name": "handleDocumentFileSelected",
+      "line": 6980
+    },
+    {
+      "name": "saveDocumentUpload",
+      "line": 6986
+    },
+    {
+      "name": "replaceProjectDocument",
+      "line": 7040
+    },
+    {
+      "name": "uploadContractForProject",
+      "line": 7052
+    },
+    {
+      "name": "handleContractFileSelected",
+      "line": 7071
+    },
+    {
+      "name": "deleteProjectDocument",
+      "line": 7079
+    },
+    {
+      "name": "showUntrustedDocumentHtml",
+      "line": 7106
+    },
+    {
+      "name": "viewProjectDocument",
+      "line": 7113
+    },
+    {
+      "name": "closeDocumentViewer",
+      "line": 7137
+    },
+    {
+      "name": "openPriceHistory",
+      "line": 7139
+    },
+    {
+      "name": "closePriceHistoryModal",
+      "line": 7149
+    },
+    {
+      "name": "openProjectStatement",
+      "line": 7151
+    },
+    {
+      "name": "closeStatementModal",
+      "line": 7154
+    },
+    {
+      "name": "downloadStatementTxt",
+      "line": 7155
+    },
+    {
+      "name": "downloadStatementPdf",
+      "line": 7156
+    },
+    {
+      "name": "printStatement",
+      "line": 7163
+    }
+  ],
+  "dataCalls": [
+    {
+      "kind": "from",
+      "target": "projects",
+      "line": 1849
+    },
+    {
+      "kind": "from",
+      "target": "profiles",
+      "line": 1866
+    },
+    {
+      "kind": "rpc",
+      "target": "foreman_projects",
+      "line": 1875
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 1876
+    },
+    {
+      "kind": "rpc",
+      "target": "foreman_subcontractors",
+      "line": 1876
+    },
+    {
+      "kind": "from",
+      "target": "project_materials",
+      "line": 1877
+    },
+    {
+      "kind": "from",
+      "target": "project_other_expenses",
+      "line": 1878
+    },
+    {
+      "kind": "from",
+      "target": "pto_documents",
+      "line": 1879
+    },
+    {
+      "kind": "from",
+      "target": "project_customer_contacts",
+      "line": 1880
+    },
+    {
+      "kind": "from",
+      "target": "events",
+      "line": 1881
+    },
+    {
+      "kind": "from",
+      "target": "org_expenses",
+      "line": 1882
+    },
+    {
+      "kind": "from",
+      "target": "work_catalog",
+      "line": 1883
+    },
+    {
+      "kind": "from",
+      "target": "material_catalog",
+      "line": 1884
+    },
+    {
+      "kind": "from",
+      "target": "work_catalog_materials",
+      "line": 1885
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 1886
+    },
+    {
+      "kind": "from",
+      "target": "project_work_materials",
+      "line": 1887
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 1888
+    },
+    {
+      "kind": "from",
+      "target": "project_work_sections",
+      "line": 1889
+    },
+    {
+      "kind": "from",
+      "target": "project_work_tasks",
+      "line": 1890
+    },
+    {
+      "kind": "from",
+      "target": "work_material_options",
+      "line": 1891
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 1892
+    },
+    {
+      "kind": "from",
+      "target": "project_price_history",
+      "line": 1893
+    },
+    {
+      "kind": "from",
+      "target": "work_volume_submissions",
+      "line": 1894
+    },
+    {
+      "kind": "from",
+      "target": "work_volume_submission_items",
+      "line": 1895
+    },
+    {
+      "kind": "from",
+      "target": "commercial_proposals",
+      "line": 1920
+    },
+    {
+      "kind": "from",
+      "target": "operations",
+      "line": 1933
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 1934
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 1935
+    },
+    {
+      "kind": "from",
+      "target": "creditors",
+      "line": 1936
+    },
+    {
+      "kind": "from",
+      "target": "projects",
+      "line": 1937
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 1938
+    },
+    {
+      "kind": "from",
+      "target": "events",
+      "line": 1939
+    },
+    {
+      "kind": "from",
+      "target": "project_materials",
+      "line": 1940
+    },
+    {
+      "kind": "from",
+      "target": "project_other_expenses",
+      "line": 1941
+    },
+    {
+      "kind": "from",
+      "target": "org_employees",
+      "line": 1942
+    },
+    {
+      "kind": "from",
+      "target": "org_expenses",
+      "line": 1943
+    },
+    {
+      "kind": "from",
+      "target": "pto_documents",
+      "line": 1944
+    },
+    {
+      "kind": "from",
+      "target": "project_customer_contacts",
+      "line": 1945
+    },
+    {
+      "kind": "from",
+      "target": "work_catalog",
+      "line": 1946
+    },
+    {
+      "kind": "from",
+      "target": "material_catalog",
+      "line": 1947
+    },
+    {
+      "kind": "from",
+      "target": "work_catalog_materials",
+      "line": 1948
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 1949
+    },
+    {
+      "kind": "from",
+      "target": "project_work_materials",
+      "line": 1950
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 1951
+    },
+    {
+      "kind": "from",
+      "target": "project_work_sections",
+      "line": 1952
+    },
+    {
+      "kind": "from",
+      "target": "project_work_tasks",
+      "line": 1953
+    },
+    {
+      "kind": "from",
+      "target": "work_material_options",
+      "line": 1954
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 1955
+    },
+    {
+      "kind": "from",
+      "target": "project_price_history",
+      "line": 1956
+    },
+    {
+      "kind": "from",
+      "target": "work_volume_submissions",
+      "line": 1957
+    },
+    {
+      "kind": "from",
+      "target": "work_volume_submission_items",
+      "line": 1958
+    },
+    {
+      "kind": "from",
+      "target": "commercial_proposals",
+      "line": 1966
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 2083
+    },
+    {
+      "kind": "from",
+      "target": "project_materials",
+      "line": 2092
+    },
+    {
+      "kind": "from",
+      "target": "project_other_expenses",
+      "line": 2101
+    },
+    {
+      "kind": "from",
+      "target": "org_employees",
+      "line": 2645
+    },
+    {
+      "kind": "from",
+      "target": "org_expenses",
+      "line": 2646
+    },
+    {
+      "kind": "from",
+      "target": "events",
+      "line": 2647
+    },
+    {
+      "kind": "from",
+      "target": "org_employees",
+      "line": 2661
+    },
+    {
+      "kind": "from",
+      "target": "org_employees",
+      "line": 2661
+    },
+    {
+      "kind": "from",
+      "target": "org_employees",
+      "line": 2664
+    },
+    {
+      "kind": "from",
+      "target": "org_expenses",
+      "line": 2666
+    },
+    {
+      "kind": "from",
+      "target": "org_expenses",
+      "line": 2666
+    },
+    {
+      "kind": "from",
+      "target": "org_expenses",
+      "line": 2667
+    },
+    {
+      "kind": "from",
+      "target": "creditors",
+      "line": 2800
+    },
+    {
+      "kind": "from",
+      "target": "creditors",
+      "line": 2829
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 2856
+    },
+    {
+      "kind": "from",
+      "target": "projects",
+      "line": 3702
+    },
+    {
+      "kind": "from",
+      "target": "projects",
+      "line": 3704
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 3737
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 3742
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 3747
+    },
+    {
+      "kind": "from",
+      "target": "project_materials",
+      "line": 3781
+    },
+    {
+      "kind": "from",
+      "target": "project_materials",
+      "line": 3786
+    },
+    {
+      "kind": "from",
+      "target": "project_materials",
+      "line": 3794
+    },
+    {
+      "kind": "from",
+      "target": "project_other_expenses",
+      "line": 3828
+    },
+    {
+      "kind": "from",
+      "target": "project_other_expenses",
+      "line": 3833
+    },
+    {
+      "kind": "from",
+      "target": "project_other_expenses",
+      "line": 3841
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 3901
+    },
+    {
+      "kind": "from",
+      "target": "projects",
+      "line": 3903
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 3950
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 3965
+    },
+    {
+      "kind": "from",
+      "target": "events",
+      "line": 4182
+    },
+    {
+      "kind": "from",
+      "target": "events",
+      "line": 4186
+    },
+    {
+      "kind": "from",
+      "target": "events",
+      "line": 4220
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4295
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4298
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4312
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4398
+    },
+    {
+      "kind": "from",
+      "target": "operations",
+      "line": 4401
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4419
+    },
+    {
+      "kind": "from",
+      "target": "operations",
+      "line": 4424
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4426
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4469
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4475
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 4508
+    },
+    {
+      "kind": "from",
+      "target": "subcontractors",
+      "line": 4512
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4585
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4589
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4598
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 4622
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 4624
+    },
+    {
+      "kind": "from",
+      "target": "operations",
+      "line": 4648
+    },
+    {
+      "kind": "from",
+      "target": "operations",
+      "line": 4651
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4655
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 4663
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4713
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4721
+    },
+    {
+      "kind": "from",
+      "target": "payables",
+      "line": 4725
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 4736
+    },
+    {
+      "kind": "from",
+      "target": "operations",
+      "line": 4741
+    },
+    {
+      "kind": "from",
+      "target": "receivables",
+      "line": 4743
+    },
+    {
+      "kind": "from",
+      "target": "pto_documents",
+      "line": 5640
+    },
+    {
+      "kind": "from",
+      "target": "pto_documents",
+      "line": 5645
+    },
+    {
+      "kind": "from",
+      "target": "pto_documents",
+      "line": 5655
+    },
+    {
+      "kind": "from",
+      "target": "project_customer_contacts",
+      "line": 5677
+    },
+    {
+      "kind": "from",
+      "target": "project_customer_contacts",
+      "line": 5682
+    },
+    {
+      "kind": "from",
+      "target": "project_customer_contacts",
+      "line": 5692
+    },
+    {
+      "kind": "from",
+      "target": "project_work_sections",
+      "line": 5837
+    },
+    {
+      "kind": "from",
+      "target": "project_work_sections",
+      "line": 5841
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 5853
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 5857
+    },
+    {
+      "kind": "from",
+      "target": "project_work_materials",
+      "line": 5862
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 5872
+    },
+    {
+      "kind": "from",
+      "target": "project_work_sections",
+      "line": 5881
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_templates",
+      "line": 5888
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_template_items",
+      "line": 5892
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_template_materials",
+      "line": 5897
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_templates",
+      "line": 5903
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_templates",
+      "line": 5908
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_template_items",
+      "line": 5913
+    },
+    {
+      "kind": "from",
+      "target": "project_work_section_template_materials",
+      "line": 5915
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 6082
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 6083
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 6095
+    },
+    {
+      "kind": "from",
+      "target": "project_work_materials",
+      "line": 6101
+    },
+    {
+      "kind": "from",
+      "target": "project_work_materials",
+      "line": 6104
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 6109
+    },
+    {
+      "kind": "from",
+      "target": "project_work_materials",
+      "line": 6109
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 6109
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 6119
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 6127
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 6138
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 6195
+    },
+    {
+      "kind": "from",
+      "target": "project_work_items",
+      "line": 6201
+    },
+    {
+      "kind": "from",
+      "target": "project_work_progress",
+      "line": 6204
+    },
+    {
+      "kind": "from",
+      "target": "project_work_tasks",
+      "line": 6212
+    },
+    {
+      "kind": "from",
+      "target": "project_work_tasks",
+      "line": 6212
+    },
+    {
+      "kind": "from",
+      "target": "project_work_tasks",
+      "line": 6213
+    },
+    {
+      "kind": "from",
+      "target": "project_work_tasks",
+      "line": 6214
+    },
+    {
+      "kind": "from",
+      "target": "commercial_proposals",
+      "line": 6579
+    },
+    {
+      "kind": "from",
+      "target": "commercial_proposals",
+      "line": 6579
+    },
+    {
+      "kind": "from",
+      "target": "commercial_proposals",
+      "line": 6584
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 7009
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 7012
+    },
+    {
+      "kind": "from",
+      "target": "project_document_versions",
+      "line": 7015
+    },
+    {
+      "kind": "from",
+      "target": "project_price_history",
+      "line": 7025
+    },
+    {
+      "kind": "from",
+      "target": "projects",
+      "line": 7027
+    },
+    {
+      "kind": "from",
+      "target": "project_document_versions",
+      "line": 7062
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 7063
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 7066
+    },
+    {
+      "kind": "from",
+      "target": "project_document_versions",
+      "line": 7067
+    },
+    {
+      "kind": "from",
+      "target": "project_document_versions",
+      "line": 7086
+    },
+    {
+      "kind": "from",
+      "target": "project_documents",
+      "line": 7094
+    }
+  ]
+}

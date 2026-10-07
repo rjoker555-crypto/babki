@@ -1,0 +1,3 @@
+const fs=require('node:fs');
+function plain(path){return fs.readFileSync(path,'utf8').replace(/^import .*;\r?$/gm,'').replace(/^export /gm,'').replace(/if\(import\.meta\.main\)\s*Deno\.serve\(handle\);/g,'');}
+module.exports={plain,mainSource:()=>('const {cleanupDocumentFiles,rest,storage,sha256,boundedBytes}=(()=>{'+plain('supabase/functions/_shared/http.ts')+';return {cleanupDocumentFiles,rest,storage,sha256,boundedBytes};})();\n')+plain('supabase/functions/_shared/report-renderers.js')+'\n'+plain('supabase/functions/_shared/report-service.ts')+'\n'+plain('supabase/functions/_shared/text-revision.ts')+'\n'+['schema.ts','modules.ts','calculations.ts','documents.ts','tools.ts','index.ts'].map(name=>plain('supabase/functions/main-agent/'+name)).join('\n')};

@@ -1,0 +1,5145 @@
+[
+  {
+    "name": "public.profiles",
+    "rls_enabled": true,
+    "rows": 7,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "full_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "role",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'director'::text",
+        "check": "role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'foreman'::text, 'manager'::text])"
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_tasks_created_by_fkey",
+        "source_table": "public.project_work_tasks",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_sections_created_by_fkey",
+        "source_table": "public.project_work_sections",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_progress_created_by_fkey",
+        "source_table": "public.project_work_progress",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_created_by_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_customer_contacts_created_by_fkey",
+        "source_table": "public.project_customer_contacts",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "events_created_by_fkey",
+        "source_table": "public.events",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "profiles_id_fkey",
+        "source_table": "public.profiles",
+        "source_columns": [
+          "id"
+        ],
+        "target_table": "auth.users",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "pto_documents_created_by_fkey",
+        "source_table": "public.pto_documents",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "projects_responsible_user_id_fkey",
+        "source_table": "public.projects",
+        "source_columns": [
+          "responsible_user_id"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_created_by_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "audit_log_user_id_fkey",
+        "source_table": "public.audit_log",
+        "source_columns": [
+          "user_id"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submissions_created_by_fkey",
+        "source_table": "public.work_volume_submissions",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_templates_created_by_fkey",
+        "source_table": "public.project_work_section_templates",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "commercial_proposals_created_by_fkey",
+        "source_table": "public.commercial_proposals",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_price_history_created_by_fkey",
+        "source_table": "public.project_price_history",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_document_versions_uploaded_by_fkey",
+        "source_table": "public.project_document_versions",
+        "source_columns": [
+          "uploaded_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_documents_uploaded_by_fkey",
+        "source_table": "public.project_documents",
+        "source_columns": [
+          "uploaded_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.projects",
+    "rls_enabled": true,
+    "rows": 8,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "extensions.uuid_generate_v4()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "customer",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "contract_number",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "contract_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "start_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "end_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_revenue",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "planned_cost",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'active'::text",
+        "check": "status = ANY (ARRAY['planned'::text, 'active'::text, 'completed'::text, 'closed'::text])"
+      },
+      {
+        "name": "responsible_user_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "sync_id",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable",
+          "unique"
+        ]
+      },
+      {
+        "name": "contractor_company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_items_project_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "payables_project_id_fkey",
+        "source_table": "public.payables",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_subcontractors_project_id_fkey",
+        "source_table": "public.project_subcontractors",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "subcontractors_project_id_fkey",
+        "source_table": "public.subcontractors",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_materials_project_id_fkey",
+        "source_table": "public.project_materials",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_other_expenses_project_id_fkey",
+        "source_table": "public.project_other_expenses",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "pto_documents_project_id_fkey",
+        "source_table": "public.pto_documents",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_customer_contacts_project_id_fkey",
+        "source_table": "public.project_customer_contacts",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_sections_project_id_fkey",
+        "source_table": "public.project_work_sections",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submissions_project_id_fkey",
+        "source_table": "public.work_volume_submissions",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_templates_project_id_fkey",
+        "source_table": "public.project_work_section_templates",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_price_history_project_id_fkey",
+        "source_table": "public.project_price_history",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_documents_project_id_fkey",
+        "source_table": "public.project_documents",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_tasks_project_id_fkey",
+        "source_table": "public.project_work_tasks",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "projects_responsible_user_id_fkey",
+        "source_table": "public.projects",
+        "source_columns": [
+          "responsible_user_id"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_project_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "receivables_project_id_fkey",
+        "source_table": "public.receivables",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.operations",
+    "rls_enabled": true,
+    "rows": 28,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "extensions.uuid_generate_v4()"
+      },
+      {
+        "name": "operation_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "operation_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "check": "operation_type = ANY (ARRAY['income'::text, 'expense'::text, 'credit'::text])"
+      },
+      {
+        "name": "article",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "counterparty",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_number",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "subcontractor_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "cost_item_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "cost_item_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "cost_item_type IS NULL OR (cost_item_type = ANY (ARRAY['material'::text, 'other'::text]))"
+      },
+      {
+        "name": "payable_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "payer_company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "payer_company = ANY (ARRAY['ООО'::text, 'ИП'::text])"
+      },
+      {
+        "name": "credit_recipient_company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "credit_recipient_company IS NULL OR (credit_recipient_company = ANY (ARRAY['ООО'::text, 'ИП'::text]))"
+      },
+      {
+        "name": "credit_kind",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "credit_kind IS NULL OR (credit_kind = ANY (ARRAY['money'::text, 'material'::text]))"
+      },
+      {
+        "name": "org_employee_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "org_event_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "org_expense_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "vat_included",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "false"
+      },
+      {
+        "name": "receivable_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "operations_project_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_created_by_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_subcontractor_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "subcontractor_id"
+        ],
+        "target_table": "public.subcontractors",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_payable_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "payable_id"
+        ],
+        "target_table": "public.payables",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_org_employee_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "org_employee_id"
+        ],
+        "target_table": "public.org_employees",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_org_event_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "org_event_id"
+        ],
+        "target_table": "public.events",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_org_expense_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "org_expense_id"
+        ],
+        "target_table": "public.org_expenses",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_receivable_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "receivable_id"
+        ],
+        "target_table": "public.receivables",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.receivables",
+    "rls_enabled": true,
+    "rows": 2,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "extensions.uuid_generate_v4()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "customer",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_number",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "paid_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "document_status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'not_signed'::text",
+        "check": "document_status = ANY (ARRAY['not_signed'::text, 'signing'::text, 'signed'::text])"
+      },
+      {
+        "name": "due_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "sync_id",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable",
+          "unique"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "receivables_project_id_fkey",
+        "source_table": "public.receivables",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "operations_receivable_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "receivable_id"
+        ],
+        "target_table": "public.receivables",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.payables",
+    "rls_enabled": true,
+    "rows": 5,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "extensions.uuid_generate_v4()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "counterparty",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_number",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "paid_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "due_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "sync_id",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable",
+          "unique"
+        ]
+      },
+      {
+        "name": "is_credit",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "false"
+      },
+      {
+        "name": "credit_start_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "full_repayment_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "owner_company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "owner_company IS NULL OR (owner_company = ANY (ARRAY['ООО'::text, 'ИП'::text]))"
+      },
+      {
+        "name": "credit_kind",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "credit_kind IS NULL OR (credit_kind = ANY (ARRAY['money'::text, 'material'::text]))"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "operations_payable_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "payable_id"
+        ],
+        "target_table": "public.payables",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "payables_project_id_fkey",
+        "source_table": "public.payables",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.audit_log",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "extensions.uuid_generate_v4()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "table_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "record_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "action",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "check": "action = ANY (ARRAY['insert'::text, 'update'::text, 'delete'::text])"
+      },
+      {
+        "name": "old_data",
+        "data_type": "jsonb",
+        "format": "jsonb",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "new_data",
+        "data_type": "jsonb",
+        "format": "jsonb",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "audit_log_user_id_fkey",
+        "source_table": "public.audit_log",
+        "source_columns": [
+          "user_id"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.sync_records",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "extensions.uuid_generate_v4()"
+      },
+      {
+        "name": "entity_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "entity_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "excel_sheet",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "excel_row",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "sync_status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'synced'::text",
+        "check": "sync_status = ANY (ARRAY['synced'::text, 'pending'::text, 'error'::text])"
+      },
+      {
+        "name": "last_sync_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "error_message",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ]
+  },
+  {
+    "name": "public.events",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "title",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "event_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'Другое'::text"
+      },
+      {
+        "name": "event_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'ООО'::text",
+        "check": "company = ANY (ARRAY['ООО'::text, 'ИП'::text])"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "operations_org_event_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "org_event_id"
+        ],
+        "target_table": "public.events",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "events_created_by_fkey",
+        "source_table": "public.events",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_subcontractors",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_subcontractors_project_id_fkey",
+        "source_table": "public.project_subcontractors",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.subcontractors",
+    "rls_enabled": true,
+    "rows": 8,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "has_vat",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "false"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "operations_subcontractor_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "subcontractor_id"
+        ],
+        "target_table": "public.subcontractors",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "subcontractors_project_id_fkey",
+        "source_table": "public.subcontractors",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_materials",
+    "rls_enabled": true,
+    "rows": 4,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "actual_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "expense_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_materials_project_id_fkey",
+        "source_table": "public.project_materials",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_other_expenses",
+    "rls_enabled": true,
+    "rows": 3,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "actual_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "expense_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_other_expenses_project_id_fkey",
+        "source_table": "public.project_other_expenses",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.creditors",
+    "rls_enabled": true,
+    "rows": 1,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ]
+  },
+  {
+    "name": "public.org_employees",
+    "rls_enabled": true,
+    "rows": 2,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "position",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "monthly_salary",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0",
+        "check": "monthly_salary >= 0::numeric"
+      },
+      {
+        "name": "pay_day",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "pay_day IS NULL OR pay_day >= 1 AND pay_day <= 31"
+      },
+      {
+        "name": "company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'ООО'::text",
+        "check": "company = ANY (ARRAY['ООО'::text, 'ИП'::text])"
+      },
+      {
+        "name": "active",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "payment_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "operations_org_employee_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "org_employee_id"
+        ],
+        "target_table": "public.org_employees",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.org_expenses",
+    "rls_enabled": true,
+    "rows": 4,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "category",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'Прочие орг. расходы'::text"
+      },
+      {
+        "name": "monthly_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0",
+        "check": "monthly_amount >= 0::numeric"
+      },
+      {
+        "name": "pay_day",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "pay_day IS NULL OR pay_day >= 1 AND pay_day <= 31"
+      },
+      {
+        "name": "company",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'ООО'::text",
+        "check": "company = ANY (ARRAY['ООО'::text, 'ИП'::text])"
+      },
+      {
+        "name": "active",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "payment_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "operations_org_expense_id_fkey",
+        "source_table": "public.operations",
+        "source_columns": [
+          "org_expense_id"
+        ],
+        "target_table": "public.org_expenses",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.pto_documents",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "check": "document_type = ANY (ARRAY['executive_schemes'::text, 'aosr'::text, 'work_log'::text, 'cable_log'::text, 'other'::text])"
+      },
+      {
+        "name": "final_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'requested'::text",
+        "check": "status = ANY (ARRAY['requested'::text, 'in_progress'::text, 'signing'::text, 'signed'::text])"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "pto_documents_project_id_fkey",
+        "source_table": "public.pto_documents",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "pto_documents_created_by_fkey",
+        "source_table": "public.pto_documents",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_customer_contacts",
+    "rls_enabled": true,
+    "rows": 1,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "full_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "phone",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "position",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_customer_contacts_project_id_fkey",
+        "source_table": "public.project_customer_contacts",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_customer_contacts_created_by_fkey",
+        "source_table": "public.project_customer_contacts",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.work_catalog",
+    "rls_enabled": true,
+    "rows": 191,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "unit",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'шт'::text"
+      },
+      {
+        "name": "category",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "search_keywords",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "standard_code",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "norm_source",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_items_work_catalog_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_catalog_materials_work_catalog_id_fkey",
+        "source_table": "public.work_catalog_materials",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_material_options_work_catalog_id_fkey",
+        "source_table": "public.work_material_options",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_template_items_work_catalog_id_fkey",
+        "source_table": "public.project_work_section_template_items",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.material_catalog",
+    "rls_enabled": true,
+    "rows": 154,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "unit",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'шт'::text"
+      },
+      {
+        "name": "category",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "subtype",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "diameter_mm",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "mounting_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "option_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "norm_source",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_materials_material_catalog_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_material_options_primary_material_catalog_id_fkey",
+        "source_table": "public.work_material_options",
+        "source_columns": [
+          "primary_material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_primary_material_catalog_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "primary_material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_template_material_material_catalog_id_fkey",
+        "source_table": "public.project_work_section_template_materials",
+        "source_columns": [
+          "material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_material_options_secondary_material_catalog_id_fkey",
+        "source_table": "public.work_material_options",
+        "source_columns": [
+          "secondary_material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_catalog_materials_material_catalog_id_fkey",
+        "source_table": "public.work_catalog_materials",
+        "source_columns": [
+          "material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.work_catalog_materials",
+    "rls_enabled": true,
+    "rows": 367,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "work_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "recommended_quantity",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "1"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_role",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "'secondary'::text"
+      },
+      {
+        "name": "dependency_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "option_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "norm_per_unit",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "norm_basis",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "recalc_on_primary_change",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "false"
+      },
+      {
+        "name": "default_option",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "true"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_materials_rule_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "rule_id"
+        ],
+        "target_table": "public.work_catalog_materials",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_catalog_materials_material_catalog_id_fkey",
+        "source_table": "public.work_catalog_materials",
+        "source_columns": [
+          "material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_catalog_materials_work_catalog_id_fkey",
+        "source_table": "public.work_catalog_materials",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_items",
+    "rls_enabled": true,
+    "rows": 4,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "work_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "work_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "unit",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'шт'::text"
+      },
+      {
+        "name": "planned_volume",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "completed_volume",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "start_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "end_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'planned'::text",
+        "check": "status = ANY (ARRAY['planned'::text, 'in_progress'::text, 'completed'::text])"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "section_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "primary_material_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_items_work_catalog_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submission_items_work_item_id_fkey",
+        "source_table": "public.work_volume_submission_items",
+        "source_columns": [
+          "work_item_id"
+        ],
+        "target_table": "public.project_work_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_section_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "section_id"
+        ],
+        "target_table": "public.project_work_sections",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_primary_material_catalog_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "primary_material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_progress_work_item_id_fkey",
+        "source_table": "public.project_work_progress",
+        "source_columns": [
+          "work_item_id"
+        ],
+        "target_table": "public.project_work_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_materials_work_item_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "work_item_id"
+        ],
+        "target_table": "public.project_work_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_created_by_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_project_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_materials",
+    "rls_enabled": true,
+    "rows": 4,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "work_item_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "unit",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'шт'::text"
+      },
+      {
+        "name": "quantity",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "rule_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_role",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "'secondary'::text"
+      },
+      {
+        "name": "dependency_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "option_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "is_auto_generated",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "is_manual_override",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "false"
+      },
+      {
+        "name": "parent_material_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_materials_work_item_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "work_item_id"
+        ],
+        "target_table": "public.project_work_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_materials_parent_material_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "parent_material_id"
+        ],
+        "target_table": "public.project_work_materials",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_materials_rule_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "rule_id"
+        ],
+        "target_table": "public.work_catalog_materials",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_materials_material_catalog_id_fkey",
+        "source_table": "public.project_work_materials",
+        "source_columns": [
+          "material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_progress",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "work_item_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "progress_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "CURRENT_DATE"
+      },
+      {
+        "name": "completed_volume",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0",
+        "check": "completed_volume >= 0::numeric"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "submission_item_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_progress_submission_item_id_fkey",
+        "source_table": "public.project_work_progress",
+        "source_columns": [
+          "submission_item_id"
+        ],
+        "target_table": "public.work_volume_submission_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_progress_work_item_id_fkey",
+        "source_table": "public.project_work_progress",
+        "source_columns": [
+          "work_item_id"
+        ],
+        "target_table": "public.project_work_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_progress_created_by_fkey",
+        "source_table": "public.project_work_progress",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submission_items_progress_id_fkey",
+        "source_table": "public.work_volume_submission_items",
+        "source_columns": [
+          "progress_id"
+        ],
+        "target_table": "public.project_work_progress",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_sections",
+    "rls_enabled": true,
+    "rows": 1,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "start_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "end_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'planned'::text"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_sections_created_by_fkey",
+        "source_table": "public.project_work_sections",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_items_section_id_fkey",
+        "source_table": "public.project_work_items",
+        "source_columns": [
+          "section_id"
+        ],
+        "target_table": "public.project_work_sections",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_sections_project_id_fkey",
+        "source_table": "public.project_work_sections",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_tasks",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "title",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "due_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "priority",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'normal'::text",
+        "check": "priority = ANY (ARRAY['low'::text, 'normal'::text, 'high'::text])"
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'open'::text",
+        "check": "status = ANY (ARRAY['open'::text, 'done'::text])"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_tasks_created_by_fkey",
+        "source_table": "public.project_work_tasks",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_tasks_project_id_fkey",
+        "source_table": "public.project_work_tasks",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.work_material_options",
+    "rls_enabled": true,
+    "rows": 33,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "work_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "option_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "option_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "primary_material_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "secondary_material_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "norm_per_unit",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "1",
+        "check": "norm_per_unit >= 0::numeric"
+      },
+      {
+        "name": "norm_basis",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "is_default",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "false"
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "work_material_options_secondary_material_catalog_id_fkey",
+        "source_table": "public.work_material_options",
+        "source_columns": [
+          "secondary_material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_material_options_work_catalog_id_fkey",
+        "source_table": "public.work_material_options",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_material_options_primary_material_catalog_id_fkey",
+        "source_table": "public.work_material_options",
+        "source_columns": [
+          "primary_material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_documents",
+    "rls_enabled": true,
+    "rows": 1,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "check": "document_type = ANY (ARRAY['contract'::text, 'estimate'::text, 'addendum'::text, 'other'::text])"
+      },
+      {
+        "name": "title",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "file_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "file_path",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "mime_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "file_size",
+        "data_type": "bigint",
+        "format": "int8",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_number",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "document_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "version_no",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "1"
+      },
+      {
+        "name": "is_current",
+        "data_type": "boolean",
+        "format": "bool",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "true"
+      },
+      {
+        "name": "uploaded_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_documents_project_id_fkey",
+        "source_table": "public.project_documents",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_price_history_reason_document_id_fkey",
+        "source_table": "public.project_price_history",
+        "source_columns": [
+          "reason_document_id"
+        ],
+        "target_table": "public.project_documents",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_document_versions_document_id_fkey",
+        "source_table": "public.project_document_versions",
+        "source_columns": [
+          "document_id"
+        ],
+        "target_table": "public.project_documents",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_documents_uploaded_by_fkey",
+        "source_table": "public.project_documents",
+        "source_columns": [
+          "uploaded_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_document_versions",
+    "rls_enabled": true,
+    "rows": 1,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "document_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "version_no",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "file_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "file_path",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "mime_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "file_size",
+        "data_type": "bigint",
+        "format": "int8",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "uploaded_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_document_versions_uploaded_by_fkey",
+        "source_table": "public.project_document_versions",
+        "source_columns": [
+          "uploaded_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_document_versions_document_id_fkey",
+        "source_table": "public.project_document_versions",
+        "source_columns": [
+          "document_id"
+        ],
+        "target_table": "public.project_documents",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_price_history",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "change_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "CURRENT_DATE"
+      },
+      {
+        "name": "previous_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "change_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "new_amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "reason_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "check": "reason_type = ANY (ARRAY['contract'::text, 'addendum'::text, 'manual'::text, 'other'::text])"
+      },
+      {
+        "name": "reason_document_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "reason_text",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_price_history_created_by_fkey",
+        "source_table": "public.project_price_history",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_price_history_reason_document_id_fkey",
+        "source_table": "public.project_price_history",
+        "source_columns": [
+          "reason_document_id"
+        ],
+        "target_table": "public.project_documents",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_price_history_project_id_fkey",
+        "source_table": "public.project_price_history",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.commercial_proposals",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "city",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "customer",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "amount",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'review'::text",
+        "check": "status = ANY (ARRAY['review'::text, 'won'::text, 'lost'::text])"
+      },
+      {
+        "name": "segment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'commercial'::text",
+        "check": "segment = ANY (ARRAY['commercial'::text, 'government'::text])"
+      },
+      {
+        "name": "source",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "sent_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "expected_review_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "review_deadline",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "lost_reason",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "letter_file_path",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "letter_file_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "commercial_proposals_created_by_fkey",
+        "source_table": "public.commercial_proposals",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_section_templates",
+    "rls_enabled": true,
+    "rows": 1,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_section_template_items_template_id_fkey",
+        "source_table": "public.project_work_section_template_items",
+        "source_columns": [
+          "template_id"
+        ],
+        "target_table": "public.project_work_section_templates",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_templates_project_id_fkey",
+        "source_table": "public.project_work_section_templates",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_templates_created_by_fkey",
+        "source_table": "public.project_work_section_templates",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_section_template_items",
+    "rls_enabled": true,
+    "rows": 3,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "template_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "work_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "work_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "unit",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "planned_volume",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "sort_order",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_section_template_items_template_id_fkey",
+        "source_table": "public.project_work_section_template_items",
+        "source_columns": [
+          "template_id"
+        ],
+        "target_table": "public.project_work_section_templates",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_template_materials_template_item_id_fkey",
+        "source_table": "public.project_work_section_template_materials",
+        "source_columns": [
+          "template_item_id"
+        ],
+        "target_table": "public.project_work_section_template_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_template_items_work_catalog_id_fkey",
+        "source_table": "public.project_work_section_template_items",
+        "source_columns": [
+          "work_catalog_id"
+        ],
+        "target_table": "public.work_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.project_work_section_template_materials",
+    "rls_enabled": true,
+    "rows": 4,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "template_item_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_catalog_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "unit",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "quantity",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "material_role",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "dependency_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "option_group",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "sort_order",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_section_template_materials_template_item_id_fkey",
+        "source_table": "public.project_work_section_template_materials",
+        "source_columns": [
+          "template_item_id"
+        ],
+        "target_table": "public.project_work_section_template_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "project_work_section_template_material_material_catalog_id_fkey",
+        "source_table": "public.project_work_section_template_materials",
+        "source_columns": [
+          "material_catalog_id"
+        ],
+        "target_table": "public.material_catalog",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.work_volume_submissions",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "project_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "period_from",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "period_to",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'submitted'::text"
+      },
+      {
+        "name": "created_by",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "work_volume_submissions_created_by_fkey",
+        "source_table": "public.work_volume_submissions",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_table": "public.profiles",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submission_items_submission_id_fkey",
+        "source_table": "public.work_volume_submission_items",
+        "source_columns": [
+          "submission_id"
+        ],
+        "target_table": "public.work_volume_submissions",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submissions_project_id_fkey",
+        "source_table": "public.work_volume_submissions",
+        "source_columns": [
+          "project_id"
+        ],
+        "target_table": "public.projects",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.work_volume_submission_items",
+    "rls_enabled": true,
+    "rows": 0,
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "submission_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "work_item_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "completed_volume",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "updatable"
+        ],
+        "check": "completed_volume > 0::numeric"
+      },
+      {
+        "name": "progress_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "comment",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "progress_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "unit_count",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "1",
+        "check": "unit_count > 0"
+      },
+      {
+        "name": "section_label",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "project_work_progress_submission_item_id_fkey",
+        "source_table": "public.project_work_progress",
+        "source_columns": [
+          "submission_item_id"
+        ],
+        "target_table": "public.work_volume_submission_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submission_items_work_item_id_fkey",
+        "source_table": "public.work_volume_submission_items",
+        "source_columns": [
+          "work_item_id"
+        ],
+        "target_table": "public.project_work_items",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submission_items_submission_id_fkey",
+        "source_table": "public.work_volume_submission_items",
+        "source_columns": [
+          "submission_id"
+        ],
+        "target_table": "public.work_volume_submissions",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "work_volume_submission_items_progress_id_fkey",
+        "source_table": "public.work_volume_submission_items",
+        "source_columns": [
+          "progress_id"
+        ],
+        "target_table": "public.project_work_progress",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  }
+]

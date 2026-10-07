@@ -1,0 +1,107 @@
+{
+  "result": {
+    "lints": [
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "count": 6,
+        "findings": [
+          {
+            "detail": "Function `public.foreman_add_subcontractor(p_project_id uuid, p_name text, p_comment text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/foreman_add_subcontractor`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "foreman_add_subcontractor",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "p_project_id uuid, p_name text, p_comment text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-05T16:10:01.539Z"
+          },
+          {
+            "detail": "Function `public.foreman_projects()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/foreman_projects`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "foreman_projects",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-05T16:10:01.539Z"
+          },
+          {
+            "detail": "Function `public.foreman_subcontractors()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/foreman_subcontractors`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "foreman_subcontractors",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-05T16:10:01.539Z"
+          },
+          {
+            "detail": "Function `public.is_foreman()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_foreman`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_foreman",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-05T16:10:01.539Z"
+          },
+          {
+            "detail": "Function `public.is_manager_active()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_manager_active`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_manager_active",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-05T16:10:01.539Z"
+          },
+          {
+            "detail": "Function `public.is_non_foreman_active()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_non_foreman_active`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_non_foreman_active",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-05T16:10:01.539Z"
+          }
+        ]
+      },
+      {
+        "name": "auth_leaked_password_protection",
+        "title": "Leaked Password Protection Disabled",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Leaked password protection is currently disabled.",
+        "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+        "count": 1,
+        "findings": [
+          {
+            "detail": "Supabase Auth prevents the use of compromised passwords by checking against HaveIBeenPwned.org. Enable this feature to enhance security.",
+            "metadata": {
+              "type": "auth",
+              "entity": "Auth"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

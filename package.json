@@ -1,0 +1,15 @@
+{
+  "name": "voltmaster",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "test:telegram": "node tests/telegram-core.test.cjs && node tests/frontend-compatibility.cjs",
+    "test:documents": "node tests/agent-documents.test.cjs && node tests/agent-document-flow.test.cjs && node tests/operator-document-files.test.cjs"
+  },
+  "devDependencies": {
+    "jszip": "3.10.1",
+    "pdf-lib": "1.17.1",
+    "playwright": "1.62.1"
+  }
+}

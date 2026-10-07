@@ -52,6 +52,12 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 .icon{width:40px;height:40px;border-radius:12px;background:#0e2a4412;display:grid;place-items:center;font-size:19px;flex-shrink:0}
 .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e7ebf0;display:flex;justify-content:center;z-index:5;padding-bottom:env(safe-area-inset-bottom,0)}
 .navin{max-width:760px;width:100%;display:grid;grid-template-columns:repeat(7,1fr)}
+#obligationForm label{display:block;margin:14px 0;font-weight:700}
+#obligationForm input:not([type=checkbox]),#obligationForm select,#obligationForm textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:10px;border:1px solid #dce2ea;border-radius:9px;background:#fff;color:var(--navy);font:inherit;font-weight:400}
+#obligationForm textarea{min-height:90px;resize:vertical}
+#obligationForm button{padding:12px;border:0;border-radius:10px;font-weight:700;width:100%}
+#obligationModal h3{margin:20px 0 10px}
+.userbar{flex-wrap:wrap}
 .nav button{border:0;background:transparent;padding:10px 2px 12px;color:#718096;font-size:10.5px}
 .nav button.active{color:var(--navy);font-weight:700}
 .nav button.active span{color:var(--amber-dk)}
@@ -247,8 +253,13 @@ details summary{list-style:revert;padding:4px 0}
     <b id="userName">Пользователь</b>
     <div class="status" id="userRole"></div>
   </div>
+  <button class="smallbtn" onclick="volumeObligations.open(sbClient,projects)">Задачи · уведомления</button>
+  <button id="telegramConnectButton" class="smallbtn" onclick="telegramLink.show()" hidden>Telegram</button>
+  <button id="telegramReviewButton" class="smallbtn" onclick="telegramReview.open()" hidden>Подачи Telegram</button>
   <button class="smallbtn logout" onclick="logout()">Выйти</button>
 </div>
+<div id="telegramLinkModal" class="modal" hidden onclick="if(event.target===this)telegramLink.close()"><div class="sheet"><h2>Telegram VoltMaster</h2><p id="telegramLinkStatus" role="status"></p><a id="telegramLinkUrl" target="_blank" rel="noopener noreferrer" hidden></a><div class="row"><button class="btn primary" onclick="telegramLink.connect()">Подключить Telegram</button><button class="btn secondary" onclick="telegramLink.disconnect()">Отключить</button><button class="btn secondary" onclick="telegramLink.close()">Закрыть</button></div><div id="telegramAdminControls" class="row" hidden><button class="smallbtn" onclick="telegramLink.admin('register')">Зарегистрировать webhook</button><button class="smallbtn" onclick="telegramLink.admin('info')">Проверить webhook</button><button class="smallbtn" onclick="telegramLink.admin('disable')">Отключить webhook</button></div></div></div>
+<div id="telegramReviewModal" class="modal" hidden onclick="if(event.target===this)telegramReview.close()"><div class="sheet"><h2>Входящие документы Telegram</h2><p id="telegramReviewStatus" role="status"></p><div id="telegramReviewList"></div><button class="btn secondary" onclick="telegramReview.close()">Закрыть</button></div></div>
 
 <!-- DASHBOARD -->
 
@@ -578,7 +589,8 @@ onclick="openAr()">
 <div class="chat-layout"><div id="agentChatStatus" class="status" role="status" aria-live="polite">Загрузка чата…</div>
 <div class="chat-tabs"><button id="agentChatTabchat" class="smallbtn" type="button" aria-pressed="true" onclick="financeChat.setMode('chat')">Чат</button><button id="agentChatTabhistory" class="smallbtn" type="button" aria-pressed="false" onclick="financeChat.setMode('history')">История чатов</button><button id="agentChatTabprotocol" class="smallbtn" type="button" aria-pressed="false" onclick="financeChat.setMode('protocol')">Протокол<span id="agentChatBadge"></span></button><button id="agentChatNew" class="smallbtn" type="button" onclick="financeChat.newChat()">＋ Новый чат</button></div>
 <div id="agentChatPane"><button id="agentChatMore" class="smallbtn chat-more" hidden onclick="financeChat.refresh(true)">Загрузить предыдущие сообщения</button><div id="agentChatMessages" class="chat-messages" role="log" aria-label="Личная переписка"></div>
-<form class="chat-composer" onsubmit="event.preventDefault();financeChat.send()"><label for="agentChatInput" class="chat-sr-only">Сообщение главному агенту</label><textarea id="agentChatInput" rows="3" maxlength="8000" enterkeyhint="send" placeholder="Сообщение… Enter — отправить, Shift+Enter — новая строка" required></textarea><button id="agentChatSend" type="submit" class="btn primary" disabled>Отправить</button></form>
+<input id="agentChatFileInput" type="file" accept=".pdf,.txt,.docx,.xlsx" hidden onchange="financeChat.attachFile(this)"><button id="agentChatAttach" class="smallbtn" type="button" onclick="document.getElementById('agentChatFileInput').click()" disabled>📎 Прикрепить проект / файл</button><div id="agentChatFiles"></div><p class="chat-notice">Личные файлы до 8 МБ: PDF/TXT для разбора, DOCX/XLSX для прикрепления и замены. PDF до 40 страниц. Создание объекта, прикрепление и замена документа подтверждаются отдельно.</p>
+<form class="chat-composer" onsubmit="event.preventDefault();financeChat.send()"><label for="agentChatInput" class="chat-sr-only">Сообщение главному агенту</label><textarea id="agentChatInput" rows="3" maxlength="8000" enterkeyhint="send" placeholder="Сообщение… Enter — отправить, Shift+Enter — новая строка"></textarea><button id="agentChatSend" type="submit" class="btn primary" disabled>Отправить</button></form>
 <div class="chat-tabs"><button id="agentChatVoice" class="smallbtn" type="button" onclick="financeChat.voice()" disabled>🎙 Голос</button><button id="agentChatVoiceCancel" class="smallbtn" type="button" onclick="financeChat.cancelVoice()" hidden>Отменить запись</button><button class="smallbtn" type="button" onclick="financeChat.refresh()">Обновить</button></div><p class="chat-notice">Голос до 3 минут: сохраняется полная расшифровка, аудиофайл не хранится. Каждый чат хранится 14 дней после последнего сообщения.</p></div>
 <div id="agentChatHistoryPane" hidden><p class="chat-notice">Ваши чаты. Возврат в чат не продлевает хранение; новое сообщение продлевает его ещё на 14 дней.</p><div id="agentChatHistoryList" class="chat-history-list"></div></div>
 <div id="agentChatProtocolPane" hidden><p class="chat-notice">Поручения на действия и изменения по доступным разделам. Записи хранятся один календарный месяц после публикации. Чужая личная переписка сюда не попадает.</p><div id="agentChatProtocolList" class="chat-messages" aria-label="Протокол поручений и изменений"></div></div></div></section>
@@ -887,7 +899,7 @@ onclick="openAr()">
 <div class="sheet">
 <h2 id="documentUploadTitle">Загрузка документа</h2>
 <div id="documentUploadHint" class="muted" style="margin-bottom:10px"></div>
-<div class="field"><label>Тип документа</label><select id="docType"><option value="contract">Договор</option><option value="estimate">Смета</option><option value="addendum">Дополнительное соглашение</option><option value="other">Прочий документ</option></select></div>
+<div class="field"><label>Тип документа</label><select id="docType"><option value="contract">Договор</option><option value="project">Проект</option><option value="estimate">Смета</option><option value="addendum">Дополнительное соглашение</option><option value="other">Прочий документ</option></select></div>
 <div class="field"><label>Название документа</label><input id="docTitle" placeholder="Например: Смета по объекту"></div>
 <div class="field"><label>Номер</label><input id="docNumber" placeholder="Для ДС — номер соглашения"></div>
 <div class="field"><label>Дата документа</label><input id="docDate" type="date"></div>
@@ -1506,7 +1518,13 @@ onclick="if(event.target===this)closeModal()">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<script src="chat.js?v=20261006-4"></script>
+<script src="financial-commands.js?v=20261007-operator"></script>
+<script src="chat.js?v=20261006-6"></script>
+<script src="volumes.js?v=20261006-security"></script>
+<script src="obligations.js?v=20261007-operator"></script>
+<script src="project-team.js?v=20261007-operator"></script>
+<script src="telegram-link.js?v=20261007-telegram"></script>
+<script src="telegram-review.js?v=20261007-telegram"></script>
 <script>
 
 const SUPABASE_URL='https://tkoxgvftneoereukiomr.supabase.co';
@@ -1708,6 +1726,9 @@ alert('Письмо для восстановления пароля отпра�
 }
 
 async function logout(){
+window.telegramLink?.reset();
+window.telegramReview?.reset();
+window.volumeObligations?.reset();volumeCommandClient=null;
 
 await sbClient.auth.signOut();
 
@@ -1756,9 +1777,16 @@ function setupRealtime(){
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_progress'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_sections'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_work_tasks'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_section_templates'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_section_template_items'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_work_section_template_materials'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_documents'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'project_price_history'},scheduleRealtimeReload)
     .on('postgres_changes',{event:'*',schema:'public',table:'commercial_proposals'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_document_versions'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_team_members'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'work_volume_submissions'},scheduleRealtimeReload)
+    .on('postgres_changes',{event:'*',schema:'public',table:'work_volume_submission_items'},scheduleRealtimeReload)
     .subscribe(status=>{
       if(status==='SUBSCRIBED') console.log('Realtime: онлайн-синхронизация подключена.');
       if(status==='CHANNEL_ERROR') console.warn('Realtime: ошибка подключения канала.');
@@ -1778,6 +1806,8 @@ async function boot(session){
 if(!session){
 
 window.financeChat?.reset();
+window.projectTeam?.reset();
+window.volumeObligations?.reset();volumeCommandClient=null;
 $('auth').style.display='grid';
 $('main').style.display='none';
 
@@ -1851,6 +1881,9 @@ if(!user){await boot(null);return;}
 const profileResult=await sbClient.from('profiles').select('*').eq('id',user.id).maybeSingle();
 if(profileResult.error){alert('Не удалось загрузить профиль: '+profileResult.error.message);return;}
 profile=profileResult.data;
+const telegramButton=$('telegramConnectButton');if(telegramButton)telegramButton.hidden=!(profile?.is_active&&['director','foreman'].includes(profile.role));
+const telegramAdminControls=$('telegramAdminControls');if(telegramAdminControls)telegramAdminControls.hidden=!(profile?.is_active&&profile.role==='director');
+const telegramReviewButton=$('telegramReviewButton');if(telegramReviewButton)telegramReviewButton.hidden=!(profile?.is_active&&profile.role==='director');
 
 // Для прораба загружаем только производственные данные и безопасные представления.
 // Финансовые таблицы вообще не запрашиваются из браузера.
@@ -2017,6 +2050,7 @@ function renderForemanProjects(){
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
         <button class="btn primary" style="flex:1;min-width:130px" onclick="openWorkPanel('${p.id}')">Ход работ</button>
         <button class="btn secondary" style="flex:1;min-width:130px" onclick="openPtoPanel('${p.id}')">ПТО</button>
+        <button class="btn secondary" style="flex:1;min-width:130px" onclick="openProjectDocuments('${p.id}')">Проект · документы</button>
         <button class="btn secondary" style="flex:1;min-width:130px" onclick="openForemanSubModal('${p.id}')">Субподрядчики</button>
       </div>
     </div>`;
@@ -2042,7 +2076,7 @@ async function saveForemanSubcontractor(){
   const projectId=currentForemanSubProjectId;
   if(!projectId)return alert('Не удалось определить объект. Закройте окно и откройте его снова.');
   const name=$('foremanSubName').value.trim(); if(!name)return alert('Введите название субподрядчика.');
-  const {data,error}=await sbClient.rpc('foreman_add_subcontractor',{p_project_id:projectId,p_name:name,p_comment:$('foremanSubComment').value.trim()||null});
+  let data,error;try{data=(await financialCommands.execute({kind:'foreman_subcontractor',action:'create',values:{project_id:projectId,name,comment:$('foremanSubComment').value.trim()||null}})).record;}catch(e){error=e;}
   if(error)return alert('Не удалось добавить субподрядчика: '+error.message);
   if(data)subcontractors.push(Array.isArray(data)?data[0]:data);
   $('foremanSubName').value=''; $('foremanSubComment').value='';
@@ -2064,7 +2098,7 @@ function closeManagerCostModal(){ $('managerCostModal').classList.remove('open')
 async function saveManagerSubcontractor(){
   if(profile?.role!=='manager'||!currentManagerCostProjectId)return;
   const name=$('mgrSubName').value.trim(); if(!name)return alert('Введите название субподрядчика.');
-  const {data,error}=await sbClient.from('subcontractors').insert({project_id:currentManagerCostProjectId,name,planned_amount:num('mgrSubAmount'),comment:$('mgrSubComment').value.trim()||null,has_vat:$('mgrSubVat').checked}).select('*').single();
+  const {data,error}=await financialCommands.register('subcontractor','create',null,null,{project_id:currentManagerCostProjectId,name,planned_amount:num('mgrSubAmount'),comment:$('mgrSubComment').value.trim()||null,has_vat:$('mgrSubVat').checked});
   if(error)return alert('Не удалось добавить субподрядчика: '+error.message);
   if(data)subcontractors.push(data);
   $('mgrSubName').value='';$('mgrSubAmount').value='';$('mgrSubComment').value='';$('mgrSubVat').checked=false;
@@ -2073,7 +2107,7 @@ async function saveManagerSubcontractor(){
 async function saveManagerMaterial(){
   if(profile?.role!=='manager'||!currentManagerCostProjectId)return;
   const name=$('mgrMatName').value.trim(); if(!name)return alert('Введите наименование ТМЦ.');
-  const {data,error}=await sbClient.from('project_materials').insert({project_id:currentManagerCostProjectId,name,planned_amount:num('mgrMatPlanned'),actual_amount:num('mgrMatActual'),expense_date:$('mgrMatDate').value||null,comment:$('mgrMatComment').value.trim()||null}).select('*').single();
+  const {data,error}=await financialCommands.register('material','create',null,null,{project_id:currentManagerCostProjectId,name,planned_amount:num('mgrMatPlanned'),actual_amount:num('mgrMatActual'),expense_date:$('mgrMatDate').value||null,comment:$('mgrMatComment').value.trim()||null});
   if(error)return alert('Не удалось добавить ТМЦ: '+error.message);
   if(data)projectMaterials.push(data);
   $('mgrMatName').value='';$('mgrMatPlanned').value='';$('mgrMatActual').value='';$('mgrMatComment').value='';$('mgrMatDate').value=isoToday();
@@ -2082,7 +2116,7 @@ async function saveManagerMaterial(){
 async function saveManagerOtherExpense(){
   if(profile?.role!=='manager'||!currentManagerCostProjectId)return;
   const name=$('mgrOthName').value.trim(); if(!name)return alert('Введите наименование расхода.');
-  const {data,error}=await sbClient.from('project_other_expenses').insert({project_id:currentManagerCostProjectId,name,planned_amount:num('mgrOthPlanned'),actual_amount:num('mgrOthActual'),expense_date:$('mgrOthDate').value||null,comment:$('mgrOthComment').value.trim()||null}).select('*').single();
+  const {data,error}=await financialCommands.register('other_expense','create',null,null,{project_id:currentManagerCostProjectId,name,planned_amount:num('mgrOthPlanned'),actual_amount:num('mgrOthActual'),expense_date:$('mgrOthDate').value||null,comment:$('mgrOthComment').value.trim()||null});
   if(error)return alert('Не удалось добавить прочий расход: '+error.message);
   if(data)projectOtherExpenses.push(data);
   $('mgrOthName').value='';$('mgrOthPlanned').value='';$('mgrOthActual').value='';$('mgrOthComment').value='';$('mgrOthDate').value=isoToday();
@@ -2626,9 +2660,9 @@ async function createInlineOrgConsumer(){
  const type=$('opOrgConsumerType').value;
  const name=$('opNewOrgName')?.value.trim(); if(!name) return alert('Введите название.');
  let data,error;
- if(type==='employee') ({data,error}=await sbClient.from('org_employees').insert({name,monthly_salary:num('opNewOrgAmount'),payment_date:$('opNewOrgPayDate')?.value||null,company:$('opOrgPayerCompany').value,active:true}).select('*').single());
- else if(type==='org_expense') ({data,error}=await sbClient.from('org_expenses').insert({name,category:'Прочие орг. расходы',monthly_amount:num('opNewOrgAmount'),payment_date:$('opNewOrgPayDate')?.value||null,company:$('opOrgPayerCompany').value,active:true}).select('*').single());
- else ({data,error}=await sbClient.from('events').insert({title:name,event_date:$('opNewOrgDate').value||$('opDate').value,comment:null}).select('*').single());
+ if(type==='employee') ({data,error}=await financialCommands.register('employee','create',null,null,{name,monthly_salary:num('opNewOrgAmount'),payment_date:$('opNewOrgPayDate')?.value||null,company:$('opOrgPayerCompany').value,active:true}));
+ else if(type==='org_expense') ({data,error}=await financialCommands.register('org_expense','create',null,null,{name,category:'Прочие орг. расходы',monthly_amount:num('opNewOrgAmount'),payment_date:$('opNewOrgPayDate')?.value||null,company:$('opOrgPayerCompany').value,active:true}));
+ else ({data,error}=await financialCommands.register('event','create',null,null,{title:name,event_date:$('opNewOrgDate').value||$('opDate').value,comment:null}));
  if(error) return alert('Не удалось сохранить: '+error.message);
  if(type==='employee') orgEmployees.push(data); else if(type==='org_expense') orgExpenses.push(data); else events.push(data);
  refreshOrgConsumerSelect(type,data.id); $('opOrgConsumer').value=data.id;
@@ -2642,13 +2676,13 @@ function openOrgEmployee(id){
 async function saveOrgEmployee(){
  const name=$('orgEmpName').value.trim(), salary=num('orgEmpSalary'); if(!name)return alert('Введите ФИО.');
  const paymentDate=$('orgEmpPaymentDate').value||null; const payload={name,position:$('orgEmpPosition').value.trim()||null,monthly_salary:salary,payment_date:paymentDate,company:$('orgEmpCompany').value,active:true,comment:$('orgEmpComment').value.trim()||null};
- let data,error;if(editingOrgEmployeeId){({error}=await sbClient.from('org_employees').update(payload).eq('id',editingOrgEmployeeId));}else{({data,error}=await sbClient.from('org_employees').insert(payload).select('*').single());}
+ const {data,error}=await financialCommands.register('employee',editingOrgEmployeeId?'update':'create',editingOrgEmployeeId,orgEmployees.find(x=>x.id===editingOrgEmployeeId),payload);
  if(error)return alert('Не удалось сохранить сотрудника: '+error.message); editingOrgEmployeeId=null; closeModal(); await loadAll();
 }
-async function deleteOrgEmployee(id){if(!confirm('Убрать сотрудника из текущих постоянных расходов? История выплат сохранится.'))return;const {error}=await sbClient.from('org_employees').update({active:false}).eq('id',id);if(error)return alert('Не удалось убрать сотрудника: '+error.message);await loadAll();}
+async function deleteOrgEmployee(id){if(!confirm('Убрать сотрудника из текущих постоянных расходов? История выплат сохранится.'))return;const {error}=await financialCommands.register('employee','archive',id,orgEmployees.find(x=>x.id===id),{});if(error)return alert('Не удалось убрать сотрудника: '+error.message);await loadAll();}
 function openOrgExpense(id){const x=id?orgExpenses.find(r=>r.id===id):null;editingOrgExpenseId=id||null; $('orgExpenseFormTitle').textContent=x?'Редактировать орг. расход':'Новый орг. расход';$('orgExpSaveBtn').textContent=x?'Сохранить изменения':'Сохранить';['projectForm','opForm','arForm','apForm','eventForm','orgEmployeeForm'].forEach(id=>$(id).style.display='none');$('orgExpenseForm').style.display='block';$('orgExpName').value=x?.name||'';$('orgExpCategory').value=x?.category||'Прочие орг. расходы';$('orgExpAmount').value=x?.monthly_amount||'';$('orgExpPaymentDate').value=paymentDateValue(x);$('orgExpCompany').value=x?.company||'ООО';$('orgExpComment').value=x?.comment||'';$('modal').classList.add('open');}
-async function saveOrgExpense(){const name=$('orgExpName').value.trim(),amount=num('orgExpAmount');if(!name)return alert('Введите название расхода.');const paymentDate=$('orgExpPaymentDate').value||null; const payload={name,category:$('orgExpCategory').value,monthly_amount:amount,payment_date:paymentDate,company:$('orgExpCompany').value,active:true,comment:$('orgExpComment').value.trim()||null};let data,error;if(editingOrgExpenseId){({error}=await sbClient.from('org_expenses').update(payload).eq('id',editingOrgExpenseId));}else{({data,error}=await sbClient.from('org_expenses').insert(payload).select('*').single());}if(error)return alert('Не удалось сохранить орг. расход: '+error.message);editingOrgExpenseId=null;closeModal();await loadAll();}
-async function deleteOrgExpense(id){if(!confirm('Убрать постоянный орг. расход из будущих месяцев? История оплат сохранится.'))return;const {error}=await sbClient.from('org_expenses').update({active:false}).eq('id',id);if(error)return alert('Не удалось убрать орг. расход: '+error.message);await loadAll();}
+async function saveOrgExpense(){const name=$('orgExpName').value.trim(),amount=num('orgExpAmount');if(!name)return alert('Введите название расхода.');const paymentDate=$('orgExpPaymentDate').value||null; const payload={name,category:$('orgExpCategory').value,monthly_amount:amount,payment_date:paymentDate,company:$('orgExpCompany').value,active:true,comment:$('orgExpComment').value.trim()||null};const {data,error}=await financialCommands.register('org_expense',editingOrgExpenseId?'update':'create',editingOrgExpenseId,orgExpenses.find(x=>x.id===editingOrgExpenseId),payload);if(error)return alert('Не удалось сохранить орг. расход: '+error.message);editingOrgExpenseId=null;closeModal();await loadAll();}
+async function deleteOrgExpense(id){if(!confirm('Убрать постоянный орг. расход из будущих месяцев? История оплат сохранится.'))return;const {error}=await financialCommands.register('org_expense','archive',id,orgExpenses.find(x=>x.id===id),{});if(error)return alert('Не удалось убрать орг. расход: '+error.message);await loadAll();}
 function reportEsc(v){return esc(v==null?'':String(v));}
 function reportNum(v){return Number(v||0);}
 function reportFmt(v){return money(reportNum(v));}
@@ -2658,8 +2692,14 @@ function reportRows(rows,empty='Нет данных'){
 return rows.length?rows.join(''):`<tr><td colspan="99" class="rmuted">${empty}</td></tr>`;
 }
 function isMaterialCreditExpense(o){return o?.operation_type==='expense'&&o?.article==='ТМЦ'&&o?.credit_kind==='material';}
+function isDeferredMaterialRepayment(o){return o?.operation_type==='expense'&&o?.article==='Погашение кредиторки'&&o.payable_id&&ops.some(source=>source.payable_id===o.payable_id&&source.project_id===o.project_id&&isMaterialCreditExpense(source)&&source.cost_item_type==='material'&&projectMaterials.some(m=>m.id===source.cost_item_id&&m.project_id===source.project_id));}
 function reportOperationCompany(o){const p=o?.project_id?projects.find(x=>x.id===o.project_id):null;return o?.payer_company||o?.credit_recipient_company||p?.contractor_company||'ООО';}
+function openExistingManualReport(kind,args){
+ const data={projects,ops,ars,aps,subcontractors,projectMaterials,projectOtherExpenses,orgEmployees,orgExpenses,events,ptoDocuments,ptoContacts,projectWorkItems,projectWorkMaterials,projectWorkProgress,projectWorkSections,projectPriceHistory,workVolumeSubmissions,workVolumeSubmissionItems,proposals};
+ let html;try{html=window.renderExistingReport(kind,data,args);}catch(e){return alert(e.message);}const w=window.open('','_blank');if(!w)return alert('Разрешите окно печати.');w.document.write(html);w.document.close();setTimeout(()=>{w.focus();w.print();},300);
+}
 function exportOrgMonthPdf(){
+ if(window.renderExistingReport)return openExistingManualReport('organization_month',{month:currentOrgMonth(),company:$('orgCompanyFilter')?.value||'all'});
  const month=currentOrgMonth();
  const company=$('orgCompanyFilter')?.value||'all';
  const companyLabel=company==='all'?'ООО + ИП':company;
@@ -2668,8 +2708,8 @@ function exportOrgMonthPdf(){
  const allMonthOps=ops.filter(x=>monthKey(x.operation_date)===month);
  const income=monthOps.filter(x=>x.operation_type==='income').reduce((s,x)=>s+reportNum(x.amount),0);
  const expense=monthOps.filter(x=>x.operation_type==='expense'&&!isMaterialCreditExpense(x)).reduce((s,x)=>s+reportNum(x.amount),0);
- const creditMoney=monthOps.filter(x=>x.operation_type==='credit'&&x.credit_kind==='money').reduce((s,x)=>s+reportNum(x.amount),0);
- const creditTmc=monthOps.filter(x=>x.operation_type==='credit'&&x.credit_kind!=='money').reduce((s,x)=>s+reportNum(x.amount),0);
+ const creditMoney=monthOps.filter(x=>x.operation_type==='credit'&&(x.credit_kind||'money')==='money').reduce((s,x)=>s+reportNum(x.amount),0);
+ const creditTmc=monthOps.filter(x=>x.operation_type==='credit'&&(x.credit_kind||'money')!=='money').reduce((s,x)=>s+reportNum(x.amount),0);
  const cashResult=income+creditMoney-expense;
  const orgOps=monthOps.filter(x=>x.operation_type==='expense'&&x.article==='Орг. расходы');
  const orgActual=orgOps.reduce((s,x)=>s+reportNum(x.amount),0);
@@ -2677,7 +2717,7 @@ function exportOrgMonthPdf(){
  const planFixed=orgExpenses.filter(x=>orgScheduledForMonth(x,month)&&(company==='all'||(x.company||'ООО')===company)).reduce((s,x)=>s+reportNum(x.monthly_amount),0);
  const planEvents=events.filter(x=>monthKey(x.event_date)===month&&(company==='all'||(x.company||'ООО')===company)).reduce((s,x)=>s+reportNum(x.planned_amount),0); const orgPlan=planEmp+planFixed+planEvents;
  const subPay=monthOps.filter(x=>x.article==='Субподрядчики').reduce((s,x)=>s+reportNum(x.amount),0);
- const matPay=monthOps.filter(x=>x.article==='ТМЦ').reduce((s,x)=>s+reportNum(x.amount),0);
+ const matPay=monthOps.filter(x=>x.operation_type==='expense'&&x.article==='ТМЦ'&&!isMaterialCreditExpense(x)).reduce((s,x)=>s+reportNum(x.amount),0);
  const otherPay=monthOps.filter(x=>x.article==='Прочие расходы').reduce((s,x)=>s+reportNum(x.amount),0);
  const taxes=monthOps.filter(x=>['Налог ИП','НДС','Налоги'].includes(x.article)).reduce((s,x)=>s+reportNum(x.amount),0);
  const debtPay=monthOps.filter(x=>x.article==='Погашение кредиторки').reduce((s,x)=>s+reportNum(x.amount),0);
@@ -2694,22 +2734,22 @@ function exportOrgMonthPdf(){
    return `<tr><td><b>${reportEsc(p.name)}</b><div class="rmuted">${reportEsc(p.customer||'')}</div></td><td>${reportFmt(p.planned_revenue)}</td><td>${reportFmt(p.planned_cost)}</td><td>${reportFmt(inc)}</td><td>${reportFmt(exp)}</td><td class="${res>=0?'rgreen':'rred'}">${reportFmt(res)}</td><td>${reportEsc(p.status||'')}</td></tr>`;
  });
  const expenseCats={};
- monthOps.filter(x=>x.operation_type==='expense').forEach(x=>{const k=x.article||'Без статьи';expenseCats[k]=(expenseCats[k]||0)+reportNum(x.amount);});
+ monthOps.filter(x=>x.operation_type==='expense'&&!isMaterialCreditExpense(x)).forEach(x=>{const k=x.article||'Без статьи';expenseCats[k]=(expenseCats[k]||0)+reportNum(x.amount);});
  const catRows=Object.entries(expenseCats).sort((a,b)=>b[1]-a[1]);
  const catMax=catRows[0]?.[1]||1;
  const catHtml=catRows.map(([k,v])=>`<div class="rmetric"><div class="rline"><span>${reportEsc(k)}</span><b>${reportFmt(v)}</b></div>${reportBar(v,catMax)}</div>`).join('')||'<div class="rmuted">Расходов нет.</div>';
  const opRows=monthOps.slice().sort((a,b)=>String(a.operation_date||'').localeCompare(String(b.operation_date||''))).map(o=>{
    const typ=o.operation_type==='income'?'Приход':o.operation_type==='expense'?'Расход':'Кредит';
-   const sign=o.operation_type==='expense'?'−':o.operation_type==='credit'&&o.credit_kind==='money'?'+':'+';
+   const sign=o.operation_type==='expense'?'−':o.operation_type==='credit'&&(o.credit_kind||'money')==='money'?'+':'+';
    const subject=o.counterparty||o.article||'';
-   const extra=o.operation_type==='credit'?(o.credit_kind==='money'?'Деньги':'ТМЦ'):(o.article||'');
+   const extra=o.operation_type==='credit'?((o.credit_kind||'money')==='money'?'Деньги':'ТМЦ'):(o.article||'');
    return `<tr><td>${reportEsc(o.operation_date)}</td><td>${typ}</td><td>${reportEsc(subject)}</td><td>${reportEsc(extra)}</td><td>${reportEsc(reportOperationCompany(o))}</td><td class="${o.operation_type==='expense'?'rred':'rgreen'}">${sign}${reportFmt(o.amount)}</td></tr>`;
  });
  const empRows=orgEmployees.filter(x=>orgScheduledForMonth(x,month)&&(company==='all'||(x.company||'ООО')===company)).map(x=>{const paid=orgOps.filter(o=>o.org_employee_id===x.id).reduce((s,o)=>s+reportNum(o.amount),0);return `<tr><td>${reportEsc(x.name)}</td><td>${reportEsc(x.position||'')}</td><td>${reportEsc(x.company||'ООО')}</td><td>${reportFmt(x.monthly_salary)}</td><td>${reportFmt(paid)}</td><td>${reportPct(x.monthly_salary?paid/x.monthly_salary*100:0)}</td></tr>`;});
  const fixedRows=orgExpenses.filter(x=>orgScheduledForMonth(x,month)&&(company==='all'||(x.company||'ООО')===company)).map(x=>{const paid=orgOps.filter(o=>o.org_expense_id===x.id).reduce((s,o)=>s+reportNum(o.amount),0);return `<tr><td>${reportEsc(x.name)}</td><td>${reportEsc(x.category||'')}</td><td>${reportEsc(x.company||'ООО')}</td><td>${reportFmt(x.monthly_amount)}</td><td>${reportFmt(paid)}</td><td>${reportPct(x.monthly_amount?paid/x.monthly_amount*100:0)}</td></tr>`;});
  const recRows=ars.map(x=>{const rem=Math.max(0,reportNum(x.amount)-reportNum(x.paid_amount));return `<tr><td>${reportEsc(x.counterparty)}</td><td>${reportEsc(x.document_type||'')}</td><td>${reportFmt(x.amount)}</td><td>${reportFmt(x.paid_amount)}</td><td>${reportFmt(rem)}</td><td>${reportEsc(x.due_date||'')}</td></tr>`;});
  const payRows=aps.map(x=>{const rem=Math.max(0,reportNum(x.amount)-reportNum(x.paid_amount));return `<tr><td>${reportEsc(x.counterparty)}</td><td>${reportEsc(x.document_type||'')}</td><td>${reportFmt(x.amount)}</td><td>${reportFmt(x.paid_amount)}</td><td>${reportFmt(rem)}</td><td>${reportEsc(x.due_date||'')}</td></tr>`;});
- const creditRows=aps.filter(x=>x.is_credit).map(x=>{const rem=Math.max(0,reportNum(x.amount)-reportNum(x.paid_amount));return `<tr><td>${reportEsc(x.counterparty)}</td><td>${reportEsc(x.owner_company||'')}</td><td>${reportEsc(x.credit_kind==='money'?'Деньги':'ТМЦ / отсрочка')}</td><td>${reportFmt(x.amount)}</td><td>${reportFmt(x.paid_amount)}</td><td>${reportFmt(rem)}</td><td>${reportEsc(x.due_date||'')}</td><td>${reportEsc(x.full_repayment_date||'')}</td></tr>`;});
+ const creditRows=aps.filter(x=>x.is_credit).map(x=>{const rem=Math.max(0,reportNum(x.amount)-reportNum(x.paid_amount));return `<tr><td>${reportEsc(x.counterparty)}</td><td>${reportEsc(x.owner_company||'')}</td><td>${reportEsc((x.credit_kind||'money')==='money'?'Деньги':'ТМЦ / отсрочка')}</td><td>${reportFmt(x.amount)}</td><td>${reportFmt(x.paid_amount)}</td><td>${reportFmt(rem)}</td><td>${reportEsc(x.due_date||'')}</td><td>${reportEsc(x.full_repayment_date||'')}</td></tr>`;});
  const eventRows=events.filter(e=>(monthKey(e.event_date)===month||monthOps.some(o=>o.org_event_id===e.id))&&(company==='all'||(e.company||'ООО')===company)).map(e=>{const paid=monthOps.filter(o=>o.org_event_id===e.id).reduce((s,x)=>s+reportNum(x.amount),0);const planned=reportNum(e.planned_amount);return `<tr><td>${reportEsc(e.event_date||'')}</td><td>${reportEsc(e.title||'')}</td><td>${reportEsc(e.company||'ООО')}</td><td>${reportFmt(planned)}</td><td>${reportFmt(paid)}</td><td>${reportPct(planned?paid/planned*100:0)}</td><td>${reportEsc(e.comment||'')}</td></tr>`;});
  const projectNames=projectRows.length;
  const totalExpensesForChart=Math.max(expense,1);
@@ -2758,7 +2798,7 @@ function renderOrgExpensesPage(){
  $('orgMonthOps').innerHTML=monthOps.length?monthOps.map(o=>`<div class="item"><div class="row"><div><b>${esc(o.counterparty||o.article||'Орг. расход')}</b><div class="muted">${esc(o.operation_date||'')} · ${esc(o.payer_company||'ООО')}</div></div><div class="amount red">−${money(o.amount)}</div></div><div class="muted" style="margin-top:6px">${o.org_employee_id?'Сотрудник':o.org_event_id?'Событие':'Орг. расход'}${o.comment?' · '+esc(o.comment):''}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="smallbtn" style="flex:1" onclick="openEditOp('${o.id}')">Изменить</button><button class="smallbtn" style="flex:1;color:#b42318" onclick="deleteOp('${o.id}')">Удалить</button></div></div>`).join(''):'<div class="empty">Оплаченных орг. расходов за месяц нет.</div>';
 }
 
-function operationDateDefault(){return $('opDate')?.value||new Date().toISOString().slice(0,10);}
+function operationDateDefault(){return $('opDate')?.value||financialCommands.today();}
 
 function refreshOperationMaterialCreditorSelect(selectedName=''){
  const el=$('opMaterialCreditor'); if(!el)return;
@@ -2781,7 +2821,7 @@ async function createInlineMaterialCreditor(){
  if(!name)return alert('Введите название кредитора.');
  const existing=creditors.find(x=>(x.name||'').trim().toLowerCase()===name.toLowerCase());
  if(existing){refreshOperationMaterialCreditorSelect(existing.name);$('opMaterialCreditor').value=existing.name;$('opCounterparty').value=existing.name;$('opNewMaterialCreditor').value='';return;}
- const {data,error}=await sbClient.from('creditors').insert({name}).select('*').single();
+ const {data,error}=await financialCommands.register('creditor','create',null,null,{name});
  if(error)return alert('Не удалось сохранить кредитора: '+error.message);
  creditors.push(data);
  refreshOperationMaterialCreditorSelect(data.name);
@@ -2810,7 +2850,7 @@ if(existing){
  $('opNewCreditor').value='';
  return;
 }
-const {data,error}=await sbClient.from('creditors').insert({name}).select('*').single();
+const {data,error}=await financialCommands.register('creditor','create',null,null,{name});
 if(error) return alert('Не удалось сохранить кредитора: '+error.message);
 creditors.push(data);
 refreshOperationCreditorSelect(data.name);
@@ -2837,7 +2877,7 @@ if(!name) return alert('Введите название субподрядчик
 if(!planned) return alert('Введите планируемую сумму или сумму операции.');
 
 const payload={project_id:projectId,name,planned_amount:planned,has_vat:$('opNewSubHasVat').checked,comment:$('opNewSubComment').value.trim()||null};
-const {data,error}=await sbClient.from('subcontractors').insert(payload).select('*').single();
+const {data,error}=await financialCommands.register('subcontractor','create',null,null,payload);
 if(error) return alert('Не удалось добавить субподрядчика: '+error.message);
 subcontractors.push(data);
 
@@ -2863,7 +2903,7 @@ if(!planned) return alert('Введите планируемую сумму ил
 const comment=$('opNewItemComment').value.trim()||null;
 const table=article==='ТМЦ'?'project_materials':'project_other_expenses';
 const local={project_id:projectId,name,planned_amount:planned,actual_amount:0,expense_date:new Date().toISOString().slice(0,10),comment};
-const {data,error}=await sbClient.from(table).insert(local).select('*').single();
+const {data,error}=await financialCommands.register(article==='ТМЦ'?'material':'other_expense','create',null,null,local);
 if(error) return alert('Не удалось добавить позицию: '+error.message);
 if(article==='ТМЦ') projectMaterials.push(data);
 else projectOtherExpenses.push(data);
@@ -3505,7 +3545,7 @@ $('eventForm').style.display='none';
 $('orgEmployeeForm').style.display='none';
 $('orgExpenseForm').style.display='none';
 $('opType').value='expense';
-$('opDate').value=new Date().toISOString().slice(0,10);
+$('opDate').value=financialCommands.today();
 $('opAmount').value='';
 $('opCompany').value='ООО';
 $('opVatIncluded').checked=false;
@@ -3559,7 +3599,7 @@ $('eventForm').style.display='none';
 $('orgEmployeeForm').style.display='none';
 $('orgExpenseForm').style.display='none';
 $('opType').value=x.operation_type||'expense';
-$('opDate').value=x.operation_date||new Date().toISOString().slice(0,10);
+$('opDate').value=x.operation_date||financialCommands.today();
 $('opAmount').value=Number(x.amount||0);
 $('opCompany').value=x.payer_company||aps.find(r=>r.id===x.payable_id)?.owner_company||x.credit_recipient_company||projects.find(p=>p.id===x.project_id)?.contractor_company||'ООО';
 $('opVatIncluded').checked=Boolean(x.vat_included);
@@ -3632,6 +3672,8 @@ $('eventForm').style.display='none';
 $('orgEmployeeForm').style.display='none';
 $('orgExpenseForm').style.display='none';
 
+if(realtimePending) scheduleRealtimeReload();
+
 }
 
 function closePtoModal(){
@@ -3664,246 +3706,33 @@ return subcontractors.find(s=>s.id===id)?.name||'';
 }
 
 async function saveProject(){
-
-const name=$('prName').value.trim();
-if(!name) return alert('Введите название объекта.');
-
-const payload={
-name,
-contractor_company:$('prCompany').value,
-customer:$('prCustomer').value.trim(),
-contract_number:$('prContractNumber').value.trim(),
-contract_date:$('prContractDate').value||null,
-start_date:$('prStartDate').value||null,
-end_date:$('prEndDate').value||null,
-planned_revenue:num('prRevenue'),
-status:$('prStatus').value,
-comment:$('prComment').value.trim()
-};
-
-let result;
-if(editingProjectId){
-result=await sbClient.from('projects').update(payload).eq('id',editingProjectId).select('*').single();
-}else{
-result=await sbClient.from('projects').insert(payload).select('*').single();
-}
-
-if(result.error) return alert('Ошибка сохранения объекта: '+result.error.message);
-
-const saved=result.data;
-if(editingProjectId){
-const i=projects.findIndex(x=>x.id===editingProjectId);
-if(i>=0) projects[i]=saved;
-}else{
-projects.unshift(saved);
-}
-
-const projectId=saved.id;
-if(pendingContractFile){ try{ await uploadContractForProject(projectId,pendingContractFile); }catch(e){ alert('Объект сохранён, но договор не удалось загрузить: '+(e?.message||e)); } }
-const syncErrors=[];
-
-// ---- субподрядчики ----
-try{
-
-const toDelete=workingSubcontractors.filter(s=>s.id&&s._deleted);
-const toInsert=workingSubcontractors.filter(s=>!s.id&&!s._deleted);
-const toUpdate=workingSubcontractors.filter(s=>{
-if(!s.id||s._deleted) return false;
-const original=subcontractors.find(o=>o.id===s.id);
-return !original||
-original.name!==s.name||
-Number(original.planned_amount||0)!==Number(s.planned_amount||0)||
-Boolean(original.has_vat)!==Boolean(s.has_vat)||
-(original.comment||null)!==(s.comment||null);
-});
-
-for(const s of toDelete){
-const {error}=await sbClient.from('subcontractors').delete().eq('id',s.id);
-if(error) throw new Error('субподрядчик «'+s.name+'»: '+error.message);
-}
-
-for(const s of toUpdate){
-const {error}=await sbClient.from('subcontractors').update({name:s.name,planned_amount:s.planned_amount,has_vat:!!s.has_vat,comment:s.comment||null}).eq('id',s.id);
-if(error) throw new Error('субподрядчик «'+s.name+'»: '+error.message);
-}
-
-if(toInsert.length){
-const {data,error}=await sbClient.from('subcontractors').insert(
-toInsert.map(s=>({project_id:projectId,name:s.name,planned_amount:s.planned_amount,has_vat:!!s.has_vat,comment:s.comment||null}))
-).select('*');
-if(error) throw new Error('добавление субподрядчиков: '+error.message);
-subcontractors=subcontractors.concat(data||[]);
-}
-
-subcontractors=subcontractors.filter(s=>!toDelete.some(d=>d.id===s.id));
-subcontractors=subcontractors.map(s=>{
-const upd=toUpdate.find(u=>u.id===s.id);
-return upd?{...s,name:upd.name,planned_amount:upd.planned_amount,has_vat:!!upd.has_vat,comment:upd.comment||null}:s;
-});
-
-}catch(e){
-syncErrors.push('Субподрядчики — '+(e?.message||e));
-}
-
-// ---- ТМЦ ----
-try{
-
-const toDelete=workingMaterials.filter(m=>m.id&&m._deleted);
-const toInsert=workingMaterials.filter(m=>!m.id&&!m._deleted);
-const toUpdate=workingMaterials.filter(m=>{
-if(!m.id||m._deleted) return false;
-const original=projectMaterials.find(o=>o.id===m.id);
-return !original||
-original.name!==m.name||
-Number(original.planned_amount||0)!==Number(m.planned_amount||0)||
-Number(original.actual_amount||0)!==Number(m.actual_amount||0)||
-(original.expense_date||null)!==(m.expense_date||null)||
-(original.comment||null)!==(m.comment||null);
-});
-
-for(const m of toDelete){
-const {error}=await sbClient.from('project_materials').delete().eq('id',m.id);
-if(error) throw new Error('позиция «'+m.name+'»: '+error.message);
-}
-
-for(const m of toUpdate){
-const {error}=await sbClient.from('project_materials').update({
-name:m.name,planned_amount:m.planned_amount,actual_amount:m.actual_amount,
-expense_date:m.expense_date||null,comment:m.comment||null
-}).eq('id',m.id);
-if(error) throw new Error('позиция «'+m.name+'»: '+error.message);
-}
-
-if(toInsert.length){
-const {data,error}=await sbClient.from('project_materials').insert(
-toInsert.map(m=>({project_id:projectId,name:m.name,planned_amount:m.planned_amount,actual_amount:m.actual_amount,expense_date:m.expense_date||null,comment:m.comment||null}))
-).select('*');
-if(error) throw new Error('добавление ТМЦ: '+error.message);
-projectMaterials=projectMaterials.concat(data||[]);
-}
-
-projectMaterials=projectMaterials.filter(m=>!toDelete.some(d=>d.id===m.id));
-projectMaterials=projectMaterials.map(m=>{
-const upd=toUpdate.find(u=>u.id===m.id);
-return upd?{...m,...upd}:m;
-});
-
-}catch(e){
-syncErrors.push('ТМЦ — '+(e?.message||e));
-}
-
-// ---- Прочие расходы ----
-try{
-
-const toDelete=workingOtherExpenses.filter(o=>o.id&&o._deleted);
-const toInsert=workingOtherExpenses.filter(o=>!o.id&&!o._deleted);
-const toUpdate=workingOtherExpenses.filter(o=>{
-if(!o.id||o._deleted) return false;
-const original=projectOtherExpenses.find(x=>x.id===o.id);
-return !original||
-original.name!==o.name||
-Number(original.planned_amount||0)!==Number(o.planned_amount||0)||
-Number(original.actual_amount||0)!==Number(o.actual_amount||0)||
-(original.expense_date||null)!==(o.expense_date||null)||
-(original.comment||null)!==(o.comment||null);
-});
-
-for(const o of toDelete){
-const {error}=await sbClient.from('project_other_expenses').delete().eq('id',o.id);
-if(error) throw new Error('запись «'+o.name+'»: '+error.message);
-}
-
-for(const o of toUpdate){
-const {error}=await sbClient.from('project_other_expenses').update({
-name:o.name,planned_amount:o.planned_amount,actual_amount:o.actual_amount,
-expense_date:o.expense_date||null,comment:o.comment||null
-}).eq('id',o.id);
-if(error) throw new Error('запись «'+o.name+'»: '+error.message);
-}
-
-if(toInsert.length){
-const {data,error}=await sbClient.from('project_other_expenses').insert(
-toInsert.map(o=>({project_id:projectId,name:o.name,planned_amount:o.planned_amount,actual_amount:o.actual_amount,expense_date:o.expense_date||null,comment:o.comment||null}))
-).select('*');
-if(error) throw new Error('добавление прочих расходов: '+error.message);
-projectOtherExpenses=projectOtherExpenses.concat(data||[]);
-}
-
-projectOtherExpenses=projectOtherExpenses.filter(o=>!toDelete.some(d=>d.id===o.id));
-projectOtherExpenses=projectOtherExpenses.map(o=>{
-const upd=toUpdate.find(u=>u.id===o.id);
-return upd?{...o,...upd}:o;
-});
-
-}catch(e){
-syncErrors.push('Прочие расходы — '+(e?.message||e));
-}
-
-if(syncErrors.length){
-alert('Объект сохранён, но при синхронизации некоторых данных произошли ошибки:\n\n'+syncErrors.join('\n')+'\n\nОбновите страницу, чтобы проверить актуальные данные.');
-}
-
-workingSubcontractors=[];
-editingSubKey=null;
-workingMaterials=[];
-editingMatKey=null;
-workingOtherExpenses=[];
-editingOthKey=null;
-
-fillProjectSelects();
-render();
-closeModal();
-
+ const name=$('prName').value.trim();if(!name)return alert('Введите название объекта.');
+ const values={name,contractor_company:$('prCompany').value,customer:$('prCustomer').value.trim(),contract_number:$('prContractNumber').value.trim(),contract_date:$('prContractDate').value||null,start_date:$('prStartDate').value||null,end_date:$('prEndDate').value||null,planned_revenue:num('prRevenue'),status:$('prStatus').value,comment:$('prComment').value.trim()};
+ const changes=[];
+ for(const [kind,working,original,fields] of [
+  ['subcontractor',workingSubcontractors,subcontractors,['name','planned_amount','has_vat','comment']],
+  ['material',workingMaterials,projectMaterials,['name','planned_amount','actual_amount','expense_date','comment']],
+  ['other_expense',workingOtherExpenses,projectOtherExpenses,['name','planned_amount','actual_amount','expense_date','comment']]]){
+  for(const item of working){
+   const before=item.id?original.find(x=>x.id===item.id):null;
+   if(item._deleted){if(item.id)changes.push({kind,action:'delete',id:item.id,expected:before,values:{}});continue;}
+   const after=Object.fromEntries(fields.map(k=>[k,k==='has_vat'?Boolean(item[k]):k.endsWith('_amount')?Number(item[k]||0):item[k]||null]));
+   if(!item.id||fields.some(k=>k.endsWith('_amount')?Number(before?.[k]||0)!==after[k]:k==='has_vat'?Boolean(before?.[k])!==after[k]:(before?.[k]||null)!==after[k]))changes.push({kind,action:item.id?'update':'create',...(item.id?{id:item.id,expected:before}:{}),values:after});
+  }
+ }
+ let saved;try{const result=await financialCommands.execute({action:editingProjectId?'update':'create',...(editingProjectId?{id:editingProjectId,expected:projects.find(x=>x.id===editingProjectId)}:{}),values,cost_changes:changes});saved=result.project;}
+ catch(e){return alert('Карточка и позиции не изменены: '+e.message);}
+ if(pendingContractFile){try{await uploadContractForProject(saved.id,pendingContractFile);}catch(e){alert('Карточка и позиции сохранены. Загрузка договора не завершена: '+e.message);}}
+ workingSubcontractors=[];workingMaterials=[];workingOtherExpenses=[];editingSubKey=null;editingMatKey=null;editingOthKey=null;editingProjectId=null;closeModal();await loadAll();
 }
 
 async function deleteProject(id){
-
-const p=projects.find(x=>x.id===id);
-if(!p) return alert('Объект не найден.');
-
-const linkedOps=ops.filter(x=>x.project_id===id).length;
-const linkedArs=ars.filter(x=>x.project_id===id).length;
-const linkedAps=aps.filter(x=>x.project_id===id).length;
-const linkedSubs=subcontractors.filter(x=>x.project_id===id).length;
-const linkedMats=projectMaterials.filter(x=>x.project_id===id).length;
-const linkedOth=projectOtherExpenses.filter(x=>x.project_id===id).length;
-const linkedPto=ptoDocuments.filter(x=>x.project_id===id).length;
-const linkedContacts=ptoContacts.filter(x=>x.project_id===id).length;
-const linkedWorks=projectWorkItems.filter(x=>x.project_id===id).length;
-
-let msg='Удалить объект «'+p.name+'»?';
-if(linkedOps||linkedArs||linkedAps||linkedSubs||linkedMats||linkedOth||linkedPto||linkedContacts||linkedWorks){
-msg+='\n\nС ним связаны данные: операций — '+linkedOps+', дебиторок — '+linkedArs+', кредиторок — '+linkedAps+', субподрядчиков — '+linkedSubs+', позиций ТМЦ — '+linkedMats+', прочих расходов — '+linkedOth+', документов ПТО — '+linkedPto+', контактов заказчика — '+linkedContacts+', работ — '+linkedWorks+'. Они тоже будут удалены.';
-}
-if(!confirm(msg)) return;
-
-for(const table of ['operations','receivables','payables','subcontractors','project_materials','project_other_expenses','pto_documents','project_customer_contacts']){
-const {error}=await sbClient.from(table).delete().eq('project_id',id);
-if(error) return alert('Не удалось удалить связанные данные из '+table+': '+error.message);
-}
-
-for(const wi of projectWorkItems.filter(x=>x.project_id===id)) await sbClient.from('project_work_items').delete().eq('id',wi.id);
-
-const {error}=await sbClient.from('projects').delete().eq('id',id);
-if(error) return alert('Ошибка удаления объекта: '+error.message);
-
-ops=ops.filter(x=>x.project_id!==id);
-ars=ars.filter(x=>x.project_id!==id);
-aps=aps.filter(x=>x.project_id!==id);
-subcontractors=subcontractors.filter(x=>x.project_id!==id);
-projectMaterials=projectMaterials.filter(x=>x.project_id!==id);
-projectOtherExpenses=projectOtherExpenses.filter(x=>x.project_id!==id);
-ptoDocuments=ptoDocuments.filter(x=>x.project_id!==id);
-ptoContacts=ptoContacts.filter(x=>x.project_id!==id);
-const deletedWorkIds=new Set(projectWorkItems.filter(x=>x.project_id===id).map(x=>x.id));
-projectWorkItems=projectWorkItems.filter(x=>x.project_id!==id);
-projectWorkMaterials=projectWorkMaterials.filter(x=>!deletedWorkIds.has(x.work_item_id));
-projectWorkProgress=projectWorkProgress.filter(x=>!deletedWorkIds.has(x.work_item_id));
-projects=projects.filter(x=>x.id!==id);
-
-fillProjectSelects();
-render();
-
+ const project=projects.find(x=>x.id===id);if(!project)return alert('Объект не найден.');const command={action:'delete',project_id:id,expected:project};
+ const preview=await sbClient.rpc('preview_project_delete',{p_command:command});if(preview.error)return alert('Удаление не подготовлено: '+preview.error.message);
+ const list=Object.entries(preview.data.counts).filter(([,n])=>n).map(([k,n])=>k+': '+n).join('\n');
+ if(!confirm('Удалить объект «'+project.name+'» со всеми перечисленными данными?\n'+list+'\nЛичные исходники и общие контрагенты сохраняются.'))return;
+ try{const result=await financialCommands.execute({kind:'project_delete',...command,expected_snapshot:preview.data});for(const request_id of result.cleanup_requests||[]){const {error}=await sbClient.functions.invoke('agent-files',{body:{operation:'cleanup_document',request_id}});if(error){localStorage.setItem('voltmaster-document-cleanup:'+request_id,'pending');alert('Объект удалён. Очистка файла ожидает повторной проверки: '+error.message);}}await loadAll();}
+ catch(e){alert('Удаление не подтверждено: '+e.message);}
 }
 
 function openEditAr(id){
@@ -3931,7 +3760,7 @@ if(!a) return alert('Введите сумму');
 const projectId=$('arProject').value.trim();
 if(!projectId) return alert('Выберите объект для дебиторки');
 const payload={project_id:projectId,customer:$('arCustomer').value.trim()||null,document_type:$('arDocType').value,document_number:$('arDoc').value.trim()||null,amount:a,document_status:$('arDocs').value,comment:$('arComment').value.trim()||null};
-const {error}=await sbClient.from('receivables').update(payload).eq('id',editingReceivableId);
+const {error}=await financialCommands.register('receivable','update',editingReceivableId,ars.find(x=>x.id===editingReceivableId),payload);
 if(error) return alert('Не удалось изменить дебиторку: '+error.message);
 editingReceivableId=null;
 $('arForm').querySelector('button.btn.primary').setAttribute('onclick','saveAr()');
@@ -3946,12 +3775,14 @@ if(!x) return alert('Дебиторка не найдена.');
 const linkedIncomeOps=ops.filter(o=>o.operation_type==='income'&&String(o.receivable_id||'')===String(id));
 if(linkedIncomeOps.length) return alert('Нельзя удалить дебиторку, пока с ней связаны приходы. Сначала удалите или отвяжите операции: '+linkedIncomeOps.length+'.');
 if(!confirm('Удалить дебиторку на '+money(x.amount)+'?\n\nЭто действие нельзя отменить.')) return;
-const {error}=await sbClient.from('receivables').delete().eq('id',id);
+const {error}=await financialCommands.register('receivable','delete',id,x,{});
 if(error) return alert('Не удалось удалить дебиторку: '+error.message);
 await loadAll();
 }
 
 function openEditAp(id){
+const source=ops.find(o=>o.payable_id===id&&(o.operation_type==='credit'||o.credit_kind==='material'));
+if(source)return openEditOp(source.id);
 const x=aps.find(r=>r.id===id);
 if(!x) return alert('Кредиторка не найдена. Обновите страницу и попробуйте снова.');
 editingPayableId=id;
@@ -4163,11 +3994,10 @@ comment:$('evComment').value.trim()||null
 let error,data;
 
 if(editingEventId){
-({error}=await sbClient.from('events').update(payload).eq('id',editingEventId));
+({error}=await financialCommands.register('event','update',editingEventId,events.find(x=>x.id===editingEventId),payload));
 }else{
 const user=(await sbClient.auth.getUser()).data.user;
-payload.created_by=user?.id||null;
-({data,error}=await sbClient.from('events').insert(payload).select('*').single());
+({data,error}=await financialCommands.register('event','create',null,null,payload));
 }
 
 if(error) return alert((editingEventId?'Не удалось изменить событие: ':'Не удалось сохранить событие: ')+error.message);
@@ -4201,7 +4031,7 @@ async function deleteEvent(id){
 const x=events.find(e=>e.id===id);
 if(!x) return alert('Событие не найдено.');
 if(!confirm('Удалить событие «'+x.title+'»?\n\nЭто действие нельзя отменить.')) return;
-const {error}=await sbClient.from('events').delete().eq('id',id);
+const {error}=await financialCommands.register('event','delete',id,x,{});
 if(error) return alert('Не удалось удалить событие: '+error.message);
 events=events.filter(e=>e.id!==id);
 await loadAll();
@@ -4275,11 +4105,9 @@ if(editingPayableId){
   const old=aps.find(x=>x.id===editingPayableId);
   const paid=Number(old?.paid_amount||0);
   if(a<paid) return alert('Сумма кредиторки не может быть меньше уже оплаченной суммы.');
-  payload.paid_amount=paid;
-  ({error}=await sbClient.from('payables').update(payload).eq('id',editingPayableId));
+  ({error}=await financialCommands.register('payable','update',editingPayableId,old,payload));
 }else{
-  payload.paid_amount=0;
-  ({error}=await sbClient.from('payables').insert(payload));
+  ({error}=await financialCommands.register('payable','create',null,null,payload));
 }
 if(error) return alert((editingPayableId?'Не удалось изменить кредиторку: ':'Не удалось сохранить кредиторку: ')+error.message);
 editingPayableId=null;
@@ -4293,7 +4121,7 @@ if(!x) return alert('Кредиторка не найдена.');
 const linkedOps=ops.filter(o=>String(o.payable_id||'')===String(id));
 if(linkedOps.length) return alert('Нельзя удалить кредиторку, пока с ней связаны операции. Сначала удалите связанные операции: '+linkedOps.length+'.');
 if(!confirm('Удалить кредиторку на '+money(x.amount)+'?\n\nЭто действие нельзя отменить.')) return;
-const {error}=await sbClient.from('payables').delete().eq('id',id);
+const {error}=await financialCommands.register('payable','delete',id,x,{});
 if(error) return alert('Не удалось удалить кредиторку: '+error.message);
 await loadAll();
 }
@@ -4311,351 +4139,43 @@ let payableId=$('opPayable').value||null;
 let receivableId=(type==='income' ? ($('opReceivable').value||null) : null);
 let orgConsumerType=$('opOrgConsumerType')?.value||null;
 let orgConsumerId=$('opOrgConsumer')?.value||null;
-const operationDate=$('opDate').value||new Date().toISOString().slice(0,10);
-
-if(type==='credit'){
-const creditor=$('opCreditor').value==='__new__'?'':$('opCreditor').value.trim();
-if(!creditor) return alert('Выберите или создайте кредитора.');
-const nextDate=$('opCreditNextDate').value||'';
-const fullDate=$('opCreditFullDate').value||'';
-if(!nextDate) return alert('Укажите ближайшую дату выплаты.');
-if(!fullDate) return alert('Укажите дату полного погашения.');
-if(fullDate<operationDate) return alert('Дата полного погашения не может быть раньше даты кредита.');
-
-const payload={
-operation_date:operationDate,
-operation_type:'credit',
-article:'Получение кредита',
-amount:a,
-project_id:null,
-subcontractor_id:null,
-cost_item_id:null,
-cost_item_type:null,
-payable_id:null,
-credit_recipient_company:$('opCreditRecipientCompany').value,
-credit_kind:$('opCreditKind').value,
-counterparty:creditor,
-document_number:$('opDocument').value.trim()||null,
-comment:$('opComment').value.trim()||null,
-};
-
-const old=editingOperationId?ops.find(x=>x.id===editingOperationId):null;
-let linkedPayable=old?.payable_id?aps.find(x=>x.id===old.payable_id):null;
-
-if(editingOperationId && old?.operation_type==='credit' && linkedPayable){
-const alreadyPaid=Number(linkedPayable.paid_amount||0);
-if(a<alreadyPaid) return alert('Новая сумма кредита не может быть меньше уже погашенной суммы.');
-const payPayload={
-counterparty:creditor,
-amount:a,
-paid_amount:alreadyPaid,
-due_date:nextDate,
-full_repayment_date:fullDate,
-credit_start_date:operationDate,
-is_credit:true,
-owner_company:$('opCreditRecipientCompany').value,
-credit_kind:$('opCreditKind').value,
-project_id:null,
-comment:$('opComment').value.trim()||null,
-};
-const {error:pe}=await sbClient.from('payables').update(payPayload).eq('id',linkedPayable.id);
-if(pe) return alert('Не удалось изменить кредиторку: '+pe.message);
-payload.payable_id=linkedPayable.id;
-const {error:oe}=await sbClient.from('operations').update(payload).eq('id',editingOperationId);
-if(oe) return alert('Кредиторка изменена, но операция не обновилась: '+oe.message);
-}else{
-const payPayload={
-counterparty:creditor,
-document_type:'Кредит',
-document_number:$('opDocument').value.trim()||null,
-amount:a,
-paid_amount:0,
-due_date:nextDate,
-full_repayment_date:fullDate,
-credit_start_date:operationDate,
-is_credit:true,
-owner_company:$('opCreditRecipientCompany').value,
-credit_kind:$('opCreditKind').value,
-project_id:null,
-comment:$('opComment').value.trim()||null,
-};
-const {data:pay,error:pe}=await sbClient.from('payables').insert(payPayload).select('*').single();
-if(pe) return alert('Не удалось создать кредиторку: '+pe.message);
-payload.payable_id=pay.id;
-const user=(await sbClient.auth.getUser()).data.user;
-payload.created_by=user.id;
-const {error:oe}=await sbClient.from('operations').insert(payload);
-if(oe){
-await sbClient.from('payables').delete().eq('id',pay.id);
-return alert('Кредит создан, но операция не сохранилась: '+oe.message);
+const operationDate=$('opDate').value||financialCommands.today();
+// Cash operations use the same transaction as the agent. Deferred inventory and
+// credit issuance retain their existing dedicated UI until that command is implemented.
+const originalOp=editingOperationId?ops.find(x=>x.id===editingOperationId):null;
+const deferredMaterial=type==='expense'&&article==='ТМЦ'&&Boolean($('opMaterialCreditor')?.value);
+if(type==='credit'||originalOp?.operation_type==='credit'||deferredMaterial||originalOp?.credit_kind==='material'){
+ const loan=type==='credit',selected=projectId?projects.find(p=>p.id===projectId):null;
+ const values={operation_date:operationDate,operation_type:type,article:loan?'Получение кредита':article,amount:a,
+ project_id:loan?null:projectId,payer_company:loan?$('opCreditRecipientCompany').value:selected?.contractor_company,
+ credit_recipient_company:loan?$('opCreditRecipientCompany').value:null,credit_kind:loan?$('opCreditKind').value:deferredMaterial?'material':null,
+ cost_item_id:loan?null:costItemId,cost_item_type:loan?null:'material',vat_included:!loan&&Boolean($('opVatIncluded').checked),
+ counterparty:loan?$('opCreditor').value.trim():deferredMaterial?$('opMaterialCreditor').value.trim():$('opCounterparty').value.trim()||null,
+ document_number:$('opDocument').value.trim()||null,comment:$('opComment').value.trim()||null};
+ const credit=loan?{due_date:$('opCreditNextDate').value,full_repayment_date:$('opCreditFullDate').value}:deferredMaterial?{due_date:$('opMaterialCreditDueDate').value,full_repayment_date:$('opMaterialCreditDueDate').value}:null;
+ if(values.counterparty==='__new__')return alert('Сначала создайте кредитора.');
+ try{await financialCommands.execute({action:editingOperationId?'update':'create',...(editingOperationId?{id:editingOperationId,expected:originalOp,expected_credit:aps.find(p=>p.id===originalOp?.payable_id)||null}:{}),values,credit});}
+ catch(e){return alert('Кредит/ТМЦ не изменены: '+e.message);}
+ closeModal();editingOperationId=null;await loadAll();return;
 }
-}
-closeModal();
-editingOperationId=null;
-await loadAll();
-return;
+if(type!=='credit'&&originalOp?.operation_type!=='credit'&&!deferredMaterial&&originalOp?.credit_kind!=='material'){
+ const selected=projectId?projects.find(p=>p.id===projectId):null;
+ const values={operation_date:operationDate,operation_type:type,article,amount:a,project_id:projectId,
+ payer_company:selected?.contractor_company||$('opCompany').value||null,
+ vat_included:type==='expense'&&Boolean($('opVatIncluded').checked),
+ receivable_id:type==='income'?receivableId:null,payable_id:type==='expense'&&article==='Погашение кредиторки'?payableId:null,
+ subcontractor_id:type==='expense'&&article==='Субподрядчики'?subcontractorId:null,
+ cost_item_id:type==='expense'&&projectId&&['ТМЦ','Прочие расходы'].includes(article)?costItemId:null,
+ cost_item_type:type==='expense'&&projectId&&['ТМЦ','Прочие расходы'].includes(article)?(article==='ТМЦ'?'material':'other'):null,
+ org_employee_id:type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='employee'?orgConsumerId:null,
+ org_event_id:type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='event'?orgConsumerId:null,
+ org_expense_id:type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='org_expense'?orgConsumerId:null,
+ counterparty:$('opCounterparty').value.trim()||null,document_number:$('opDocument').value.trim()||null,comment:$('opComment').value.trim()||null};
+ try{await financialCommands.execute({action:editingOperationId?'update':'create',...(editingOperationId?{id:editingOperationId,expected:originalOp}:{}),values});}
+ catch(e){return alert('Операция не подтверждена: '+e.message);}
+ closeModal();editingOperationId=null;await loadAll();return;
 }
 
-const user=(await sbClient.auth.getUser()).data.user;
-const old=editingOperationId?ops.find(x=>x.id===editingOperationId):null;
-if(type==='income' && receivableId){
- const rec=ars.find(r=>String(r.id)===String(receivableId));
- if(!rec) return alert('Выбранная дебиторка не найдена. Обновите страницу и попробуйте снова.');
- if(projectId && String(rec.project_id)!==String(projectId)) return alert('Выбранная дебиторка относится к другому объекту.');
- const oldReceivableId=old?.receivable_id||null;
- let available=Math.max(0,Number(rec.amount||0)-Number(rec.paid_amount||0));
- if(String(oldReceivableId)===String(receivableId)) available+=Number(old?.amount||0);
- if(a>available) return alert('Сумма прихода больше остатка выбранной дебиторки.');
-}
-if(type==='expense' && article==='Орг. расходы'){
- if(projectId) return alert('«Орг. расходы» не относятся к объекту. Уберите объект или выберите проектную статью.');
- if(!orgConsumerType || !orgConsumerId || orgConsumerId==='__new__') return alert('Выберите потребителя орг. расхода или сначала создайте его.');
- if(orgConsumerType==='employee'&&!orgEmployees.some(x=>x.id===orgConsumerId)) return alert('Сотрудник не найден.');
- if(orgConsumerType==='event'&&!events.some(x=>x.id===orgConsumerId)) return alert('Событие не найдено.');
- if(orgConsumerType==='org_expense'&&!orgExpenses.some(x=>x.id===orgConsumerId)) return alert('Орг. расход не найден.');
-}
-
-
-if(type==='expense' && article==='Погашение кредиторки'){
-if(!payableId) return alert('Выберите кредиторку для погашения.');
-const payable=aps.find(x=>x.id===payableId);
-if(!payable) return alert('Кредиторка не найдена.');
-const oldPayableId=old?.payable_id||null;
-let available=Number(payable.amount||0)-Number(payable.paid_amount||0);
-if(oldPayableId===payableId) available+=Number(old?.amount||0);
-if(a>Math.max(0,available)) return alert('Сумма погашения больше остатка по кредиторке.');
-
-if(old && old.payable_id){
-const oldP=aps.find(x=>x.id===old.payable_id);
-if(oldP){
-const rollback=Math.max(0,Number(oldP.paid_amount||0)-Number(old.amount||0));
-const {error:e}=await sbClient.from('payables').update({paid_amount:rollback}).eq('id',oldP.id);
-if(e) return alert('Не удалось скорректировать старое погашение: '+e.message);
-oldP.paid_amount=rollback;
-}
-}
-const nextPaid=Math.min(Number(payable.amount||0),Number(payable.paid_amount||0)+a);
-const {error:e2}=await sbClient.from('payables').update({paid_amount:nextPaid}).eq('id',payable.id);
-if(e2) return alert('Не удалось обновить остаток кредиторки: '+e2.message);
-payable.paid_amount=nextPaid;
-}
-
-if(type==='expense' && (article==='Налог ИП'||article==='НДС')){
-const opCompany=$('opCompany').value||'ООО';
-if(article==='Налог ИП'&&opCompany!=='ИП') return alert('Статья «Налог ИП» доступна только для ИП.');
-if(article==='НДС'&&opCompany!=='ООО') return alert('Статья «НДС» доступна только для ООО.');
-}
-
-if(type==='expense' && projectId){
-if(!['Погашение кредиторки','Субподрядчики','ТМЦ','Прочие расходы','Налог ИП','НДС'].includes(article))
-return alert('Для расхода по объекту выберите одну из категорий: Погашение кредиторки, Субподрядчики, ТМЦ, Прочие расходы, Налог ИП или НДС.');
-
-if(article==='Налог ИП' && projects.find(p=>p.id===projectId)?.contractor_company!=='ИП')
-return alert('Статья «Налог ИП» доступна только для объектов, оформленных на ИП.');
-
-if(article==='НДС' && projects.find(p=>p.id===projectId)?.contractor_company!=='ООО')
-return alert('Статья «НДС» доступна только для объектов, оформленных на ООО.');
-
-if(article==='Субподрядчики'&&!subcontractorId)
-return alert('Выберите субподрядчика из карточки объекта.');
-
-if((article==='ТМЦ'||article==='Прочие расходы')&&!costItemId)
-return alert('Выберите конкретную позицию из карточки объекта.');
-
-if(article==='Погашение кредиторки'&&!payableId)
-return alert('Выберите кредиторку для погашения.');
-
-if(article==='Субподрядчики'){
-let dbSub=null;
-const selectedLocal=subcontractors.find(s=>String(s.id)===String(subcontractorId));
-const {data:byId,error:byIdError}=await sbClient.from('subcontractors').select('id,project_id,name').eq('id',subcontractorId).eq('project_id',projectId).maybeSingle();
-if(byIdError) return alert('Не удалось проверить субподрядчика в базе: '+byIdError.message);
-dbSub=byId;
-if(!dbSub && selectedLocal?.name){
-const {data:byName,error:byNameError}=await sbClient.from('subcontractors').select('id,project_id,name').eq('project_id',projectId).eq('name',selectedLocal.name).limit(1).maybeSingle();
-if(byNameError) return alert('Не удалось найти актуальный ID субподрядчика: '+byNameError.message);
-if(byName){subcontractorId=byName.id;$('opSubcontractor').value=byName.id;dbSub=byName;}
-}
-if(!dbSub) return alert('Выбранный субподрядчик не найден в базе данных для этого объекта.');
-}
-
-const validMat=article==='ТМЦ'&&projectMaterials.some(m=>m.id===costItemId&&m.project_id===projectId);
-const validOth=article==='Прочие расходы'&&projectOtherExpenses.some(o=>o.id===costItemId&&o.project_id===projectId);
-if((article==='ТМЦ'&&!validMat)||(article==='Прочие расходы'&&!validOth))
-return alert('Выбранная позиция не относится к выбранному объекту. Обновите страницу и попробуйте снова.');
-}
-
-const selectedProject=projectId?projects.find(p=>String(p.id)===String(projectId)):null;
-const effectiveCompany=(type==='income'||type==='expense')
-  ? (selectedProject?.contractor_company==='ООО'||selectedProject?.contractor_company==='ИП'
-      ? selectedProject.contractor_company
-      : ($('opCompany').value||'ООО'))
-  : null;
-if((type==='income'||type==='expense') && effectiveCompany) $('opCompany').value=effectiveCompany;
-
-const materialCreditEnabled=(type==='expense'&&article==='ТМЦ'&&Boolean($('opMaterialCreditor')?.value&&$('opMaterialCreditor').value!=='__new__'));
-const materialCreditor=materialCreditEnabled?$('opMaterialCreditor').value.trim():'';
-const materialCreditDueDate=materialCreditEnabled?($('opMaterialCreditDueDate').value||''):'';
-if(type==='expense'&&article==='ТМЦ'&&$('opMaterialCreditor')?.value==='__new__') return alert('Добавьте нового кредитора и выберите его.');
-if(materialCreditEnabled&&!materialCreditDueDate) return alert('Укажите дату оплаты / ближайшую дату погашения по ТМЦ.');
-
-const payload={
-operation_date:operationDate,
-operation_type:type,
-article,
-amount:a,
-project_id:projectId,
-payer_company:effectiveCompany,
-vat_included:(type==='expense'&&effectiveCompany==='ООО')?Boolean($('opVatIncluded').checked):false,
-payable_id:(type==='expense'&&(article==='Погашение кредиторки'))?payableId:null,
-credit_kind:materialCreditEnabled?'material':null,
-receivable_id:(type==='income')?receivableId:null,
-org_employee_id:(type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='employee')?orgConsumerId:null,
-org_event_id:(type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='event')?orgConsumerId:null,
-org_expense_id:(type==='expense'&&article==='Орг. расходы'&&orgConsumerType==='org_expense')?orgConsumerId:null,
-subcontractor_id:(type==='expense'&&article==='Субподрядчики')?subcontractorId:null,
-cost_item_id:(type==='expense'&&projectId&&(article==='ТМЦ'||article==='Прочие расходы'))?costItemId:null,
-cost_item_type:(type==='expense'&&projectId&&(article==='ТМЦ'||article==='Прочие расходы'))?(article==='ТМЦ'?'material':'other'):null,
-counterparty:$('opCounterparty').value.trim()||null,
-document_number:$('opDocument').value.trim()||null,
-comment:$('opComment').value.trim()||null,
-};
-
-// ТМЦ, полученные без немедленной оплаты, оформляем как расход по объекту + отдельную кредиторку.
-// Денежного списания при этом нет: кредиторка будет погашаться отдельной операцией «Погашение кредиторки».
-const oldMaterialPayableId=(old&&old.article==='ТМЦ'&&old.credit_kind==='material')?(old.payable_id||null):null;
-let materialPayableCreated=null;
-if(materialCreditEnabled){
-  let linkedPayable=oldMaterialPayableId?aps.find(x=>String(x.id)===String(oldMaterialPayableId)):null;
-  const payPayload={
-    project_id:projectId,
-    counterparty:materialCreditor,
-    document_type:'ТМЦ / отсрочка',
-    document_number:$('opDocument').value.trim()||null,
-    document_date:operationDate,
-    amount:a,
-    paid_amount:linkedPayable?Number(linkedPayable.paid_amount||0):0,
-    due_date:materialCreditDueDate,
-    comment:$('opComment').value.trim()||'Получение ТМЦ с отсрочкой оплаты',
-    is_credit:true,
-    credit_start_date:operationDate,
-    full_repayment_date:materialCreditDueDate,
-    owner_company:effectiveCompany,
-    credit_kind:'material'
-  };
-  if(linkedPayable){
-    if(a<Number(linkedPayable.paid_amount||0)) return alert('Сумма ТМЦ не может быть меньше уже погашенной кредиторки.');
-    const {error:pe}=await sbClient.from('payables').update(payPayload).eq('id',linkedPayable.id);
-    if(pe) return alert('Не удалось обновить кредиторку по ТМЦ: '+pe.message);
-    payload.payable_id=linkedPayable.id;
-  }else{
-    const {data:pay,error:pe}=await sbClient.from('payables').insert(payPayload).select('*').single();
-    if(pe) return alert('Не удалось создать кредиторку по ТМЦ: '+pe.message);
-    materialPayableCreated=pay;
-    payload.payable_id=pay.id;
-  }
-}else if(oldMaterialPayableId){
-  const oldP=aps.find(x=>String(x.id)===String(oldMaterialPayableId));
-  if(oldP && Number(oldP.paid_amount||0)>0) return alert('Нельзя снять признак кредита с ТМЦ, пока по этой кредиторке есть погашение.');
-  if(oldP){
-    const {error:pe}=await sbClient.from('payables').delete().eq('id',oldP.id);
-    if(pe) return alert('Не удалось удалить связанную кредиторку по ТМЦ: '+pe.message);
-  }
-  payload.payable_id=null;
-}
-
-function linked(item, oldAmount, sign){
-if(!item) return;
-item.actual_amount=Math.max(0,Number(item.actual_amount||0)+(sign*Number(oldAmount||0)));
-}
-
-const oldReceivableId=old?.receivable_id||null;
-let receivableRollback=null;
-let receivableApplied=null;
-if(type==='income' && (oldReceivableId||receivableId)){
- const touched=[];
- if(oldReceivableId) touched.push({id:oldReceivableId,delta:-Number(old.amount||0)});
- if(receivableId) touched.push({id:receivableId,delta:Number(a||0)});
- const netById=new Map();
- touched.forEach(t=>netById.set(String(t.id),(netById.get(String(t.id))||0)+t.delta));
- for(const [id,delta] of netById){
-   const r=ars.find(x=>String(x.id)===String(id));
-   if(!r) return alert('Не найдена дебиторка для корректировки остатка.');
-   const next=Math.max(0,Math.min(Number(r.amount||0),Number(r.paid_amount||0)+delta));
-   const {error:e}=await sbClient.from('receivables').update({paid_amount:next}).eq('id',id);
-   if(e){
-     if(receivableApplied){ await sbClient.from('receivables').update({paid_amount:receivableApplied.oldPaid}).eq('id',receivableApplied.id); }
-     return alert('Не удалось обновить оплату дебиторки: '+e.message);
-   }
-   const oldPaid=Number(r.paid_amount||0);
-   if(delta>0) receivableApplied={id,oldPaid}; else receivableRollback={id,oldPaid};
-   r.paid_amount=next;
- }
-}
-
-const oldLinkedType=old?.cost_item_type;
-const oldLinkedId=old?.cost_item_id;
-if(old && oldLinkedId && (oldLinkedType==='material'||oldLinkedType==='other')){
-const arr=oldLinkedType==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(x=>x.id===oldLinkedId);
-linked(row,old.amount,-1);
-}
-if(payload.cost_item_id){
-const arr=payload.cost_item_type==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(x=>x.id===payload.cost_item_id);
-linked(row,a,1);
-}
-
-let error;
-if(editingOperationId){
-({error}=await sbClient.from('operations').update(payload).eq('id',editingOperationId));
-}else{
-payload.created_by=user.id;
-({error}=await sbClient.from('operations').insert(payload));
-}
-
-if(error){
-if(materialPayableCreated){ await sbClient.from('payables').delete().eq('id',materialPayableCreated.id); }
-if(type==='income' && (oldReceivableId||receivableId)){
- const touched=[];
- if(oldReceivableId) touched.push({id:oldReceivableId,delta:Number(old?.amount||0)});
- if(receivableId) touched.push({id:receivableId,delta:-Number(a||0)});
- const netById=new Map(); touched.forEach(t=>netById.set(String(t.id),(netById.get(String(t.id))||0)+t.delta));
- for(const [rid,delta] of netById){
-   const r=ars.find(x=>String(x.id)===String(rid));
-   if(r) await sbClient.from('receivables').update({paid_amount:Math.max(0,Math.min(Number(r.amount||0),Number(r.paid_amount||0)+delta))}).eq('id',rid);
- }
-}
-if(payload.cost_item_id){
-const arr=payload.cost_item_type==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(x=>x.id===payload.cost_item_id); linked(row,a,-1);
-}
-if(old && oldLinkedId){
-const arr=oldLinkedType==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(x=>x.id===oldLinkedId); linked(row,old.amount,1);
-}
-return alert((editingOperationId?'Не удалось изменить операцию: ':'Не удалось сохранить операцию: ')+error.message);
-}
-
-const updates=[];
-if(old && oldLinkedId && (oldLinkedType==='material'||oldLinkedType==='other')){
-const arr=oldLinkedType==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(x=>x.id===oldLinkedId);
-if(row) updates.push(sbClient.from(oldLinkedType==='material'?'project_materials':'project_other_expenses').update({actual_amount:row.actual_amount}).eq('id',row.id));
-}
-if(payload.cost_item_id){
-const arr=payload.cost_item_type==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(x=>x.id===payload.cost_item_id);
-if(row) updates.push(sbClient.from(payload.cost_item_type==='material'?'project_materials':'project_other_expenses').update({actual_amount:row.actual_amount}).eq('id',row.id));
-}
-if(updates.length){
-const results=await Promise.all(updates);
-const failed=results.find(r=>r.error);
-if(failed) alert('Операция сохранена, но не удалось обновить факт позиции объекта: '+failed.error.message+'\n\nОбновите страницу и проверьте данные.');
-}
-closeModal();
-editingOperationId=null;
-await loadAll();
 }
 
 async function deleteOp(id){
@@ -4663,56 +4183,18 @@ const x=ops.find(o=>o.id===id);
 if(!x) return alert('Операция не найдена. Обновите страницу и попробуйте снова.');
 const label=x.operation_type==='credit'?'Кредит':(x.operation_type==='income'?'Приход':'Расход');
 if(!confirm(`Удалить операцию «${label}» на ${money(x.amount)}?`)) return;
-
-if(x.operation_type==='credit' && x.payable_id){
-const p=aps.find(r=>r.id===x.payable_id);
-if(p && Number(p.paid_amount||0)>0) return alert('Нельзя удалить кредит, по которому уже были погашения. Сначала удалите операции погашения.');
-const {error:pe}=await sbClient.from('payables').delete().eq('id',x.payable_id);
-if(pe) return alert('Не удалось удалить связанную кредиторку: '+pe.message);
+if(x.operation_type==='credit'||x.credit_kind==='material'){
+ try{await financialCommands.execute({action:'delete',id,expected:x,expected_credit:aps.find(p=>p.id===x.payable_id)||null,values:{},credit:null});}
+ catch(e){return alert('Кредит/ТМЦ не удалены: '+e.message);}
+ if(editingOperationId===id){editingOperationId=null;closeModal();}await loadAll();return;
+}
+if(x.operation_type!=='credit'&&x.credit_kind!=='material'){
+ try{await financialCommands.execute({action:'delete',id,expected:x,values:{}});}
+ catch(e){return alert('Операция не подтверждена: '+e.message);}
+ if(editingOperationId===id){editingOperationId=null;closeModal();}await loadAll();return;
 }
 
-if(x.operation_type==='expense' && x.payable_id){
-const p=aps.find(r=>r.id===x.payable_id);
-if(p && x.article==='ТМЦ' && x.credit_kind==='material'){
-  if(Number(p.paid_amount||0)>0) return alert('Нельзя удалить получение ТМЦ в кредит: по этой кредиторке уже есть погашение. Сначала удалите операции погашения.');
-  const {error:pe}=await sbClient.from('payables').delete().eq('id',p.id);
-  if(pe) return alert('Операция не удалена: не удалось удалить кредиторку по ТМЦ: '+pe.message);
-}else if(p){
-const next=Math.max(0,Number(p.paid_amount||0)-Number(x.amount||0));
-const {error:pe}=await sbClient.from('payables').update({paid_amount:next}).eq('id',p.id);
-if(pe) return alert('Операция не удалена: не удалось вернуть остаток кредиторки: '+pe.message);
-}
-}
 
-let receivableDeleteOldPaid=null;
-if(x.operation_type==='income' && x.receivable_id){
- const r=ars.find(v=>String(v.id)===String(x.receivable_id));
- if(r){
-   receivableDeleteOldPaid=Number(r.paid_amount||0);
-   const next=Math.max(0,receivableDeleteOldPaid-Number(x.amount||0));
-   const {error:re}=await sbClient.from('receivables').update({paid_amount:next}).eq('id',r.id);
-   if(re) return alert('Операция не удалена: не удалось вернуть остаток дебиторки: '+re.message);
- }
-}
-
-const {error}=await sbClient.from('operations').delete().eq('id',id);
-if(error){
- if(x.operation_type==='income' && x.receivable_id && receivableDeleteOldPaid!==null){ await sbClient.from('receivables').update({paid_amount:receivableDeleteOldPaid}).eq('id',x.receivable_id); }
- return alert('Не удалось удалить операцию: '+error.message);
-}
-
-if(x.cost_item_id&&(x.cost_item_type==='material'||x.cost_item_type==='other')){
-const table=x.cost_item_type==='material'?'project_materials':'project_other_expenses';
-const arr=x.cost_item_type==='material'?projectMaterials:projectOtherExpenses;
-const row=arr.find(r=>r.id===x.cost_item_id);
-if(row){
-const next=Math.max(0,Number(row.actual_amount||0)-Number(x.amount||0));
-const {error:updateError}=await sbClient.from(table).update({actual_amount:next}).eq('id',row.id);
-if(updateError) alert('Операция удалена, но факт позиции объекта не удалось скорректировать: '+updateError.message);
-}
-}
-if(editingOperationId===id){editingOperationId=null;closeModal();}
-await loadAll();
 }
 
 async function saveAr(){
@@ -4754,12 +4236,8 @@ comment:$('arComment').value.trim()||null
 
 };
 
-const {data,error}=
-await sbClient
-.from('receivables')
-.insert(payload)
-.select('id,project_id,amount')
-.single();
+delete payload.paid_amount;
+const {data,error}=await financialCommands.register('receivable','create',null,null,payload);
 
 if(error){
 
@@ -4818,7 +4296,7 @@ x.operation_type==='income'
 )
 .reduce((s,x)=>s+Number(x.amount||0),0);
 
-// Общие расходы объекта по операциям, ИСКЛЮЧАЯ ТМЦ и прочие расходы.
+// Операционные расходы: ТМЦ/прочие берутся из позиций, налоги добавляются ниже.
 // Эти две категории по объекту ведутся отдельными списками, а факт
 // конкретной позиции синхронизируется из операции, поэтому добавляем
 // их ниже только один раз.
@@ -4829,7 +4307,10 @@ x.project_id===projectId &&
 x.operation_type==='expense' &&
 x.article!=='Материалы' &&
 x.article!=='ТМЦ' &&
-x.article!=='Прочие расходы'
+x.article!=='Прочие расходы' &&
+x.article!=='Налог ИП' &&
+x.article!=='НДС' &&
+!isDeferredMaterialRepayment(x)
 )
 .reduce((s,x)=>s+Number(x.amount||0),0);
 
@@ -5588,30 +5069,13 @@ function openPtoDocumentForm(id){
   $('ptoDocumentModal').classList.add('open');
 }
 async function savePtoDocument(){
-  if(!ptoCanEdit()||!currentPtoProjectId) return;
-  const finalDate=$('ptoDocFinalDate').value;
-  if(!finalDate) return alert('Укажите финальную дату документа.');
-  const payload={project_id:currentPtoProjectId,document_type:$('ptoDocType').value,final_date:finalDate,status:$('ptoDocStatus').value,comment:$('ptoDocComment').value.trim()||null,updated_at:new Date().toISOString()};
-  let data,error;
-  if(editingPtoDocumentId){
-    ({error}=await sbClient.from('pto_documents').update(payload).eq('id',editingPtoDocumentId));
-    if(!error){const i=ptoDocuments.findIndex(x=>x.id===editingPtoDocumentId);if(i>=0) ptoDocuments[i]={...ptoDocuments[i],...payload};}
-  }else{
-    const user=(await sbClient.auth.getUser()).data.user;
-    payload.created_by=user?.id||null;
-    ({data,error}=await sbClient.from('pto_documents').insert(payload).select('*').single());
-    if(data&&!error) ptoDocuments.push(data);
-  }
-  if(error) return alert('Не удалось сохранить документ ПТО: '+error.message);
-  editingPtoDocumentId=null; closePtoDocumentForm(); renderPtoDocuments();
+ if(!ptoCanEdit()||!currentPtoProjectId)return;const values={project_id:currentPtoProjectId,document_type:$('ptoDocType').value,final_date:$('ptoDocFinalDate').value,status:$('ptoDocStatus').value,comment:$('ptoDocComment').value.trim()||null};
+ const {data,error}=await financialCommands.register('pto_record',editingPtoDocumentId?'update':'create',editingPtoDocumentId,ptoDocuments.find(x=>x.id===editingPtoDocumentId),values);if(error)return alert('Документ ПТО не изменён: '+error.message);
+ if(editingPtoDocumentId)ptoDocuments=ptoDocuments.map(x=>x.id===data.id?data:x);else ptoDocuments.push(data);editingPtoDocumentId=null;closePtoDocumentForm();renderPtoDocuments();
 }
 async function deletePtoDocument(id){
-  if(!ptoCanEdit()) return;
-  const x=ptoDocuments.find(d=>d.id===id);
-  if(!x||!confirm(`Удалить документ «${ptoTypeName(x.document_type)}»?`)) return;
-  const {error}=await sbClient.from('pto_documents').delete().eq('id',id);
-  if(error) return alert('Не удалось удалить документ: '+error.message);
-  ptoDocuments=ptoDocuments.filter(d=>d.id!==id); renderPtoDocuments();
+ if(!ptoCanEdit())return;const x=ptoDocuments.find(d=>d.id===id);if(!x||!confirm('Удалить запись ПТО «'+ptoTypeName(x.document_type)+'»?'))return;
+ const {error}=await financialCommands.register('pto_record','delete',id,x,{});if(error)return alert('Документ не удалён: '+error.message);ptoDocuments=ptoDocuments.filter(d=>d.id!==id);renderPtoDocuments();
 }
 function openPtoContactForm(id){
   if(!ptoCanEdit()||!currentPtoProjectId) return;
@@ -5628,15 +5092,15 @@ async function savePtoContact(){
   if(!ptoCanEdit()||!currentPtoProjectId) return;
   const name=$('ptoContactName').value.trim();
   if(!name) return alert('Введите ФИО контактного лица.');
-  const payload={project_id:currentPtoProjectId,full_name:name,phone:$('ptoContactPhone').value.trim()||null,position:$('ptoContactPosition').value.trim()||null,updated_at:new Date().toISOString()};
+  const payload={project_id:currentPtoProjectId,full_name:name,phone:$('ptoContactPhone').value.trim()||null,position:$('ptoContactPosition').value.trim()||null};
   let data,error;
   if(editingPtoContactId){
-    ({error}=await sbClient.from('project_customer_contacts').update(payload).eq('id',editingPtoContactId));
-    if(!error){const i=ptoContacts.findIndex(x=>x.id===editingPtoContactId);if(i>=0) ptoContacts[i]={...ptoContacts[i],...payload};}
+    ({data,error}=await financialCommands.register('contact','update',editingPtoContactId,ptoContacts.find(x=>x.id===editingPtoContactId),payload));
+    if(!error){const i=ptoContacts.findIndex(x=>x.id===editingPtoContactId);if(i>=0) ptoContacts[i]=data;}
   }else{
     const user=(await sbClient.auth.getUser()).data.user;
     payload.created_by=user?.id||null;
-    ({data,error}=await sbClient.from('project_customer_contacts').insert(payload).select('*').single());
+    delete payload.created_by;({data,error}=await financialCommands.register('contact','create',null,null,payload));
     if(data&&!error) ptoContacts.push(data);
   }
   if(error) return alert('Не удалось сохранить контакт: '+error.message);
@@ -5646,7 +5110,7 @@ async function deletePtoContact(id){
   if(!ptoCanEdit()) return;
   const x=ptoContacts.find(c=>c.id===id);
   if(!x||!confirm(`Удалить контакт «${x.full_name}»?`)) return;
-  const {error}=await sbClient.from('project_customer_contacts').delete().eq('id',id);
+  const {error}=await financialCommands.register('contact','delete',id,x,{});
   if(error) return alert('Не удалось удалить контакт: '+error.message);
   ptoContacts=ptoContacts.filter(c=>c.id!==id); renderPtoContacts();
 }
@@ -5655,7 +5119,7 @@ function workRoleAllowed(){ return ['director','finance','accountant','manager',
 function workStatusInfo(s){return ({planned:{label:'Запланировано',cls:'planned'},in_progress:{label:'В производстве',cls:'in_progress'},completed:{label:'Завершено',cls:'completed'}})[s]||{label:'Запланировано',cls:'planned'};}
 function workMaterialRowsFor(id){return projectWorkMaterials.filter(x=>x.work_item_id===id);}
 function workProgressRowsFor(id){return projectWorkProgress.filter(x=>x.work_item_id===id).sort((a,b)=>String(a.progress_date).localeCompare(String(b.progress_date)));}
-function workCompletedTotal(id){const logs=workProgressRowsFor(id);if(logs.length)return logs.reduce((s,x)=>s+Number(x.completed_volume||0),0);const w=projectWorkItems.find(x=>x.id===id);return w?.status==='completed'?Number(w.completed_volume||w.planned_volume||0):0;}
+function workCompletedTotal(id){const logs=workProgressRowsFor(id),w=projectWorkItems.find(x=>x.id===id),recorded=logs.reduce((s,x)=>s+Number(x.completed_volume||0),0),stored=Number(w?.completed_volume||(w?.status==='completed'?w.planned_volume:0)||0);return Math.max(recorded,stored);}
 function workItemPct(w){const plan=Number(w.planned_volume||0),fact=workCompletedTotal(w.id);return plan>0?Math.min(100,(fact/plan)*100):0;}
 function workSectionRows(id){return projectWorkItems.filter(w=>w.section_id===id);}
 function workSectionPct(sec){const rows=workSectionRows(sec.id);const plan=rows.reduce((s,w)=>s+Number(w.planned_volume||0),0);const fact=rows.reduce((s,w)=>s+workCompletedTotal(w.id),0);return plan>0?Math.min(100,fact/plan*100):0;}
@@ -5780,81 +5244,33 @@ function openWorkSectionForm(id,addNewWork=false){
 }
 function closeWorkSectionForm(){$('workSectionModal').classList.remove('open');editingWorkSectionId=null;workingWorkSectionItems=[];}
 async function saveWorkSection(){
-  const name=$('workSectionName').value.trim();
-  const start=$('workSectionStart').value||null;
-  const end=$('workSectionEnd').value||null;
-  if(!name)return alert('Введите название раздела.');
-  if(start&&end&&end<start)return alert('Дата завершения раздела не может быть раньше даты начала.');
-  const rows=workingWorkSectionItems.filter(r=>!r._removeFromForm);
-  for(const r of rows){if(!r.work_catalog_id)return alert('Выберите вид работы для каждой строки.');if(Number(r.planned_volume||0)<=0)return alert('Укажите плановый объём для каждой работы.');}
-  const payload={project_id:currentWorkProjectId,name,start_date:start,end_date:end,status:$('workSectionStatus').value||'planned',comment:$('workSectionComment').value.trim()||null,updated_at:new Date().toISOString()};
-  const user=(await sbClient.auth.getUser()).data.user;
-  let section,error;
-  if(editingWorkSectionId){
-    ({error}=await sbClient.from('project_work_sections').update(payload).eq('id',editingWorkSectionId));
-    section=projectWorkSections.find(s=>s.id===editingWorkSectionId);
-    if(!error&&section)Object.assign(section,payload);
-  }else{
-    ({data:section,error}=await sbClient.from('project_work_sections').insert({...payload,created_by:user?.id||null}).select('*').single());
-    if(section)projectWorkSections.push(section);
-  }
-  if(error)return alert('Не удалось сохранить раздел: '+error.message);
-  const sectionId=section.id;
-  const existingIds=new Set(projectWorkItems.filter(w=>w.section_id===sectionId).map(w=>w.id));
-  for(const r of rows){
-    const cat=workCatalog.find(w=>w.id===r.work_catalog_id);if(!cat)continue;
-    const existing=r.id?projectWorkItems.find(w=>w.id===r.id):null;
-    const workPayload={project_id:currentWorkProjectId,section_id:sectionId,work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume||0),start_date:start,end_date:end,status:existing?.status||'planned',comment:(r.comment||'').trim()||null,primary_material_catalog_id:existing?.primary_material_catalog_id||null,updated_at:new Date().toISOString()};
-    let row;
-    if(existing){
-      ({error}=await sbClient.from('project_work_items').update(workPayload).eq('id',existing.id));
-      if(error)return alert('Раздел сохранён, но не удалось изменить работу «'+cat.name+'»: '+error.message);
-      Object.assign(existing,workPayload);row=existing;
-    }else{
-      ({data:row,error}=await sbClient.from('project_work_items').insert({...workPayload,created_by:user?.id||null}).select('*').single());
-      if(error)return alert('Раздел сохранён, но не удалось добавить работу «'+cat.name+'»: '+error.message);
-      if(row)projectWorkItems.push(row);
-      if(row){
-        const importedTemplate=window.pendingWorkSectionTemplateMaterials?.find(x=>x.work_catalog_id===cat.id&&Number(x.planned_volume)===Number(r.planned_volume));const sourceMats=importedTemplate?importedTemplate._templateMaterials:defaultMaterialsForWork(cat.id,null);const mats=sourceMats.filter(m=>(m.material_catalog_id||m.material_name)&&Number(m.quantity||0)>0).map(m=>({work_item_id:row.id,rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name||materialCatalog.find(z=>z.id===m.material_catalog_id)?.name||'',unit:m.unit||materialCatalog.find(z=>z.id===m.material_catalog_id)?.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:true,is_manual_override:false}));
-        if(mats.length){const {data:md,error:me}=await sbClient.from('project_work_materials').insert(mats).select('*');if(me)return alert('Работа добавлена, но материалы для «'+cat.name+'» не удалось сохранить: '+me.message);projectWorkMaterials.push(...(md||[]));}
-      }
-    }
-    existingIds.delete(r.id);
-  }
-  // Срок раздела является источником истины: обновляем его у всех дочерних работ,
-  // включая работы, которые не редактировались в форме.
-  const childRows=projectWorkItems.filter(w=>w.section_id===sectionId);
-  for(const w of childRows){
-    if(w.start_date!==start||w.end_date!==end){
-      const {error:e}=await sbClient.from('project_work_items').update({start_date:start,end_date:end,updated_at:new Date().toISOString()}).eq('id',w.id);
-      if(e)return alert('Раздел сохранён, но не удалось синхронизировать срок работы «'+w.work_name+'»: '+e.message);
-      w.start_date=start;w.end_date=end;
-    }
-  }
-  window.pendingWorkSectionTemplateMaterials=null;
-  closeWorkSectionForm();
-  renderWorkPanel();
-}
-async function deleteWorkSection(id){const x=projectWorkSections.find(s=>s.id===id);if(!x)return;const childIds=projectWorkItems.filter(w=>w.section_id===id).map(w=>w.id);if(!confirm(`Удалить раздел «${x.name}» вместе со всеми ${childIds.length} работами, материалами и историей выполнения? Это действие нельзя отменить.`))return;const {error}=await sbClient.from('project_work_sections').delete().eq('id',id);if(error)return alert('Не удалось удалить раздел: '+error.message);projectWorkSections=projectWorkSections.filter(s=>s.id!==id);projectWorkItems=projectWorkItems.filter(w=>w.section_id!==id);projectWorkMaterials=projectWorkMaterials.filter(m=>!childIds.includes(m.work_item_id));projectWorkProgress=projectWorkProgress.filter(p=>!childIds.includes(p.work_item_id));renderWorkPanel();}
-async function saveCurrentWorkSectionTemplate(){
- const name=$('workSectionName').value.trim();if(!name)return alert('Сначала укажите название состава/раздела.');
- const rows=workingWorkSectionItems.filter(r=>!r._removeFromForm);if(!rows.length)return alert('Добавьте хотя бы одну работу.');
- for(const r of rows){if(!r.work_catalog_id||Number(r.planned_volume||0)<=0)return alert('Для каждой работы выберите вид и укажите плановый объём.');}
- const templateName=prompt('Название сохраняемого состава:',name);if(!templateName?.trim())return;
- const user=(await sbClient.auth.getUser()).data.user;
- const {data:t,error}=await sbClient.from('project_work_section_templates').insert({project_id:currentWorkProjectId,name:templateName.trim(),comment:$('workSectionComment').value.trim()||null,created_by:user?.id||null}).select('*').single();
- if(error)return alert('Не удалось создать состав: '+error.message);
- for(let i=0;i<rows.length;i++){
-  const r=rows[i],cat=workCatalog.find(w=>w.id===r.work_catalog_id);if(!cat)continue;
-  const {data:ti,error:ie}=await sbClient.from('project_work_section_template_items').insert({template_id:t.id,work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,sort_order:i}).select('*').single();
-  if(ie)return alert('Состав создан, но не удалось сохранить работу «'+cat.name+'»: '+ie.message);
-  const existing=r.id?projectWorkItems.find(w=>w.id===r.id):null;
-  let mats=existing?projectWorkMaterials.filter(m=>m.work_item_id===existing.id):defaultMaterialsForWork(cat.id,null);
-  mats=mats.filter(m=>m.material_name&&Number(m.quantity||0)>0).map((m,j)=>({template_item_id:ti.id,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name,unit:m.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,sort_order:j}));
-  if(mats.length){const {error:me}=await sbClient.from('project_work_section_template_materials').insert(mats);if(me)return alert('Не удалось сохранить материалы состава: '+me.message);}
+ const name=$('workSectionName').value.trim(),start=$('workSectionStart').value||null,end=$('workSectionEnd').value||null;if(!name)return alert('Введите название раздела.');if(start&&end&&end<start)return alert('Проверьте сроки.');
+ const works=[];for(const r of workingWorkSectionItems.filter(r=>!r._removeFromForm)){
+  const cat=workCatalog.find(w=>w.id===r.work_catalog_id),old=r.id?projectWorkItems.find(w=>w.id===r.id):null;if(!cat||Number(r.planned_volume||0)<=0)return alert('Выберите вид работы и положительный объём каждой строки.');
+  const child={kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,primary_material_catalog_id:old?.primary_material_catalog_id||null}};
+  if(!old){const imported=window.pendingWorkSectionTemplateMaterials?.find(x=>x.work_catalog_id===cat.id&&Number(x.planned_volume)===Number(r.planned_volume));child.materials=(imported?imported._templateMaterials:defaultMaterialsForWork(cat.id,null)).filter(m=>(m.material_catalog_id||m.material_name)&&Number(m.quantity||0)>0).map(m=>({rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name||materialCatalog.find(z=>z.id===m.material_catalog_id)?.name||'',unit:m.unit||materialCatalog.find(z=>z.id===m.material_catalog_id)?.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));}works.push(child);
  }
- alert('Состав «'+templateName.trim()+'» сохранён для этого объекта.');
+ const old=projectWorkSections.find(x=>x.id===editingWorkSectionId),command={kind:'section',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{project_id:currentWorkProjectId,name,start_date:start,end_date:end,status:$('workSectionStatus').value||'planned',comment:$('workSectionComment').value.trim()||null},works};
+ try{await financialCommands.execute(command);window.pendingWorkSectionTemplateMaterials=null;closeWorkSectionForm();await loadAll();renderWorkPanel();}catch(e){alert('Раздел не сохранён: '+e.message);}
 }
+
+async function deleteWorkSection(id){
+ const x=projectWorkSections.find(s=>s.id===id);if(!x)return;const works=projectWorkItems.filter(w=>w.section_id===id);
+ if(!confirm('Удалить раздел «'+x.name+'» и работы: '+works.map(w=>w.work_name).join(', ')+'? Материалы и ручная история этих работ также будут удалены. Подачи объёмов требуют отдельного согласования.'))return;
+ try{await financialCommands.execute({kind:'section',action:'delete',id,expected:x,values:{}});await loadAll();renderWorkPanel();}catch(e){alert('Раздел не удалён: '+e.message);}
+}
+
+async function saveCurrentWorkSectionTemplate(){
+ if(!currentWorkProjectId)return;const name=$('workSectionName').value.trim();if(!name)return alert('Укажите название состава.');const templateName=prompt('Название сохраняемого состава:',name);if(!templateName?.trim())return;
+ const items=[];for(const r of workingWorkSectionItems.filter(r=>!r._removeFromForm)){
+  const cat=workCatalog.find(w=>w.id===r.work_catalog_id);if(!cat||Number(r.planned_volume||0)<=0)return alert('Выберите вид и объём каждой работы.');
+  const existing=r.id?projectWorkItems.find(w=>w.id===r.id):null,source=existing?projectWorkMaterials.filter(m=>m.work_item_id===existing.id):(r._templateMaterials||defaultMaterialsForWork(cat.id,null));
+  const materials=source.filter(m=>m.material_name&&Number(m.quantity||0)>0).map(m=>({material_catalog_id:m.material_catalog_id||null,material_name:m.material_name,unit:m.unit||'',quantity:Number(m.quantity),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null}));
+  items.push({work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,materials});
+ }
+ try{await financialCommands.execute({kind:'save_template',values:{project_id:currentWorkProjectId,name:templateName.trim(),comment:$('workSectionComment').value.trim()||null},items});await loadWorkSectionTemplateOptions();alert('Состав сохранён целиком.');}catch(e){alert('Состав не сохранён: '+e.message);}
+}
+
 async function loadWorkSectionTemplateOptions(){
  const sel=$('workSectionTemplateSelect');if(!sel||!currentWorkProjectId)return;
  const {data,error}=await sbClient.from('project_work_section_templates').select('id,name').eq('project_id',currentWorkProjectId).order('name');
@@ -6034,63 +5450,16 @@ async function saveWorkItem(){
   const selectedSection=projectWorkSections.find(s=>s.id===($('workSectionSelect').value||''));
   const workStart=selectedSection?selectedSection.start_date:($('workStartDate').value||null);
   const workEnd=selectedSection?selectedSection.end_date:($('workEndDate').value||null);
-  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:$('workUnit').value||cat.unit,planned_volume:planned,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null,primary_material_catalog_id:primary?.material_catalog_id||null,updated_at:new Date().toISOString()};
-  let row,error;const user=(await sbClient.auth.getUser()).data.user;
-  if(editingWorkItemId){({error}=await sbClient.from('project_work_items').update(payload).eq('id',editingWorkItemId));row=projectWorkItems.find(x=>x.id===editingWorkItemId);if(!error&&row)Object.assign(row,payload);}
-  else{({data:row,error}=await sbClient.from('project_work_items').insert({...payload,created_by:user?.id||null}).select('*').single());if(row&&!error)projectWorkItems.push(row);}
-  if(error)return alert('Не удалось сохранить работу: '+error.message);
-  // Если работу отметили завершённой через форму редактирования,
-  // автоматически фиксируем оставшийся объём как факт на сегодняшнюю дату.
-  // Это связывает статус «Завершено» с отчётом по фактическому выполнению.
-  if(row && payload.status==='completed'){
-    const factBefore=workCompletedTotal(row.id);
-    const planNow=Number(payload.planned_volume||row.planned_volume||0);
-    const remaining=Math.max(0,planNow-factBefore);
-    if(remaining>0){
-      const u=(await sbClient.auth.getUser()).data.user;
-      const completionFact={work_item_id:row.id,progress_date:isoToday(),completed_volume:remaining,comment:'Работа отмечена как завершённая',created_by:u?.id||null};
-      const {data:completionRow,error:completionError}=await sbClient.from('project_work_progress').insert(completionFact).select('*').single();
-      if(completionError)return alert('Работа отмечена завершённой, но не удалось записать факт для отчёта: '+completionError.message);
-      projectWorkProgress.push(completionRow);
-      row.completed_volume=planNow;
-    }
-  }
-  if(editingWorkItemId){await sbClient.from('project_work_materials').delete().eq('work_item_id',editingWorkItemId);projectWorkMaterials=projectWorkMaterials.filter(x=>x.work_item_id!==editingWorkItemId);}
-  if(row){
-    const mats=workingWorkMaterials.filter(x=>x.material_catalog_id&&Number(x.quantity||0)>0).map(x=>({work_item_id:row.id,rule_id:x.rule_id||null,material_catalog_id:x.material_catalog_id,material_name:x.material_name||materialCatalog.find(m=>m.id===x.material_catalog_id)?.name||'',unit:x.unit||materialCatalog.find(m=>m.id===x.material_catalog_id)?.unit||'',quantity:Number(x.quantity||0),comment:x.comment||null,material_role:x.material_role||'secondary',dependency_group:x.dependency_group||null,option_group:x.option_group||null,is_auto_generated:x.is_auto_generated!==false,is_manual_override:x.is_manual_override===true}));
-    if(mats.length){const {data,error:e}=await sbClient.from('project_work_materials').insert(mats).select('*');if(e)return alert('Работа сохранена, но материалы не удалось сохранить: '+e.message);projectWorkMaterials.push(...(data||[]));}
-  }
-  editingWorkItemId=null;workingWorkMaterials=[];closeWorkItemForm();renderWorkPanel();
+  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:$('workUnit').value||cat.unit,planned_volume:planned,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null,primary_material_catalog_id:primary?.material_catalog_id||null};
+
+ const old=projectWorkItems.find(x=>x.id===editingWorkItemId),materials=workingWorkMaterials.filter(m=>m.material_catalog_id&&Number(m.quantity||0)>0).map(m=>({rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name||materialCatalog.find(z=>z.id===m.material_catalog_id)?.name||'',unit:m.unit||materialCatalog.find(z=>z.id===m.material_catalog_id)?.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));
+ try{await financialCommands.execute({kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:payload,materials});closeWorkItemForm();await loadAll();renderWorkPanel();}catch(e){alert('Работа не сохранена: '+e.message);}
 }
+
 function closeWorkItemForm(){$('workItemModal').classList.remove('open');editingWorkItemId=null;workingWorkMaterials=[];}
-async function deleteWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||!confirm(`Удалить работу «${x.work_name}» вместе с материалами и историей выполнения? Это действие нельзя отменить.`))return;let {error}=await sbClient.from('project_work_progress').delete().eq('work_item_id',id);if(error)return alert('Не удалось удалить историю выполнения: '+error.message);({error}=await sbClient.from('project_work_materials').delete().eq('work_item_id',id));if(error)return alert('Не удалось удалить материалы работы: '+error.message);({error}=await sbClient.from('project_work_items').delete().eq('id',id));if(error)return alert('Не удалось удалить работу: '+error.message);projectWorkItems=projectWorkItems.filter(w=>w.id!==id);projectWorkMaterials=projectWorkMaterials.filter(m=>m.work_item_id!==id);projectWorkProgress=projectWorkProgress.filter(p=>p.work_item_id!==id);renderWorkPanel();}
-async function completeWorkItem(id){
-  const w=projectWorkItems.find(x=>x.id===id);
-  if(!w||w.status==='completed')return;
-  if(!confirm(`Отметить работу «${w.work_name}» как завершённую?`))return;
-  const plan=Number(w.planned_volume||0);
-  if(plan<=0)return alert('У работы не указан плановый объём. Сначала укажите плановый объём.');
-  const before=workCompletedTotal(w.id);
-  const remaining=Math.max(0,plan-before);
-  const now=new Date().toISOString();
-  const {error}=await sbClient.from('project_work_items').update({status:'completed',completed_volume:plan,updated_at:now}).eq('id',id);
-  if(error)return alert('Не удалось отметить работу завершённой: '+error.message);
-  w.status='completed';
-  w.completed_volume=plan;
-  w.updated_at=now;
-  if(remaining>0){
-    const u=(await sbClient.auth.getUser()).data.user;
-    const completionFact={work_item_id:id,progress_date:isoToday(),completed_volume:remaining,comment:'Работа отмечена как завершённая',created_by:u?.id||null};
-    const {data:fact,error:factError}=await sbClient.from('project_work_progress').insert(completionFact).select('*').single();
-    if(factError){
-      // Статус уже сохранён, поэтому не откатываем его; сообщаем только о проблеме с записью факта.
-      renderWorkPanel();
-      return alert('Работа завершена, но не удалось записать факт для отчёта: '+factError.message);
-    }
-    projectWorkProgress.push(fact);
-  }
-  renderWorkPanel();
-}
+async function deleteWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||!confirm('Удалить работу «'+x.work_name+'», её материалы и ручную историю? Подачи требуют отдельного удаления.'))return;try{await financialCommands.execute({kind:'work',action:'delete',id,expected:x,values:{}});await loadAll();renderWorkPanel();}catch(e){alert('Работа не удалена: '+e.message);}}
+
+async function completeWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||x.status==='completed'||!confirm('Завершить работу «'+x.work_name+'» и записать оставшийся объём как факт?'))return;try{await financialCommands.execute({kind:'work',action:'complete',id,expected:x,values:{}});await loadAll();renderWorkPanel();}catch(e){alert('Завершение не сохранено: '+e.message);}}
 
 async function refreshWorkFactsForIds(ids){for(const wid of ids){const w=projectWorkItems.find(x=>x.id===wid);if(!w)continue;const total=projectWorkProgress.filter(p=>p.work_item_id===wid).reduce((a,p)=>a+Number(p.completed_volume||0),0);w.completed_volume=total;w.status=total>=Number(w.planned_volume||0)&&Number(w.planned_volume||0)>0?'completed':total>0?'in_progress':'planned';const {error}=await sbClient.from('project_work_items').update({completed_volume:total,status:w.status,updated_at:new Date().toISOString()}).eq('id',wid);if(error)console.warn('Не удалось обновить итоговый факт',wid,error);}}
 function openVolumeSubmissions(){renderVolumeSubmissions();$('volumeSubmissionsListModal').classList.add('open');}
@@ -6109,44 +5478,47 @@ async function saveVolumeSubmission(){
  const from=$('volumeFrom').value,to=$('volumeTo').value;if(!from||!to||to<from)return alert('Укажите корректный период.');
  const entries=[];for(const inp of $('volumeSubmissionEditor').querySelectorAll('[data-volume-count]')){const count=Math.floor(Number(inp.value||0));if(count<=0)continue;const groupId=inp.dataset.volumeCount,label=document.querySelector(`#volumeSubmissionEditor [data-volume-label="${groupId}"]`)?.value.trim()||'';const rows=groupId==='standalone'?projectWorkItems.filter(w=>w.project_id===currentWorkProjectId&&!w.section_id):projectWorkItems.filter(w=>w.section_id===groupId);if(!rows.length)continue;for(const w of rows){const qty=Number(w.planned_volume||0)*count;if(qty>0)entries.push({work_item_id:w.id,qty,date:to,unit_count:count,section_label:label||projectWorkSections.find(s=>s.id===groupId)?.name||'Отдельные работы'});}}
  if(!entries.length)return alert('Укажите количество хотя бы для одного раздела.');
- const user=(await sbClient.auth.getUser()).data.user;let sub,error;
- if(editingVolumeSubmissionId){sub=workVolumeSubmissions.find(x=>x.id===editingVolumeSubmissionId);({error}=await sbClient.from('work_volume_submissions').update({period_from:from,period_to:to,comment:$('volumeComment').value.trim()||null,updated_at:new Date().toISOString()}).eq('id',sub.id));if(error)return alert(error.message);const old=workVolumeSubmissionItems.filter(i=>i.submission_id===sub.id);for(const i of old){if(i.progress_id){const {error:de}=await sbClient.from('project_work_progress').delete().eq('id',i.progress_id);if(de)return alert('Не удалось заменить старый факт: '+de.message);projectWorkProgress=projectWorkProgress.filter(p=>p.id!==i.progress_id);}}await refreshWorkFactsForIds([...new Set(old.map(i=>i.work_item_id))]);const {error:di}=await sbClient.from('work_volume_submission_items').delete().eq('submission_id',sub.id);if(di)return alert(di.message);workVolumeSubmissionItems=workVolumeSubmissionItems.filter(i=>i.submission_id!==sub.id);Object.assign(sub,{period_from:from,period_to:to,comment:$('volumeComment').value.trim()||null});
- }else{({data:sub,error}=await sbClient.from('work_volume_submissions').insert({project_id:currentWorkProjectId,period_from:from,period_to:to,comment:$('volumeComment').value.trim()||null,created_by:user?.id||null}).select('*').single());if(error)return alert('Не удалось создать подачу: '+error.message);workVolumeSubmissions.unshift(sub);}
- for(const e of entries){const {data:item,error:ie}=await sbClient.from('work_volume_submission_items').insert({submission_id:sub.id,work_item_id:e.work_item_id,completed_volume:e.qty,progress_date:e.date,unit_count:e.unit_count,section_label:e.section_label}).select('*').single();if(ie)return alert('Подача сохранена частично: '+ie.message);const {data:pr,error:pe}=await sbClient.from('project_work_progress').insert({work_item_id:e.work_item_id,progress_date:e.date,completed_volume:e.qty,comment:`Подача объёмов: ${e.section_label} × ${e.unit_count}`,created_by:user?.id||null}).select('*').single();if(pe)return alert('Позиция сохранена, но факт не добавлен: '+pe.message);const {error:ue}=await sbClient.from('work_volume_submission_items').update({progress_id:pr.id}).eq('id',item.id);if(ue)return alert('Факт записан, но связь с подачей не сохранена: '+ue.message);item.progress_id=pr.id;workVolumeSubmissionItems.push(item);projectWorkProgress.push(pr);}
- await refreshWorkFactsForIds([...new Set(entries.map(e=>e.work_item_id))]);closeVolumeSubmissionForm();closeVolumeSubmissions();renderWorkPanel();alert('Подача сохранена. Все работы выбранных разделов автоматически добавлены в факт «Хода работ».');
+ try{
+  const sub=editingVolumeSubmissionId?workVolumeSubmissions.find(x=>x.id===editingVolumeSubmissionId):null;
+  if(editingVolumeSubmissionId&&!sub)throw new Error('Подача не найдена. Обновите данные.');
+  const result=await atomicVolumeClient().execute({operation:'save',project_id:currentWorkProjectId,
+   submission_id:sub?.id||null,expected_updated_at:sub?.updated_at||null,period_from:from,period_to:to,
+   comment:$('volumeComment').value.trim()||null,
+   items:entries.map(e=>({work_item_id:e.work_item_id,completed_volume:e.qty,progress_date:e.date,unit_count:e.unit_count,section_label:e.section_label}))});
+  applyAtomicVolumeResult(result);closeVolumeSubmissionForm();closeVolumeSubmissions();renderWorkPanel();
+  alert('Подача сохранена. Факты и итоговые объёмы обновлены одной транзакцией.');
+ }catch(error){alert('Не удалось сохранить подачу: '+error.message+'\nПри сетевой ошибке повторите сохранение с теми же данными.');}
 }
-async function deleteVolumeSubmission(id){const items=workVolumeSubmissionItems.filter(i=>i.submission_id===id);if(!confirm('Удалить подачу и убрать связанные с ней факты из «Хода работ»?'))return;for(const i of items){if(i.progress_id){const {error}=await sbClient.from('project_work_progress').delete().eq('id',i.progress_id);if(error)return alert('Не удалось удалить связанный факт: '+error.message);projectWorkProgress=projectWorkProgress.filter(p=>p.id!==i.progress_id);}}const {error}=await sbClient.from('work_volume_submissions').delete().eq('id',id);if(error)return alert('Не удалось удалить подачу: '+error.message);workVolumeSubmissions=workVolumeSubmissions.filter(x=>x.id!==id);workVolumeSubmissionItems=workVolumeSubmissionItems.filter(x=>x.submission_id!==id);const affected=new Set(items.map(i=>i.work_item_id));await refreshWorkFactsForIds([...affected]);renderVolumeSubmissions();renderWorkPanel();}
+let volumeCommandClient;
+function atomicVolumeClient(){return volumeCommandClient||(volumeCommandClient=workVolumeCommands.create(sbClient,()=>crypto.randomUUID()));}
+function applyAtomicVolumeResult(result){
+ const affected=new Set(result.affected_work_ids);
+ workVolumeSubmissions=workVolumeSubmissions.filter(x=>x.id!==result.submission_id);
+ if(result.submission)workVolumeSubmissions.unshift(result.submission);
+ workVolumeSubmissionItems=workVolumeSubmissionItems.filter(x=>x.submission_id!==result.submission_id).concat(result.items);
+ projectWorkProgress=projectWorkProgress.filter(x=>!affected.has(x.work_item_id)).concat(result.progress);
+ for(const row of result.works){const work=projectWorkItems.find(x=>x.id===row.id);if(work)Object.assign(work,row);}
+}
+async function deleteVolumeSubmission(id){
+ const sub=workVolumeSubmissions.find(x=>x.id===id);if(!sub)return;
+ if(!confirm('Удалить подачу и убрать связанные с ней факты из «Хода работ»?'))return;
+ try{
+  const result=await atomicVolumeClient().execute({operation:'delete',project_id:sub.project_id,submission_id:id,expected_updated_at:sub.updated_at});
+  applyAtomicVolumeResult(result);renderVolumeSubmissions();renderWorkPanel();
+ }catch(error){alert('Не удалось удалить подачу: '+error.message);}
+}
+
 function openWorkProgressForm(id){const w=projectWorkItems.find(x=>x.id===id);if(!w)return;currentWorkProgressItemId=id;$('workProgressTitle').textContent=`${w.work_name} · план ${Number(w.planned_volume||0)} ${w.unit}`;$('workProgressDate').value=isoToday();$('workProgressVolume').value='';$('workProgressComment').value='';$('workProgressModal').classList.add('open');}
 function closeWorkProgressForm(){$('workProgressModal').classList.remove('open');currentWorkProgressItemId=null;}
-async function saveWorkProgress(){
-const w=projectWorkItems.find(x=>x.id===currentWorkProgressItemId);if(!w)return;
-const qty=parseFloat($('workProgressVolume').value)||0;if(qty<=0)return alert('Укажите выполненный объём больше нуля.');
-const date=$('workProgressDate').value;if(!date)return alert('Укажите дату выполнения.');
-const before=workCompletedTotal(w.id),plan=Number(w.planned_volume||0);
-if(plan>0&&before+qty>plan+0.000001&&!confirm(`Факт станет ${before+qty} ${w.unit}, что больше плана ${plan} ${w.unit}. Продолжить?`))return;
-const user=(await sbClient.auth.getUser()).data.user;
-const payload={work_item_id:w.id,progress_date:date,completed_volume:qty,comment:$('workProgressComment').value.trim()||null,created_by:user?.id||null};
-const {data,error}=await sbClient.from('project_work_progress').insert(payload).select('*').single();
-if(error)return alert('Не удалось сохранить факт: '+error.message);
-projectWorkProgress.push(data);
-const total=before+qty;
-const nextStatus=total>=plan&&plan>0?'completed':'in_progress';
-const updatedAt=new Date().toISOString();
-const {error:updateError}=await sbClient.from('project_work_items').update({completed_volume:total,status:nextStatus,updated_at:updatedAt}).eq('id',w.id);
-if(updateError){
-  projectWorkProgress=projectWorkProgress.filter(x=>x.id!==data.id);
-  await sbClient.from('project_work_progress').delete().eq('id',data.id);
-  return alert('Факт не сохранён в итоговом состоянии работы: '+updateError.message);
-}
-w.completed_volume=total;w.status=nextStatus;w.updated_at=updatedAt;
-closeWorkProgressForm();renderWorkPanel();
-}
+async function saveWorkProgress(){const w=projectWorkItems.find(x=>x.id===currentWorkProgressItemId),volume=num('workProgressVolume');if(!w||volume<=0)return alert('Укажите положительный фактический объём.');try{await financialCommands.execute({kind:'manual_fact',action:'create',values:{work_item_id:w.id,progress_date:$('workProgressDate').value,completed_volume:volume,comment:$('workProgressComment').value.trim()||null}});closeWorkProgressForm();await loadAll();renderWorkPanel();}catch(e){alert('Факт не сохранён: '+e.message);}}
+
 function openWorkTaskForm(id){if(!currentWorkProjectId)return;const x=id?projectWorkTasks.find(t=>t.id===id):null;editingWorkTaskId=x?.id||null;$('workTaskFormTitle').textContent=x?'Редактировать задачу':'Новая задача';$('workTaskTitle').value=x?.title||'';$('workTaskDue').value=x?.due_date||'';$('workTaskPriority').value=x?.priority||'normal';$('workTaskComment').value=x?.comment||'';$('workTaskSaveBtn').textContent=x?'Сохранить изменения':'Сохранить задачу';$('workTaskModal').classList.add('open');}
 function closeWorkTaskForm(){$('workTaskModal').classList.remove('open');editingWorkTaskId=null;}
-async function saveWorkTask(){const title=$('workTaskTitle').value.trim();if(!title)return alert('Введите задачу.');const payload={project_id:currentWorkProjectId,title,due_date:$('workTaskDue').value||null,priority:$('workTaskPriority').value||'normal',comment:$('workTaskComment').value.trim()||null,updated_at:new Date().toISOString()};let data,error;const user=(await sbClient.auth.getUser()).data.user;if(editingWorkTaskId){({error}=await sbClient.from('project_work_tasks').update(payload).eq('id',editingWorkTaskId));const x=projectWorkTasks.find(t=>t.id===editingWorkTaskId);if(x&&!error)Object.assign(x,payload);}else{({data,error}=await sbClient.from('project_work_tasks').insert({...payload,created_by:user?.id||null}).select('*').single());if(data)projectWorkTasks.push(data);}if(error)return alert('Не удалось сохранить задачу: '+error.message);closeWorkTaskForm();renderWorkPanel();}
-async function toggleWorkTask(id){const x=projectWorkTasks.find(t=>t.id===id);if(!x)return;const status=x.status==='done'?'open':'done';const {error}=await sbClient.from('project_work_tasks').update({status,updated_at:new Date().toISOString()}).eq('id',id);if(error)return alert('Не удалось изменить задачу: '+error.message);x.status=status;renderWorkPanel();}
-async function deleteWorkTask(id){const x=projectWorkTasks.find(t=>t.id===id);if(!x||!confirm(`Удалить задачу «${x.title}»?`))return;const {error}=await sbClient.from('project_work_tasks').delete().eq('id',id);if(error)return alert('Не удалось удалить задачу: '+error.message);projectWorkTasks=projectWorkTasks.filter(t=>t.id!==id);renderWorkPanel();}
+async function saveWorkTask(){const title=$('workTaskTitle').value.trim();if(!title)return alert('Введите задачу.');const payload={project_id:currentWorkProjectId,title,due_date:$('workTaskDue').value||null,priority:$('workTaskPriority').value||'normal',comment:$('workTaskComment').value.trim()||null};let data,error;const user=(await sbClient.auth.getUser()).data.user;if(editingWorkTaskId){({data,error}=await financialCommands.register('task','update',editingWorkTaskId,projectWorkTasks.find(x=>x.id===editingWorkTaskId),payload));const x=projectWorkTasks.find(t=>t.id===editingWorkTaskId);if(x&&!error)Object.assign(x,data);}else{({data,error}=await financialCommands.register('task','create',null,null,payload));if(data)projectWorkTasks.push(data);}if(error)return alert('Не удалось сохранить задачу: '+error.message);closeWorkTaskForm();renderWorkPanel();}
+async function toggleWorkTask(id){const x=projectWorkTasks.find(t=>t.id===id);if(!x)return;const status=x.status==='done'?'open':'done';const {data,error}=await financialCommands.register('task','update',id,x,{status});if(error)return alert('Не удалось изменить задачу: '+error.message);Object.assign(x,data);renderWorkPanel();}
+async function deleteWorkTask(id){const x=projectWorkTasks.find(t=>t.id===id);if(!x||!confirm(`Удалить задачу «${x.title}»?`))return;const {error}=await financialCommands.register('task','delete',id,x,{});if(error)return alert('Не удалось удалить задачу: '+error.message);projectWorkTasks=projectWorkTasks.filter(t=>t.id!==id);renderWorkPanel();}
 function printWorkReport(){
+ if(window.renderExistingReport)return openExistingManualReport('production',{project_id:currentWorkProjectId,from:$('workReportFrom').value,to:$('workReportTo').value});
   const p=projects.find(x=>x.id===currentWorkProjectId);
   if(!p)return;
   const from=$('workReportFrom').value,to=$('workReportTo').value;
@@ -6477,8 +5849,9 @@ ${renderProjectOperationsHtml(p.id)}
 </details>
 
 <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
-<button class="btn secondary" style="flex:1;min-width:120px" onclick="openProjectDocuments('${p.id}')">📁 Документы</button>
+<button class="btn secondary" style="flex:1;min-width:120px" onclick="openProjectDocuments('${p.id}')">📁 Документы</button><button class="btn secondary" style="flex:1;min-width:120px" onclick="openDocumentUpload('${p.id}','project')">📐 Добавить проект</button>
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="openEditProject('${p.id}')">Изменить</button>
+${profile?.role==='director'?`<button class="btn secondary" style="flex:1;min-width:120px" onclick="projectTeam.open(sbClient,{id:'${p.id}',name:this.closest('details')?.querySelector('.compact-name')?.textContent||'Объект'})">Команда объекта</button>`:''}
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="openProjectStatement('${p.id}')">📄 Выписка</button>
 <button class="btn secondary" style="flex:1;min-width:120px" onclick="deleteProject('${p.id}')">Удалить</button>
 </div>
@@ -6506,15 +5879,22 @@ function resetProposalForm(){['kpEditId','kpName','kpCity','kpCustomer','kpAmoun
 async function saveProposal(){
  const name=$('kpName').value.trim(); if(!name)return alert('Укажите наименование объекта.');
  const status=$('kpStatus').value, reason=$('kpLostReason').value.trim(); if(status==='lost'&&!reason)return alert('При статусе «Проиграли» укажите причину.');
- const payload={name,city:$('kpCity').value.trim()||null,customer:$('kpCustomer').value.trim()||null,amount:Number($('kpAmount').value||0),status,segment:$('kpSegment').value,source:$('kpSource').value.trim()||null,sent_date:$('kpSentDate').value||null,expected_review_date:$('kpExpectedDate').value||null,review_deadline:$('kpDeadline').value||null,lost_reason:status==='lost'?reason:null,comment:$('kpComment').value.trim()||null,updated_at:new Date().toISOString()};
- const id=$('kpEditId').value; let file=$('kpLetter').files?.[0]||null;
- if(file){const safe=(file.name||'letter').normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_');const path='kps/'+(id||crypto.randomUUID())+'/'+Date.now()+'_'+safe;const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false});if(up.error)return alert('Не удалось загрузить письмо КП: '+up.error.message);payload.letter_file_path=path;payload.letter_file_name=file.name;}
- let res;if(id)res=await sbClient.from('commercial_proposals').update(payload).eq('id',id).select('*').single();else{const u=(await sbClient.auth.getUser()).data.user;payload.created_by=u?.id;res=await sbClient.from('commercial_proposals').insert(payload).select('*').single();}
- if(res.error)return alert('Не удалось сохранить КП: '+res.error.message); if(id){const previous=proposals.find(x=>x.id===id);if(file&&previous?.letter_file_path)await sbClient.storage.from('project-documents').remove([previous.letter_file_path]);proposals=proposals.map(x=>x.id===id?res.data:x);}else proposals.unshift(res.data);resetProposalForm();renderProposals();
+ const payload={name,city:$('kpCity').value.trim()||null,customer:$('kpCustomer').value.trim()||null,amount:Number($('kpAmount').value||0),status,segment:$('kpSegment').value,source:$('kpSource').value.trim()||null,sent_date:$('kpSentDate').value||null,expected_review_date:$('kpExpectedDate').value||null,review_deadline:$('kpDeadline').value||null,lost_reason:status==='lost'?reason:null,comment:$('kpComment').value.trim()||null};
+
+ const id=$('kpEditId').value,old=proposals.find(x=>x.id===id),file=$('kpLetter').files?.[0]||null,command={kind:'proposal',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:payload};
+ try{
+  if(file){let prepared=preparedDocumentUploads.get(file);if(!prepared||prepared.projectId!=='kps'){const path='kps/'+crypto.randomUUID()+'/'+safeFileName(file.name);const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false,contentType:file.type||undefined});if(up.error)throw up.error;prepared={projectId:'kps',source:{storage_bucket:'project-documents',file_path:path,file_name:file.name,mime_type:file.type||null,file_size:file.size}};preparedDocumentUploads.set(file,prepared);}command.uploaded_file=prepared.source;}
+  const result=await financialCommands.execute(command);if(file)preparedDocumentUploads.delete(file);
+  if(result.file_cleanup_pending){const cleanup=await sbClient.functions.invoke('agent-files',{body:{operation:'cleanup_document',request_id:result.cleanup_request_id}});if(cleanup.error||cleanup.data?.error||cleanup.data?.cleanup?.status!=='completed'){localStorage.setItem('voltmaster-document-cleanup:'+result.cleanup_request_id,'pending');alert('КП сохранено; очистка прежнего письма ожидает повтора.');}}
+  resetProposalForm();await loadAll();renderProposals();
+ }catch(e){alert('КП не подтверждено: '+e.message+'. Если файл загрузился, он сохранён для безопасного повтора.');}
 }
+
 function editProposal(id){const x=proposals.find(p=>p.id===id);if(!x)return; $('kpEditId').value=x.id;$('kpName').value=x.name||'';$('kpCity').value=x.city||'';$('kpCustomer').value=x.customer||'';$('kpAmount').value=x.amount||'';$('kpSegment').value=x.segment||'commercial';$('kpStatus').value=x.status||'review';$('kpSource').value=x.source||'';$('kpSentDate').value=x.sent_date||'';$('kpExpectedDate').value=x.expected_review_date||'';$('kpDeadline').value=x.review_deadline||'';$('kpLostReason').value=x.lost_reason||'';$('kpComment').value=x.comment||'';$('kpFormTitle').textContent='Изменить КП';$('kpCancelEdit').style.display='block';toggleKpLostReason();$('projectsKpPane').scrollIntoView({behavior:'smooth'});}
-async function openProposalLetter(id){const x=proposals.find(p=>p.id===id);if(!x?.letter_file_path)return alert('Письмо не прикреплено.');const r=await sbClient.storage.from('project-documents').createSignedUrl(x.letter_file_path,300);if(r.error)return alert(r.error.message);window.open(r.data.signedUrl,'_blank');}
-async function deleteProposal(id){if(!confirm('Удалить это КП?'))return;const x=proposals.find(p=>p.id===id);const r=await sbClient.from('commercial_proposals').delete().eq('id',id);if(r.error)return alert(r.error.message);if(x?.letter_file_path)await sbClient.storage.from('project-documents').remove([x.letter_file_path]);proposals=proposals.filter(p=>p.id!==id);renderProposals();}
+async function openProposalLetter(id){const x=proposals.find(p=>p.id===id);if(!x?.letter_file_path)return alert('Письмо не прикреплено.');if(x.letter_storage_bucket==='agent-files'){const fileId=/\/([0-9a-f-]{36})\.(?:pdf|txt|docx|xlsx)$/i.exec(x.letter_file_path)?.[1];if(!fileId)return alert('Некорректная ссылка на письмо.');const r=await sbClient.functions.invoke('agent-files',{body:{operation:'download',file_id:fileId}});if(r.error||r.data?.error)return alert(r.error?.message||r.data.error);window.open(r.data.url,'_blank','noopener,noreferrer');}else{const r=await sbClient.storage.from('project-documents').createSignedUrl(x.letter_file_path,60);if(r.error)return alert(r.error.message);window.open(r.data.signedUrl,'_blank','noopener,noreferrer');}}
+
+async function deleteProposal(id){const x=proposals.find(p=>p.id===id);if(!x||!confirm('Удалить КП «'+x.name+'» и его письмо? Общие и личные файлы сохраняются.'))return;try{const result=await financialCommands.execute({kind:'proposal',action:'delete',id,expected:x,values:{}});if(result.file_cleanup_pending){const r=await sbClient.functions.invoke('agent-files',{body:{operation:'cleanup_document',request_id:result.cleanup_request_id}});if(r.error||r.data?.error||r.data?.cleanup?.status!=='completed'){localStorage.setItem('voltmaster-document-cleanup:'+result.cleanup_request_id,'pending');alert('КП удалено; очистка письма ожидает повтора.');}}await loadAll();renderProposals();}catch(e){alert('КП не удалено: '+e.message);}}
+
 function renderProposals(){
  const n=proposals.filter(x=>x.status==='review').length,w=proposals.filter(x=>x.status==='won').length,l=proposals.filter(x=>x.status==='lost').length;$('kpReviewCount').textContent=n;$('kpWonCount').textContent=w;$('kpLostCount').textContent=l;
  const q=($('kpSearch')?.value||'').toLowerCase(),city=($('kpCityFilter')?.value||'').toLowerCase(),status=$('kpStatusFilter')?.value||'all',seg=$('kpSegmentFilter')?.value||'all',src=($('kpSourceFilter')?.value||'').toLowerCase(),from=$('kpDateFrom')?.value||'',to=$('kpDateTo')?.value||'';
@@ -6522,7 +5902,7 @@ function renderProposals(){
  $('kpList').innerHTML=rows.length?rows.map(x=>`<div class="item"><div class="row"><div style="min-width:0"><b>${esc(x.name)}</b><div class="muted">${esc(x.city||'Город не указан')} · ${esc(x.customer||'Заказчик не указан')}</div></div><b>${money(x.amount)}</b></div><div style="margin-top:7px"><span class="pill ${x.status==='won'?'tag-green':x.status==='lost'?'tag-red':'tag-orange'}">${x.status==='won'?'Выиграли':x.status==='lost'?'Проиграли':'В рассмотрении'}</span><span class="pill">${x.segment==='government'?'Гос.':'Коммерция'}</span></div><div class="muted" style="margin-top:7px">Источник: ${esc(x.source||'—')} · Отправлено: ${esc(x.sent_date||'—')} · Рассмотрение: ${esc(x.expected_review_date||'—')}${x.review_deadline?' · Срок: '+esc(x.review_deadline):''}</div>${x.lost_reason?`<div class="muted" style="margin-top:5px">Причина проигрыша: ${esc(x.lost_reason)}</div>`:''}${x.comment?`<div class="muted">${esc(x.comment)}</div>`:''}<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px"><button class="smallbtn" onclick="editProposal('${x.id}')">Изменить / статус</button>${x.letter_file_path?`<button class="smallbtn" onclick="openProposalLetter('${x.id}')">Открыть письмо</button>`:''}<button class="smallbtn" style="color:#b42318" onclick="deleteProposal('${x.id}')">Удалить</button></div></div>`).join(''):'<div class="empty">КП по выбранным фильтрам не найдены.</div>';
  const sources=[...new Set(proposals.map(x=>x.source).filter(Boolean))];$('kpSourceOptions').innerHTML=[...new Set(['РосТендер','СБИС','РТС-тендер','Фабрикант','B2B-Center','ЕИС / zakupki.gov.ru','ЭТП ГПБ','ТЭК-Торг','Прямой запрос заказчика','Повторный заказ / рекомендация','Другое',...sources])].map(x=>`<option value="${esc(x)}">`).join('');
 }
-function exportProposalsPdf(){const rows=proposals;const count=(v)=>rows.filter(x=>x.status===v).length;const by=(field)=>{const m={};rows.forEach(x=>{const k=x[field]||'Не указано';m[k]=(m[k]||0)+1;});return Object.entries(m).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join('');};const html=`<!doctype html><html><head><meta charset="utf-8"><title>Статистика КП</title><style>body{font:14px Arial;padding:25px;color:#172033}table{width:100%;border-collapse:collapse;margin:12px 0 24px}td,th{border:1px solid #ccc;padding:7px;text-align:left}h1{color:#0e2a44}</style></head><body><h1>Статистика коммерческих предложений</h1><p>Всего: ${rows.length} · В рассмотрении: ${count('review')} · Выиграли: ${count('won')} · Проиграли: ${count('lost')}</p><h2>По источникам</h2><table><tr><th>Источник</th><th>Количество</th></tr>${by('source')}</table><h2>Причины проигрыша</h2><table><tr><th>Причина</th><th>Количество</th></tr>${by('lost_reason')}</table><h2>Реестр КП</h2><table><tr><th>Объект</th><th>Город</th><th>Заказчик</th><th>Сумма</th><th>Статус</th><th>Источник</th><th>Отправлено</th></tr>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.city||'')}</td><td>${esc(x.customer||'')}</td><td>${money(x.amount)}</td><td>${x.status==='won'?'Выиграли':x.status==='lost'?'Проиграли':'В рассмотрении'}</td><td>${esc(x.source||'')}</td><td>${esc(x.sent_date||'')}</td></tr>`).join('')}</table><script>window.onload=()=>window.print()<\/script></body></html>`;const w=window.open('','_blank');if(!w)return alert('Разрешите всплывающие окна для выгрузки PDF.');w.document.write(html);w.document.close();}
+function exportProposalsPdf(){if(window.renderExistingReport)return openExistingManualReport('proposals',{});const rows=proposals;const count=(v)=>rows.filter(x=>x.status===v).length;const by=(field)=>{const m={};rows.forEach(x=>{const k=x[field]||'Не указано';m[k]=(m[k]||0)+1;});return Object.entries(m).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join('');};const html=`<!doctype html><html><head><meta charset="utf-8"><title>Статистика КП</title><style>body{font:14px Arial;padding:25px;color:#172033}table{width:100%;border-collapse:collapse;margin:12px 0 24px}td,th{border:1px solid #ccc;padding:7px;text-align:left}h1{color:#0e2a44}</style></head><body><h1>Статистика коммерческих предложений</h1><p>Всего: ${rows.length} · В рассмотрении: ${count('review')} · Выиграли: ${count('won')} · Проиграли: ${count('lost')}</p><h2>По источникам</h2><table><tr><th>Источник</th><th>Количество</th></tr>${by('source')}</table><h2>Причины проигрыша</h2><table><tr><th>Причина</th><th>Количество</th></tr>${by('lost_reason')}</table><h2>Реестр КП</h2><table><tr><th>Объект</th><th>Город</th><th>Заказчик</th><th>Сумма</th><th>Статус</th><th>Источник</th><th>Отправлено</th></tr>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.city||'')}</td><td>${esc(x.customer||'')}</td><td>${money(x.amount)}</td><td>${x.status==='won'?'Выиграли':x.status==='lost'?'Проиграли':'В рассмотрении'}</td><td>${esc(x.source||'')}</td><td>${esc(x.sent_date||'')}</td></tr>`).join('')}</table><script>window.onload=()=>window.print()<\/script></body></html>`;const w=window.open('','_blank');if(!w)return alert('Разрешите всплывающие окна для выгрузки PDF.');w.document.write(html);w.document.close();}
 
 function taxBarClass(actual,planned){
 const pct=planned>0?(Number(actual||0)/Number(planned||0))*100:0;
@@ -6610,7 +5990,7 @@ signed:'Подписаны'
 }
 
 let currentStatementText='';
-let currentStatementProjectName='';
+let currentStatementProjectName='',currentStatementProjectId=null;
 
 function fmtDate(d){
 if(!d) return '—';
@@ -6858,14 +6238,15 @@ t+='\nТМЦ ('+matRows.length+')\n';for(const m of matRows)t+='- '+m.name+': п
 }
 
 function documentsRoleAllowed(){return profile?.role==='director'||profile?.role==='manager';}
-function documentTypeLabel(t){return ({contract:'Договор',estimate:'Смета',addendum:'Дополнительное соглашение',other:'Прочий документ'})[t]||t||'Документ';}
-function documentIcon(t){return ({contract:'📄',estimate:'📊',addendum:'📝',other:'📎'})[t]||'📎';}
+function documentsCanView(d){return documentsRoleAllowed()||(profile?.role==='foreman'&&d?.document_type==='project'&&projects.some(p=>p.id===d.project_id));}
+function documentTypeLabel(t){return ({contract:'Договор',project:'Проект',estimate:'Смета',addendum:'Дополнительное соглашение',other:'Прочий документ'})[t]||t||'Документ';}
+function documentIcon(t){return ({contract:'📄',project:'📐',estimate:'📊',addendum:'📝',other:'📎'})[t]||'📎';}
 function safeFileName(name){const s=String(name||'file');const ext=(s.includes('.')?'.'+s.split('.').pop().replace(/[^a-zA-Z0-9]/g,'').slice(0,12):'');const base=s.replace(/\.[^.]*$/,'').replace(/[^a-zA-Z0-9_-]/g,'_').replace(/_+/g,'_').replace(/^_+|_+$/g,'').slice(0,100)||'document';return base+ext;}
 function fileExt(name){return String(name||'').toLowerCase().split('.').pop();}
 function formatBytes(n){n=Number(n||0);if(!n)return '—';if(n<1024)return n+' Б';if(n<1024*1024)return (n/1024).toFixed(0)+' КБ';return (n/1024/1024).toFixed(1)+' МБ';}
 
 function openProjectDocuments(projectId){
-  if(!documentsRoleAllowed()) return alert('Доступ к договору, сметам и дополнительным соглашениям имеют только директор и управляющий.');
+  if(!documentsRoleAllowed()&&profile?.role!=='foreman') return alert('Нет доступа к документам.');
   currentDocumentProjectId=projectId;
   renderProjectDocuments();
   $('documentModal').classList.add('open');
@@ -6877,10 +6258,10 @@ function renderProjectDocuments(){
   if(!p)return;
   $('documentModalTitle').textContent='Документы · '+(p.name||'Объект');
   const docs=projectDocuments.filter(d=>d.project_id===p.id);
-  const groups=['contract','estimate','addendum','other'];
+  const groups=profile?.role==='foreman'?['project']:['project','contract','estimate','addendum','other'];
   $('projectDocumentsContent').innerHTML=groups.map(type=>{
     const rows=docs.filter(d=>d.document_type===type);
-    const addButton=`<button class="smallbtn" type="button" onclick="openDocumentUpload('${p.id}','${type}')">＋ Добавить</button>`;
+    const addButton=documentsRoleAllowed()?`<button class="smallbtn" type="button" onclick="openDocumentUpload('${p.id}','${type}')">＋ Добавить</button>`:'';
     const body=rows.length?rows.map(d=>{
       const reason=d.document_type==='addendum'&&projectPriceHistory.some(h=>h.reason_document_id===d.id);
       return `<div class="subrow" style="align-items:flex-start;gap:10px;margin-top:8px">
@@ -6889,12 +6270,20 @@ function renderProjectDocuments(){
         ${d.comment?`<div class="muted">${esc(d.comment)}</div>`:''}
         ${reason?`<div class="status-tag p-blue" style="display:inline-block;margin-top:4px">Есть изменение цены</div>`:''}
         </div>
-        <div class="subactions"><button type="button" onclick="viewProjectDocument('${d.id}')">👁 Просмотр</button><button type="button" onclick="replaceProjectDocument('${d.id}')">↻ Заменить</button><button type="button" onclick="deleteProjectDocument('${d.id}')" style="color:#b42318">🗑 Удалить</button></div>
+        <div class="subactions"><button type="button" onclick="viewProjectDocument('${d.id}')">👁 Просмотр</button>${documentsRoleAllowed()?`<button type="button" onclick="replaceProjectDocument('${d.id}')">↻ Заменить</button><button type="button" onclick="deleteProjectDocument('${d.id}')" style="color:#b42318">🗑 Удалить</button>`:''}</div>
       </div>`;
     }).join(''):'<div class="muted" style="margin-top:8px">Документы не загружены.</div>';
     return `<div style="border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px"><div class="row"><b>${documentIcon(type)} ${documentTypeLabel(type)}</b>${addButton}</div>${body}</div>`;
   }).join('')+
-  `<div style="margin-top:8px;padding:10px;border-radius:10px;background:#f8fafc" class="muted">Прорабу этот раздел недоступен. Файлы хранятся в закрытом хранилище и не выдаются производственным ролям.</div>`;
+  `<div style="margin-top:8px;padding:10px;border-radius:10px;background:#f8fafc" class="muted">Прорабу доступны проекты назначенных объектов. Договоры, сметы и изменения цены доступны директору и управляющему.</div>`+
+  (documentsRoleAllowed()?'<button class="smallbtn" onclick="retryPendingDocumentCleanup()">Проверить незавершённую очистку файлов</button>':'');
+}
+
+async function retryPendingDocumentCleanup(){
+ if(!documentsRoleAllowed())return;
+ const keys=Object.keys(localStorage).filter(k=>/^voltmaster-document-cleanup:[0-9a-f-]{36}$/i.test(k));let completed=0;
+ for(const key of keys){const r=await sbClient.functions.invoke('agent-files',{body:{operation:'cleanup_document',request_id:key.split(':')[1]}});if(!r.error&&!r.data?.error&&r.data?.cleanup?.status==='completed'){localStorage.removeItem(key);completed++;}}
+ alert(keys.length?'Завершено запросов: '+completed+' из '+keys.length+'. Остальные доступны только владельцу исходного удаления.':'Незавершённых запросов в этой сессии нет.');
 }
 
 function openDocumentUpload(projectId,type='other'){
@@ -6915,58 +6304,31 @@ function handleDocumentFileSelected(input){
   $('documentUploadHint').textContent='Файл выбран: '+file.name+'. Все реквизиты заполняются вручную.';
 }
 
+const preparedDocumentUploads=new WeakMap();
+async function prepareManualDocumentFile(projectId,file){
+ let prepared=preparedDocumentUploads.get(file);
+ if(prepared&&prepared.projectId===projectId)return prepared.source;
+ const path=projectId+'/'+crypto.randomUUID()+'/'+safeFileName(file.name);
+ const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false,contentType:file.type||undefined});
+ if(up.error)throw up.error;
+ const source={storage_bucket:'project-documents',file_path:path,file_name:file.name,mime_type:file.type||null,file_size:file.size};
+ preparedDocumentUploads.set(file,{projectId,source});return source;
+}
 async function saveDocumentUpload(){
-  if(!documentsRoleAllowed())return alert('Нет доступа.');
-  const projectId=currentDocumentUploadProjectId;
-  const file=$('docFile').files?.[0];
-  if(!projectId||!file)return alert('Выберите файл.');
-  const type=$('docType').value;
-  const title=$('docTitle').value.trim()||file.name;
-  const number=$('docNumber').value.trim()||null;
-  const date=$('docDate').value||null;
-  const comment=$('docComment').value.trim()||null;
-  const p=projects.find(x=>x.id===projectId);
-  const user=(await sbClient.auth.getUser()).data.user;
-  const replaceId=$('documentUploadModal').dataset.replaceId||null;
-  const existingReplace=replaceId?projectDocuments.find(x=>x.id===replaceId):null;
-  const docId=existingReplace?.id||crypto.randomUUID();
-  const version=(existingReplace?.version_no||0)+1;
-  const path=`${projectId}/${docId}/v${version}_${safeFileName(file.name)}`;
-  const btn=$('documentUploadSaveBtn');btn.disabled=true;btn.textContent='Загрузка…';
-  try{
-    const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false,contentType:file.type||undefined});
-    if(up.error)throw up.error;
-    let doc;
-    if(existingReplace){
-      const {data:updated,error:docErr}=await sbClient.from('project_documents').update({document_type:type,title,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,document_number:number,document_date:date,comment,version_no:version,is_current:true,updated_at:new Date().toISOString(),uploaded_by:user?.id||null}).eq('id',docId).select('*').single();
-      if(docErr){await sbClient.storage.from('project-documents').remove([path]);throw docErr;} doc=updated;
-    }else{
-      const {data:created,error:docErr}=await sbClient.from('project_documents').insert({id:docId,project_id:projectId,document_type:type,title,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,document_number:number,document_date:date,comment,version_no:1,is_current:true,uploaded_by:user?.id||null}).select('*').single();
-      if(docErr){await sbClient.storage.from('project-documents').remove([path]);throw docErr;} doc=created;
-    }
-    const {error:verErr}=await sbClient.from('project_document_versions').insert({document_id:docId,version_no:version,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,uploaded_by:user?.id||null});
-    if(verErr)console.warn('Не удалось записать версию документа:',verErr.message);
-    if(existingReplace){const i=projectDocuments.findIndex(x=>x.id===docId);if(i>=0)projectDocuments[i]=doc;else projectDocuments.push(doc);}else projectDocuments.unshift(doc);
-    delete $('documentUploadModal').dataset.replaceId;
-    if(type==='addendum'){
-      const raw=$('docNewRevenue').value.trim();
-      if(raw){
-        const newRevenue=parseFloat(raw.replace(/\s/g,'').replace(',','.'));
-        const oldRevenue=Number(p?.planned_revenue||0);
-        if(Number.isFinite(newRevenue)&&newRevenue!==oldRevenue){
-          const {error:phErr}=await sbClient.from('project_price_history').insert({project_id:projectId,change_date:date||isoToday(),previous_amount:oldRevenue,change_amount:newRevenue-oldRevenue,new_amount:newRevenue,reason_type:'addendum',reason_document_id:docId,reason_text:comment||('ДС №'+(number||'без номера')),created_by:user?.id||null});
-          if(phErr)throw phErr;
-          const {data:updated,error:pErr}=await sbClient.from('projects').update({planned_revenue:newRevenue,updated_at:new Date().toISOString()}).eq('id',projectId).select('*').single();
-          if(pErr)throw pErr;
-          const idx=projects.findIndex(x=>x.id===projectId);if(idx>=0)projects[idx]=updated;
-          projectPriceHistory.push({project_id:projectId,change_date:date||isoToday(),previous_amount:oldRevenue,change_amount:newRevenue-oldRevenue,new_amount:newRevenue,reason_type:'addendum',reason_document_id:docId,reason_text:comment||('ДС №'+(number||'без номера')),created_by:user?.id||null});
-        }
-      }
-    }
-    closeDocumentUploadModal();renderProjectDocuments();render();
-    alert('Документ загружен.');
-  }catch(e){alert('Не удалось загрузить документ: '+(e?.message||e));}
-  finally{btn.disabled=false;btn.textContent='Загрузить документ';}
+ if(!documentsRoleAllowed())return alert('Нет доступа.');
+ const projectId=currentDocumentUploadProjectId,file=$('docFile').files?.[0];if(!projectId||!file)return alert('Выберите файл.');
+ const existing=projectDocuments.find(x=>x.id===$('documentUploadModal').dataset.replaceId),type=$('docType').value;
+ if(existing&&type!==existing.document_type)return alert('При замене сохраняется тип документа.');
+ const p=projects.find(x=>x.id===projectId),values={title:$('docTitle').value.trim()||file.name,document_number:$('docNumber').value.trim()||null,document_date:$('docDate').value||null,comment:$('docComment').value.trim()||null};
+ const command=existing?{action:'replace',id:existing.id,expected:existing,values}:{action:'attach',project_id:projectId,document_type:type,values};
+ const raw=$('docNewRevenue').value.trim();
+ if(type==='addendum'&&raw){const amount=Number(raw.replace(/\s/g,'').replace(',','.'));if(!Number.isFinite(amount)||amount<0)return alert('Проверьте новую цену договора.');command.price_change={expected_project:p,new_amount:amount,change_date:values.document_date||isoToday(),reason_text:values.comment||('ДС №'+(values.document_number||'без номера'))};
+  if(!confirm('Документ и цена договора будут сохранены вместе. Новая цена: '+money(amount)+'. Подтвердить?'))return;
+ }
+ const btn=$('documentUploadSaveBtn');btn.disabled=true;btn.textContent='Загрузка…';
+ try{command.uploaded_file=await prepareManualDocumentFile(projectId,file);await financialCommands.document(command);preparedDocumentUploads.delete(file);closeDocumentUploadModal();await loadAll();renderProjectDocuments();alert('Документ и его версия сохранены.');}
+ catch(e){alert('Не удалось подтвердить сохранение: '+e.message+'. Загруженный файл сохранён для безопасного повтора.');}
+ finally{btn.disabled=false;btn.textContent='Загрузить документ';}
 }
 
 function replaceProjectDocument(id){
@@ -6982,22 +6344,12 @@ function replaceProjectDocument(id){
 }
 
 async function uploadContractForProject(projectId,file){
-  if(!documentsRoleAllowed())throw new Error('Нет доступа к документам.');
-  const user=(await sbClient.auth.getUser()).data.user;
-  const existing=projectDocuments.find(d=>d.project_id===projectId&&d.document_type==='contract'&&d.is_current);
-  const version=(existing?.version_no||0)+1;
-  const docId=existing?.id||crypto.randomUUID();
-  const path=`${projectId}/${docId}/v${version}_${safeFileName(file.name)}`;
-  const up=await sbClient.storage.from('project-documents').upload(path,file,{upsert:false,contentType:file.type||undefined});
-  if(up.error)throw up.error;
-  if(existing){
-    await sbClient.from('project_document_versions').insert({document_id:docId,version_no:version,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,uploaded_by:user?.id||null});
-    const {data:updated,error}=await sbClient.from('project_documents').update({title:'Договор',file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,version_no:version,updated_at:new Date().toISOString(),uploaded_by:user?.id||null}).eq('id',docId).select('*').single();
-    if(error)throw error;const i=projectDocuments.findIndex(x=>x.id===docId);if(i>=0)projectDocuments[i]=updated;else projectDocuments.push(updated);
-  }else{
-    const {data:doc,error}=await sbClient.from('project_documents').insert({id:docId,project_id:projectId,document_type:'contract',title:'Договор',file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,document_number:$('prContractNumber').value.trim()||null,document_date:$('prContractDate').value||null,comment:null,version_no:1,is_current:true,uploaded_by:user?.id||null}).select('*').single();
-    if(error)throw error;projectDocuments.unshift(doc);await sbClient.from('project_document_versions').insert({document_id:docId,version_no:1,file_name:file.name,file_path:path,mime_type:file.type||null,file_size:file.size,uploaded_by:user?.id||null});
-  }
+ if(!documentsRoleAllowed())throw new Error('Нет доступа к документам.');
+ const existing=projectDocuments.find(d=>d.project_id===projectId&&d.document_type==='contract'&&d.is_current);
+ const values={title:'Договор',document_number:$('prContractNumber').value.trim()||null,document_date:$('prContractDate').value||null,comment:existing?.comment||null};
+ const command=existing?{action:'replace',id:existing.id,expected:existing,values}:{action:'attach',project_id:projectId,document_type:'contract',values};
+ command.uploaded_file=await prepareManualDocumentFile(projectId,file);const r=await financialCommands.document(command);preparedDocumentUploads.delete(file);
+ const i=projectDocuments.findIndex(d=>d.id===r.document.id);if(i>=0)projectDocuments[i]=r.document;else projectDocuments.push(r.document);
 }
 
 function handleContractFileSelected(input){
@@ -7009,36 +6361,32 @@ function handleContractFileSelected(input){
 
 
 async function deleteProjectDocument(id){
-  if(!documentsRoleAllowed())return alert('Нет доступа.');
-  const d=projectDocuments.find(x=>x.id===id);
-  if(!d)return;
-  const title=d.title||d.file_name||'документ';
-  if(!confirm('Удалить документ «'+title+'»?\n\nБудут удалены сам документ, все его версии и файлы из хранилища. Это действие нельзя отменить.'))return;
-  try{
-    const {data:versions,error:verErr}=await sbClient.from('project_document_versions').select('file_path').eq('document_id',id);
-    if(verErr)throw verErr;
-    const paths=[d.file_path,...(versions||[]).map(v=>v.file_path)].filter(Boolean);
-    const uniquePaths=[...new Set(paths)];
-    if(uniquePaths.length){
-      const {error:storageErr}=await sbClient.storage.from('project-documents').remove(uniquePaths);
-      if(storageErr)throw storageErr;
-    }
-    const {error:docErr}=await sbClient.from('project_documents').delete().eq('id',id);
-    if(docErr)throw docErr;
-    projectDocuments=projectDocuments.filter(x=>x.id!==id);
-    projectPriceHistory=projectPriceHistory.filter(h=>h.reason_document_id!==id);
-    renderProjectDocuments();
-    render();
-    alert('Документ удалён.');
-  }catch(e){
-    alert('Не удалось удалить документ: '+(e?.message||e));
-  }
+ if(!documentsRoleAllowed())return alert('Нет доступа.');const d=projectDocuments.find(x=>x.id===id);if(!d)return;
+ if(!confirm('Удалить документ «'+(d.title||d.file_name)+'» и все его версии? Используемые в других документах или личном чате файлы будут сохранены. Цена договора и история изменений останутся.'))return;
+ try{const result=await financialCommands.document({action:'delete',id,expected:d,values:{}});
+  const cleanup=await sbClient.functions.invoke('agent-files',{body:{operation:'cleanup_document',request_id:result.cleanup_request_id}});
+  await loadAll();renderProjectDocuments();
+  if(cleanup.error||cleanup.data?.error||cleanup.data?.cleanup?.status!=='completed'){localStorage.setItem('voltmaster-document-cleanup:'+result.cleanup_request_id,'pending');alert('Документ и версии удалены. Очистка файлов не подтверждена; сохранён запрос для повторной очистки.');}
+  else alert('Документ удалён; проверка файлов завершена.');
+ }catch(e){alert('Удаление не подтверждено: '+e.message);}
 }
 
+function showUntrustedDocumentHtml(box,html){
+  const frame=document.createElement('iframe');frame.setAttribute('sandbox','');
+  frame.setAttribute('referrerpolicy','no-referrer');frame.title='Предпросмотр документа';
+  frame.style.cssText='width:100%;height:100%;min-height:400px;border:0';
+  frame.srcdoc='<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; img-src data:; base-uri \'none\'; form-action \'none\'"><style>body{font:14px sans-serif;line-height:1.6;padding:16px}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:5px}img{max-width:100%}</style></head><body>'+html+'</body></html>';
+  box.replaceChildren(frame);
+}
 async function viewProjectDocument(id){
-  if(!documentsRoleAllowed())return alert('Нет доступа.');
   const d=projectDocuments.find(x=>x.id===id);if(!d)return;
-  const {data,error}=await sbClient.storage.from('project-documents').createSignedUrl(d.file_path,600);
+  if(!documentsCanView(d))return alert('Нет доступа.');
+  let data,error;
+  if(d.storage_bucket==='agent-files'){
+   const fileId=/\/([0-9a-f-]{36})\.(?:pdf|txt|docx|xlsx)$/i.exec(d.file_path||'')?.[1];
+   if(!fileId)return alert('Некорректная ссылка на проект.');
+   const signed=await sbClient.functions.invoke('agent-files',{body:{operation:'download',file_id:fileId}});data={signedUrl:signed.data?.url};error=signed.error||signed.data?.error&&{message:signed.data.error};
+  }else({data,error}=await sbClient.storage.from('project-documents').createSignedUrl(d.file_path,600));
   if(error||!data?.signedUrl)return alert('Не удалось открыть документ: '+(error?.message||'нет ссылки'));
   currentViewerUrl=data.signedUrl;$('documentViewerTitle').textContent=(d.title||d.file_name||'Документ');
   const ext=fileExt(d.file_name);const box=$('documentViewerContent');box.innerHTML='<div class="muted" style="padding:20px">Открываю документ…</div>';
@@ -7046,10 +6394,10 @@ async function viewProjectDocument(id){
   try{
     if(ext==='pdf'){box.innerHTML=`<iframe src="${data.signedUrl}#toolbar=1&navpanes=0" style="width:100%;height:100%;border:0"></iframe>`;}
     else if(ext==='xlsx'||ext==='xls'){
-      const resp=await fetch(data.signedUrl);const ab=await resp.arrayBuffer();const wb=XLSX.read(ab,{type:'array'});box.innerHTML=`<div style="padding:10px"><div id="xlsxTabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="xlsxSheet"></div></div>`;const tabs=$('xlsxTabs'),sheet=$('xlsxSheet');wb.SheetNames.forEach((name,i)=>{const b=document.createElement('button');b.className='smallbtn';b.textContent=name;b.onclick=()=>{sheet.innerHTML=XLSX.utils.sheet_to_html(wb.Sheets[name],{editable:false});};tabs.appendChild(b);if(i===0)b.click();});
+      const resp=await fetch(data.signedUrl);const ab=await resp.arrayBuffer();const wb=XLSX.read(ab,{type:'array'});box.innerHTML=`<div style="padding:10px"><div id="xlsxTabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="xlsxSheet"></div></div>`;const tabs=$('xlsxTabs'),sheet=$('xlsxSheet');wb.SheetNames.forEach((name,i)=>{const b=document.createElement('button');b.className='smallbtn';b.textContent=name;b.onclick=()=>{showUntrustedDocumentHtml(sheet,XLSX.utils.sheet_to_html(wb.Sheets[name],{editable:false}));};tabs.appendChild(b);if(i===0)b.click();});
     }
     else if(ext==='docx'){
-      const resp=await fetch(data.signedUrl);const ab=await resp.arrayBuffer();const r=await mammoth.convertToHtml({arrayBuffer:ab});box.innerHTML=`<div style="padding:20px;line-height:1.6">${r.value}</div>`;
+      const resp=await fetch(data.signedUrl);const ab=await resp.arrayBuffer();const r=await mammoth.convertToHtml({arrayBuffer:ab});showUntrustedDocumentHtml(box,r.value);
     }
     else {box.innerHTML=`<div style="padding:20px">Предпросмотр формата DOC в браузере не поддерживается. <a href="${data.signedUrl}" target="_blank" rel="noopener">Открыть файл</a></div>`;}
   }catch(e){box.innerHTML=`<div style="padding:20px">Не удалось отобразить документ. <a href="${data.signedUrl}" target="_blank" rel="noopener">Открыть файл</a></div>`;}
@@ -7069,7 +6417,7 @@ function openPriceHistory(projectId){
 function closePriceHistoryModal(){$('priceHistoryModal').classList.remove('open');}
 
 function openProjectStatement(projectId){
-const p=projects.find(x=>x.id===projectId); currentStatementProjectName=p?p.name:'Объект'; currentStatementText=buildStatementText(projectId); $('statementContent').innerHTML=buildStatementReportHtml(projectId); $('statementModal').classList.add('open');
+currentStatementProjectId=projectId;const p=projects.find(x=>x.id===projectId); currentStatementProjectName=p?p.name:'Объект'; currentStatementText=buildStatementText(projectId); $('statementContent').innerHTML=buildStatementReportHtml(projectId); $('statementModal').classList.add('open');
 }
 function closeStatementModal(){$('statementModal').classList.remove('open');}
 function downloadStatementTxt(){const blob=new Blob([currentStatementText],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Выписка - '+currentStatementProjectName.replace(/[\\/:*?"<>|]/g,'_')+' - '+new Date().toISOString().slice(0,10)+'.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
@@ -7080,7 +6428,7 @@ const filename='Выписка - '+currentStatementProjectName.replace(/[\\/:*?"
 const opt={margin:[8,8,10,8],filename,image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}};
 await html2pdf().set(opt).from(el).save();
 }
-function printStatement(){const el=document.getElementById('pdfStatement');if(!el)return;const w=window.open('','_blank');if(!w)return alert('Не удалось открыть окно печати. Разрешите всплывающие окна для этого сайта.');w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Выписка - '+statementEsc(currentStatementProjectName)+'</title><style>'+document.querySelector('style').innerHTML+'@page{size:A4;margin:10mm}.pdf-report{max-width:none!important;box-shadow:none!important}.pdf-section{break-inside:avoid}</style></head><body>'+el.outerHTML+'</body></html>');w.document.close();setTimeout(()=>{w.focus();w.print();},300);}
+function printStatement(){if(window.renderExistingReport)return openExistingManualReport('statement',{project_id:currentStatementProjectId});const el=document.getElementById('pdfStatement');if(!el)return;const w=window.open('','_blank');if(!w)return alert('Не удалось открыть окно печати. Разрешите всплывающие окна для этого сайта.');w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Выписка - '+statementEsc(currentStatementProjectName)+'</title><style>'+document.querySelector('style').innerHTML+'@page{size:A4;margin:10mm}.pdf-report{max-width:none!important;box-shadow:none!important}.pdf-section{break-inside:avoid}</style></head><body>'+el.outerHTML+'</body></html>');w.document.close();setTimeout(()=>{w.focus();w.print();},300);}
 
 (async()=>{
 
@@ -7094,5 +6442,6 @@ await boot(session);
 
 </script>
 
+<script type="module">import {renderExistingReport} from './report-renderers.js?v=20261007';window.renderExistingReport=renderExistingReport;</script>
 </body>
 </html>

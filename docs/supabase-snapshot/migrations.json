@@ -1,0 +1,76 @@
+{
+  "migrations": [
+    {
+      "version": "20260927170249",
+      "name": "enable_realtime_for_finance_app"
+    },
+    {
+      "version": "20260928031638",
+      "name": "add_pto_documents_and_customer_contacts"
+    },
+    {
+      "version": "20260928033711",
+      "name": "work_progress_module"
+    },
+    {
+      "version": "20260928033746",
+      "name": "work_progress_log"
+    },
+    {
+      "version": "20260928033937",
+      "name": "work_progress_rls_indexes"
+    },
+    {
+      "version": "20260928034859",
+      "name": "work_sections_calendar_tasks"
+    },
+    {
+      "version": "20260928055001",
+      "name": "add_manager_role_access"
+    },
+    {
+      "version": "20260928055115",
+      "name": "tighten_manager_helper_exec"
+    },
+    {
+      "version": "20260928055129",
+      "name": "allow_manager_own_profile_read"
+    },
+    {
+      "version": "20260928055740",
+      "name": "create_manager_profile_zv_mail"
+    },
+    {
+      "version": "20260928055747",
+      "name": "restore_test_finance_and_verify_manager_profile"
+    },
+    {
+      "version": "20260929062057",
+      "name": "project_documents_and_price_history"
+    },
+    {
+      "version": "20261001182655",
+      "name": "commercial_proposals_and_payable_reconciliation"
+    },
+    {
+      "version": "20261001182856",
+      "name": "commercial_proposal_file_policies_and_function_permissions"
+    },
+    {
+      "version": "20261002055024",
+      "name": "project_work_section_templates_and_delete_cascade"
+    },
+    {
+      "version": "20261002060739",
+      "name": "work_volume_submissions_and_section_status"
+    },
+    {
+      "version": "20261002062144",
+      "name": "volume_submission_section_multipliers"
+    },
+    {
+      "version": "20261002063827",
+      "name": "add_installation_under_socket_boxes_work"
+    }
+  ]
+}

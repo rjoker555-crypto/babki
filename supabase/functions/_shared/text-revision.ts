@@ -1,0 +1,17 @@
+import {rest,storage,sha256,boundedBytes} from './http.ts';
+export async function draftTextRevision(args,ctx,source,document){
+ if(document.mime_type!=='text/plain'||!/\.txt$/i.test(document.file_name||''))throw new Error('Точная редакция поддерживается только для UTF-8 TXT. DOCX/PDF/XLSX не редактируются с сохранением подписей, макета и формул: приложите готовую редакцию и используйте замену с сохранением версий.');
+ const changes=JSON.parse(args.changes_json);if(!Array.isArray(changes)||changes.length<1||changes.length>50)throw new Error('Нужно от 1 до 50 точных замен.');
+ const response=await fetch(source.url,{signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('Не удалось получить текущий TXT.');const bytes=await boundedBytes(response,500000);if(bytes.length>500000)throw new Error('TXT слишком большой для точной редакции.');
+ let text=new TextDecoder('utf-8',{fatal:true}).decode(bytes);if(text.includes('\0')||text.length>120000)throw new Error('Требуется обычный UTF-8 TXT до 120000 символов.');
+ for(const change of changes){if(!change||Object.keys(change).some(k=>!['find','replace','expected_occurrences'].includes(k))||typeof change.find!=='string'||!change.find||typeof change.replace!=='string'||!Number.isInteger(change.expected_occurrences)||change.expected_occurrences<1)throw new Error('Укажите точные старый/новый текст и число вхождений.');const count=text.split(change.find).length-1;if(count!==change.expected_occurrences)throw new Error('Число вхождений отличается: '+count+'. Исходник не изменён.');text=text.split(change.find).join(change.replace);}
+ if(text.length>120000)throw new Error('Редакция превышает 120000 символов.');const content=new TextEncoder().encode(text),hash=await sha256(content),identity=await sha256(new TextEncoder().encode(ctx.owner+ctx.message+args.document_id+hash));
+ const id=identity.slice(0,8)+'-'+identity.slice(8,12)+'-4'+identity.slice(13,16)+'-a'+identity.slice(17,20)+'-'+identity.slice(20,32),path=ctx.owner+'/'+id+'.txt';
+ let assets=await rest('agent_file_assets?select=*&id=eq.'+id+'&owner_id=eq.'+ctx.owner);
+ if(!assets.length){const count=await rest('agent_file_assets?select=file_size&owner_id=eq.'+ctx.owner+'&limit=101');if(count.length>=100||count.reduce((s,x)=>s+Number(x.file_size),0)+content.length>100*1024*1024)throw new Error('Лимит личных черновиков 100 файлов / 100 МБ.');
+  try{await storage('object/agent-files/'+path,{method:'POST',headers:{'Content-Type':'text/plain','x-upsert':'false'},body:content});}catch(error){const existing=new Uint8Array(await(await storage('object/agent-files/'+path)).arrayBuffer());if(await sha256(existing)!==hash)throw error;}
+  assets=await rest('agent_file_assets',{method:'POST',body:JSON.stringify({id,owner_id:ctx.owner,chat_id:ctx.chat,file_name:(document.file_name||'document.txt').replace(/\.txt$/i,'-редакция.txt'),storage_path:path,mime_type:'text/plain',file_size:content.length,sha256:hash})});
+ }
+ const signed=await(await storage('object/sign/agent-files/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expiresIn:60})})).json();
+ return {file_id:id,file_name:assets[0].file_name,url:Deno.env.get('SUPABASE_URL')+'/storage/v1'+signed.signedURL,sha256:hash,changes,source_document:document,verified:true,draft_only:true,current_document_changed:false,next_step:'Показать изменения; propose_document action=replace с этим file_id и полным source_document как expected. Только после подтверждения создаётся версия. Договорная цена этим действием не изменяется.'};
+}

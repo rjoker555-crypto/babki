@@ -1,0 +1,16 @@
+# Local credentials and generated outputs must never be published.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+node_modules/
+.pnpm-store/
+supabase/.temp/
+tests/artifacts/
+*.log
+.security-publish/
+docs/security/pre-hardening-definitions.json
+docs/security/pre-hardening-private-definitions.json

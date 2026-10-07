@@ -1,0 +1,1 @@
+alter function public.operator_eval_claim() security definer; alter function public.operator_eval_reserve(uuid) security definer; alter function public.operator_eval_result(uuid,jsonb,boolean) security definer;

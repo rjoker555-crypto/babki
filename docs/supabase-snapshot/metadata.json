@@ -1,0 +1,3465 @@
+{
+  "grants": [
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_tasks",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_tasks",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_material_options",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_material_options",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_sections",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_sections",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submissions",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_volume_submission_items",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_documents",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_document_versions",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_price_history",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "projects",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "projects",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "profiles",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "profiles",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "operations",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "operations",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "audit_log",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "audit_log",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "sync_records",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "sync_records",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "receivables",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "receivables",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_subcontractors",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_subcontractors",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_other_expenses",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_other_expenses",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "subcontractors",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "subcontractors",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "events",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "events",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "creditors",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "creditors",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "payables",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "payables",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_expenses",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_expenses",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "org_employees",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "org_employees",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "commercial_proposals",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "commercial_proposals",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "pto_documents",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_customer_contacts",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "material_catalog",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "material_catalog",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "work_catalog_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_items",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_items",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_templates",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_items",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_section_template_materials",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "project_work_progress",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "project_work_progress",
+      "privilege_type": "TRIGGER"
+    }
+  ],
+  "policies": [
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "subcontractors",
+      "policyname": "manager_subcontractors_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "subcontractors",
+      "policyname": "manager_subcontractors_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_materials",
+      "policyname": "manager_project_materials_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_materials",
+      "policyname": "manager_project_materials_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_other_expenses",
+      "policyname": "manager_project_other_expenses_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_other_expenses",
+      "policyname": "manager_project_other_expenses_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "manager_pto_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "manager_pto_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "manager_pto_update",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "manager_pto_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "manager_pto_contacts_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "manager_pto_contacts_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "manager_pto_contacts_update",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "manager_pto_contacts_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "org_expenses",
+      "policyname": "manager_org_expenses_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "org_expenses",
+      "policyname": "manager_org_expenses_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_manager_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "events",
+      "policyname": "manager_events_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "events",
+      "policyname": "manager_events_insert",
+      "schemaname": "public",
+      "with_check": "is_manager_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "work_volume_submissions",
+      "policyname": "work_volume_submissions_access",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (work_volume_submissions s\n     JOIN profiles p ON ((p.id = auth.uid())))\n  WHERE ((s.id = work_volume_submission_items.submission_id) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "work_volume_submission_items",
+      "policyname": "work_volume_submission_items_access",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM (work_volume_submissions s\n     JOIN profiles p ON ((p.id = auth.uid())))\n  WHERE ((s.id = work_volume_submission_items.submission_id) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((id = ( SELECT auth.uid() AS uid)) AND (role = 'manager'::text) AND (is_active = true))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "policyname": "manager_profile_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_materials",
+      "policyname": "project_materials_non_foreman_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_materials",
+      "policyname": "project_materials_non_foreman_update",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_other_expenses",
+      "policyname": "project_other_expenses_non_foreman_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_other_expenses",
+      "policyname": "project_other_expenses_non_foreman_insert",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_other_expenses",
+      "policyname": "project_other_expenses_non_foreman_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_other_expenses",
+      "policyname": "project_other_expenses_non_foreman_update",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "subcontractors",
+      "policyname": "subcontractors_non_foreman_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "subcontractors",
+      "policyname": "subcontractors_non_foreman_insert",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "subcontractors",
+      "policyname": "subcontractors_non_foreman_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_documents",
+      "policyname": "project_documents_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_documents",
+      "policyname": "project_documents_insert",
+      "schemaname": "public",
+      "with_check": "((uploaded_by = ( SELECT auth.uid() AS uid)) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_documents",
+      "policyname": "project_documents_update",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_documents",
+      "policyname": "project_documents_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "subcontractors",
+      "policyname": "subcontractors_non_foreman_update",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_subcontractors",
+      "policyname": "project_subcontractors_non_foreman_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_subcontractors",
+      "policyname": "project_subcontractors_non_foreman_insert",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_subcontractors",
+      "policyname": "project_subcontractors_non_foreman_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (project_documents d\n     JOIN profiles pr ON ((pr.id = ( SELECT auth.uid() AS uid))))\n  WHERE ((d.id = project_document_versions.document_id) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_document_versions",
+      "policyname": "project_document_versions_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_document_versions",
+      "policyname": "project_document_versions_insert",
+      "schemaname": "public",
+      "with_check": "((uploaded_by = ( SELECT auth.uid() AS uid)) AND (EXISTS ( SELECT 1\n   FROM (project_documents d\n     JOIN profiles pr ON ((pr.id = ( SELECT auth.uid() AS uid))))\n  WHERE ((d.id = project_document_versions.document_id) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (project_documents d\n     JOIN profiles pr ON ((pr.id = ( SELECT auth.uid() AS uid))))\n  WHERE ((d.id = project_document_versions.document_id) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_document_versions",
+      "policyname": "project_document_versions_update",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM (project_documents d\n     JOIN profiles pr ON ((pr.id = ( SELECT auth.uid() AS uid))))\n  WHERE ((d.id = project_document_versions.document_id) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (project_documents d\n     JOIN profiles pr ON ((pr.id = ( SELECT auth.uid() AS uid))))\n  WHERE ((d.id = project_document_versions.document_id) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_document_versions",
+      "policyname": "project_document_versions_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_subcontractors",
+      "policyname": "project_subcontractors_non_foreman_update",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_price_history",
+      "policyname": "project_price_history_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_price_history",
+      "policyname": "project_price_history_insert",
+      "schemaname": "public",
+      "with_check": "((created_by = ( SELECT auth.uid() AS uid)) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_price_history",
+      "policyname": "project_price_history_update",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_price_history",
+      "policyname": "project_price_history_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'project-documents'::text) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "project_documents_storage_select",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "project_documents_storage_insert",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'project-documents'::text) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'project-documents'::text) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "project_documents_storage_update",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'project-documents'::text) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'project-documents'::text) AND (EXISTS ( SELECT 1\n   FROM profiles pr\n  WHERE ((pr.id = ( SELECT auth.uid() AS uid)) AND (pr.is_active = true) AND (pr.role = ANY (ARRAY['director'::text, 'manager'::text]))))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "project_documents_storage_delete",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "commercial_proposals",
+      "policyname": "commercial_proposals_select",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "commercial_proposals",
+      "policyname": "commercial_proposals_insert",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text])))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "commercial_proposals",
+      "policyname": "commercial_proposals_update",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text])))))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "commercial_proposals",
+      "policyname": "commercial_proposals_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'project-documents'::text) AND (name ~~ 'kps/%'::text) AND (EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text]))))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "commercial_proposals_storage_select",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "commercial_proposals_storage_insert",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'project-documents'::text) AND (name ~~ 'kps/%'::text) AND (EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'project-documents'::text) AND (name ~~ 'kps/%'::text) AND (EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text]))))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "commercial_proposals_storage_update",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'project-documents'::text) AND (name ~~ 'kps/%'::text) AND (EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text]))))))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'project-documents'::text) AND (name ~~ 'kps/%'::text) AND (EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text]))))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "policyname": "commercial_proposals_storage_delete",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_section_templates",
+      "policyname": "project_work_section_templates_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "work_catalog",
+      "policyname": "work_catalog_active_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "material_catalog",
+      "policyname": "material_catalog_active_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "work_catalog_materials",
+      "policyname": "work_catalog_materials_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_items",
+      "policyname": "project_work_items_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_materials",
+      "policyname": "project_work_materials_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_progress",
+      "policyname": "project_work_progress_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_sections",
+      "policyname": "project_work_sections_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_tasks",
+      "policyname": "project_work_tasks_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "projects",
+      "policyname": "authenticated_projects_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "operations",
+      "policyname": "authenticated_operations_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "receivables",
+      "policyname": "authenticated_receivables_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "payables",
+      "policyname": "authenticated_payables_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "org_employees",
+      "policyname": "org_employees_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "org_expenses",
+      "policyname": "org_expenses_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "sync_records",
+      "policyname": "authenticated_sync_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "events",
+      "policyname": "events_delete_non_foreman",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "events",
+      "policyname": "events_insert_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "events",
+      "policyname": "events_select_non_foreman",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "events",
+      "policyname": "events_update_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_materials",
+      "policyname": "project_materials_non_foreman_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_materials",
+      "policyname": "project_materials_non_foreman_insert",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "pto_read_roles",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "pto_write_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "pto_update_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "pto_documents",
+      "policyname": "pto_delete_non_foreman",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "pto_contacts_read_roles",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "pto_contacts_write_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "pto_contacts_update_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_customer_contacts",
+      "policyname": "pto_contacts_delete_non_foreman",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "creditors",
+      "policyname": "creditors_delete_non_foreman",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "creditors",
+      "policyname": "creditors_insert_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "creditors",
+      "policyname": "creditors_select_non_foreman",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "creditors",
+      "policyname": "creditors_update_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "audit_log",
+      "policyname": "authenticated_audit_non_foreman",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "is_non_foreman_active()",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "policyname": "profiles_non_foreman_all",
+      "schemaname": "public",
+      "with_check": "is_non_foreman_active()"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(is_foreman() AND (id = ( SELECT auth.uid() AS uid)))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "policyname": "profiles_foreman_self_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = ( SELECT auth.uid() AS uid)) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "work_material_options",
+      "policyname": "work_material_options_active_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_section_template_items",
+      "policyname": "project_work_section_template_items_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "project_work_section_template_materials",
+      "policyname": "project_work_section_template_materials_all",
+      "schemaname": "public",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.role = ANY (ARRAY['director'::text, 'finance'::text, 'accountant'::text, 'manager'::text, 'foreman'::text])))))"
+    }
+  ],
+  "triggers": [
+    {
+      "tgname": "sync_event_title_trigger",
+      "definition": "CREATE TRIGGER sync_event_title_trigger BEFORE INSERT OR UPDATE ON public.events FOR EACH ROW EXECUTE FUNCTION sync_event_title()",
+      "table_name": "events"
+    },
+    {
+      "tgname": "trg_sync_payable_paid_amount",
+      "definition": "CREATE TRIGGER trg_sync_payable_paid_amount AFTER INSERT OR DELETE OR UPDATE ON public.operations FOR EACH ROW EXECUTE FUNCTION sync_payable_paid_amount_from_operation()",
+      "table_name": "operations"
+    }
+  ],
+  "functions": [
+    {
+      "proname": "sync_event_title",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.sync_event_title()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\r\nbegin\r\n    if new.title is null or new.title = '' then\r\n        new.title := new.name;\r\n    end if;\r\n\r\n    return new;\r\nend;\r\n$function$\n",
+      "security_definer": false
+    },
+    {
+      "proname": "foreman_add_subcontractor",
+      "arguments": "p_project_id uuid, p_name text, p_comment text",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.foreman_add_subcontractor(p_project_id uuid, p_name text, p_comment text DEFAULT NULL::text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nDECLARE\n  v_id uuid;\nBEGIN\n  IF NOT public.is_foreman() THEN\n    RAISE EXCEPTION 'Access denied';\n  END IF;\n\n  IF p_project_id IS NULL OR NULLIF(trim(p_name), '') IS NULL THEN\n    RAISE EXCEPTION 'Project and subcontractor name are required';\n  END IF;\n\n  INSERT INTO public.subcontractors(project_id, name, comment, planned_amount, has_vat)\n  VALUES (p_project_id, trim(p_name), p_comment, 0, false)\n  RETURNING id INTO v_id;\n\n  RETURN v_id;\nEND;\n$function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "is_foreman",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.is_foreman()\n RETURNS boolean\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nDECLARE v boolean;\nBEGIN\n  SELECT EXISTS (\n    SELECT 1 FROM public.profiles\n    WHERE id=(SELECT auth.uid())\n      AND role='foreman'\n      AND is_active=true\n  ) INTO v;\n  RETURN v;\nEND;\n$function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "is_non_foreman_active",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.is_non_foreman_active()\n RETURNS boolean\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare v boolean;\nbegin\n  select exists (\n    select 1 from public.profiles\n    where id=(select auth.uid())\n      and role in ('director','finance','accountant')\n      and is_active=true\n  ) into v;\n  return v;\nend;\n$function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "foreman_projects",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.foreman_projects()\n RETURNS TABLE(id uuid, name text, customer text, contract_number text, contract_date date, start_date date, end_date date, status text, responsible_user_id uuid, comment text, contractor_company text)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select p.id,p.name,p.customer,p.contract_number,p.contract_date,\n         p.start_date,p.end_date,p.status,p.responsible_user_id,\n         p.comment,p.contractor_company\n  from public.projects p\n  where exists (\n    select 1 from public.profiles me\n    where me.id=(select auth.uid())\n      and me.role in ('foreman','manager')\n      and me.is_active=true\n  );\n$function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "foreman_subcontractors",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.foreman_subcontractors()\n RETURNS TABLE(id uuid, project_id uuid, name text, comment text, created_at timestamp with time zone)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  SELECT s.id,s.project_id,s.name,s.comment,s.created_at\n  FROM public.subcontractors s\n  WHERE EXISTS (\n    SELECT 1 FROM public.profiles me\n    WHERE me.id=(SELECT auth.uid())\n      AND me.role='foreman'\n      AND me.is_active=true\n  );\n$function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "is_manager_active",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.is_manager_active()\n RETURNS boolean\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare v boolean;\nbegin\n  select exists (\n    select 1 from public.profiles\n    where id=(select auth.uid())\n      and role='manager'\n      and is_active=true\n  ) into v;\n  return v;\nend;\n$function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "recalc_payable_paid_amount",
+      "arguments": "p_payable_id uuid",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.recalc_payable_paid_amount(p_payable_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n if p_payable_id is null then return; end if;\n update public.payables p set paid_amount=coalesce((select sum(o.amount) from public.operations o where o.payable_id=p_payable_id and o.operation_type='expense' and o.article='Погашение кредиторки'),0),updated_at=now() where p.id=p_payable_id;\nend $function$\n",
+      "security_definer": true
+    },
+    {
+      "proname": "sync_payable_paid_amount_from_operation",
+      "arguments": "",
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.sync_payable_paid_amount_from_operation()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\nbegin\n if tg_op='DELETE' then\n   if old.article='Погашение кредиторки' then perform public.recalc_payable_paid_amount(old.payable_id); end if;\n   return old;\n elsif tg_op='UPDATE' then\n   if old.article='Погашение кредиторки' then perform public.recalc_payable_paid_amount(old.payable_id); end if;\n   if new.article='Погашение кредиторки' then perform public.recalc_payable_paid_amount(new.payable_id); end if;\n   return new;\n else\n   if new.article='Погашение кредиторки' then perform public.recalc_payable_paid_amount(new.payable_id); end if;\n   return new;\n end if;\nend $function$\n",
+      "security_definer": true
+    }
+  ]
+}
