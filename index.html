@@ -803,6 +803,12 @@ onclick="openAr()">
     <div class="row"><div><b>Работы и фактический объём</b><div class="muted" style="margin-top:3px">Факт заносится отдельной записью с датой — это позволяет формировать отчёт за любой период.</div></div></div>
     <div id="workItemsList" style="margin-top:10px"></div>
   </div>
+  <div id="ksImportPanel" style="margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc">
+    <div class="row"><div><b>Перечень работ из документа объекта</b><div class="muted">PDF, DOCX или XLSX: сначала проверка всех строк, затем подтверждение директором.</div></div><button class="btn primary" onclick="openKsImport()">Разобрать документ</button></div>
+  </div>
+  <div id="ksSubmissionsPanel" style="margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc">
+    <div class="row"><div><b>Подачи объёмов для КС</b><div class="muted">Прораб отправляет объёмы в Telegram. В факт попадают только подтверждённые директором.</div></div><button class="btn primary" onclick="openKsSubmissions()">Очередь и история</button></div>
+  </div>
   <div style="margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8fafc">
     <b>Отчёт для сметчика / КС</b>
     <div class="muted" style="margin-top:4px">В отчёт попадут работы, по которым есть фактический объём за выбранный период, и израсходованные материалы.</div>
@@ -812,7 +818,6 @@ onclick="openAr()">
     </div>
     <button class="btn primary" style="margin-top:10px;width:100%" onclick="printWorkReport()">🖨 Сформировать отчёт для КС / сметчика</button>
   </div>
-  <button class="btn primary" style="margin-top:12px" onclick="openVolumeSubmissions()">Подача объёмов</button>
   <button class="btn secondary" style="margin-top:10px" onclick="closeWorkModal()">Закрыть</button>
 </div>
 </div>
@@ -821,9 +826,15 @@ onclick="openAr()">
 <div class="sheet">
   <h2 id="workItemFormTitle">Новая работа</h2>
   <div class="field"><label>Раздел работ</label><select id="workSectionSelect" onchange="onWorkSectionSelectChange()"><option value="">Без раздела — отдельная работа</option></select></div>
-  <div class="field"><label>Работа из справочника</label><input id="workCatalogSearch" type="search" autocomplete="off" placeholder="Найдите и выберите конкретную работу…" oninput="onWorkCatalogSearchInput()"><input id="workCatalogSelect" type="hidden"><div id="workCatalogResults"></div><button id="workCatalogManage" type="button" class="smallbtn" style="display:none;margin-top:6px" onclick="manageWorkCatalog()">Управление справочником</button></div>
+  <div class="field"><label>Название точно как в основании</label><input id="workCatalogSearch" type="text" maxlength="1000" placeholder="Например: Прокладка кабеля в гофре"><input id="workCatalogSelect" type="hidden"><div id="workCatalogResults" style="display:none"></div><button id="workCatalogManage" type="button" style="display:none"></button></div>
   <div class="field"><label>Объём по плану</label><input id="workPlannedVolume" type="number" step="0.001" min="0" placeholder="Например: 250"></div>
-  <div class="field"><label>Единица измерения</label><input id="workUnit" readonly></div>
+  <div class="field"><label>Единица измерения</label><input id="workUnit" maxlength="100" placeholder="м, шт, компл…"></div>
+  <div class="field"><label>Основание</label><input id="workBasisLabel" maxlength="300" placeholder="Ручное основание, основная смета, ДС № 1…"></div>
+  <div class="field"><label>Документ-основание · необязательно при ручном вводе</label><select id="workBasisDocument" onchange="loadWorkBasisVersions()"><option value="">Без файла</option></select></div>
+  <div class="field"><label>Версия файла</label><select id="workBasisVersion"><option value="">Без файла</option></select></div>
+  <div class="field"><label>Место в файле</label><input id="workSourceLocator" maxlength="500" placeholder="Страница 2 / лист 1 / строка 12"></div>
+  <div class="field"><label>Пояснение к работе · не заменяет исходное название</label><input id="workDescription" maxlength="1000"></div>
+  <div class="field" id="workRateField"><label>Расценка за единицу · вводит только директор</label><input id="workUnitRate" type="number" min="0" step="0.01" placeholder="Можно указать позднее"></div>
   <div style="display:flex;gap:8px">
     <div class="field" style="flex:1"><label>Дата начала</label><input id="workStartDate" type="date"></div>
     <div class="field" style="flex:1"><label>Дата завершения</label><input id="workEndDate" type="date"></div>
@@ -844,13 +855,12 @@ onclick="openAr()">
   <div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Общая дата начала</label><input id="workSectionStart" type="date"></div><div class="field" style="flex:1"><label>Общая дата завершения</label><input id="workSectionEnd" type="date"></div></div>
   <div class="field"><label>Комментарий раздела</label><textarea id="workSectionComment" rows="2" placeholder="Общий комментарий по разделу"></textarea></div>
   <div class="field"><label>Статус раздела</label><select id="workSectionStatus"><option value="planned">Не начат</option><option value="in_progress">В работе</option><option value="completed">Выполнен</option></select></div>
-  <div class="field" style="margin:8px 0"><label>Использовать сохранённый состав</label><select id="workSectionTemplateSelect" onchange="loadWorkSectionTemplate(this.value)"><option value="">— Выберите состав работ —</option></select><div class="muted" style="margin-top:5px">После выбора добавятся работы и объёмы без материалов.</div></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button type="button" class="smallbtn" onclick="saveCurrentWorkSectionTemplate()">Сохранить состав как шаблон</button><button type="button" class="smallbtn" onclick="loadWorkSectionTemplate()">Выбрать из списка</button></div>
-  <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin-top:8px">
+  <div style="display:none"><select id="workSectionTemplateSelect"><option value="">—</option></select></div>
+  <div style="display:none;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin-top:8px">
     <div class="row"><div><b>Работы в разделе</b><div class="muted" style="margin-top:3px">Добавьте работы с объёмами. Сроки каждой работы можно указать отдельно.</div></div><button class="smallbtn" type="button" onclick="addWorkSectionItemRow()">＋ Работа</button></div>
     <div id="workSectionItemsEditor" style="margin-top:10px"></div>
   </div>
-  <button class="btn primary" id="workSectionSaveBtn" onclick="saveWorkSection()">Сохранить раздел и работы</button>
+  <button class="btn primary" id="workSectionSaveBtn" onclick="saveWorkSection()">Сохранить раздел</button>
   <button class="btn secondary" onclick="closeWorkSectionForm()">Отмена</button>
 </div></div>
 
@@ -867,6 +877,8 @@ onclick="openAr()">
 
 <div id="volumeSubmissionModal" class="modal" onclick="if(event.target===this)closeVolumeSubmissionForm()"><div class="sheet" style="max-width:900px"><h2 id="volumeSubmissionTitle">Подача объёмов</h2><div class="muted" style="margin-bottom:10px">Выберите готовые разделы, укажите количество закрываемых единиц и комментарий-обозначение. Все работы внутри разделов автоматически попадут в факт «Хода работ».</div><div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Период с</label><input id="volumeFrom" type="date"></div><div class="field" style="flex:1"><label>Период по</label><input id="volumeTo" type="date"></div></div><div class="field"><label>Комментарий к подаче</label><textarea id="volumeComment" rows="2"></textarea></div><div id="volumeSubmissionEditor"></div><button class="btn primary" onclick="saveVolumeSubmission()">Сохранить и выгрузить подачу объёмов</button><button class="btn secondary" onclick="closeVolumeSubmissionForm()">Отмена</button></div></div>
 <div id="volumeSubmissionsListModal" class="modal" onclick="if(event.target===this)closeVolumeSubmissions()"><div class="sheet"><h2>Подача объёмов</h2><button class="btn primary" onclick="openVolumeSubmissionForm()">＋ Новая подача</button><div id="volumeSubmissionsList" style="margin-top:12px"></div><button class="btn secondary" onclick="closeVolumeSubmissions()">Закрыть</button></div></div>
+<div id="ksImportModal" class="modal" onclick="if(event.target===this)closeKsImport()"><div class="sheet" style="max-width:1050px"><h2>Перечень работ из файла объекта</h2><div class="field"><label>Документ</label><select id="ksImportDocument" onchange="loadKsImportVersions()"></select></div><div class="field"><label>Версия файла</label><select id="ksImportVersion"></select></div><div class="field"><label>Тип основания</label><input id="ksImportBasis" maxlength="300" placeholder="Основная смета, ДС № 1, ведомость работ…"></div><button class="btn primary" onclick="analyzeKsImport()">Прочитать файл и показать все строки</button><div id="ksImportWarnings" class="muted" style="margin:10px 0"></div><div id="ksImportRows"></div><button class="btn secondary" onclick="closeKsImport()">Закрыть</button></div></div>
+<div id="ksSubmissionsModal" class="modal" onclick="if(event.target===this)closeKsSubmissions()"><div class="sheet" style="max-width:950px"><h2>Подачи объёмов для КС</h2><div id="ksSubmissionRows"></div><button class="btn secondary" onclick="closeKsSubmissions()">Закрыть</button></div></div>
 <div id="workProgressModal" class="modal" onclick="if(event.target===this)closeWorkProgressForm()">
 <div class="sheet">
   <h2>Фактическое выполнение</h2>
@@ -1586,6 +1598,7 @@ let workCatalogMaterials=[];
 let projectWorkItems=[];
 let projectWorkMaterials=[];
 let projectWorkTakeoffRows=[];
+let projectWorkRates=[];
 let projectWorkProgress=[];
 let projectWorkSections=[];
 let workVolumeSubmissions=[];
@@ -5147,7 +5160,7 @@ function renderWorkGantt(){
 }
 function renderWorkSections(){
  const secs=projectWorkSections.filter(x=>x.project_id===currentWorkProjectId); const standalone=projectWorkItems.filter(x=>x.project_id===currentWorkProjectId&&!x.section_id);
- let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}% · ${s.status==='completed'?'Выполнен':s.status==='in_progress'?'В работе':'Не начат'}</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',true)">＋ Добавить работы</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',false)">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
+ let html=secs.map(s=>{const rows=workSectionRows(s.id),pct=workSectionPct(s),plan=rows.reduce((a,w)=>a+Number(w.planned_volume||0),0),fact=rows.reduce((a,w)=>a+workCompletedTotal(w.id),0); return `<div class="work-section-card"><div class="work-section-head"><div><div class="work-section-title">${esc(s.name)}</div><div class="muted">${fmtDate(s.start_date)} — ${fmtDate(s.end_date)} · ${rows.length} работ · ${pct.toFixed(0)}% · ${s.status==='completed'?'Выполнен':s.status==='in_progress'?'В работе':'Не начат'}</div>${s.comment?`<div class="muted" style="margin-top:4px">${esc(s.comment)}</div>`:''}</div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkItemForm(null,'${s.id}')">＋ Добавить работы</button><button class="smallbtn" onclick="openWorkSectionForm('${s.id}',false)">Изменить</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkSection('${s.id}')">Удалить</button></div></div><div class="progress" style="margin-top:9px"><div class="p-blue" style="width:${pct}%"></div></div><div class="muted" style="margin-top:6px">План: ${plan.toLocaleString('ru-RU',{maximumFractionDigits:2})} · Факт: ${fact.toLocaleString('ru-RU',{maximumFractionDigits:2})}</div>${rows.length?rows.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join(''):'<div class="muted" style="margin-top:8px">Работы в раздел ещё не добавлены.</div>'}</div>`}).join('');
  html+=standalone.length?`<div class="work-section-card"><div class="work-section-title">Отдельные работы</div><div class="muted" style="margin-top:3px">Работы без раздела — они продолжают работать как раньше.</div>${standalone.map(w=>`<div class="subrow" style="margin-top:7px"><div><b>${esc(w.work_name)}</b><div class="muted">${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · ${workItemPct(w).toFixed(0)}%</div></div><div style="display:flex;gap:6px"><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button><button class="smallbtn" style="color:#b42318" onclick="deleteWorkItem('${w.id}')">Удалить</button></div></div>`).join('')}</div>`:'';
  $('workSectionsList').innerHTML=html||'<div class="empty" style="padding:12px">Разделов пока нет. Можно продолжать создавать отдельные работы без раздела.</div>';
 }
@@ -5165,7 +5178,7 @@ function renderWorkCalendar(){
 function selectWorkCalendarDate(key){currentWorkCalendarDate=key;renderWorkCalendar();}
 function changeWorkCalendarMonth(delta){const d=currentWorkCalendarMonth||dateOnly(isoToday());d.setMonth(d.getMonth()+delta);currentWorkCalendarMonth=d;renderWorkCalendar();}
 function renderWorkCalendarDetail(){const key=currentWorkCalendarDate||isoToday();const rows=projectWorkItems.filter(w=>w.project_id===currentWorkProjectId&&w.start_date&&w.end_date&&w.start_date<=key&&key<=w.end_date);const starting=rows.filter(w=>w.start_date===key),closing=rows.filter(w=>w.end_date===key);$('workCalendarDetail').innerHTML=`<div class="work-calendar-detail"><b>${fmtDate(key)}</b>${rows.length?`<div style="margin-top:7px">${rows.map(w=>`<div class="subrow"><div><b>${esc(w.work_name)}</b><div class="muted">${w.start_date===key?'Начинается · ':''}${w.end_date===key?'Завершается · ':''}План ${Number(w.planned_volume||0).toLocaleString('ru-RU',{maximumFractionDigits:2})} ${esc(w.unit)} · факт ${workItemPct(w).toFixed(0)}%</div></div><button class="smallbtn" onclick="openWorkItemForm('${w.id}')">Открыть</button></div>`).join('')}</div>`:'<div class="muted" style="margin-top:6px">На эту дату запланированных работ нет.</div>'}${starting.length?`<div class="muted" style="margin-top:7px">Начинаются: ${starting.map(w=>esc(w.work_name)).join(', ')}</div>`:''}${closing.length?`<div class="muted" style="margin-top:4px">Закрываются: ${closing.map(w=>esc(w.work_name)).join(', ')}</div>`:''}</div>`;}
-function renderWorkPanel(){renderWorkSummary();renderWorkGantt();renderWorkSections();renderWorkCalendar();renderWorkTasks();renderWorkItems();const projectId=currentWorkProjectId;projectWorkTakeoffRows=[];if(projectId)sbClient.from('project_work_takeoff_rows').select('work_item_id,original_description,planned_volume,unit,source_kind,source_page,source_quote,source_formula').eq('project_id',projectId).then(({data,error})=>{if(!error&&currentWorkProjectId===projectId){projectWorkTakeoffRows=data||[];renderWorkItems();}});}
+function renderWorkPanel(){renderWorkSummary();renderWorkGantt();renderWorkSections();renderWorkCalendar();renderWorkTasks();renderWorkItems();const projectId=currentWorkProjectId;projectWorkTakeoffRows=[];if(projectId&&profile?.role==='director')sbClient.rpc('ks_work_rates',{p_project:projectId}).then(({data,error})=>{if(!error&&currentWorkProjectId===projectId){projectWorkRates=data||[];renderWorkItems();}});if(projectId)sbClient.from('project_work_takeoff_rows').select('work_item_id,original_description,planned_volume,unit,source_kind,source_page,source_quote,source_formula').eq('project_id',projectId).then(({data,error})=>{if(!error&&currentWorkProjectId===projectId){projectWorkTakeoffRows=data||[];renderWorkItems();}});}
 function openWorkPanel(projectId){if(!workRoleAllowed())return alert('Раздел «Ход работ» доступен производственному персоналу и руководству.');const p=projects.find(x=>x.id===projectId);if(!p)return alert('Объект не найден.');currentWorkProjectId=projectId;currentWorkCalendarDate=isoToday();currentWorkCalendarMonth=dateOnly(isoToday());$('workProjectTitle').textContent=`${p.name} · ${p.customer||'Заказчик не указан'}`;$('workRoleLabel').textContent=profile?.role==='foreman'?'Прораб':'Производство';const today=isoToday();$('workReportFrom').value=p.start_date||today;$('workReportTo').value=p.end_date||today;renderWorkPanel();$('workModal').classList.add('open');}
 function closeWorkModal(){$('workModal').classList.remove('open');currentWorkProjectId=null;currentWorkCalendarDate=null;currentWorkCalendarMonth=null;}
 function renderWorkSectionItemRows(){
@@ -5223,13 +5236,8 @@ function openWorkSectionForm(id,addNewWork=false){
 function closeWorkSectionForm(){$('workSectionModal').classList.remove('open');editingWorkSectionId=null;workingWorkSectionItems=[];}
 async function saveWorkSection(){
  const name=$('workSectionName').value.trim(),start=$('workSectionStart').value||null,end=$('workSectionEnd').value||null;if(!name)return alert('Введите название раздела.');if(start&&end&&end<start)return alert('Проверьте сроки.');
- const works=[];for(const r of workingWorkSectionItems.filter(r=>!r._removeFromForm)){
-  const cat=workCatalog.find(w=>w.id===r.work_catalog_id),old=r.id?projectWorkItems.find(w=>w.id===r.id):null;if(!cat||Number(r.planned_volume||0)<=0)return alert('Выберите вид работы и положительный объём каждой строки.');
-  if(r.start_date&&r.end_date&&r.end_date<r.start_date)return alert('Проверьте даты работы.');
-  const child={kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{work_catalog_id:cat.id,work_name:cat.name,unit:cat.unit,planned_volume:Number(r.planned_volume),start_date:r.start_date||null,end_date:r.end_date||null,comment:(r.comment||'').trim()||null}};
-  works.push(child);
- }
- const old=projectWorkSections.find(x=>x.id===editingWorkSectionId),command={kind:'section',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{project_id:currentWorkProjectId,name,start_date:start,end_date:end,status:$('workSectionStatus').value||'planned',comment:$('workSectionComment').value.trim()||null},works};
+ if(profile?.role!=='director')return alert('Разделы работ изменяет только директор.');
+ const old=projectWorkSections.find(x=>x.id===editingWorkSectionId),command={kind:'section',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{project_id:currentWorkProjectId,name,start_date:start,end_date:end,status:$('workSectionStatus').value||'planned',comment:$('workSectionComment').value.trim()||null}};
  try{await financialCommands.execute(command);closeWorkSectionForm();await loadAll();renderWorkPanel();}catch(e){alert('Раздел не сохранён: '+e.message);}
 }
 
@@ -5304,7 +5312,7 @@ function onWorkSectionSelectChange(){
   $('workSectionDatesHint').textContent='Обе даты необязательны; срок раздела не подставляется в работу.';
 }
 function openWorkItemForm(id,sectionId){
-  if(!workRoleAllowed()||!currentWorkProjectId)return;
+  if(profile?.role!=='director'||!currentWorkProjectId)return alert('Перечень работ изменяет только директор.');
   const x=id?projectWorkItems.find(w=>w.id===id):null;
   editingWorkItemId=x?.id||null;
 
@@ -5313,11 +5321,19 @@ function openWorkItemForm(id,sectionId){
   $('workSectionSelect').innerHTML='<option value="">Без раздела — отдельная работа</option>'+projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
   $('workSectionSelect').value=x?.section_id||sectionId||'';
   $('workCatalogSearch').value=x?.work_name||'';
-  $('workCatalogSelect').value=x?.work_catalog_id||'';
+  $('workCatalogSelect').value='';
   $('workCatalogResults').innerHTML='';
-  $('workCatalogManage').style.display=profile?.role==='director'?'inline-block':'none';
+  $('workCatalogManage').style.display='none';
   $('workPlannedVolume').value=x?.planned_volume??'';
   $('workUnit').value=x?.unit||'';
+  $('workBasisLabel').value=x?.basis_label||'Ручное основание';
+  $('workBasisDocument').innerHTML='<option value="">Без файла</option>'+projectDocuments.filter(d=>d.project_id===currentWorkProjectId).map(d=>`<option value="${d.id}">${esc(d.title||d.file_name||'Документ')} · версия ${d.version_no}</option>`).join('');
+  $('workBasisDocument').value=x?.source_document_id||'';
+  loadWorkBasisVersions(x?.source_version_id||null);
+  $('workSourceLocator').value=x?.source_locator||'';
+  $('workDescription').value=x?.display_description||'';
+  $('workRateField').style.display=profile?.role==='director'?'block':'none';
+  $('workUnitRate').value=projectWorkRates.find(r=>r.work_item_id===x?.id)?.unit_rate??'';
   $('workStartDate').value=x?.start_date||'';
   $('workEndDate').value=x?.end_date||'';
   $('workStatus').value=x?.status||'planned';
@@ -5326,18 +5342,32 @@ function openWorkItemForm(id,sectionId){
   $('workItemModal').classList.add('open');
 }
 
+async function loadWorkBasisVersions(selectedId=null){
+ const docId=$('workBasisDocument').value,select=$('workBasisVersion');select.innerHTML='<option value="">Без файла</option>';
+ if(!docId)return;
+ const {data,error}=await sbClient.from('project_document_versions').select('id,version_no,file_name').eq('document_id',docId).order('version_no',{ascending:false});
+ if(error)return alert('Не удалось получить версии документа: '+error.message);
+ if($('workBasisDocument').value!==docId)return;
+ select.innerHTML='<option value="">Выберите версию</option>'+(data||[]).map(v=>`<option value="${v.id}">Версия ${v.version_no} · ${esc(v.file_name||'файл')}</option>`).join('');
+ select.value=selectedId||'';
+}
+
 function onWorkCatalogChange(){
   selectWorkCatalogPosition($('workCatalogSelect').value);
 }
 async function saveWorkItem(){
-  const nameId=$('workCatalogSelect').value;const cat=workCatalog.find(x=>x.id===nameId);const planned=parseFloat($('workPlannedVolume').value)||0;
-  if(!cat)return alert('Выберите вид работы.');if(planned<=0)return alert('Укажите плановый объём больше нуля.');
+  if(profile?.role!=='director')return alert('Перечень работ изменяет только директор.');
+  const name=$('workCatalogSearch').value.trim(),unit=$('workUnit').value.trim(),basis=$('workBasisLabel').value.trim(),planned=Number($('workPlannedVolume').value);
+  if(!name||!unit||!basis)return alert('Укажите точное название, единицу и основание.');if(!Number.isFinite(planned)||planned<=0)return alert('Укажите плановый объём больше нуля.');
+  const documentId=$('workBasisDocument').value||null,versionId=$('workBasisVersion').value||null;
+  if(Boolean(documentId)!==Boolean(versionId))return alert('Для файла укажите конкретную версию.');
   const workStart=$('workStartDate').value||null,workEnd=$('workEndDate').value||null;
   if(workStart&&workEnd&&workEnd<workStart)return alert('Проверьте даты работы.');
-  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:cat.unit,planned_volume:planned,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null};
-
  const old=projectWorkItems.find(x=>x.id===editingWorkItemId);
- try{await financialCommands.execute({kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:payload});closeWorkItemForm();await loadAll();renderWorkPanel();}catch(e){alert('Работа не сохранена: '+e.message);}
+  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_name:name,unit,planned_volume:planned,basis_label:basis,source_document_id:documentId,source_version_id:versionId,source_locator:$('workSourceLocator').value.trim()||null,source_line_key:versionId?(old?.source_line_key||'manual-'+crypto.randomUUID()):null,display_description:$('workDescription').value.trim()||null,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null,is_active:old?.is_active??true};
+ const enteredRate=$('workUnitRate').value,rate=enteredRate===''?null:Number(enteredRate),previousRate=projectWorkRates.find(r=>r.work_item_id===old?.id)||null;
+ if(rate!==null&&(!Number.isFinite(rate)||rate<0||Math.round(rate*100)!==rate*100))return alert('Расценка должна быть неотрицательной с точностью до копейки.');
+ try{const result=await financialCommands.execute({kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:payload});const savedId=result.work?.id||old?.id;closeWorkItemForm();await loadAll();renderWorkPanel();if(rate!==null&&rate!==Number(previousRate?.unit_rate)){const saved=await sbClient.rpc('ks_set_work_rate',{p_request:crypto.randomUUID(),p_work:savedId,p_rate:rate,p_expected:previousRate});if(saved.error)alert('Работа сохранена, но расценка не записана: '+saved.error.message);else projectWorkRates=projectWorkRates.filter(r=>r.work_item_id!==savedId).concat(saved.data.record);} }catch(e){alert('Работа не сохранена: '+e.message);}
 }
 
 function closeWorkItemForm(){$('workItemModal').classList.remove('open');editingWorkItemId=null;}
@@ -6326,5 +6356,6 @@ await boot(session);
 </script>
 
 <script type="module">import {renderExistingReport} from './report-renderers.js?v=20261008-works';window.renderExistingReport=renderExistingReport;</script>
+<script src="work-ks-ui.js?v=20261008-1"></script>
 </body>
 </html>
