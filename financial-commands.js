@@ -9,7 +9,7 @@ window.financialCommands=(()=>{
   busy=true;
   try{
    const payload={...command};if(['proposal','project_delete'].includes(command.kind))delete payload.kind;
-   const r=await sbClient.rpc(command.kind==='project_delete'?'execute_project_delete':['assignment','responsible','volume_rule'].includes(command.kind)?'execute_project_settings':command.kind==='proposal'?'execute_proposal_command':Object.hasOwn(command,'cost_changes')?'execute_project_card':['work','section','manual_fact','save_template','apply_template','foreman_subcontractor'].includes(command.kind)?'execute_production_command':command.kind?'execute_obligation_command':Object.hasOwn(command,'credit')?'execute_credit_operation':'execute_financial_operation',{p_request:pending.id,p_command:payload});
+   const r=await sbClient.rpc(command.kind==='project_delete'?'execute_project_delete':['assignment','responsible','volume_rule'].includes(command.kind)?'execute_project_settings':command.kind==='proposal'?'execute_proposal_command':Object.hasOwn(command,'cost_changes')?'execute_project_card':['work','section','manual_fact','save_template','apply_template','foreman_subcontractor','catalog_work'].includes(command.kind)?'execute_production_command':command.kind?'execute_obligation_command':Object.hasOwn(command,'credit')?'execute_credit_operation':'execute_financial_operation',{p_request:pending.id,p_command:payload});
    if(r.error)throw new Error(r.error.message==='Record changed; create a new approval'?'Операция изменилась в другой сессии. Обновите данные перед сохранением.':r.error.message);
    if(r.data?.status!=='completed'||r.data.verified!==true)throw new Error('Сервер не подтвердил изменение операции.');
    pending=null;return r.data;

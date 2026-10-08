@@ -821,9 +821,7 @@ onclick="openAr()">
 <div class="sheet">
   <h2 id="workItemFormTitle">Новая работа</h2>
   <div class="field"><label>Раздел работ</label><select id="workSectionSelect" onchange="onWorkSectionSelectChange()"><option value="">Без раздела — отдельная работа</option></select></div>
-  <div class="field"><label>Поиск вида работ</label><input id="workCatalogSearch" type="search" placeholder="Начните вводить: подрозетник, кабель, щит…" oninput="onWorkCatalogSearchInput()"></div>
-  <div class="field"><label>Раздел / категория работ</label><select id="workCatalogCategorySelect" onchange="onWorkCatalogCategoryChange()"></select></div>
-  <div class="field"><label>Вид работы</label><select id="workCatalogSelect" onchange="onWorkCatalogChange()"></select></div>
+  <div class="field"><label>Работа из справочника</label><input id="workCatalogSearch" type="search" autocomplete="off" placeholder="Найдите и выберите конкретную работу…" oninput="onWorkCatalogSearchInput()"><input id="workCatalogSelect" type="hidden"><div id="workCatalogResults"></div><button id="workCatalogManage" type="button" class="smallbtn" style="display:none;margin-top:6px" onclick="manageWorkCatalog()">Управление справочником</button></div>
   <div class="field"><label>Объём по плану</label><input id="workPlannedVolume" type="number" step="0.001" min="0" placeholder="Например: 250"></div>
   <div class="field"><label>Единица измерения</label><input id="workUnit" readonly></div>
   <div style="display:flex;gap:8px">
@@ -833,10 +831,6 @@ onclick="openAr()">
   <div id="workSectionDatesHint" class="muted" style="margin-top:-4px;margin-bottom:9px"></div>
   <div class="field"><label>Статус</label><select id="workStatus"><option value="planned">Запланировано</option><option value="in_progress">В производстве</option><option value="completed">Завершено</option></select></div>
   <div class="field"><label>Комментарий</label><textarea id="workComment" rows="2" placeholder="Комментарий прораба"></textarea></div>
-  <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc">
-    <div class="row"><div><b>Материалы по работе</b><div class="muted" style="margin-top:3px">Подходящие материалы подставлены из базы. Количество можно изменить.</div></div><button class="smallbtn" onclick="addWorkMaterialRow()">＋ Материал</button></div>
-    <div id="workMaterialsEditor" style="margin-top:10px"></div>
-  </div>
   <button class="btn primary" id="workItemSaveBtn" style="margin-top:12px" onclick="saveWorkItem()">Сохранить работу</button>
   <button class="btn secondary" onclick="closeWorkItemForm()">Отмена</button>
 </div>
@@ -845,15 +839,15 @@ onclick="openAr()">
 <div id="workSectionModal" class="modal" onclick="if(event.target===this)closeWorkSectionForm()">
 <div class="sheet">
   <h2 id="workSectionFormTitle">Новый раздел работ</h2>
-  <div class="muted" style="margin-bottom:10px">Сначала задайте общий срок раздела, затем одним заполнением добавьте любое количество разных работ. Все работы внутри раздела автоматически получают этот срок.</div>
+  <div class="muted" style="margin-bottom:10px">Раздел группирует работы объекта. Сроки раздела и каждой работы необязательны.</div>
   <div class="field"><label>Название раздела</label><input id="workSectionName" placeholder="Например: Электромонтаж 1 этажа"></div>
   <div style="display:flex;gap:8px"><div class="field" style="flex:1"><label>Общая дата начала</label><input id="workSectionStart" type="date"></div><div class="field" style="flex:1"><label>Общая дата завершения</label><input id="workSectionEnd" type="date"></div></div>
   <div class="field"><label>Комментарий раздела</label><textarea id="workSectionComment" rows="2" placeholder="Общий комментарий по разделу"></textarea></div>
   <div class="field"><label>Статус раздела</label><select id="workSectionStatus"><option value="planned">Не начат</option><option value="in_progress">В работе</option><option value="completed">Выполнен</option></select></div>
-  <div class="field" style="margin:8px 0"><label>Использовать сохранённый состав</label><select id="workSectionTemplateSelect" onchange="loadWorkSectionTemplate(this.value)"><option value="">— Выберите состав, чтобы автоматически добавить все работы —</option></select><div class="muted" style="margin-top:5px">После выбора работы, объёмы и материалы подставятся автоматически. Дополнительно заполнять строки не нужно.</div></div>
+  <div class="field" style="margin:8px 0"><label>Использовать сохранённый состав</label><select id="workSectionTemplateSelect" onchange="loadWorkSectionTemplate(this.value)"><option value="">— Выберите состав работ —</option></select><div class="muted" style="margin-top:5px">После выбора добавятся работы и объёмы без материалов.</div></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button type="button" class="smallbtn" onclick="saveCurrentWorkSectionTemplate()">Сохранить состав как шаблон</button><button type="button" class="smallbtn" onclick="loadWorkSectionTemplate()">Выбрать из списка</button></div>
   <div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin-top:8px">
-    <div class="row"><div><b>Работы в разделе</b><div class="muted" style="margin-top:3px">Добавьте несколько разных работ. Сроки здесь не указываются — они общие для всего раздела.</div></div><button class="smallbtn" type="button" onclick="addWorkSectionItemRow()">＋ Работа</button></div>
+    <div class="row"><div><b>Работы в разделе</b><div class="muted" style="margin-top:3px">Добавьте работы с объёмами. Сроки каждой работы можно указать отдельно.</div></div><button class="smallbtn" type="button" onclick="addWorkSectionItemRow()">＋ Работа</button></div>
     <div id="workSectionItemsEditor" style="margin-top:10px"></div>
   </div>
   <button class="btn primary" id="workSectionSaveBtn" onclick="saveWorkSection()">Сохранить раздел и работы</button>
@@ -1518,7 +1512,7 @@ onclick="if(event.target===this)closeModal()">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<script src="financial-commands.js?v=20261007-operator"></script>
+<script src="financial-commands.js?v=20261008-work-catalog"></script>
 <script src="chat.js?v=20261006-6"></script>
 <script src="volumes.js?v=20261006-security"></script>
 <script src="obligations.js?v=20261007-operator"></script>
@@ -1612,7 +1606,7 @@ let editingWorkSectionId=null;
 let workingWorkSectionItems=[];
 let editingWorkTaskId=null;
 let editingWorkItemId=null;
-let workingWorkMaterials=[];
+
 let currentWorkProgressItemId=null;
 let profile=null;
 let currentPtoProjectId=null;
@@ -5178,45 +5172,25 @@ function renderWorkSectionItemRows(){
   if(!el)return;
   if(!workingWorkSectionItems.length){el.innerHTML='<div class="muted">Пока нет работ. Нажмите «＋ Работа», чтобы добавить первую.</div>';return;}
   el.innerHTML=workingWorkSectionItems.map((r,i)=>{
-    const category=r.category||'';
-    const rows=workCatalog.filter(w=>!category||w.category===category);
     return `<div style="padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:8px">
       <div class="row" style="margin-bottom:7px"><b>Работа ${i+1}</b>${r.id?'<span class="muted">существующая</span>':''}<button type="button" class="smallbtn" style="margin-left:auto;color:#b42318" onclick="removeWorkSectionItemRow(${i})">×</button></div>
-      <div class="field" style="margin-bottom:7px"><label>Поиск вида работ</label><input type="search" placeholder="Введите часть названия работы…" value="${esc(r.search||'')}" oninput="onWorkSectionItemSearch(${i},this.value)"></div>
-      <div class="field" style="margin-bottom:7px"><label>Раздел / категория работ</label><select onchange="onWorkSectionItemCategoryChange(${i},this.value)"><option value="">Все категории</option>${workCatalogCategories().map(c=>`<option value="${esc(c)}" ${c===category?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
-      <div class="field" style="margin-bottom:7px"><label>Вид работы</label><select onchange="onWorkSectionItemWorkChange(${i},this.value)"><option value="">Выберите вид работы</option>${rows.filter(w=>!r.search||w.name.toLocaleLowerCase('ru').includes(r.search.toLocaleLowerCase('ru'))).map(w=>`<option value="${w.id}" ${w.id===r.work_catalog_id?'selected':''}>${esc(w.name)} (${esc(w.unit)})</option>`).join('')}</select></div>
+      <div class="field" style="margin-bottom:7px"><label>Работа из справочника</label><input type="search" autocomplete="off" placeholder="Найдите и выберите работу…" value="${esc(r.search||r.work_name||'')}" oninput="onWorkSectionItemSearch(${i},this.value)"><div class="work-catalog-results"></div></div>
       <div style="display:flex;gap:8px"><div class="field" style="flex:1;margin-bottom:7px"><label>Объём по плану</label><input type="number" step="0.001" min="0" value="${r.planned_volume??''}" onchange="workingWorkSectionItems[${i}].planned_volume=parseFloat(this.value)||0"></div><div class="field" style="flex:1;margin-bottom:7px"><label>Единица</label><input readonly value="${esc(r.unit||'')}"></div></div>
+      <div style="display:flex;gap:8px"><div class="field" style="flex:1;margin-bottom:7px"><label>Дата начала · необязательно</label><input type="date" value="${esc(r.start_date||'')}" onchange="workingWorkSectionItems[${i}].start_date=this.value||null"></div><div class="field" style="flex:1;margin-bottom:7px"><label>Дата завершения · необязательно</label><input type="date" value="${esc(r.end_date||'')}" onchange="workingWorkSectionItems[${i}].end_date=this.value||null"></div></div>
       <div class="field" style="margin-bottom:0"><label>Комментарий по работе</label><textarea rows="2" onchange="workingWorkSectionItems[${i}].comment=this.value">${esc(r.comment||'')}</textarea></div>
     </div>`;
   }).join('');
 }
-function addWorkSectionItemRow(){workingWorkSectionItems.push({id:null,work_catalog_id:'',category:'',work_name:'',unit:'',planned_volume:'',comment:'',existing_work:null});renderWorkSectionItemRows();}
+function addWorkSectionItemRow(){workingWorkSectionItems.push({id:null,work_catalog_id:'',work_name:'',unit:'',planned_volume:'',start_date:null,end_date:null,comment:'',existing_work:null});renderWorkSectionItemRows();}
 function removeWorkSectionItemRow(i){const r=workingWorkSectionItems[i];if(r?.id){if(!confirm('Убрать эту существующую работу из формы? Сама работа не будет удалена.'))return;r._removeFromForm=true;}workingWorkSectionItems.splice(i,1);renderWorkSectionItemRows();}
-function onWorkSectionItemCategoryChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;r.category=value;r.work_catalog_id='';r.work_name='';r.unit='';renderWorkSectionItemRows();}
-function onWorkSectionItemWorkChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;const w=workCatalog.find(x=>x.id===value);r.work_catalog_id=value;r.work_name=w?.name||'';r.unit=w?.unit||'';r.category=w?.category||r.category;renderWorkSectionItemRows();}
+function onWorkSectionItemWorkChange(i,value){const r=workingWorkSectionItems[i];if(!r)return;const w=workCatalog.find(x=>x.id===value);r.work_catalog_id=value;r.work_name=w?.name||'';r.unit=w?.unit||'';r.search=w?.name||'';renderWorkSectionItemRows();}
 function onWorkSectionItemSearch(i,value){
   const r=workingWorkSectionItems[i];if(!r)return;
-  r.search=value;
-  const q=String(value||'').trim().toLocaleLowerCase('ru');
-  const matches=workCatalog.filter(w=>q&&String(w.name||'').toLocaleLowerCase('ru').includes(q));
-  const cats=[...new Set(matches.map(w=>w.category).filter(Boolean))];
-  if(matches.length===1||cats.length===1)r.category=cats[0]||'';
-  else if(!q)r.category='';
-  // Не перерисовываем всю форму на каждый символ: иначе браузер теряет фокус
-  // и следующий символ не попадает в поисковое поле.
+  r.search=value;r.work_catalog_id='';r.work_name='';r.unit='';
   const card=$('workSectionItemsEditor')?.children?.[i];
   if(!card)return;
-  const categorySelect=card.querySelector('select');
-  const workSelect=card.querySelectorAll('select')[1];
-  if(categorySelect){
-    categorySelect.innerHTML='<option value="">Все категории</option>'+workCatalogCategories().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
-    categorySelect.value=r.category||'';
-  }
-  if(workSelect){
-    const rows=workCatalog.filter(w=>(!r.category||w.category===r.category)&&(!q||String(w.name||'').toLocaleLowerCase('ru').includes(q)));
-    workSelect.innerHTML='<option value="">Выберите вид работы</option>'+rows.map(w=>`<option value="${w.id}">${esc(w.name)} (${esc(w.unit)})</option>`).join('');
-    if(r.work_catalog_id&&rows.some(w=>w.id===r.work_catalog_id))workSelect.value=r.work_catalog_id;
-  }
+  card.querySelector('.work-catalog-results').innerHTML=workCatalogChoices(value).map(w=>`<button type="button" class="smallbtn" style="display:block;width:100%;text-align:left;margin:3px 0" onclick="onWorkSectionItemWorkChange(${i},'${w.id}')">${esc(w.name)} · ${esc(w.unit)} <span class="muted">${esc(w.category||'')}</span></button>`).join('')||'<div class="muted">Позиция не найдена</div>';
+  card.querySelector('input[readonly]').value='';
 }
 function openWorkSectionForm(id,addNewWork=false){
   if(!currentWorkProjectId)return;
@@ -5229,7 +5203,7 @@ function openWorkSectionForm(id,addNewWork=false){
   $('workSectionComment').value=x?.comment||'';
   $('workSectionStatus').value=x?.status||'planned';
   const existing=x?workSectionRows(x.id):[];
-  workingWorkSectionItems=existing.map(w=>({id:w.id,work_catalog_id:w.work_catalog_id||'',category:workCatalog.find(c=>c.id===w.work_catalog_id)?.category||'',work_name:w.work_name||'',unit:w.unit||'',planned_volume:w.planned_volume??'',comment:w.comment||'',existing_work:w}));
+  workingWorkSectionItems=existing.map(w=>({id:w.id,work_catalog_id:w.work_catalog_id||'',work_name:w.work_name||'',unit:w.unit||'',planned_volume:w.planned_volume??'',start_date:w.start_date||null,end_date:w.end_date||null,comment:w.comment||'',existing_work:w}));
   if(!x)workingWorkSectionItems=[];
   // При режиме «Добавить работы» существующие работы только показываем для контекста.
   // Новая работа всегда создаётся отдельной строкой с id=null и поэтому не может
@@ -5250,11 +5224,12 @@ async function saveWorkSection(){
  const name=$('workSectionName').value.trim(),start=$('workSectionStart').value||null,end=$('workSectionEnd').value||null;if(!name)return alert('Введите название раздела.');if(start&&end&&end<start)return alert('Проверьте сроки.');
  const works=[];for(const r of workingWorkSectionItems.filter(r=>!r._removeFromForm)){
   const cat=workCatalog.find(w=>w.id===r.work_catalog_id),old=r.id?projectWorkItems.find(w=>w.id===r.id):null;if(!cat||Number(r.planned_volume||0)<=0)return alert('Выберите вид работы и положительный объём каждой строки.');
-  const child={kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,primary_material_catalog_id:old?.primary_material_catalog_id||null}};
-  if(!old){const imported=window.pendingWorkSectionTemplateMaterials?.find(x=>x.work_catalog_id===cat.id&&Number(x.planned_volume)===Number(r.planned_volume));child.materials=(imported?imported._templateMaterials:defaultMaterialsForWork(cat.id,null)).filter(m=>(m.material_catalog_id||m.material_name)&&Number(m.quantity||0)>0).map(m=>({rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name||materialCatalog.find(z=>z.id===m.material_catalog_id)?.name||'',unit:m.unit||materialCatalog.find(z=>z.id===m.material_catalog_id)?.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));}works.push(child);
+  if(r.start_date&&r.end_date&&r.end_date<r.start_date)return alert('Проверьте даты работы.');
+  const child={kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{work_catalog_id:cat.id,work_name:cat.name,unit:cat.unit,planned_volume:Number(r.planned_volume),start_date:r.start_date||null,end_date:r.end_date||null,comment:(r.comment||'').trim()||null}};
+  works.push(child);
  }
  const old=projectWorkSections.find(x=>x.id===editingWorkSectionId),command={kind:'section',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:{project_id:currentWorkProjectId,name,start_date:start,end_date:end,status:$('workSectionStatus').value||'planned',comment:$('workSectionComment').value.trim()||null},works};
- try{await financialCommands.execute(command);window.pendingWorkSectionTemplateMaterials=null;closeWorkSectionForm();await loadAll();renderWorkPanel();}catch(e){alert('Раздел не сохранён: '+e.message);}
+ try{await financialCommands.execute(command);closeWorkSectionForm();await loadAll();renderWorkPanel();}catch(e){alert('Раздел не сохранён: '+e.message);}
 }
 
 async function deleteWorkSection(id){
@@ -5267,9 +5242,7 @@ async function saveCurrentWorkSectionTemplate(){
  if(!currentWorkProjectId)return;const name=$('workSectionName').value.trim();if(!name)return alert('Укажите название состава.');const templateName=prompt('Название сохраняемого состава:',name);if(!templateName?.trim())return;
  const items=[];for(const r of workingWorkSectionItems.filter(r=>!r._removeFromForm)){
   const cat=workCatalog.find(w=>w.id===r.work_catalog_id);if(!cat||Number(r.planned_volume||0)<=0)return alert('Выберите вид и объём каждой работы.');
-  const existing=r.id?projectWorkItems.find(w=>w.id===r.id):null,source=existing?projectWorkMaterials.filter(m=>m.work_item_id===existing.id):(r._templateMaterials||defaultMaterialsForWork(cat.id,null));
-  const materials=source.filter(m=>m.material_name&&Number(m.quantity||0)>0).map(m=>({material_catalog_id:m.material_catalog_id||null,material_name:m.material_name,unit:m.unit||'',quantity:Number(m.quantity),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null}));
-  items.push({work_catalog_id:cat.id,work_name:cat.name,unit:r.unit||cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,materials});
+  items.push({work_catalog_id:cat.id,work_name:cat.name,unit:cat.unit,planned_volume:Number(r.planned_volume),comment:(r.comment||'').trim()||null,materials:[]});
  }
  try{await financialCommands.execute({kind:'save_template',values:{project_id:currentWorkProjectId,name:templateName.trim(),comment:$('workSectionComment').value.trim()||null},items});await loadWorkSectionTemplateOptions();alert('Состав сохранён целиком.');}catch(e){alert('Состав не сохранён: '+e.message);}
 }
@@ -5287,81 +5260,61 @@ async function loadWorkSectionTemplate(templateId){
  if(!templateId){const choice=prompt('Введите номер состава:\n'+list.map((x,i)=>(i+1)+'. '+x.name).join('\n'));if(choice===null)return;t=list[Number(choice)-1];}
  if(!t)return alert('Выберите существующий состав.');
  const {data:items,error:ie}=await sbClient.from('project_work_section_template_items').select('*').eq('template_id',t.id).order('sort_order');if(ie)return alert('Не удалось прочитать состав: '+ie.message);
- const imported=[];
- for(const it of items||[]){const {data:mats,error:me}=await sbClient.from('project_work_section_template_materials').select('*').eq('template_item_id',it.id).order('sort_order');if(me)return alert('Не удалось прочитать материалы: '+me.message);imported.push({...it,_templateMaterials:mats||[]});}
+ const imported=items||[];
  if(!imported.length)return alert('В сохранённом составе нет работ.');
- workingWorkSectionItems=imported.map(it=>({id:null,work_catalog_id:it.work_catalog_id||'',category:workCatalog.find(c=>c.id===it.work_catalog_id)?.category||'',work_name:it.work_name,unit:it.unit,planned_volume:it.planned_volume,comment:it.comment||'',_templateMaterials:it._templateMaterials}));
- $('workSectionName').value=t.name;$('workSectionComment').value=t.comment||'';renderWorkSectionItemRows();window.pendingWorkSectionTemplateMaterials=imported;
+ workingWorkSectionItems=imported.map(it=>({id:null,work_catalog_id:it.work_catalog_id||'',work_name:it.work_name,unit:it.unit,planned_volume:it.planned_volume,start_date:null,end_date:null,comment:it.comment||''}));
+ $('workSectionName').value=t.name;$('workSectionComment').value=t.comment||'';renderWorkSectionItemRows();
 }
 
-function workCatalogCategories(){
-  return [...new Set(workCatalog.map(w=>w.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'ru'));
-}
-function renderWorkCatalogNavigation(selectedCategory,selectedWorkId){
-  const catSel=$('workCatalogCategorySelect'), workSel=$('workCatalogSelect');
-  if(!catSel||!workSel)return;
-  const categories=workCatalogCategories();
-  const category=selectedCategory||catSel.value||'';
-  catSel.innerHTML='<option value="">Все категории</option>'+categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
-  if(category&&categories.includes(category))catSel.value=category;
-  const q=String($('workCatalogSearch')?.value||'').trim().toLocaleLowerCase('ru');
-  const rows=workCatalog.filter(w=>(!category||w.category===category)&&(!q||w.name.toLocaleLowerCase('ru').includes(q)));
-  workSel.innerHTML='<option value="">Выберите вид работы</option>'+rows.map(w=>`<option value="${w.id}">${esc(w.name)} (${esc(w.unit)})</option>`).join('');
-  if(selectedWorkId&&rows.some(w=>w.id===selectedWorkId))workSel.value=selectedWorkId;
+function workCatalogChoices(query){
+  const q=String(query||'').trim().toLocaleLowerCase('ru');
+  if(!q)return [];
+  return workCatalog.filter(w=>[w.name,w.category,...(Array.isArray(w.search_aliases)?w.search_aliases:[])].some(s=>String(s||'').toLocaleLowerCase('ru').includes(q))).slice(0,25);
 }
 function onWorkCatalogSearchInput(){
-  const q=String($('workCatalogSearch')?.value||'').trim().toLocaleLowerCase('ru');
-  const matches=workCatalog.filter(w=>q&&w.name.toLocaleLowerCase('ru').includes(q));
-  const cats=[...new Set(matches.map(w=>w.category).filter(Boolean))];
-  if(matches.length===1||cats.length===1){renderWorkCatalogNavigation(cats[0]||'', '');}
-  else renderWorkCatalogNavigation($('workCatalogCategorySelect')?.value||'', '');
-  $('workUnit').value='';workingWorkMaterials=[];renderWorkMaterialsEditor();
+  $('workCatalogSelect').value='';$('workUnit').value='';
+  $('workCatalogResults').innerHTML=workCatalogChoices($('workCatalogSearch').value).map(w=>`<button type="button" class="smallbtn" style="display:block;width:100%;text-align:left;margin:3px 0" onclick="selectWorkCatalogPosition('${w.id}')">${esc(w.name)} · ${esc(w.unit)} <span class="muted">${esc(w.category||'')}</span></button>`).join('')||'<div class="muted">Позиция не найдена. Добавление новых позиций требует отдельной проверки.</div>';
 }
-function onWorkCatalogCategoryChange(){
-  renderWorkCatalogNavigation($('workCatalogCategorySelect').value,'');
-  $('workUnit').value='';workingWorkMaterials=[];renderWorkMaterialsEditor();
-}
-function filterWorkCatalogOptions(){renderWorkCatalogNavigation($('workCatalogCategorySelect')?.value||'', $('workCatalogSelect')?.value||'');}
-function primaryRuleRows(workId){return workCatalogMaterials.filter(r=>r.work_catalog_id===workId&&r.material_role==='primary');}
-function secondaryRuleRows(workId){return workCatalogMaterials.filter(r=>r.work_catalog_id===workId&&r.material_role!=='primary');}
-function defaultMaterialsForWork(workId,primaryId){
-  const rules=workCatalogMaterials.filter(r=>r.work_catalog_id===workId);
-  return rules.map(r=>{
-    let materialId=r.material_catalog_id;
-    const opts=workMaterialOptions.filter(o=>o.work_catalog_id===workId&&o.option_group===r.option_group&&o.is_active);
-    if(r.material_role!=='primary'&&opts.length){
-      const primary=primaryId||null;
-      let compatible=opts.filter(o=>!o.primary_material_catalog_id||o.primary_material_catalog_id===primary);
-      const def=compatible.find(o=>o.is_default)||compatible[0];
-      if(def?.secondary_material_catalog_id)materialId=def.secondary_material_catalog_id;
-    }
-    const m=materialCatalog.find(x=>x.id===materialId);
-    return {_key:'new-'+r.id,rule_id:r.id,material_catalog_id:materialId,material_name:m?.name||'',unit:m?.unit||'',quantity:Number(r.norm_per_unit??r.recommended_quantity??0),comment:r.comment||'',material_role:r.material_role||'secondary',dependency_group:r.dependency_group||'',option_group:r.option_group||'',is_auto_generated:true,is_manual_override:false};
-  });
+function selectWorkCatalogPosition(id){const w=workCatalog.find(x=>x.id===id);if(!w)return;$('workCatalogSelect').value=id;$('workCatalogSearch').value=w.name;$('workUnit').value=w.unit;$('workCatalogResults').innerHTML='';}
+async function manageWorkCatalog(){
+ if(profile?.role!=='director')return alert('Справочник меняет только директор.');
+ const selectedId=$('workCatalogSelect').value,choice=prompt('Справочник работ: введите «добавить», «изменить» или «отключить».');
+ if(!choice)return;
+ const action=choice.trim().toLocaleLowerCase('ru');if(!['добавить','изменить','отключить'].includes(action))return alert('Выберите одно из трёх действий.');
+ if(action!=='добавить'&&!selectedId)return alert('Сначала выберите позицию в поле поиска.');
+ let expected=null;if(selectedId&&action!=='добавить'){const {data,error}=await sbClient.from('work_catalog').select('*').eq('id',selectedId).single();if(error)return alert('Не удалось проверить позицию: '+error.message);expected=data;}
+ const values={};
+ if(action!=='отключить'){
+  const name=prompt('Точное название работы:',expected?.name||$('workCatalogSearch').value||'');if(name===null)return;
+  const unit=prompt('Единица измерения:',expected?.unit||'шт');if(unit===null)return;
+  const features=prompt('Чем работа отличается от похожих (условия, технология):',expected?.distinguishing_features||'');if(features===null)return;
+  const aliases=prompt('Варианты названия для поиска через запятую:',(expected?.search_aliases||[]).join(', '));if(aliases===null)return;
+  if(!name.trim()||!unit.trim())return alert('Название и единица обязательны.');
+  Object.assign(values,{name:name.trim(),unit:unit.trim(),category:expected?.category||'Добавлено вручную',distinguishing_features:features.trim()||null,search_aliases:aliases.split(',').map(x=>x.trim()).filter(Boolean)});
+ }
+ const command={kind:'catalog_work',action:action==='добавить'?'create':action==='изменить'?'update':'deactivate',...(expected?{id:expected.id,expected}:{}),values};
+ const {data:preview,error}=await sbClient.rpc('preview_work_catalog_command',{p_command:command});if(error)return alert('Не удалось подготовить изменение: '+error.message);
+ const similar=(preview.similar||[]).map(w=>'• '+w.name+' ('+w.unit+')').join('\n');
+ if(!confirm((action==='отключить'?'Отключить':'Сохранить')+' позицию «'+(values.name||expected.name)+'»?'+(similar?'\nПохожие активные позиции:\n'+similar:'')+'\nСуществующие работы и история сохранятся.'))return;
+ try{const result=await financialCommands.execute(command);await loadAll();if(result.record?.is_active)selectWorkCatalogPosition(result.record.id);else{$('workCatalogSelect').value='';$('workCatalogSearch').value='';$('workUnit').value='';}alert('Справочник изменён и проверен.');}catch(e){alert('Позиция не изменена: '+e.message);}
 }
 function onWorkSectionSelectChange(){
-  const sectionId=$('workSectionSelect').value;
-  const section=projectWorkSections.find(s=>s.id===sectionId);
-  const hasSection=Boolean(section);
-  $('workStartDate').disabled=hasSection;
-  $('workEndDate').disabled=hasSection;
-  $('workSectionDatesHint').textContent=hasSection
-    ? `Срок берётся из раздела «${section.name}»: ${fmtDate(section.start_date)} — ${fmtDate(section.end_date)}. Изменять его здесь нельзя.`
-    : 'Для отдельной работы срок задаётся индивидуально.';
-  if(hasSection){$('workStartDate').value=section.start_date||'';$('workEndDate').value=section.end_date||'';}
+  $('workStartDate').disabled=false;$('workEndDate').disabled=false;
+  $('workSectionDatesHint').textContent='Обе даты необязательны; срок раздела не подставляется в работу.';
 }
 function openWorkItemForm(id,sectionId){
   if(!workRoleAllowed()||!currentWorkProjectId)return;
   const x=id?projectWorkItems.find(w=>w.id===id):null;
   editingWorkItemId=x?.id||null;
-  if(x)workingWorkMaterials=workMaterialRowsFor(x.id).map(m=>({...m,_key:m.id,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));
-  else workingWorkMaterials=[];
+
   $('workItemFormTitle').textContent=x?'Редактировать работу':'Новая работа';
   $('workItemSaveBtn').textContent=x?'Сохранить изменения':'Сохранить работу';
   $('workSectionSelect').innerHTML='<option value="">Без раздела — отдельная работа</option>'+projectWorkSections.filter(s=>s.project_id===currentWorkProjectId).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
   $('workSectionSelect').value=x?.section_id||sectionId||'';
   $('workCatalogSearch').value=x?.work_name||'';
-  renderWorkCatalogNavigation(x?.work_catalog_id?workCatalog.find(w=>w.id===x.work_catalog_id)?.category||'':'',x?.work_catalog_id||'');
+  $('workCatalogSelect').value=x?.work_catalog_id||'';
+  $('workCatalogResults').innerHTML='';
+  $('workCatalogManage').style.display=profile?.role==='director'?'inline-block':'none';
   $('workPlannedVolume').value=x?.planned_volume??'';
   $('workUnit').value=x?.unit||'';
   $('workStartDate').value=x?.start_date||'';
@@ -5369,97 +5322,24 @@ function openWorkItemForm(id,sectionId){
   $('workStatus').value=x?.status||'planned';
   $('workComment').value=x?.comment||'';
   onWorkSectionSelectChange();
-  if(!x)onWorkCatalogChange(); else renderWorkMaterialsEditor();
   $('workItemModal').classList.add('open');
 }
 
 function onWorkCatalogChange(){
-  const id=$('workCatalogSelect').value;
-  const w=workCatalog.find(x=>x.id===id);
-  if(w&&$('workCatalogCategorySelect').value!==w.category)renderWorkCatalogNavigation(w.category,id);
-  $('workUnit').value=w?.unit||'';
-  if(id){
-    const oldPrimary=editingWorkItemId?projectWorkItems.find(x=>x.id===editingWorkItemId)?.primary_material_catalog_id:null;
-    const primary=primaryRuleRows(id).find(r=>r.material_catalog_id===oldPrimary)||primaryRuleRows(id)[0];
-    const primaryId=primary?.material_catalog_id||null;
-    workingWorkMaterials=defaultMaterialsForWork(id,primaryId);
-    renderWorkMaterialsEditor();
-  }else{
-    workingWorkMaterials=[];
-    renderWorkMaterialsEditor();
-  }
+  selectWorkCatalogPosition($('workCatalogSelect').value);
 }
-function onPrimaryMaterialChange(i){
-  const row=workingWorkMaterials[i];
-  if(!row)return;
-  const primaryId=row.material_catalog_id;
-  const workId=$('workCatalogSelect').value;
-  const fresh=defaultMaterialsForWork(workId,primaryId);
-  workingWorkMaterials=fresh.map((r,j)=>({...r,_key:'new-'+Date.now()+'-'+j,is_manual_override:false,is_auto_generated:true}));
-  renderWorkMaterialsEditor();
-}
-function onSecondaryMaterialChange(i,value){
-  const row=workingWorkMaterials[i]; if(!row)return;
-  const m=materialCatalog.find(x=>x.id===value);
-  row.material_catalog_id=value; row.material_name=m?.name||''; row.unit=m?.unit||row.unit;
-  row.is_manual_override=true; row.is_auto_generated=false;
-  renderWorkMaterialsEditor();
-}
-function materialChoicesForRow(m){
-  const opts=m.option_group?workMaterialOptions.filter(o=>o.work_catalog_id===$('workCatalogSelect').value&&o.option_group===m.option_group&&o.is_active):[];
-  let choices;
-  if(m.material_role==='primary') {
-    const cur=materialCatalog.find(x=>x.id===m.material_catalog_id);
-    if(cur?.category==='Кабель') choices=materialCatalog.filter(x=>x.category==='Кабель').map(x=>x.id);
-    else if(cur?.category==='Провод') choices=materialCatalog.filter(x=>x.category==='Провод').map(x=>x.id);
-    else if(cur?.subtype) choices=materialCatalog.filter(x=>x.category===cur.category && x.subtype===cur.subtype).map(x=>x.id);
-    else choices=materialCatalog.filter(x=>x.category===cur?.category).map(x=>x.id);
-    if(!choices.includes(m.material_catalog_id)) choices.unshift(m.material_catalog_id);
-  } else choices=opts.length?opts.map(o=>o.secondary_material_catalog_id).filter(Boolean):materialCatalog.map(x=>x.id);
-  return [...new Set(choices)].map(id=>materialCatalog.find(x=>x.id===id)).filter(Boolean);
-}
-function materialCategoriesForRow(m){
-  return [...new Set(materialChoicesForRow(m).map(x=>x.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'ru'));
-}
-function onMaterialCategoryChange(i,value){
-  const m=workingWorkMaterials[i]; if(!m)return;
-  const list=materialChoicesForRow(m).filter(x=>!value||x.category===value);
-  const current=list.find(x=>x.id===m.material_catalog_id);
-  const next=current||list[0];
-  if(next){m.material_catalog_id=next.id;m.material_name=next.name;m.unit=next.unit;}
-  renderWorkMaterialsEditor();
-}
-function renderWorkMaterialsEditor(){
-  const el=$('workMaterialsEditor');
-  if(!workingWorkMaterials.length){el.innerHTML='<div class="muted">Для выбранной работы пока нет шаблона материалов. Можно добавить материал вручную.</div>';return;}
-  el.innerHTML=workingWorkMaterials.map((m,i)=>{
-    const list=materialChoicesForRow(m);
-    const categories=materialCategoriesForRow(m);
-    const cur=materialCatalog.find(x=>x.id===m.material_catalog_id);
-    const category=cur?.category||categories[0]||'';
-    const categoryList=categories.includes(category)?categories:categories;
-    const filtered=list.filter(x=>!category||x.category===category);
-    const selected=filtered.some(x=>x.id===m.material_catalog_id)?m.material_catalog_id:(filtered[0]?.id||m.material_catalog_id);
-    const label=m.material_role==='primary'?'Основной материал':'Вторичный материал';
-    const hint=m.material_role==='primary'?'Изменение этого материала пересчитывает зависимые материалы.':(m.is_manual_override?'✎ Изменено вручную — до смены основного материала не пересчитывается.':'Автоматически из шаблона.');
-    return `<div class="work-material-row" style="align-items:flex-start;flex-wrap:wrap;gap:6px"><div style="width:100%"><b>${label}</b><div class="muted" style="font-size:11px">${esc(hint)}</div></div><select style="flex:1;min-width:150px" onchange="onMaterialCategoryChange(${i},this.value)"><option value="">Все категории</option>${categoryList.map(c=>`<option value="${esc(c)}" ${c===category?'selected':''}>${esc(c)}</option>`).join('')}</select><select style="flex:2;min-width:190px" onchange="${m.material_role==='primary'?`workingWorkMaterials[${i}].material_catalog_id=this.value;onPrimaryMaterialChange(${i})`:`onSecondaryMaterialChange(${i},this.value)`}">${filtered.map(x=>`<option value="${x.id}" ${x.id===selected?'selected':''}>${esc(x.name)}</option>`).join('')}</select><input style="width:100px" type="number" step="0.001" min="0" value="${m.quantity??0}" onchange="workingWorkMaterials[${i}].quantity=parseFloat(this.value)||0;workingWorkMaterials[${i}].is_manual_override=true;workingWorkMaterials[${i}].is_auto_generated=false"><span class="muted">${esc(m.unit||'')}</span>${m.option_group?`<span class="muted" style="font-size:11px">${esc(m.option_group)}</span>`:''}<button class="smallbtn" onclick="workingWorkMaterials.splice(${i},1);renderWorkMaterialsEditor()">×</button></div>`;
-  }).join('');
-}
-function addWorkMaterialRow(){const m=materialCatalog[0];if(!m)return;workingWorkMaterials.push({_key:'new-'+Date.now(),material_catalog_id:m.id,material_name:m.name,unit:m.unit,quantity:0,comment:'',material_role:'secondary',is_auto_generated:false,is_manual_override:true});renderWorkMaterialsEditor();}
 async function saveWorkItem(){
   const nameId=$('workCatalogSelect').value;const cat=workCatalog.find(x=>x.id===nameId);const planned=parseFloat($('workPlannedVolume').value)||0;
   if(!cat)return alert('Выберите вид работы.');if(planned<=0)return alert('Укажите плановый объём больше нуля.');
-  const primary=workingWorkMaterials.find(x=>x.material_role==='primary');
-  const selectedSection=projectWorkSections.find(s=>s.id===($('workSectionSelect').value||''));
-  const workStart=selectedSection?selectedSection.start_date:($('workStartDate').value||null);
-  const workEnd=selectedSection?selectedSection.end_date:($('workEndDate').value||null);
-  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:$('workUnit').value||cat.unit,planned_volume:planned,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null,primary_material_catalog_id:primary?.material_catalog_id||null};
+  const workStart=$('workStartDate').value||null,workEnd=$('workEndDate').value||null;
+  if(workStart&&workEnd&&workEnd<workStart)return alert('Проверьте даты работы.');
+  const payload={project_id:currentWorkProjectId,section_id:$('workSectionSelect').value||null,work_catalog_id:cat.id,work_name:cat.name,unit:cat.unit,planned_volume:planned,start_date:workStart,end_date:workEnd,status:$('workStatus').value,comment:$('workComment').value.trim()||null};
 
- const old=projectWorkItems.find(x=>x.id===editingWorkItemId),materials=workingWorkMaterials.filter(m=>m.material_catalog_id&&Number(m.quantity||0)>0).map(m=>({rule_id:m.rule_id||null,material_catalog_id:m.material_catalog_id||null,material_name:m.material_name||materialCatalog.find(z=>z.id===m.material_catalog_id)?.name||'',unit:m.unit||materialCatalog.find(z=>z.id===m.material_catalog_id)?.unit||'',quantity:Number(m.quantity||0),comment:m.comment||null,material_role:m.material_role||'secondary',dependency_group:m.dependency_group||null,option_group:m.option_group||null,is_auto_generated:m.is_auto_generated!==false,is_manual_override:m.is_manual_override===true}));
- try{await financialCommands.execute({kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:payload,materials});closeWorkItemForm();await loadAll();renderWorkPanel();}catch(e){alert('Работа не сохранена: '+e.message);}
+ const old=projectWorkItems.find(x=>x.id===editingWorkItemId);
+ try{await financialCommands.execute({kind:'work',action:old?'update':'create',...(old?{id:old.id,expected:old}:{}),values:payload});closeWorkItemForm();await loadAll();renderWorkPanel();}catch(e){alert('Работа не сохранена: '+e.message);}
 }
 
-function closeWorkItemForm(){$('workItemModal').classList.remove('open');editingWorkItemId=null;workingWorkMaterials=[];}
+function closeWorkItemForm(){$('workItemModal').classList.remove('open');editingWorkItemId=null;}
 async function deleteWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||!confirm('Удалить работу «'+x.work_name+'», её материалы и ручную историю? Подачи требуют отдельного удаления.'))return;try{await financialCommands.execute({kind:'work',action:'delete',id,expected:x,values:{}});await loadAll();renderWorkPanel();}catch(e){alert('Работа не удалена: '+e.message);}}
 
 async function completeWorkItem(id){const x=projectWorkItems.find(w=>w.id===id);if(!x||x.status==='completed'||!confirm('Завершить работу «'+x.work_name+'» и записать оставшийся объём как факт?'))return;try{await financialCommands.execute({kind:'work',action:'complete',id,expected:x,values:{}});await loadAll();renderWorkPanel();}catch(e){alert('Завершение не сохранено: '+e.message);}}
@@ -5542,10 +5422,9 @@ function printWorkReport(){
 
   if(!rows.length)return alert('За выбранный период завершённых или фактически выполненных работ не найдено.');
 
-  const matsByWork=new Map(rows.map(x=>[x.w.id,workMaterialRowsFor(x.w.id)]));
   const total=rows.reduce((s,x)=>s+x.qty,0);
   const escR=reportEsc;
-  const report=`<!doctype html><html><head><meta charset="utf-8"><title>Отчёт по выполненным работам — ${escR(p.name)}</title><style>@page{size:A4;margin:14mm}body{font-family:Arial,sans-serif;color:#172033;font-size:11px}h1{font-size:19px;margin:0 0 6px}h2{font-size:14px;margin:18px 0 7px}.muted{color:#66758a}.head{display:flex;justify-content:space-between;border-bottom:2px solid #172033;padding-bottom:10px;margin-bottom:14px}.meta{line-height:1.6}table{width:100%;border-collapse:collapse;margin-top:7px}th,td{border:1px solid #bfc7d3;padding:6px;vertical-align:top}th{background:#eef2f6;text-align:left}.total{font-weight:800;margin-top:8px}.note{margin-top:16px;padding:9px;border:1px solid #d5dbe3;background:#f8fafc}footer{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.sign{border-top:1px solid #777;padding-top:5px;margin-top:35px}.status-done{color:#16803c;font-weight:700}</style></head><body><div class="head"><div><h1>Отчёт по выполненным электромонтажным работам</h1><div class="meta"><b>Объект:</b> ${escR(p.name)}<br><b>Заказчик:</b> ${escR(p.customer||'—')}<br><b>Период:</b> ${escR(from)} — ${escR(to)}</div></div><div class="meta"><b>Сформирован:</b><br>${escR(new Date().toLocaleDateString('ru-RU'))}</div></div><h2>Выполненные работы</h2><table><thead><tr><th style="width:28px">№</th><th>Вид работы</th><th>Ед.</th><th>Объём за период</th><th>Даты / статус</th><th>Комментарий</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td>${escR(x.w.work_name)}</td><td>${escR(x.w.unit)}</td><td>${x.qty.toLocaleString('ru-RU',{maximumFractionDigits:3})}</td><td>${x.logs.map(l=>escR(l.progress_date)).join('<br>')}${x.w.status==='completed'?'<br><span class="status-done">Завершено</span>':''}</td><td>${x.logs.map(l=>escR(l.comment||'')).filter(Boolean).join('<br>')}</td></tr>`).join('')}</tbody></table><div class="total">Всего позиций: ${rows.length} · Объём: ${total.toLocaleString('ru-RU',{maximumFractionDigits:3})}</div><h2>Материалы, относящиеся к выполненным работам</h2><table><thead><tr><th>Вид работы</th><th>Материал</th><th>Ед.</th><th>Количество</th></tr></thead><tbody>${rows.flatMap(x=>matsByWork.get(x.w.id)||[]).map(m=>`<tr><td>${escR(projectWorkItems.find(w=>w.id===m.work_item_id)?.work_name||'')}</td><td>${escR(m.material_name)}</td><td>${escR(m.unit)}</td><td>${Number(m.quantity||0).toLocaleString('ru-RU',{maximumFractionDigits:3})}</td></tr>`).join('')||'<tr><td colspan="4">Материалы не указаны.</td></tr>'}</tbody></table><div class="note">Отчёт учитывает фактические записи выполнения за выбранный период. Если работа отмечена статусом «Завершено» без отдельной записи факта, в отчёт также попадает её плановый/зафиксированный объём при условии, что дата изменения статуса относится к выбранному периоду.</div><footer><div><div class="sign">Производитель работ / прораб</div></div><div><div class="sign">Сметчик / проверил</div></div></footer><script>window.onload=function(){window.print();};<\/script></body></html>`;
+  const report=`<!doctype html><html><head><meta charset="utf-8"><title>Отчёт по выполненным работам — ${escR(p.name)}</title><style>@page{size:A4;margin:14mm}body{font-family:Arial,sans-serif;color:#172033;font-size:11px}h1{font-size:19px;margin:0 0 6px}h2{font-size:14px;margin:18px 0 7px}.muted{color:#66758a}.head{display:flex;justify-content:space-between;border-bottom:2px solid #172033;padding-bottom:10px;margin-bottom:14px}.meta{line-height:1.6}table{width:100%;border-collapse:collapse;margin-top:7px}th,td{border:1px solid #bfc7d3;padding:6px;vertical-align:top}th{background:#eef2f6;text-align:left}.total{font-weight:800;margin-top:8px}.note{margin-top:16px;padding:9px;border:1px solid #d5dbe3;background:#f8fafc}footer{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.sign{border-top:1px solid #777;padding-top:5px;margin-top:35px}.status-done{color:#16803c;font-weight:700}</style></head><body><div class="head"><div><h1>Отчёт по выполненным электромонтажным работам</h1><div class="meta"><b>Объект:</b> ${escR(p.name)}<br><b>Заказчик:</b> ${escR(p.customer||'—')}<br><b>Период:</b> ${escR(from)} — ${escR(to)}</div></div><div class="meta"><b>Сформирован:</b><br>${escR(new Date().toLocaleDateString('ru-RU'))}</div></div><h2>Выполненные работы</h2><table><thead><tr><th style="width:28px">№</th><th>Вид работы</th><th>Ед.</th><th>Объём за период</th><th>Даты / статус</th><th>Комментарий</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td>${escR(x.w.work_name)}</td><td>${escR(x.w.unit)}</td><td>${x.qty.toLocaleString('ru-RU',{maximumFractionDigits:3})}</td><td>${x.logs.map(l=>escR(l.progress_date)).join('<br>')}${x.w.status==='completed'?'<br><span class="status-done">Завершено</span>':''}</td><td>${x.logs.map(l=>escR(l.comment||'')).filter(Boolean).join('<br>')}</td></tr>`).join('')}</tbody></table><div class="total">Всего позиций: ${rows.length} · Объём: ${total.toLocaleString('ru-RU',{maximumFractionDigits:3})}</div><div class="note">Отчёт учитывает фактические записи выполнения за выбранный период. Если работа отмечена статусом «Завершено» без отдельной записи факта, в отчёт также попадает её плановый/зафиксированный объём при условии, что дата изменения статуса относится к выбранному периоду.</div><footer><div><div class="sign">Производитель работ / прораб</div></div><div><div class="sign">Сметчик / проверил</div></div></footer><script>window.onload=function(){window.print();};<\/script></body></html>`;
   const w=window.open('','_blank');
   if(!w)return alert('Не удалось открыть окно отчёта. Разрешите всплывающие окна.');
   w.document.open();w.document.write(report);w.document.close();
@@ -6445,6 +6324,6 @@ await boot(session);
 
 </script>
 
-<script type="module">import {renderExistingReport} from './report-renderers.js?v=20261007';window.renderExistingReport=renderExistingReport;</script>
+<script type="module">import {renderExistingReport} from './report-renderers.js?v=20261008-works';window.renderExistingReport=renderExistingReport;</script>
 </body>
 </html>
